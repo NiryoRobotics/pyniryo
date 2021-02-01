@@ -1,0 +1,17 @@
+[metadata]
+name = 'pyniryo'
+version = '1.0.3'
+description = ''
+author = 'Niryo'
+author_email = 'r.lux@niryo.com'
+license = 'MIT/Apache-2.0'
+url = 'https://github.com/NiryoRobotics/pyniryo'
+
+[requires]
+python_version = ['2.7', '3.5', '3.6', '3.7', 'pypy', 'pypy3']
+
+[build-system]
+requires = ['setuptools', 'wheel']
+
+[tool.hatch.commands]
+prerelease = 'hatch build'
