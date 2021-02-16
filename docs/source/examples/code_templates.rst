@@ -26,8 +26,8 @@ Very simple, straightforward ::
 Advanced template
 -------------------
 
-This template let the user defined his own process but it handles connection,
-calibration, tool equipping, and make the robot go to sleep at the end ::
+This template let the user define his own process but it handles connection,
+calibration, tool equipping, and makes the robot go to sleep at the end ::
 
     from pyniryo import *
 
@@ -59,10 +59,10 @@ calibration, tool equipping, and make the robot go to sleep at the end ::
         # Releasing connection
         robot.close_connection()
 
-Advanced template for conveyor
+Advanced template for Conveyor Bely
 --------------------------------------
 
-Same as :ref:`Advanced template` but with a conveyor ::
+Same as :ref:`Advanced template` but with a Conveyor Belt ::
 
     from pyniryo import *
 
@@ -98,10 +98,10 @@ Same as :ref:`Advanced template` but with a conveyor ::
         # Releasing connection
         robot.close_connection()
 
-Advanced template for vision
+Advanced template for Vision
 --------------------------------------
 
-Huge template for vision users ! ::
+Huge template for Vision users! ::
 
     from pyniryo import *
 

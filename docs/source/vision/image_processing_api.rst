@@ -2,14 +2,14 @@ Functions Documentation
 =====================================
 
 .. important::
-    Section not finished yet !
+    Section is not finished yet !
 
 This file presents the different functions and :ref:`Enums` available for image processing
 
 
 These functions are divided in subsections:
 
-* :ref:`Pure Image Processing` are used to deal to do thresholding,
+* :ref:`Pure Image Processing` are used to deal with the thresholding,
   contours detection, ..
 * :ref:`Workspaces wise` section contains functions to extract workspace
   and deal with the relative position in the workspace

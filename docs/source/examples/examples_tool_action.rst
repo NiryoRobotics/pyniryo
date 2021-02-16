@@ -3,11 +3,11 @@ Examples: Tool Action
 
 This page shows how to control Ned's tools
 
-If you want see more, you can look at :ref:`PyNiryo - Tools<Tools>`
+If you want to see more, you can look at :ref:`PyNiryo - Tools<Tools>`
 
 .. important::
-    In this section, it is supposed that you are already connected to a calibrated robot.
-    The robot instance is save in the variable ``robot``
+    In this section, you are already supposed to be connected to a calibrated robot.
+    The robot instance is saved in the variable ``robot``
 
 .. danger::
     If you are using the real robot, make sure the environment around it is clear
@@ -19,11 +19,11 @@ Equip Tool
 ^^^^^^^^^^^^
 
 In order to use a tool, it should be plugged mechanically to the robot but also
-connected software wise.
+connected to the software wise.
 
 To do that, we should use the function
 :meth:`~.api.tcp_client.NiryoRobot.update_tool`
-which take no argument. It will scan motor connections and set the new tool !
+which takes no argument. It will scan motor's connections and set the new tool !
 
 The line to equip a new tool is ::
 
@@ -31,7 +31,7 @@ The line to equip a new tool is ::
 
 .. note::
     For the :ref:`Grasping <Grasping>` and :ref:`Releasing <Releasing>` sections,
-    this command should be added in your codes ! If you wan to use a specific
+    this command should be added in your codes! If you want to use a specific
     tool, you need to store the |tool_id| you are using in a variable named ``tool_used``
 
 
@@ -39,10 +39,10 @@ Grasping
 ^^^^^^^^^^^^^^^^^
 
 To grasp with any tool, you can use the function
-:meth:`~.api.tcp_client.NiryoRobot.grasp_with_tool`. This action correspond to :
+:meth:`~.api.tcp_client.NiryoRobot.grasp_with_tool`. This action corresponds to :
 
  - Close gripper for Grippers
- - Pull Air for Vacuum pump
+ - Pull Air for Vacuum Pump
  - Activate for Electromagnet
 
 The line to grasp is ::
@@ -65,7 +65,7 @@ Releasing
 ^^^^^^^^^^^^^^^^^^
 
 To release with any tool, you can use the function
-:meth:`~.api.tcp_client.NiryoRobot.release_with_tool`. This action correspond to:
+:meth:`~.api.tcp_client.NiryoRobot.release_with_tool`. This action corresponds to:
 
   - Open gripper for Grippers
   - Push Air for Vacuum pump
@@ -86,29 +86,29 @@ To release an object by specifying parameters ::
 Pick & Place with tools
 -----------------------------------
 
-A Pick & Place is a action which consists in going to a certain pose
+A Pick & Place is an action which consists in going to a certain pose
 in order to pick an object and then, going to another pose to place it.
 
 This operation can be proceed as follows :
 
 #. Going over the object with a certain offset to avoid collision
-#. Going down until object's height
+#. Going down to the object's height
 #. Grasping with tool
 #. Going back to step 1's pose.
 #. Going over the place pose with a certain offset to avoid collision
-#. Going down until place's height
+#. Going down to place's height
 #. Releasing the object with tool
 #. Going back to step 5's pose.
 
 
-There is a plenty of ways to perform a pick and place with PyNiryo. Methods will
-be presented from the lowest to highest level
+There is plenty of ways to perform a pick and place with PyNiryo. Methods will
+be presented from the lowest to highest level.
 
 Code Baseline
 ^^^^^^^^^^^^^^^^^^
 
 For the sake of brevity, every piece of code beside the Pick & Place
-function won't be rewritten for every method. So that, you
+function will not be rewritten for every method. So that, you
 will need to use the code and implement the Pick & Place function to it  ::
 
     # Imports
@@ -147,12 +147,12 @@ will need to use the code and implement the Pick & Place function to it  ::
 
 First Solution : the heaviest
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-For this first function, everything steps is done by hand, as well as
+For this first function, every steps are done by hand, as well as
 poses computing
 
 .. note::
     In this example, the tool used is a Gripper. If you want to use another
-    tool than a gripper, do not forget to adapt grasp & release functions !
+    tool than a gripper, do not forget to adapt grasp & release functions!
 
 ::
 
@@ -222,13 +222,13 @@ order to calculate approach poses more easily
 
 Third Solution : Pick from pose & Place from pose functions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-For those who already look at the API Documentation, you may have see
-pick & place dedicated functions !
+For those who have already seen the API Documentation, you may have seen
+pick & place dedicated functions!
 
 In this example, we use
 :meth:`~.api.tcp_client.NiryoRobot.pick_from_pose` and
 :meth:`~.api.tcp_client.NiryoRobot.place_from_pose` in order
-to split our function in only 2 commands ! ::
+to split our function in only 2 commands! ::
 
     def pick_n_place_version_3(robot):
         # Pick

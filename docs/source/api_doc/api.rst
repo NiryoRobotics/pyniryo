@@ -4,7 +4,7 @@ PyNiryo API Documentation
 This file presents the different :ref:`Command Functions`,
 :ref:`Enums` & :ref:`Python Objects <Python Object classes>` available with the API
 
-* :ref:`Command Functions` are used to deal directly the robot.
+* :ref:`Command Functions` are used to deal directly with the robot.
   It could be :meth:`~.api.tcp_client.NiryoRobot.move_joints`,
   :meth:`~.api.tcp_client.NiryoRobot.get_hardware_status`
   :meth:`~.api.tcp_client.NiryoRobot.vision_pick`, or also
@@ -19,11 +19,11 @@ Command Functions
 .. automodule:: api.tcp_client
    :members:
 
-This section reference all existing functions to control your robot, which include
+This section references all existing functions to control your robot, which includes
 
 - Moving the robot
 - Using Vision
-- Controlling Conveyors
+- Controlling Conveyor Belts
 - Playing with Hardware
 
 All functions to control the robot are accessible via an instance of
@@ -127,7 +127,7 @@ Enums
 Enums are used to pass specific parameters to functions.
 
 For instance, :meth:`~.api.tcp_client.NiryoRobot.change_tool`
-will need a parameter which is from
+will need a parameter from
 :class:`~.api.objects.ToolID` enum ::
 
     robot.change_tool(ToolID.GRIPPER_1)
@@ -154,7 +154,7 @@ List of enums:
 .. undoc-members -> allow to see members of enums
 .. show-inheritance -> display enum.Enum
 
-Python Object classes
+Python object classes
 ------------------------------------
 
 Special objects :D

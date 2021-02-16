@@ -52,10 +52,10 @@ undistorted video stream
 
 As Ned's camera is passing raw images to the robot, these
 images are distorted due to the camera lens. In order to undistort them,
-we need to use Robot's camera intrinsics.
+we need to use Ned's camera intrinsics.
 
 To undistort the raw image, we use :func:`~.vision.image_functions.undistort_image`
-which need to be called with the parameters given by the robot through
+which need to be called with the parameters given by Ned through
 :meth:`~.api.tcp_client.NiryoRobot.get_camera_intrinsics`.
 
 Once, we have both raw & undistorted images, we can concatenate them in order
@@ -116,7 +116,7 @@ In order to illustrate functions, we are going to use the following image
 .. attention::
     In this section it is supposed that :
 
-    * You have import ``pyniryo.vision``
+    * You have imported ``pyniryo.vision``
     * The variable ``img`` is containing the image on which image processing is applied
 
 
@@ -220,7 +220,7 @@ object detection and recognition. See more on
 
 The implemented function to realize these operations is
 :func:`~.vision.image_functions.biggest_contours_finder` which takes a
-Black & White image, and extract biggest (in term of area) contours from it
+Black & White image, and extract the biggest (in term of area) contours from it
 
 The code to extract and draw the 3 biggest contours from an image is
 the following : ::
@@ -278,7 +278,7 @@ barycenter and orientation via the functions
             :alt: Barycenter + Angle
 
 .. note::
-    The drawn vector is normal to the contour's length because we want the robot
+    The drawn vector is normal to the contour's length because we want Ned
     to catch the object by the width rather than the length. Indeed, it leads to
     least cases where the gripper cannot open enough
 
@@ -306,12 +306,12 @@ the workspace beforehand ! To do so, you can use the function
 
 Debug mode
 ^^^^^^^^^^^^^
-If robot's functions are failing, you can use Debug functions which are
+If Ned's functions are failing, you can use Debug functions which are
 :func:`~.vision.image_functions.debug_threshold_color` &
 :func:`~.vision.image_functions.debug_markers` in order to display what
 the robot sees.
 
-You can use the functions as follow : ::
+You can use the functions as follow: ::
 
     debug_color = debug_threshold_color(img_test, ColorHSV.RED)
     _status, debug_markers_im = debug_markers(img_test, workspace_ratio=1.0)
@@ -339,7 +339,7 @@ You can use the functions as follow : ::
 
 
 
-Do your own image processing !
+Do your own image processing!
 --------------------------------------
 
 Now that you are a master in image processing, let's look at
@@ -398,10 +398,10 @@ maybe to apply additional process ::
 Vision pick via your image processing pipeline
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You may want to do send coordinate to Ned in order to pick
-the object of your choice ! To do that, use the function
+You may want to send coordinate to Ned in order to pick
+the object of your choice! To do that, use the function
 :func:`~.vision.image_functions.get_target_pose_from_rel` which
-convert a relative pose in the workspace into a pose in the robot's world ! ::
+convert a relative pose in the workspace into a pose in the robot's world! ::
 
     # Initializing variables
     obj_pose = None

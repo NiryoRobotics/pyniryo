@@ -3,11 +3,11 @@ Examples: Movement
 
 This document shows how to control Ned in order to make Move Joints & Move Pose.
 
-If you want see more, you can look at :ref:`PyNiryo - Joints & Pose<Joints & Pose>`
+If you want to see more, you can look at :ref:`PyNiryo - Joints & Pose<Joints & Pose>`
 
 .. important::
-    In following sections, it is supposed that you are already connected to a calibrated robot.
-    The robot instance is save in the variable ``robot``. To know how to do so, go
+    In the following sections, you are supposed to be already connected to a calibrated robot.
+    The robot instance is saved in the variable ``robot``. To know how to do so, go
     look at section :doc:`examples_basics`
 
 .. danger::
@@ -23,8 +23,8 @@ To make a moveJ, you can either pass :
 - 6 floats : ``j1, j2, j3, j4, j5, j6``
 - a list of 6 floats : ``[j1, j2, j3, j4, j5, j6]``
 
-It is possible to pass these parameters the function :meth:`~.api.tcp_client.NiryoRobot.move_joints`
-or a via the ``joints`` setter, at your convenience::
+It is possible to pass these parameters to the function :meth:`~.api.tcp_client.NiryoRobot.move_joints`
+or via the ``joints`` setter, at your convenience::
 
     # Moving Joints with function & 6 floats
     robot.move_joints(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
@@ -38,7 +38,7 @@ or a via the ``joints`` setter, at your convenience::
     # Moving Joints with setter & a list of floats
     robot.joints = [-0.2, 0.3, 0.2, 0.3, -0.6, 0.0]
 
-You should note that these 4 commands are doing exactly the same thing !
+You should note that these 4 commands are doing exactly the same thing!
 In your future scripts, chose the one you prefer, but try to remain consistent to
 keep a good readability
 
@@ -69,7 +69,7 @@ To perform a moveP, you can pass :
 - a |pose_object|
 
 As for MoveJ, it is possible to pass these parameters
-the function :meth:`~.api.tcp_client.NiryoRobot.move_pose`
+to the function :meth:`~.api.tcp_client.NiryoRobot.move_pose`
 or the ``pose`` setter, at your convenience::
 
     pose_target = [0.2, 0.0, 0.2, 0.0, 0.0, 0.0]
@@ -102,7 +102,7 @@ or the ``pose`` getter. Both will return a |pose_object| ::
 
 How to use the PoseObject
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The |pose_object| is a Python Object which allow to store all pose's 6 coordinates (x, y, z,
+The |pose_object| is a Python object which allows to store all poses' 6 coordinates (x, y, z,
 roll, pitch, yaw) in one single instance.
 It can be converted into a list if needed with the method
 :meth:`~.api.objects.PoseObject.to_list`

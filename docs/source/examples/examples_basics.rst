@@ -41,7 +41,7 @@ Once the connection is done, we calibrate the robot using its
     robot.calibrate_auto()
 
 As the robot is now calibrated, we can do a Move Joints by giving the 6 axis positions
-in radians ! To do so, we use :meth:`~.api.tcp_client.NiryoRobot.move_joints` ::
+in radians! To do so, we use :meth:`~.api.tcp_client.NiryoRobot.move_joints` ::
 
     robot.move_joints(0.2, -0.3, 0.1, 0.0, 0.5, -0.8)
 
@@ -111,6 +111,6 @@ Notes
 ---------
 | You may not have fully understood how to move the robot and use
  PyNiryo and that is totally fine because you will find
- more details on next examples page !
+ more details on the next examples page !
 | The important thing to remember from this page is how to import the library, connect
  to the robot & call functions

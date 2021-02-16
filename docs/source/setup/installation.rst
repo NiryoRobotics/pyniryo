@@ -18,12 +18,12 @@ the package installer for Python
 .. attention::
     If you have both Python 2 & Python 3 installed on your computer, the command
     ``pip`` will install packages in Python 2 version.
-    You should use ``pip3`` instead in order to to target Python 3
+    You should use ``pip3`` instead in order to target Python 3
 
 Installation with pip
 -------------------------------
 
-You need to have installed Numpy package beforehand : ::
+You need to install Numpy package beforehand: ::
 
     pip install numpy
 
@@ -35,8 +35,8 @@ To install Ned's Python package via ``pip``, simply execute::
 You can find more information about
 the PyPi package `here <https://pypi.org/project/pyniryo/>`_
 
-If you also want to use vision functions to do your own image processing pipeline
-install OpenCV via the command : ::
+If you also want to use Vision functions to do your own Image Processing pipeline
+install OpenCV via the command: ::
 
     pip install opencv-python
 
@@ -45,7 +45,7 @@ install OpenCV via the command : ::
 Uninstall
 ---------
 
-To uninstall the library use ::
+To uninstall the library use::
 
     pip uninstall pyniryo
 

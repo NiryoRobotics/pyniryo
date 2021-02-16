@@ -2,7 +2,7 @@ PyNiryo Documentation
 ================================
 
 .. image:: _static/PyNiryo_logo_2.png
-   :width: 600px
+   :width: 50%
    :align: center
 
 
@@ -22,14 +22,14 @@ through a terminal.
    :height: 400px
    :align: center
 
-   Niryo Ned
+   Ned
 
 
 Before getting started
 ----------------------------
 
 
-| If you haven’t already done so , make sure to learn about
+| If you haven’t already done so, make sure to learn about
  the ROS robot software by reading the |ros_doc|_.
 
 | This documentation also contains everything you need to
@@ -76,7 +76,7 @@ Learn how to use the PyNiryo package to implement various tasks
 API Documentation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Master controls with PyNiryo with full detailed functions
+Master controls with PyNiryo with full the detailed functions
 :doc:`here <source/api_doc/api>`
 
 Discover also :doc:`Vision Functions <source/vision/image_processing_overview>`
