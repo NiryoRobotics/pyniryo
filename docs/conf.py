@@ -28,7 +28,7 @@ author = 'Niryo'
 # The short X.Y version
 version = u'1.0'
 # The full version, including alpha/beta/rc tags
-release = u'1.0.0a'
+release = u'1.0.0'
 
 # -- General configuration ---------------------------------------------------
 
@@ -46,6 +46,11 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
 ]
+
+
+# Display todos by setting to True
+todo_include_todos = True
+todo_emit_warnings = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -112,4 +117,8 @@ htmlhelp_basename = 'PyNiryoDoc'
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     'https://docs.python.org/': None,
+}
+
+html_theme_options = {
+    'analytics_id': 'UA-85632199-1',  #  Provided by Google in your dashboard
 }
