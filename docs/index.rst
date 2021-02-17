@@ -30,7 +30,7 @@ Before getting started
 
 
 | If you haven’t already done so, make sure to learn about
- the ROS robot software by reading the |ros_doc|_.
+ the ROS robot software by reading |ros_doc|_.
 
 | This documentation also contains everything you need to
  know if you want to use Ned through simulation.
