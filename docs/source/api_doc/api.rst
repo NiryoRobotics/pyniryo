@@ -57,9 +57,9 @@ Joints & Pose
 ^^^^^^^^^^^^^
 
 .. autoclass:: NiryoRobot
-    :members: get_joints, get_pose, get_pose_quat, move_joints, move_pose,
-              shift_pose, jog_joints, jog_pose,
-              move_linear_pose, move_to_home_pose, go_to_sleep,
+    :members: get_joints, get_pose, get_pose_quat, move_joints, move_pose, move_linear_pose,
+              shift_pose, shift_linear_pose, jog_joints, jog_pose,
+               move_to_home_pose, go_to_sleep,
               forward_kinematics, inverse_kinematics
     :member-order: bysource
 
