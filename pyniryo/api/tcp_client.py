@@ -450,6 +450,17 @@ class NiryoRobot(object):
         pose_list = self.__args_pose_to_list(*args)
         self.__send_n_receive(Command.MOVE_POSE, *pose_list)
 
+    def move_linear_pose(self, *args):
+        """
+        Move robot end effector pose to a (x, y, z, roll, pitch, yaw) pose with a linear trajectory
+
+        :param args: either 6 args (1 for each coordinates) or a list of 6 coordinates or a PoseObject
+        :type args: Union[tuple[float], list[float], PoseObject]
+        :rtype: None
+        """
+        pose_list = self.__args_pose_to_list(*args)
+        self.__send_n_receive(Command.MOVE_LINEAR_POSE, *pose_list)
+
     def shift_pose(self, axis, shift_value):
         """
         Shift robot end effector pose along one axis
@@ -461,9 +472,22 @@ class NiryoRobot(object):
         :rtype: None
         """
         self.__check_enum_belonging(axis, RobotAxis)
-
         shift_value = self.__transform_to_type(shift_value, float)
         self.__send_n_receive(Command.SHIFT_POSE, axis, shift_value)
+
+    def shift_linear_pose(self, axis, shift_value):
+        """
+        Shift robot end effector pose along one axis, with a linear trajectory
+
+        :param axis: Axis along which the robot is shifted
+        :type axis: RobotAxis
+        :param shift_value: In meter for X/Y/Z and radians for roll/pitch/yaw
+        :type shift_value: float
+        :rtype: None
+        """
+        self.__check_enum_belonging(axis, RobotAxis)
+        shift_value = self.__transform_to_type(shift_value, float)
+        self.__send_n_receive(Command.SHIFT_LINEAR_POSE, axis, shift_value)
 
     def jog_joints(self, *args):
         """
@@ -491,17 +515,6 @@ class NiryoRobot(object):
         """
         pose_offset = self.__args_joints_to_list(*args)
         self.__send_n_receive(Command.JOG_POSE, *pose_offset)
-
-    def move_linear_pose(self, *args):
-        """
-        Move robot end effector pose to a (x, y, z, roll, pitch, yaw) pose in a linear way
-
-        :param args: either 6 args (1 for each coordinates) or a list of 6 coordinates or a PoseObject
-        :type args: Union[tuple[float], list[float], PoseObject]
-        :rtype: None
-        """
-        pose_list = self.__args_pose_to_list(*args)
-        self.__send_n_receive(Command.MOVE_LINEAR_POSE, *pose_list)
 
     def move_to_home_pose(self):
         """
