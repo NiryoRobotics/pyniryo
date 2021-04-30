@@ -1,0 +1,141 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2021, Niryo All rights reserved. No part of this document
+# may be reproduced or transmitted in any form or by any means without prior
+# written consent of Niryo SAS
+# This file is distributed under the same license as the PyNiryo package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PyNiryo 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-30 09:26+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+#: ../../index.rst:45 ../../index.rst:52
+msgid "Setup"
+msgstr ""
+
+#: ../../index.rst:61 ../../index.rst:65
+msgid "Examples"
+msgstr ""
+
+#: ../../index.rst:77 ../../index.rst:85
+msgid "API Documentation"
+msgstr ""
+
+#: ../../index.rst:97
+msgid "Image Processing"
+msgstr ""
+
+#: ../../index.rst:2
+msgid "PyNiryo Documentation"
+msgstr ""
+
+#: ../../index.rst:9
+msgid ""
+"This documentation presents Ned's PyPi package, which is a TCP API made "
+"with Python."
+msgstr ""
+
+#: ../../index.rst:12
+msgid ""
+"It offers a simple way for developers to create programs for robot and to"
+" control them via remote communication from their computers. Contrary to "
+"the Python ROS Wrapper, the user will not need to be connected on the "
+"robot through a terminal."
+msgstr ""
+
+#: ../../index.rst:17
+msgid ""
+"This package is able to control Ned in simulation as well as the physical"
+" robot."
+msgstr ""
+
+#: ../../index.rst:25
+msgid "Ned"
+msgstr ""
+
+#: ../../index.rst:29
+msgid "Before getting started"
+msgstr ""
+
+#: ../../index.rst:33
+msgid ""
+"If you haven’t already done so, make sure to learn about the ROS robot "
+"software by reading |ros_doc|_."
+msgstr ""
+
+#: ../../index.rst:36
+msgid ""
+"This documentation also contains everything you need to know if you want "
+"to use Ned through simulation."
+msgstr ""
+
+#: ../../index.rst:40
+msgid "Sections organization"
+msgstr ""
+
+#: ../../index.rst:42
+msgid "This document is organized in 4 main sections"
+msgstr ""
+
+#: ../../index.rst:47
+msgid "Install & Setup your environment in order to use Ned with PyNiryo."
+msgstr ""
+
+#: ../../index.rst:49
+msgid ""
+"Firstly, follow :doc:`Installation instructions "
+"<source/setup/installation>`, then :doc:`find your Robot IP address "
+"<source/setup/ip_address>` to be ready."
+msgstr ""
+
+#: ../../index.rst:63
+msgid "Learn how to use the PyNiryo package to implement various tasks"
+msgstr ""
+
+#: ../../index.rst:79
+msgid ""
+"Master controls with PyNiryo with full the detailed functions :doc:`here "
+"<source/api_doc/api>`"
+msgstr ""
+
+#: ../../index.rst:82
+msgid ""
+"Discover also :doc:`Vision Functions "
+"<source/vision/image_processing_overview>` to create your own image "
+"processing pipelines !"
+msgstr ""
+
+#: ../../index.rst:92
+msgid "Start with Image Processing"
+msgstr ""
+
+#: ../../index.rst:94
+msgid "Discover how to create your own image processing pipelines !"
+msgstr ""
+
+#: ../../index.rst:106
+msgid "Indices and tables"
+msgstr ""
+
+#: ../../index.rst:108
+msgid ":ref:`genindex`"
+msgstr ""
+
+#: ../../index.rst:109
+msgid ":ref:`modindex`"
+msgstr ""
+
+#: ../../index.rst:110
+msgid ":ref:`search`"
+msgstr ""
+

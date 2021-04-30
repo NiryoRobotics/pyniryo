@@ -1,0 +1,304 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2021, Niryo All rights reserved. No part of this document
+# may be reproduced or transmitted in any form or by any means without prior
+# written consent of Niryo SAS
+# This file is distributed under the same license as the PyNiryo package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PyNiryo 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-30 09:26+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+#: ../../source/examples/examples_vision.rst:2
+msgid "Examples: Vision"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:4
+msgid "This page shows how to use Ned's Vision Set"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:7
+msgid ""
+"If you want to see more about Ned's Vision functions, you can look at "
+":ref:`PyNiryo - Vision<Vision>`"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:9
+msgid ""
+"If you want to see how to do Image Processing, go check out the "
+":doc:`Image Processing section<../vision/image_processing_overview>`"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:12
+msgid ""
+"Even if you do not own a Vision Set, you can still realize these examples"
+" with the Gazebo simulation version"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:16
+msgid ""
+"If you are using the real robot, make sure the environment around it is "
+"clear"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:20
+msgid "Needed piece of code"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:22
+msgid ""
+"In order to achieve the following examples, you need to create a vision "
+"workspace. In this page, the workspace used is named ``workspace_1``. To "
+"create it, the user should go on Niryo Studio!"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:26
+msgid ""
+"As the examples start always the same, add the following lines at the "
+"beginning of codes::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:62
+msgid ""
+"All the following examples are only a part of what can be made with the "
+"API in terms of Vision. We advise you to look at :ref:`API - "
+"Vision<Vision>` to understand more deeply"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:67
+msgid "Simple Vision Pick & Place"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:68
+msgid ""
+"The goal of a Vision Pick & Place is the same as a classical Pick & "
+"Place, with a close difference : the camera detects where the robot has "
+"to go in order to pick!"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:71
+msgid ""
+"This short example shows how to do your first Vision pick using the "
+":meth:`~.api.tcp_client.NiryoRobot.vision_pick` function: ::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:85
+msgid "Code Details - Simple Vision Pick and Place"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:87
+msgid ""
+"To execute a Vision pick, we firstly need to go to a place where the "
+"robot will be able to see the workspace::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:92
+msgid ""
+"Then, we try to perform a Vision pick in the workspace with the "
+":meth:`~.api.tcp_client.NiryoRobot.vision_pick` function ::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:98
+msgid ""
+"Variables ``shape_ret`` and ``color_ret`` are respectively of type "
+":class:`~.api.enums_communication.ObjectShape` and "
+":class:`~.api.enums_communication.ObjectColor`, and store the shape and "
+"the color of the detected object! We will not use them for this first "
+"example."
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:103
+msgid ""
+"The ``obj_found`` variable is a boolean which indicates whereas an object"
+" has been found and picked, or not. Thus, if the pick worked, we can "
+"place the object at the place pose. ::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:110
+msgid "Finally, we turn learning mode on::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:116
+msgid "If you ``obj_found`` variable indicates ``False``, check that:"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:118
+msgid "Nothing obstructs the camera field of view"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:119
+msgid "Workspace's 4 markers are visible"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:120
+msgid "At least 1 object is placed fully inside the workspace"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:123
+msgid "First conditioning via Vision"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:124
+msgid ""
+"In most of use cases, the robot will need to perform more than one Pick &"
+" Place. In this example, we will see how to condition multiple objects "
+"according to a straight line ::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:155
+msgid "Code Details - First Conditioning via Vision"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:157
+msgid ""
+"We want to catch ``max_catch_count`` objects, and space each of them by "
+"``offset_size`` meter ::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:163
+msgid "We start a loop until the robot has caught ``max_catch_count`` objects ::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:168
+msgid ""
+"For each iteration, we firstly go to the observation pose and then, try "
+"to make a Vision pick in the workspace ::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:176
+msgid ""
+"If the Vision pick failed, we wait 0.1 second and then, start a new "
+"iteration ::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:182
+msgid ""
+"Else, we compute the new place position according to the number of "
+"catches, and then, go placing the object at that place::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:188
+msgid "We also increment the ``catch_count`` variable::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:192
+#: ../../source/examples/examples_vision.rst:313
+msgid "Once the target catch number is achieved, we go to sleep::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:198
+msgid "Multi Reference Conditioning"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:199
+msgid ""
+"During a conditioning task, objects may not always be placed as the same "
+"place according to their type. In this example, we will see how to align "
+"object according to their color, using the color element "
+":class:`~.api.enums_communication.ObjectColor` returned by "
+":meth:`~.api.tcp_client.NiryoRobot.vision_pick` function::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:253
+msgid "Code Details - Multi Reference Conditioning"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:255
+msgid ""
+"We want to catch objects until Vision Pick failed ``max_failure_count`` "
+"times. Each of the object will be put on a specific column according to "
+"its color. The number of catches for each color will be stored on a "
+"dictionary ``count_dict`` ::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:274
+msgid ""
+"For each iteration, we firstly go to the observation pose and then, try "
+"to make a Vision pick in the workspace::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:281
+msgid ""
+"If the Vision pick failed, we wait 0.1 second and then, start a new "
+"iteration, without forgetting to increment the failure counter::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:289
+msgid ""
+"Else, we compute the new place position according to the number of "
+"catches, and then, go place the object at that place::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:308
+msgid ""
+"We increment the ``count_dict`` dictionary and reset "
+"``try_without_success`` ::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:318
+msgid "Sorting Pick with Conveyor"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:320
+msgid ""
+"An interesting way to bring objects to the robot, is the use of a "
+"Conveyor Belt. In this examples, we will see how to catch only a certain "
+"type of object by stopping the conveyor as soon as the object is detected"
+" on the workspace ::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:367
+msgid "Code Details - Sort Picking"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:369
+msgid ""
+"Firstly, we initialize your process : we want the robot to catch 4 Red "
+"Circles. To do so, we set variables ``shape_expected`` and "
+"``color_expected`` with :attr:`ObjectShape.CIRCLE "
+"<api.enums_communication.ObjectShape.CIRCLE>` and :attr:`ObjectColor.RED "
+"<api.enums_communication.ObjectColor.RED>` ::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:379
+msgid ""
+"We activate the connection with the Conveyor Belt and start a loop until "
+"the robot has caught ``max_catch_count`` objects::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:387
+msgid ""
+"For each iteration, we firstly run the Conveyor Belt (if the later is "
+"already running, nothing will happen), then go to the observation pose::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:395
+msgid ""
+"We then check if an object corresponding to our criteria is in the "
+"workspace. If not, we wait 0.5 second and then, start a new iteration::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:405
+msgid "Else, stop the Conveyor Belt and try to make a Vision pick::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:416
+msgid "If Vision Pick succeed, compute new place pose, and place the object::"
+msgstr ""
+
+#: ../../source/examples/examples_vision.rst:424
+msgid ""
+"Once the target catch number is achieved, we stop the Conveyor Belt and "
+"go to sleep::"
+msgstr ""
+

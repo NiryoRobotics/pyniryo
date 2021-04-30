@@ -14,3 +14,10 @@ wheelhouse/
 
 /examples/dev/
 dev/
+
+# Mac Stuff
+.DS_Store
+
+# -- Docs
+_build/
+*.mo
