@@ -1,7 +1,7 @@
 PyNiryo Documentation
 ================================
 
-.. image:: _static/PyNiryo_logo_2.png
+.. image:: images/PyNiryo_logo_2.png
    :width: 50%
    :align: center
 
