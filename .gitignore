@@ -21,3 +21,4 @@ dev/
 # -- Docs
 _build/
 *.mo
+docs_build/
