@@ -1247,7 +1247,7 @@ class NiryoRobot(object):
 
         Poses should be either a list [x, y, z, roll, pitch, yaw] or a PoseObject
 
-        :param workspace_name: workspace name
+        :param workspace_name: workspace name, maximum lenght 30 char.
         :type workspace_name: str
         :param pose_origin:
         :type pose_origin: Union[list[float], PoseObject]
@@ -1273,7 +1273,7 @@ class NiryoRobot(object):
         Save workspace by giving the points of worskpace's 4 corners. Points are written as [x, y, z]
         Corners should be in the good order.
 
-        :param workspace_name: workspace name
+        :param workspace_name: workspace name, maximum lenght 30 char.
         :type workspace_name: str
         :param point_origin:
         :type point_origin: list[float]
