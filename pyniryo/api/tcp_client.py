@@ -863,8 +863,50 @@ class NiryoRobot(object):
         :rtype: None
         """
         self.__check_enum_belonging(pin_id, PinID)
-
         self.__send_n_receive(Command.DEACTIVATE_ELECTROMAGNET, pin_id)
+
+    def enable_tcp(self, enable=True):
+        """
+        Enables or disables the TCP function (Tool Center Point).
+        If activation is requested, the last recorded TCP value will be applied.
+        The default value depends on the gripper equipped.
+        If deactivation is requested, the TCP will be coincident with the tool_link.
+
+        :param enable: True to enable, False otherwise.
+        :type enable: Bool
+        :rtype: None
+        """
+        self.__check_instance(enable, bool)
+        self.__send_n_receive(Command.ENABLE_TCP, enable)
+
+    def set_tcp(self, *args):
+        """
+        Activates the TCP function (Tool Center Point)
+        and defines the transformation between the tool_link frame and the TCP frame.
+
+        :param args: either 6 args (1 for each coordinates) or a list of 6 coordinates or a PoseObject
+        :type args: Union[list[float], tuple[float], PoseObject]
+        :rtype: None
+        """
+        tcp_transform = self.__args_pose_to_list(*args)
+        self.__send_n_receive(Command.SET_TCP, *tcp_transform)
+
+    def reset_tcp(self):
+        """
+        Reset the TCP (Tool Center Point) transformation.
+        The TCP will be reset according to the tool equipped.
+
+        :rtype: None
+        """
+        self.__send_n_receive(Command.RESET_TCP)
+
+    def tool_reboot(self):
+        """
+        Reboot the motor of the tool equipped. Useful when an Overload error occurs. (cf HardwareStatus)
+
+        :rtype: None
+        """
+        self.__send_n_receive(Command.TOOL_REBOOT)
 
     # - Hardware
 
@@ -1034,7 +1076,7 @@ class NiryoRobot(object):
         """
         self.__check_enum_belonging(conveyor_id, ConveyorID)
         self.__check_type(control_on, bool)
-        self.__transform_to_type(speed, bool)
+        self.__transform_to_type(speed, int)
         self.__check_enum_belonging(direction, ConveyorDirection)
 
         self.__send_n_receive(Command.CONTROL_CONVEYOR, conveyor_id, control_on, speed, direction)
@@ -1061,6 +1103,66 @@ class NiryoRobot(object):
         """
         _, img = self.__send_n_receive(Command.GET_IMAGE_COMPRESSED, with_payload=True)
         return img
+
+    def set_brightness(self, brightness_factor):
+        """
+        Modify video stream brightness
+
+        :param brightness_factor: How much to adjust the brightness. 0.5 will
+            give a darkened image, 1 will give the original image while
+            2 will enhance the brightness by a factor of 2.
+        :type brightness_factor: float
+        :rtype: None
+        """
+        self.__transform_to_type(brightness_factor, float)
+        self.__check_range_belonging(brightness_factor, 0.0, np.Inf)
+        self.__send_n_receive(Command.SET_IMAGE_BRIGHTNESS, brightness_factor)
+
+    def set_contrast(self, contrast_factor):
+        """
+        Modify video stream contrast
+
+        :param contrast_factor: While a factor of 1 gives original image.
+            Making the factor towards 0 makes the image greyer, while factor>1 increases the contrast of the image.
+        :type contrast_factor: float
+        :rtype: None
+        """
+        self.__transform_to_type(contrast_factor, float)
+        self.__check_range_belonging(contrast_factor, 0.0, np.Inf)
+        self.__send_n_receive(Command.SET_IMAGE_CONTRAST, contrast_factor)
+
+    def set_saturation(self, saturation_factor):
+        """
+        Modify video stream saturation
+
+        :param saturation_factor: How much to adjust the saturation. 0 will
+            give a black and white image, 1 will give the original image while
+            2 will enhance the saturation by a factor of 2.
+        :type saturation_factor: float
+        :rtype: None
+        """
+        self.__transform_to_type(saturation_factor, float)
+        self.__check_range_belonging(saturation_factor, 0.0, np.Inf)
+        self.__send_n_receive(Command.SET_IMAGE_SATURATION, saturation_factor)
+
+    def get_image_parameters(self):
+        """
+        Get last stream image parameters: Brightness factor, Contrast factor, Saturation factor.
+
+        Brightness factor: How much to adjust the brightness. 0.5 will give a darkened image,
+        1 will give the original image while 2 will enhance the brightness by a factor of 2.
+
+        Contrast factor: A factor of 1 gives original image.
+        Making the factor towards 0 makes the image greyer, while factor>1 increases the contrast of the image.
+
+        Saturation factor: 0 will give a black and white image, 1 will give the original image while
+        2 will enhance the saturation by a factor of 2.
+
+        :return:  Brightness factor, Contrast factor, Saturation factor
+        :rtype: float, float, float
+        """
+        brightness_factor, contrast_factor, saturation_factor = self.__send_n_receive(Command.GET_IMAGE_PARAMETERS)
+        return brightness_factor, contrast_factor, saturation_factor
 
     def get_target_pose_from_rel(self, workspace_name, height_offset, x_rel, y_rel, yaw_rel):
         """

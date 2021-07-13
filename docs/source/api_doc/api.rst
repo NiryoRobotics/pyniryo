@@ -91,7 +91,8 @@ Tools
 .. autoclass:: NiryoRobot
     :members: get_current_tool_id, update_tool, grasp_with_tool,release_with_tool,
               open_gripper, close_gripper, pull_air_vacuum_pump, push_air_vacuum_pump,
-              setup_electromagnet, activate_electromagnet, deactivate_electromagnet
+              setup_electromagnet, activate_electromagnet, deactivate_electromagnet,
+              enable_tcp, set_tcp, reset_tcp, tool_reboot
     :member-order: bysource
 
 Hardware
@@ -114,7 +115,8 @@ Vision
 ^^^^^^^^^^^^^
 
 .. autoclass:: NiryoRobot
-    :members: get_img_compressed, get_target_pose_from_rel, get_target_pose_from_cam,
+    :members: get_img_compressed, set_brightness, set_contrast, set_saturation,
+              get_image_parameters, get_target_pose_from_rel, get_target_pose_from_cam,
               vision_pick, move_to_object, detect_object, get_camera_intrinsics,
               save_workspace_from_robot_poses, save_workspace_from_points,
               delete_workspace, get_workspace_ratio, get_workspace_list
