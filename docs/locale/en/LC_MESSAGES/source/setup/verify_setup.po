@@ -5,19 +5,18 @@
 # This file is distributed under the same license as the PyNiryo package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-30 09:26+0200\n"
+"POT-Creation-Date: 2021-05-12 13:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.8.0\n"
+"Generated-By: Babel 2.9.0\n"
 
 #: ../../source/setup/verify_setup.rst:2
 msgid "Verify your Setup and Get Started"
@@ -48,7 +47,7 @@ msgstr ""
 #: ../../source/setup/verify_setup.rst:31
 msgid ""
 "Replace the third line with your :doc:`Robot IP Address <ip_address>` if "
-"you are not using Hotspot Mode"
+"you are not using Hotspot Mode."
 msgstr ""
 
 #: ../../source/setup/verify_setup.rst:34
@@ -60,12 +59,31 @@ msgstr ""
 #: ../../source/setup/verify_setup.rst:40
 msgid ""
 "If you are using Python 3, you may need to change ``python`` to "
-"``python3``"
+"``python3``."
 msgstr ""
 
 #: ../../source/setup/verify_setup.rst:42
 msgid ""
 "If your robot starts calibrating, then moves, and finally, goes to "
-"learning mode, your setup is validated, you can now start coding !"
+"learning mode, your setup is validated, you can now start coding!"
 msgstr ""
+
+#~ msgid ""
+#~ "Replace the third line with your "
+#~ ":doc:`Robot IP Address <ip_address>` if "
+#~ "you are not using Hotspot Mode"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you are using Python 3, you "
+#~ "may need to change ``python`` to "
+#~ "``python3``"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If your robot starts calibrating, then"
+#~ " moves, and finally, goes to learning"
+#~ " mode, your setup is validated, you"
+#~ " can now start coding !"
+#~ msgstr ""
 

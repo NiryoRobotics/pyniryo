@@ -2,12 +2,12 @@ Code templates
 ==============
 
 As code structures are always the same, we wrote down few templates for you
-to start your code file with a good form
+to start your code file with a good form.
 
 The short template
 -------------------
 
-Very simple, straightforward ::
+Very simple, straightforward: ::
 
     from pyniryo import *
 
@@ -27,7 +27,7 @@ Advanced template
 -------------------
 
 This template let the user define his own process but it handles connection,
-calibration, tool equipping, and makes the robot go to sleep at the end ::
+calibration, tool equipping, and makes the robot go to sleep at the end: ::
 
     from pyniryo import *
 
@@ -59,10 +59,10 @@ calibration, tool equipping, and makes the robot go to sleep at the end ::
         # Releasing connection
         robot.close_connection()
 
-Advanced template for Conveyor Bely
+Advanced template for Conveyor Belt
 --------------------------------------
 
-Same as :ref:`Advanced template` but with a Conveyor Belt ::
+Same as :ref:`source/examples/code_templates:Advanced template` but with a Conveyor Belt ::
 
     from pyniryo import *
 

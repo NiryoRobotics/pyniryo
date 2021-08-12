@@ -5,7 +5,6 @@
 # This file is distributed under the same license as the PyNiryo package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"

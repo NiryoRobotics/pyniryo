@@ -1,16 +1,16 @@
 Examples: Conveyor Belt
 ========================
 
-This document shows how to use Ned's Conveyor Belt
+This document shows how to use Ned's Conveyor Belt.
 
-If you want to see more about Ned's Conveyor Belt functions, you can look at :ref:`PyNiryo - Conveyor<Conveyor>`
+If you want to see more about Ned's Conveyor Belt functions, you can look at :ref:`PyNiryo - Conveyor<source/api_doc/api:Conveyor>`
 
 .. danger::
-    If you are using the real robot, make sure the environment around it is clear
+    If you are using the real robot, make sure the environment around it is clear.
 
 Simple Conveyor control
 -------------------------------
-This short example show how to connect a conveyor and
+This short example shows how to connect a conveyor and
 launch its motor (control it by setting its speed and direction): ::
 
     from pyniryo import *
@@ -36,7 +36,7 @@ launch its motor (control it by setting its speed and direction): ::
 Advanced Conveyor Belt control
 -------------------------------
 This example shows how to do a certain amount of pick & place by using
-the Conveyor Belt with the infrared sensor ::
+the Conveyor Belt with the infrared sensor: ::
 
     from pyniryo import *
 

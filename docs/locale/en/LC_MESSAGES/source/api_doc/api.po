@@ -5,19 +5,18 @@
 # This file is distributed under the same license as the PyNiryo package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-30 09:26+0200\n"
+"POT-Creation-Date: 2021-07-29 13:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.8.0\n"
+"Generated-By: Babel 2.9.1\n"
 
 #: ../../source/api_doc/api.rst:2
 msgid "PyNiryo API Documentation"
@@ -25,14 +24,16 @@ msgstr ""
 
 #: ../../source/api_doc/api.rst:4
 msgid ""
-"This file presents the different :ref:`Command Functions`, :ref:`Enums` &"
-" :ref:`Python Objects <Python Object classes>` available with the API"
+"This file presents the different :ref:`source/api_doc/api:Command "
+"Functions`, :ref:`source/api_doc/api:Enums` & "
+":ref:`source/api_doc/api:Python Object classes` available with the API"
 msgstr ""
 
 #: ../../source/api_doc/api.rst:7
 msgid ""
-":ref:`Command Functions` are used to deal directly with the robot. It "
-"could be :meth:`~.api.tcp_client.NiryoRobot.move_joints`, "
+":ref:`source/api_doc/api:Command Functions` are used to deal directly "
+"with the robot. It could be "
+":meth:`~.api.tcp_client.NiryoRobot.move_joints`, "
 ":meth:`~.api.tcp_client.NiryoRobot.get_hardware_status` "
 ":meth:`~.api.tcp_client.NiryoRobot.vision_pick`, or also "
 ":meth:`~.api.tcp_client.NiryoRobot.run_conveyor`"
@@ -40,54 +41,54 @@ msgstr ""
 
 #: ../../source/api_doc/api.rst:12
 msgid ""
-":ref:`Enums` are used to pass specific arguments to functions. For "
-"instance :class:`~.api.enums_communication.PinState`, "
+":ref:`source/api_doc/api:Enums` are used to pass specific arguments to "
+"functions. For instance :class:`~.api.enums_communication.PinState`, "
 ":class:`~.api.enums_communication.ConveyorDirection`, ..."
 msgstr ""
 
 #: ../../source/api_doc/api.rst:15
 msgid ""
-":ref:`Python Objects <Python Object classes>`, as |pose_object|, ease "
+":ref:`source/api_doc/api:Python Object classes`, as |pose_object|, ease "
 "some operations"
 msgstr ""
 
 #: ../../source/api_doc/api.rst:18
-msgid "Command Functions"
+msgid "Command functions"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:22
+#: ../../source/api_doc/api.rst:20
 msgid ""
 "This section references all existing functions to control your robot, "
 "which includes"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:24
+#: ../../source/api_doc/api.rst:22
 msgid "Moving the robot"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:25
+#: ../../source/api_doc/api.rst:23
 msgid "Using Vision"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:26
+#: ../../source/api_doc/api.rst:24
 msgid "Controlling Conveyor Belts"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:27
+#: ../../source/api_doc/api.rst:25
 msgid "Playing with Hardware"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:29
+#: ../../source/api_doc/api.rst:27
 msgid ""
 "All functions to control the robot are accessible via an instance of the "
 "class :class:`~.api.enums_communication.NiryoRobot` ::"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:34
-msgid "See examples on :ref:`Examples Section <Examples: Basics>`"
+#: ../../source/api_doc/api.rst:32
+msgid "See examples on :ref:`source/examples/examples_basics:Examples: Basics`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:36
+#: ../../source/api_doc/api.rst:34
 msgid "List of functions subsections:"
 msgstr ""
 
@@ -212,7 +213,7 @@ msgstr ""
 msgid "IP Address"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:49
+#: ../../source/api_doc/api.rst:50
 msgid "Main purpose functions"
 msgstr ""
 
@@ -290,7 +291,7 @@ msgstr ""
 msgid "duration in seconds"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:57
+#: ../../source/api_doc/api.rst:59
 msgid "Joints & Pose"
 msgstr ""
 
@@ -420,7 +421,7 @@ msgstr ""
 msgid "Compute inverse kinematics"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:67
+#: ../../source/api_doc/api.rst:70
 msgid "Saved Poses"
 msgstr ""
 
@@ -448,7 +449,7 @@ msgstr ""
 msgid "Get list of poses' name saved in robot memory"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:74
+#: ../../source/api_doc/api.rst:78
 msgid "Pick & Place"
 msgstr ""
 
@@ -514,7 +515,7 @@ msgstr ""
 msgid "Distance from waypoints before smoothing trajectory"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:81
+#: ../../source/api_doc/api.rst:86
 msgid "Trajectories"
 msgstr ""
 
@@ -551,7 +552,7 @@ msgstr ""
 msgid "Get list of trajectories' name saved in robot memory"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:89
+#: ../../source/api_doc/api.rst:95
 msgid "Tools"
 msgstr ""
 
@@ -608,7 +609,7 @@ msgstr ""
 msgid "Deactivate electromagnet associated to electromagnet_id on pin_id"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:98
+#: ../../source/api_doc/api.rst:105
 msgid "Hardware"
 msgstr ""
 
@@ -642,7 +643,7 @@ msgstr ""
 msgid "List of DigitalPinObject instance"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:106
+#: ../../source/api_doc/api.rst:114
 msgid "Conveyor"
 msgstr ""
 
@@ -686,7 +687,7 @@ msgstr ""
 msgid "List of the connected conveyors' ID"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:114
+#: ../../source/api_doc/api.rst:123
 msgid "Vision"
 msgstr ""
 
@@ -838,7 +839,7 @@ msgstr ""
 
 #: api.tcp_client.NiryoRobot.save_workspace_from_points:4
 #: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses:7 of
-msgid "workspace name"
+msgid "workspace name, maximum lenght 30 char."
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.save_workspace_from_points:1 of
@@ -859,61 +860,61 @@ msgstr ""
 msgid "Get list of workspaces' name store in robot's memory"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:125
+#: ../../source/api_doc/api.rst:135
 msgid "Enums"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:127
+#: ../../source/api_doc/api.rst:137
 msgid "Enums are used to pass specific parameters to functions."
 msgstr ""
 
-#: ../../source/api_doc/api.rst:129
+#: ../../source/api_doc/api.rst:139
 msgid ""
 "For instance, :meth:`~.api.tcp_client.NiryoRobot.change_tool` will need a"
 " parameter from :class:`~.api.objects.ToolID` enum ::"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:135
+#: ../../source/api_doc/api.rst:145
 msgid "List of enums:"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:137
+#: ../../source/api_doc/api.rst:147
 msgid ":class:`~.api.objects.CalibrateMode`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:138
+#: ../../source/api_doc/api.rst:148
 msgid ":class:`~.api.objects.RobotAxis`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:139
+#: ../../source/api_doc/api.rst:149
 msgid ":class:`~.api.objects.ToolID`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:140
+#: ../../source/api_doc/api.rst:150
 msgid ":class:`~.api.objects.PinMode`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:141
+#: ../../source/api_doc/api.rst:151
 msgid ":class:`~.api.objects.PinState`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:142
+#: ../../source/api_doc/api.rst:152
 msgid ":class:`~.api.objects.PinID`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:143
+#: ../../source/api_doc/api.rst:153
 msgid ":class:`~.api.objects.ConveyorID`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:144
+#: ../../source/api_doc/api.rst:154
 msgid ":class:`~.api.objects.ConveyorDirection`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:145
+#: ../../source/api_doc/api.rst:155
 msgid ":class:`~.api.objects.ObjectColor`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:146
+#: ../../source/api_doc/api.rst:156
 msgid ":class:`~.api.objects.ObjectShape`"
 msgstr ""
 
@@ -957,12 +958,12 @@ msgstr ""
 msgid "Enumeration of Shapes available for image processing"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:158
+#: ../../source/api_doc/api.rst:169
 msgid "Python object classes"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:160
-msgid "Special objects :D"
+#: ../../source/api_doc/api.rst:171
+msgid "Special objects"
 msgstr ""
 
 #: api.objects.PoseObject:1 of
@@ -986,4 +987,600 @@ msgstr ""
 #: api.objects.DigitalPinObject:1 of
 msgid "Object used to store information on digital pins"
 msgstr ""
+
+#~ msgid ""
+#~ "This file presents the different "
+#~ ":ref:`Command Functions`, :ref:`Enums` & "
+#~ ":ref:`Python Objects <Python Object classes>`"
+#~ " available with the API"
+#~ msgstr ""
+
+#~ msgid "Command Functions"
+#~ msgstr ""
+
+#~ msgid "Close connection with robot"
+#~ msgstr ""
+
+#~ msgid "Return type"
+#~ msgstr ""
+
+#~ msgid "Connect to the TCP Server"
+#~ msgstr ""
+
+#~ msgid "Parameters"
+#~ msgstr ""
+
+#~ msgid "IP Address"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Calibrate (manually or automatically) motors."
+#~ " Automatic calibration will do nothing "
+#~ "if motors are already calibrated"
+#~ msgstr ""
+
+#~ msgid "Auto or Manual"
+#~ msgstr ""
+
+#~ msgid "Start a automatic motors calibration if motors are not calibrated yet"
+#~ msgstr ""
+
+#~ msgid "Return a bool indicating whereas the robot motors need to be calibrate"
+#~ msgstr ""
+
+#~ msgid "Get learning mode state"
+#~ msgstr ""
+
+#~ msgid "Returns"
+#~ msgstr ""
+
+#~ msgid "``True`` if learning mode is on"
+#~ msgstr ""
+
+#~ msgid "Set learning mode if param is ``True``, else turn it off"
+#~ msgstr ""
+
+#~ msgid "``True`` or ``False``"
+#~ msgstr ""
+
+#~ msgid "Limit arm max velocity to a percentage of its maximum velocity"
+#~ msgstr ""
+
+#~ msgid "Should be between 1 & 100"
+#~ msgstr ""
+
+#~ msgid "Set jog control mode if param is True, else turn it off"
+#~ msgstr ""
+
+#~ msgid "Wait for a certain time"
+#~ msgstr ""
+
+#~ msgid "duration in seconds"
+#~ msgstr ""
+
+#~ msgid "Get joints value in radians You can also use a getter ::"
+#~ msgstr ""
+
+#~ msgid "List of joints value"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Get end effector link pose as [x,"
+#~ " y, z, roll, pitch, yaw]. x, y"
+#~ " & z are expressed in meters /"
+#~ " roll, pitch & yaw are expressed "
+#~ "in radians You can also use a "
+#~ "getter ::"
+#~ msgstr ""
+
+#~ msgid "Get end effector link pose in Quaternion coordinates"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Position and quaternion coordinates "
+#~ "concatenated in a list : [x, y,"
+#~ " z, qx, qy, qz, qw]"
+#~ msgstr ""
+
+#~ msgid "Move robot joints. Joints are expressed in radians."
+#~ msgstr ""
+
+#~ msgid "All lines of the next example realize the same operation: ::"
+#~ msgstr ""
+
+#~ msgid "either 6 args (1 for each joints) or a list of 6 joints"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Move robot end effector pose to a"
+#~ " (x, y, z, roll, pitch, yaw) "
+#~ "pose. x, y & z are expressed "
+#~ "in meters / roll, pitch & yaw "
+#~ "are expressed in radians"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "either 6 args (1 for each "
+#~ "coordinates) or a list of 6 "
+#~ "coordinates or a ``PoseObject``"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Move robot end effector pose to a"
+#~ " (x, y, z, roll, pitch, yaw) "
+#~ "pose with a linear trajectory"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "either 6 args (1 for each "
+#~ "coordinates) or a list of 6 "
+#~ "coordinates or a PoseObject"
+#~ msgstr ""
+
+#~ msgid "Shift robot end effector pose along one axis"
+#~ msgstr ""
+
+#~ msgid "Axis along which the robot is shifted"
+#~ msgstr ""
+
+#~ msgid "In meter for X/Y/Z and radians for roll/pitch/yaw"
+#~ msgstr ""
+
+#~ msgid "Shift robot end effector pose along one axis, with a linear trajectory"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Jog robot joints'. Jog corresponds to"
+#~ " a shift without motion planning. "
+#~ "Values are expressed in radians."
+#~ msgstr ""
+
+#~ msgid "either 6 args (1 for each joints) or a list of 6 joints offset"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Jog robot end effector pose Jog "
+#~ "corresponds to a shift without motion"
+#~ " planning Arguments are [dx, dy, dz,"
+#~ " d_roll, d_pitch, d_yaw] dx, dy & "
+#~ "dz are expressed in meters / "
+#~ "d_roll, d_pitch & d_yaw are expressed"
+#~ " in radians"
+#~ msgstr ""
+
+#~ msgid "either 6 args (1 for each coordinates) or a list of 6 offset"
+#~ msgstr ""
+
+#~ msgid "Move to a position where the forearm lays on shoulder"
+#~ msgstr ""
+
+#~ msgid "Go to home pose and activate learning mode"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Compute forward kinematics of a given"
+#~ " joints configuration and give the "
+#~ "associated spatial pose"
+#~ msgstr ""
+
+#~ msgid "Compute inverse kinematics"
+#~ msgstr ""
+
+#~ msgid "Get pose saved in from Ned's memory"
+#~ msgstr ""
+
+#~ msgid "Pose name in robot's memory"
+#~ msgstr ""
+
+#~ msgid "Pose associated to pose_name"
+#~ msgstr ""
+
+#~ msgid "Save pose in robot's memory"
+#~ msgstr ""
+
+#~ msgid "Delete pose from robot's memory"
+#~ msgstr ""
+
+#~ msgid "Get list of poses' name saved in robot memory"
+#~ msgstr ""
+
+#~ msgid "Execute a picking from a pose."
+#~ msgstr ""
+
+#~ msgid "A picking is described as :"
+#~ msgstr ""
+
+#~ msgid "* going over the object"
+#~ msgstr ""
+
+#~ msgid "* going down until height = z"
+#~ msgstr ""
+
+#~ msgid "* grasping with tool"
+#~ msgstr ""
+
+#~ msgid "* going back over the object"
+#~ msgstr ""
+
+#~ msgid "Execute a placing from a position."
+#~ msgstr ""
+
+#~ msgid "A placing is described as :"
+#~ msgstr ""
+
+#~ msgid "* going over the place"
+#~ msgstr ""
+
+#~ msgid "* releasing the object with tool"
+#~ msgstr ""
+
+#~ msgid "* going back over the place"
+#~ msgstr ""
+
+#~ msgid "Execute a pick then a place"
+#~ msgstr ""
+
+#~ msgid "Pick Pose : [x, y, z, roll, pitch, yaw] or PoseObject"
+#~ msgstr ""
+
+#~ msgid "Place Pose : [x, y, z, roll, pitch, yaw] or PoseObject"
+#~ msgstr ""
+
+#~ msgid "Distance from waypoints before smoothing trajectory"
+#~ msgstr ""
+
+#~ msgid "Get trajectory saved in Ned's memory"
+#~ msgstr ""
+
+#~ msgid "Trajectory"
+#~ msgstr ""
+
+#~ msgid "Execute trajectory from Ned's memory"
+#~ msgstr ""
+
+#~ msgid "Execute trajectory from list of poses"
+#~ msgstr ""
+
+#~ msgid "List of [x,y,z,qx,qy,qz,qw]"
+#~ msgstr ""
+
+#~ msgid "Save trajectory in robot memory"
+#~ msgstr ""
+
+#~ msgid "Delete trajectory from robot's memory"
+#~ msgstr ""
+
+#~ msgid "Get list of trajectories' name saved in robot memory"
+#~ msgstr ""
+
+#~ msgid "Get equipped tool Id"
+#~ msgstr ""
+
+#~ msgid "Update equipped tool"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Grasp with tool | This action "
+#~ "correspond to | - Close gripper "
+#~ "for Grippers | - Pull Air for "
+#~ "Vacuum pump | - Activate for "
+#~ "Electromagnet"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Release with tool | This action "
+#~ "correspond to | - Open gripper for"
+#~ " Grippers | - Push Air for "
+#~ "Vacuum pump | - Deactivate for "
+#~ "Electromagnet"
+#~ msgstr ""
+
+#~ msgid "Open gripper associated to 'gripper_id' with a speed 'speed'"
+#~ msgstr ""
+
+#~ msgid "Between 100 & 1000"
+#~ msgstr ""
+
+#~ msgid "Close gripper associated to 'gripper_id' with a speed 'speed'"
+#~ msgstr ""
+
+#~ msgid "Pull air of vacuum pump"
+#~ msgstr ""
+
+#~ msgid "Push air of vacuum pump"
+#~ msgstr ""
+
+#~ msgid "Setup electromagnet on pin"
+#~ msgstr ""
+
+#~ msgid "Activate electromagnet associated to electromagnet_id on pin_id"
+#~ msgstr ""
+
+#~ msgid "Deactivate electromagnet associated to electromagnet_id on pin_id"
+#~ msgstr ""
+
+#~ msgid "Set pin number pin_id to mode pin_mode"
+#~ msgstr ""
+
+#~ msgid "Set pin_id state to digital_state"
+#~ msgstr ""
+
+#~ msgid "Read pin number pin_id and return its state"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Get hardware status : Temperature, "
+#~ "Hardware version, motors names & types"
+#~ " ..."
+#~ msgstr ""
+
+#~ msgid "Infos contains in a HardwareStatusObject"
+#~ msgstr ""
+
+#~ msgid "Get Digital IO state : Names, modes, states"
+#~ msgstr ""
+
+#~ msgid "List of DigitalPinObject instance"
+#~ msgstr ""
+
+#~ msgid "Activate a new conveyor and return its ID"
+#~ msgstr ""
+
+#~ msgid ":return : New conveyor ID :rtype: ConveyorID"
+#~ msgstr ""
+
+#~ msgid "Remove specific conveyor."
+#~ msgstr ""
+
+#~ msgid "Basically, ConveyorID.ONE or ConveyorID.TWO"
+#~ msgstr ""
+
+#~ msgid "Run conveyor at id 'conveyor_id'"
+#~ msgstr ""
+
+#~ msgid "Stop conveyor at id 'conveyor_id'"
+#~ msgstr ""
+
+#~ msgid "Control conveyor at id 'conveyor_id'"
+#~ msgstr ""
+
+#~ msgid "New speed which is a percentage of maximum speed"
+#~ msgstr ""
+
+#~ msgid "Conveyor direction"
+#~ msgstr ""
+
+#~ msgid "List of the connected conveyors' ID"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Get image from video stream in a"
+#~ " compressed format.  Use ``uncompress_image`` "
+#~ "from the vision package to uncompress"
+#~ " it"
+#~ msgstr ""
+
+#~ msgid "string containing a JPEG compressed image"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Given a pose (x_rel, y_rel, yaw_rel) "
+#~ "relative to a workspace, this function"
+#~ " returns the robot pose in which "
+#~ "the current tool will be able to"
+#~ " pick an object at this pose."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The height_offset argument (in m) "
+#~ "defines how high the tool will "
+#~ "hover over the workspace. If "
+#~ "height_offset = 0, the tool will "
+#~ "nearly touch the workspace."
+#~ msgstr ""
+
+#~ msgid "name of the workspace"
+#~ msgstr ""
+
+#~ msgid "offset between the workspace and the target height"
+#~ msgstr ""
+
+#~ msgid "x relative pose (between 0 and 1)"
+#~ msgstr ""
+
+#~ msgid "y relative pose (between 0 and 1)"
+#~ msgstr ""
+
+#~ msgid "Angle in radians"
+#~ msgstr ""
+
+#~ msgid "target_pose"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "First detects the specified object using"
+#~ " the camera and then returns the "
+#~ "robot pose in which the object can"
+#~ " be picked with the current tool"
+#~ msgstr ""
+
+#~ msgid "shape of the target"
+#~ msgstr ""
+
+#~ msgid "color of the target"
+#~ msgstr ""
+
+#~ msgid "object_found, object_pose, object_shape, object_color"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Picks the specified object from the "
+#~ "workspace. This function has multiple "
+#~ "phases:"
+#~ msgstr ""
+
+#~ msgid "1. detect object using the camera"
+#~ msgstr ""
+
+#~ msgid "2. prepare the current tool for picking"
+#~ msgstr ""
+
+#~ msgid "3. approach the object"
+#~ msgstr ""
+
+#~ msgid "4. move down to the correct picking pose"
+#~ msgstr ""
+
+#~ msgid "5. actuate the current tool"
+#~ msgstr ""
+
+#~ msgid "6. lift the object"
+#~ msgstr ""
+
+#~ msgid "Example::"
+#~ msgstr ""
+
+#~ msgid "object_found, object_shape, object_color"
+#~ msgstr ""
+
+#~ msgid "Same as `get_target_pose_from_cam` but directly moves to this position"
+#~ msgstr ""
+
+#~ msgid "Detect object in workspace and return its pose and characteristics"
+#~ msgstr ""
+
+#~ msgid "Get calibration object: camera intrinsics, distortions coefficients"
+#~ msgstr ""
+
+#~ msgid "camera intrinsics, distortions coefficients"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Save workspace by giving the poses "
+#~ "of the robot to point its 4 "
+#~ "corners with the calibration Tip. "
+#~ "Corners should be in the good "
+#~ "order. Markers' pose will be deduced "
+#~ "from these poses"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Poses should be either a list [x,"
+#~ " y, z, roll, pitch, yaw] or a"
+#~ " PoseObject"
+#~ msgstr ""
+
+#~ msgid "workspace name"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Save workspace by giving the points "
+#~ "of worskpace's 4 corners. Points are "
+#~ "written as [x, y, z] Corners "
+#~ "should be in the good order."
+#~ msgstr ""
+
+#~ msgid "Delete workspace from robot's memory"
+#~ msgstr ""
+
+#~ msgid "Get workspace ratio from robot's memory"
+#~ msgstr ""
+
+#~ msgid "Get list of workspaces' name store in robot's memory"
+#~ msgstr ""
+
+#~ msgid "Enumeration of Calibration Modes"
+#~ msgstr ""
+
+#~ msgid "Enumeration of Robot Axis : it used for Shift command"
+#~ msgstr ""
+
+#~ msgid "Enumeration of Tools IDs"
+#~ msgstr ""
+
+#~ msgid "Enumeration of Pin Modes"
+#~ msgstr ""
+
+#~ msgid "Pin State is either LOW or HIGH"
+#~ msgstr ""
+
+#~ msgid "Enumeration of Robot Pins"
+#~ msgstr ""
+
+#~ msgid "Enumeration of Conveyor IDs used for Conveyor control"
+#~ msgstr ""
+
+#~ msgid "Enumeration of Conveyor Directions used for Conveyor control"
+#~ msgstr ""
+
+#~ msgid "Enumeration of Colors available for image processing"
+#~ msgstr ""
+
+#~ msgid "Enumeration of Shapes available for image processing"
+#~ msgstr ""
+
+#~ msgid "Pose object which stores x, y, z, roll, pitch & yaw parameters"
+#~ msgstr ""
+
+#~ msgid "Create a new pose from copying from copying actual pose with offsets"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Return a list [x, y, z, roll, "
+#~ "pitch, yaw] corresponding to the pose's"
+#~ " parameters"
+#~ msgstr ""
+
+#~ msgid "Object used to store every hardware information"
+#~ msgstr ""
+
+#~ msgid "Object used to store information on digital pins"
+#~ msgstr ""
+
+#~ msgid "toto"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This file presents the different "
+#~ ":ref:`Command Functions`, :ref:`Enums` & "
+#~ ":ref:`Python Objects <Python Object classes>`"
+#~ " available with the API."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This file presents the different "
+#~ ":ref:`Command Functions`, :ref:`Enums` & "
+#~ ":ref:`Python object classes` available with"
+#~ " the API."
+#~ msgstr ""
+
+#~ msgid ""
+#~ ":ref:`Command Functions` are used to "
+#~ "deal directly with the robot. It "
+#~ "could be :meth:`~.api.tcp_client.NiryoRobot.move_joints`,"
+#~ " :meth:`~.api.tcp_client.NiryoRobot.get_hardware_status` "
+#~ ":meth:`~.api.tcp_client.NiryoRobot.vision_pick`, or also"
+#~ " :meth:`~.api.tcp_client.NiryoRobot.run_conveyor`"
+#~ msgstr ""
+
+#~ msgid ""
+#~ ":ref:`Enums` are used to pass specific"
+#~ " arguments to functions. For instance "
+#~ ":class:`~.api.enums_communication.PinState`, "
+#~ ":class:`~.api.enums_communication.ConveyorDirection`, ..."
+#~ msgstr ""
+
+#~ msgid ""
+#~ ":ref:`Python Objects <Python Object classes>`,"
+#~ " as |pose_object|, ease some operations"
+#~ msgstr ""
+
+#~ msgid "See examples on :ref:`Examples Section <Examples: Basics>`"
+#~ msgstr ""
+
+#~ msgid "Special objects :D"
+#~ msgstr ""
+
+#~ msgid "workspace name, maximum lenght 30 char."
+#~ msgstr ""
 

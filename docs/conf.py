@@ -1,22 +1,22 @@
-import os
 import sys
 
-sys.path.insert(0, os.path.abspath('../pyniryo'))
+import os
+
+sys.path.append(os.path.abspath('../pyniryo'))
+# Kindda hack the import to import shared config file
+sys.path.append(os.path.abspath('.'))
+from front_end.config import shared_conf
 
 # -- Project information -----------------------------------------------------
 
 project = u'PyNiryo'
-copyright = " ".join([
-    "2021, Niryo All rights reserved.",
-    "No part of this document may be reproduced or transmitted in any form or by any",
-    "means without prior written consent of Niryo SAS"
-])
-author = u'Niryo Software Team'
+copyright = shared_conf.copyright
+author = shared_conf.author
 
 # The short X.Y version
-version = u'1.0'
+version = u'v1.0'
 # The full version, including alpha/beta/rc tags
-release = u'1.0.0a'
+release = u'v1.0.4'
 
 # -- General configuration ---------------------------------------------------
 
@@ -32,6 +32,8 @@ extensions = [
 
 # Avoid autosection label to trigger warning on low level titles
 autosectionlabel_maxdepth = 3
+# Avoid clash between same label in different document
+autosectionlabel_prefix_document = True
 
 # Todo_extension
 todo_include_todos = True
@@ -40,35 +42,6 @@ todo_emit_warnings = True
 # Documentation infos
 source_suffix = '.rst'
 master_doc = 'index'
-
-
-def generate_dict_trad(lang):
-    import json
-
-    def update_dict_recursive(base_dict, new_dict):
-        # Iterate over keys
-        for key in base_dict:
-            if key not in new_dict:
-                continue
-            # If key is related to a dict, go deeper
-            if type(base_dict[key]) == dict:
-                update_dict_recursive(base_dict[key], new_dict[key])
-            # Update key
-            else:
-                base_dict[key] = new_dict[key]
-
-    # Use english dict as default dict !
-    with open("front_end/trad/en.json") as json_file:
-        dict_trad = json.load(json_file)
-
-    # If language selected, update the dict !
-    if lang is not None:
-        with open('front_end/trad/{}.json'.format(lang)) as json_file:
-            sub_dict_trad = json.load(json_file)
-            update_dict_recursive(dict_trad, sub_dict_trad)
-
-    return dict_trad
-
 
 for arg in sys.argv:
     if not arg.startswith("language="):
@@ -79,7 +52,19 @@ for arg in sys.argv:
 else:
     language = None
 
-html_context = generate_dict_trad(language)
+translation_object = {}
+translation_object["fr"] = {}
+translation_object["fr"]["PROJECT_NAME"] = "PyNiryo"
+
+translation_object["en"] = {}
+translation_object["en"]["PROJECT_NAME"] = "PyNiryo"
+
+html_context = {}
+
+html_context["BASE_FOLDER_URL"] = "https://docs.niryo.com/dev/pyniryo"
+
+
+html_context["TRANSLATION"] = translation_object[language if language is not None else 'en']
 
 exclude_patterns = [u'_build', 'Thumbs.db', '.DS_Store']
 
@@ -87,26 +72,23 @@ pygments_style = None
 
 add_module_names = False
 
+
 # -- Options for HTML output -------------------------------------------------
-html_theme = 'sphinx_rtd_theme'
+html_theme = shared_conf.html_theme
 
-templates_path = ['front_end/templates/']
-html_static_path = ['front_end/static/']
+templates_path = shared_conf.templates_path
+html_static_path = shared_conf.html_static_path
 
-html_logo = "images/PyNiryo_logo_1.png"
-html_favicon = html_static_path[0] + "favicon32.ico"
+html_logo = shared_conf.html_logo
+html_favicon = shared_conf.html_favicon
 
-html_css_files = [
-    'override.css'
-]
+html_css_files = shared_conf.html_css_files
 
-html_js_files = [
-    'app.js',
-]
+html_js_files = shared_conf.html_js_files
 
-html_theme_options = {
-    # 'analytics_id': 'UA-XXXXXX-X',  #  Provided by Google in your dashboard
-}
+html_theme_options = shared_conf.html_theme_options
+
+html_show_sphinx = shared_conf.html_show_sphinx
 
 # -- Options for intersphinx extension ---------------------------------------
 

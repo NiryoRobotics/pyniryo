@@ -1,16 +1,17 @@
 # Tuto Sphinx
-## Préambule
-Certains packages Python sont nécessaires au build de cette Doc. Pour les installer,
-`pip install -r docs/requirements_docs.txt`
+## Pré-requis
 
-Si ça n'a pas fonctionner, vous pouvez installer les packages indépendemment
+1. (Vous pouvez passez cette partie si vous utilisez Docker).
 
-Pour utiliser & modifier la doc, vous aurez tout d'abord besoin de Sphinx 
- ainsi que de la template d'affichage :
-`pip install Sphinx sphinx_rtd_theme`
+    Pour modifier la doc, vous aurez tout d'abord besoin de Sphinx :
 
-Il faudra aussi les bibliothèques Python nécessaires à la génération du code
-`pip install numpy opencv-python`
+    `pip install Sphinx sphinx_rtd_theme`
+
+2. Le dossier front_end est un [sous-module git](https://git-scm.com/book/fr/v2/Utilitaires-Git-Sous-modules),
+    il peux donc être nécessaire de le mettre à jour régulièrement.
+    Pour cloner / update le sous module front-end, veuillez effectuer la commande suivante:
+
+    `git submodule update --init relative_path_to/front_end`
 
 
 ## Génération
