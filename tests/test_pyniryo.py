@@ -99,15 +99,25 @@ class TestJointsPoseFunctions(BaseTestTcpApi):
         self.assertIsNone(setter_pose(PoseObject(0.2, 0, 0.3, 0, 0, 0)))
         self.assertAlmostEqualVector(self.niryo_robot.get_pose().to_list(), [0.2, 0.0, 0.3, 0.0, 0.0, 0.0])
         self.assertAlmostEqualVector(self.niryo_robot.pose.to_list(), [0.2, 0.0, 0.3, 0.0, 0.0, 0.0])
+        # Linear Move Pose
+        self.assertIsNone(self.niryo_robot.move_linear_pose(0.15, 0.0, 0.25, 0.0, 0.0, 0.0))
+        self.assertIsNone(self.niryo_robot.move_linear_pose([0.2, 0, 0.3, 0, 0, 0]))
+        self.assertAlmostEqualVector(self.niryo_robot.get_pose().to_list(), [0.2, 0.0, 0.3, 0.0, 0.0, 0.0])
         # Shift axis & Jog
         self.assertIsNone(self.niryo_robot.shift_pose(RobotAxis.Y, 0.05))
         self.assertIsNone(self.niryo_robot.jog_pose(-0.02, 0.0, 0.02, 0.1, 0, 0))
         self.niryo_robot.set_jog_control(False)
+        # Shift axis linear
+        self.assertIsNone(self.niryo_robot.shift_linear_pose(RobotAxis.Y, 0.05))
         # Check Exceptions
         with self.assertRaises(TcpCommandException):
             self.niryo_robot.shift_pose(ToolID.ELECTROMAGNET_1, 0.05)
         with self.assertRaises(TcpCommandException):
             self.niryo_robot.move_pose(0.54, 0.964, 0.34, "a", "m", ConveyorID.ID_1)
+        with self.assertRaises(TcpCommandException):
+            self.niryo_robot.move_linear_pose(0.54, 0.964, 0.7, "a", "m", 1)
+        with self.assertRaises(TcpCommandException):
+            self.niryo_robot.shift_linear_pose(ConveyorID.ID_1, 0.9)
 
     def test_kinematics(self):
         initial_pose = self.niryo_robot.get_pose()
@@ -196,10 +206,10 @@ class TestPickPlaceFunction(BaseTestTcpApi):
 
 
 class TestTrajectoryMethods(BaseTestTcpApi):
-    robot_poses = [[0.3, 0.1, 0.15, 0., 0., 0., 1.],
-                   [0.3, -0.1, 0.15, 0., 0., 0., 1.],
-                   [0.3, -0.1, 0.1, 0., 0., 0., 1.],
-                   [0.3, 0.1, 0.1, 0., 0., 0., 1.]]
+    robot_poses = [[0.25, 0.1, 0.25, 0., 0., 0., 1.],
+                   [0.25, -0.1, 0.25, 0., 0., 0., 1.],
+                   [0.25, -0.1, 0.3, 0., 0., 0., 1.],
+                   [0.25, 0.1, 0.3, 0., 0., 0., 1.]]
 
     def test_creation_delete_trajectory(self):
         # Get saved trajectory list & copy it

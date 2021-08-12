@@ -1,2 +1,3 @@
+enum34
+opencv-python==4.2.0.32
 numpy
-opencv-python

@@ -1,0 +1,432 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2021, Niryo All rights reserved. No part of this document
+# may be reproduced or transmitted in any form or by any means without prior
+# written consent of Niryo SAS
+# This file is distributed under the same license as the PyNiryo package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PyNiryo 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-29 12:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../source/examples/examples_tool_action.rst:2
+msgid "Examples: Tool action"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:4
+msgid "This page shows how to control Ned's tools."
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:6
+msgid ""
+"If you want to see more, you can look at :ref:`PyNiryo - "
+"Tools<source/api_doc/api:Tools>`"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:9
+msgid ""
+"In this section, you are already supposed to be connected to a calibrated"
+" robot. The robot instance is saved in the variable ``robot``."
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:13
+msgid ""
+"If you are using the real robot, make sure the environment around it is "
+"clear."
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:16
+msgid "Tool control"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:19
+msgid "Equip Tool"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:21
+msgid ""
+"In order to use a tool, it should be plugged mechanically to the robot "
+"but also connected to the software wise."
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:24
+msgid ""
+"To do that, we should use the function "
+":meth:`~.api.tcp_client.NiryoRobot.update_tool` which takes no argument. "
+"It will scan motor's connections and set the new tool!"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:28
+msgid "The line to equip a new tool is: ::"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:33
+msgid ""
+"For the :ref:`source/examples/examples_tool_action:Grasping` and "
+":ref:`source/examples/examples_tool_action:Releasing` sections, this "
+"command should be added in your codes! If you want to use a specific "
+"tool, you need to store the |tool_id| you are using in a variable named "
+"``tool_used``."
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:39
+msgid "Grasping"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:41
+msgid ""
+"To grasp with any tool, you can use the function "
+":meth:`~.api.tcp_client.NiryoRobot.grasp_with_tool`. This action "
+"corresponds to:"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:44
+msgid "Close gripper for Grippers"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:45
+msgid "Pull Air for Vacuum Pump"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:46
+msgid "Activate for Electromagnet"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:48
+msgid "The line to grasp is: ::"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:52
+msgid "To grasp an object by specifying the tool: ::"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:65
+msgid "Releasing"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:67
+msgid ""
+"To release with any tool, you can use the function "
+":meth:`~.api.tcp_client.NiryoRobot.release_with_tool`. This action "
+"corresponds to:"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:70
+msgid "Open gripper for Grippers"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:71
+msgid "Push Air for Vacuum pump"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:72
+msgid "Deactivate for Electromagnet"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:74
+msgid "To release an object by specifying parameters: ::"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:87
+msgid "Pick & Place with tools"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:89
+msgid ""
+"A Pick & Place is an action which consists in going to a certain pose in "
+"order to pick an object and then, going to another pose to place it."
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:92
+msgid "This operation can be proceed as follows:"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:94
+msgid "Going over the object with a certain offset to avoid collision;"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:95
+msgid "Going down to the object's height;"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:96
+msgid "Grasping with tool;"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:97
+msgid "Going back to step 1's pose;"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:98
+msgid "Going over the place pose with a certain offset to avoid collision;"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:99
+msgid "Going down to place's height;"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:100
+msgid "Releasing the object with tool;"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:101
+msgid "Going back to step 5's pose."
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:104
+msgid ""
+"There are plenty of ways to perform a pick and place with PyNiryo. "
+"Methods will be presented from the lowest to highest level."
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:108
+msgid "Code Baseline"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:110
+msgid ""
+"For the sake of brevity, every piece of code beside the Pick & Place "
+"function will not be rewritten for every method. So that, you will need "
+"to use the code and implement the Pick & Place function to it.  ::"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:149
+msgid "First Solution: the heaviest"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:150
+msgid ""
+"For this first function, every steps are done by hand, as well as poses "
+"computing."
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:154
+msgid ""
+"In this example, the tool used is a Gripper. If you want to use another "
+"tool than a gripper, do not forget to adapt grasp & release functions!"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:188
+msgid "Second Solution: Use of PoseObject"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:189
+msgid ""
+"For the second solution, we use a |pose_object| in order to calculate "
+"approach poses more easily."
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:193
+msgid ""
+"To see more about |pose_object|, go look at :ref:`PoseObject dedicated "
+"section <source/examples/examples_movement:How to use the PoseObject>`"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:224
+msgid "Third Solution: Pick from pose & Place from pose functions"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:225
+msgid ""
+"For those who have already seen the API Documentation, you may have seen "
+"pick & place dedicated functions!"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:228
+msgid ""
+"In this example, we use "
+":meth:`~.api.tcp_client.NiryoRobot.pick_from_pose` and "
+":meth:`~.api.tcp_client.NiryoRobot.place_from_pose` in order to split our"
+" function in only 2 commands! ::"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:240
+msgid "Fourth Solution: All in one"
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:241
+msgid ""
+"The example exposed in the previous section could be useful if you want "
+"to do an action between the pick & the place phases."
+msgstr ""
+
+#: ../../source/examples/examples_tool_action.rst:244
+msgid ""
+"For those who want to do everything in one command, you can use the "
+":meth:`~.api.tcp_client.NiryoRobot.pick_and_place` function! ::"
+msgstr ""
+
+#~ msgid ""
+#~ "To do that, we should use the "
+#~ "function :meth:`~.api.tcp_client.NiryoRobot.update_tool` "
+#~ "which takes no argument. It will "
+#~ "scan motor's connections and set the "
+#~ "new tool !"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To grasp with any tool, you can"
+#~ " use the function "
+#~ ":meth:`~.api.tcp_client.NiryoRobot.grasp_with_tool`. This "
+#~ "action corresponds to :"
+#~ msgstr ""
+
+#~ msgid "This operation can be proceed as follows :"
+#~ msgstr ""
+
+#~ msgid "First Solution : the heaviest"
+#~ msgstr ""
+
+#~ msgid "Second Solution : Use of PoseObject"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "For the second solution, we use a"
+#~ "  |pose_object| in order to calculate "
+#~ "approach poses more easily"
+#~ msgstr ""
+
+#~ msgid "Third Solution : Pick from pose & Place from pose functions"
+#~ msgstr ""
+
+#~ msgid "Fourth Solution : All in one"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "For those who want to do "
+#~ "everything in one command, you can "
+#~ "use the :meth:`~.api.tcp_client.NiryoRobot.pick_and_place`"
+#~ " function ! ::"
+#~ msgstr ""
+
+#~ msgid "Examples: Tool Action"
+#~ msgstr ""
+
+#~ msgid "This page shows how to control Ned's tools"
+#~ msgstr ""
+
+#~ msgid "If you want to see more, you can look at :ref:`PyNiryo - Tools<Tools>`"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "In this section, you are already "
+#~ "supposed to be connected to a "
+#~ "calibrated robot. The robot instance is"
+#~ " saved in the variable ``robot``"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you are using the real robot,"
+#~ " make sure the environment around it"
+#~ " is clear"
+#~ msgstr ""
+
+#~ msgid "The line to equip a new tool is ::"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "For the :ref:`Grasping <Grasping>` and "
+#~ ":ref:`Releasing <Releasing>` sections, this "
+#~ "command should be added in your "
+#~ "codes! If you want to use a "
+#~ "specific tool, you need to store "
+#~ "the |tool_id| you are using in a"
+#~ " variable named ``tool_used``"
+#~ msgstr ""
+
+#~ msgid "The line to grasp is ::"
+#~ msgstr ""
+
+#~ msgid "To grasp an object by specifying the tool ::"
+#~ msgstr ""
+
+#~ msgid "To release an object by specifying parameters ::"
+#~ msgstr ""
+
+#~ msgid "Going over the object with a certain offset to avoid collision"
+#~ msgstr ""
+
+#~ msgid "Going down to the object's height"
+#~ msgstr ""
+
+#~ msgid "Grasping with tool"
+#~ msgstr ""
+
+#~ msgid "Going back to step 1's pose."
+#~ msgstr ""
+
+#~ msgid "Going over the place pose with a certain offset to avoid collision"
+#~ msgstr ""
+
+#~ msgid "Going down to place's height"
+#~ msgstr ""
+
+#~ msgid "Releasing the object with tool"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "There is plenty of ways to perform"
+#~ " a pick and place with PyNiryo. "
+#~ "Methods will be presented from the "
+#~ "lowest to highest level."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "For the sake of brevity, every "
+#~ "piece of code beside the Pick &"
+#~ " Place function will not be rewritten"
+#~ " for every method. So that, you "
+#~ "will need to use the code and "
+#~ "implement the Pick & Place function "
+#~ "to it  ::"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "For this first function, every steps "
+#~ "are done by hand, as well as "
+#~ "poses computing"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "For the second solution, we use a"
+#~ " |pose_object| in order to calculate "
+#~ "approach poses more easily"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To see more about |pose_object|, go "
+#~ "look at :ref:`PoseObject dedicated section "
+#~ "<How to use the PoseObject>`"
+#~ msgstr ""
+
+#~ msgid "If you want to see more, you can look at :ref:`PyNiryo - Tools<Tools>`."
+#~ msgstr ""
+
+#~ msgid "If you want to see more, you can look at :ref:`Tools`."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "For the :ref:`Grasping <Grasping>` and "
+#~ ":ref:`Releasing <Releasing>` sections, this "
+#~ "command should be added in your "
+#~ "codes! If you want to use a "
+#~ "specific tool, you need to store "
+#~ "the |tool_id| you are using in a"
+#~ " variable named ``tool_used``."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To see more about |pose_object|, go "
+#~ "look at :ref:`PoseObject dedicated section "
+#~ "<How to use the PoseObject>`."
+#~ msgstr ""
+

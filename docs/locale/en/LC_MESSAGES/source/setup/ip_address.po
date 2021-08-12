@@ -1,0 +1,255 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2021, Niryo All rights reserved. No part of this document
+# may be reproduced or transmitted in any form or by any means without prior
+# written consent of Niryo SAS
+# This file is distributed under the same license as the PyNiryo package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PyNiryo 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-29 12:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../source/setup/ip_address.rst:2
+msgid "Find your Robot's IP address"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:4
+msgid ""
+"In order to use your robot through TCP connection, you will firstly need "
+"to connect to it, which implies that you know its IP address."
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:7
+msgid ""
+"The next sections explain how to find your robot IP according to your "
+"configuration:"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:14
+msgid "Hotspot mode"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:15
+msgid ""
+"If you are directly connected to your robot through its wifi, the IP "
+"Address you will need to use is ``10.10.10.10``."
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:19
+msgid "Simulation or directly on the robot"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:20
+msgid ""
+"In this situation, the robot is running on the same computer as the "
+"client, the IP address will be the localhost address ``127.0.0.1``."
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:25
+msgid "Direct ethernet connection"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:26
+msgid ""
+"If you are directly connected to your robot with an ethernet cable, the "
+"static IP of your robot will be ``169.254.200.200``."
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:29
+msgid ""
+"The reader should note that he may need to change his wired settings to "
+"allow the connection. See how `to connect to Ned via Ethernet on Ubuntu "
+"<https://niryo.com/docs/niryo-one/developer-tutorials/connect-to-niryo-"
+"one-via-ethernet-on-ubuntu/>`_."
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:33
+msgid "Computer and robot connected on the same router"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:35
+msgid ""
+"You will need to find the robot's address using ``nmap``, or you can also"
+" use search button of Niryo Studio to see which robots are available."
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:38
+msgid ""
+"You can also :ref:`source/setup/ip_address:Make IP permanent` so that you"
+" will not have to search for it next time"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:43
+msgid "Make IP permanent"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:45
+msgid "Step 1"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:46
+msgid "Firstly, you need to be connected to your robot via SSH."
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:48
+msgid "On Ubuntu, use the command line::"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:52
+msgid "The password is ``robotics``."
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:54
+msgid ""
+"On Windows, you can use `Putty <https://www.putty.org/>`_. Robot username"
+" is ``niryo`` and password is ``robotics``."
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:58
+msgid "Step 2"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:59
+msgid "Find your proxy key: ::"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:63
+msgid ""
+"Your proxy key is written on the first line and should look something "
+"like ``eth0``."
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:67
+msgid "Step 3"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:68
+msgid ""
+"Select arbitrarily a number between 50 & 255. It will be your IP address'"
+" last number."
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:70
+msgid "Then, edit the file ``/etc/network/interfaces``::"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:74
+msgid "And add to its end::"
+msgstr ""
+
+#: ../../source/setup/ip_address.rst:85
+msgid ""
+"From its next reboot, the robot will appear under the IP "
+"``192.168.1.<your_ip_address_last_number>``."
+msgstr ""
+
+#~ msgid ""
+#~ "In order to use your robot through"
+#~ " TCP connection, you will firstly "
+#~ "need to connect to it, which "
+#~ "implies that you know its IP "
+#~ "address"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you are directly connected to "
+#~ "your robot through its wifi, the "
+#~ "IP Address you will need to use"
+#~ " is ``10.10.10.10``"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "In this situation, the robot is "
+#~ "running on the same computer as "
+#~ "the client, the IP address will be"
+#~ " the localhost address ``127.0.0.1``"
+#~ msgstr ""
+
+#~ msgid "Direct Ethernet connection"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you are directly connected to "
+#~ "your robot with an ethernet cable, "
+#~ "the static IP of your robot will"
+#~ " be ``169.254.200.200``"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The reader should note that he may"
+#~ " need to change his wired settings"
+#~ " to allow the connection. See how "
+#~ "|link_ethernet|_"
+#~ msgstr ""
+
+#~ msgid "Computer and Robot Connected on the same router"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You will need to find the robot's"
+#~ " address using ``nmap``, or you can"
+#~ " also use search button of Niryo "
+#~ "Studio to see which robots are "
+#~ "available"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You can also :ref:`make the IP "
+#~ "permanent <Make IP permanent>` so that"
+#~ " you will not have to search "
+#~ "for it next time"
+#~ msgstr ""
+
+#~ msgid "The password is ``robotics``"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "On Windows, you can use `Putty "
+#~ "<https://www.putty.org/>`_. Robot username is "
+#~ "``niryo`` and password is ``robotics``"
+#~ msgstr ""
+
+#~ msgid "Find your proxy key::"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Select arbitrarily a number between 50"
+#~ " & 255. It will be your IP "
+#~ "address' last number"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "From its next reboot, the robot "
+#~ "will appear under the IP "
+#~ "``192.168.1.<your_ip_address_last_number>``"
+#~ msgstr ""
+
+#~ msgid "Find your proxy key::."
+#~ msgstr ""
+
+#~ msgid "ifconfig"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The reader should note that he may"
+#~ " need to change his wired settings"
+#~ " to allow the connection. See how "
+#~ "|link_ethernet|_."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You can also :ref:`make the IP "
+#~ "permanent <Make IP permanent>` so that"
+#~ " you will not have to search "
+#~ "for it next time."
+#~ msgstr ""
+

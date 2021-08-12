@@ -1,0 +1,1795 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2021, Niryo All rights reserved. No part of this document
+# may be reproduced or transmitted in any form or by any means without prior
+# written consent of Niryo SAS
+# This file is distributed under the same license as the PyNiryo package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PyNiryo 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-29 13:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../source/api_doc/api.rst:2
+msgid "PyNiryo API Documentation"
+msgstr "Documentation de l'API PyNiryo"
+
+#: ../../source/api_doc/api.rst:4
+msgid ""
+"This file presents the different :ref:`source/api_doc/api:Command "
+"Functions`, :ref:`source/api_doc/api:Enums` & "
+":ref:`source/api_doc/api:Python Object classes` available with the API"
+msgstr ""
+"Ce document présente les différentes :ref:`source/api_doc/api:Command "
+"Functions`, :ref:`source/api_doc/api:Enums` & les "
+":ref:`source/api_doc/api:Python object classes` disponibles avec l'API"
+
+#: ../../source/api_doc/api.rst:7
+msgid ""
+":ref:`source/api_doc/api:Command Functions` are used to deal directly "
+"with the robot. It could be "
+":meth:`~.api.tcp_client.NiryoRobot.move_joints`, "
+":meth:`~.api.tcp_client.NiryoRobot.get_hardware_status` "
+":meth:`~.api.tcp_client.NiryoRobot.vision_pick`, or also "
+":meth:`~.api.tcp_client.NiryoRobot.run_conveyor`"
+msgstr ""
+"Les :ref:`source/api_doc/api:Command Functions` sont utilisées pour "
+"intéragir directement avec le robot. Elles peuvent être "
+":meth:`~.api.tcp_client.NiryoRobot.move_joints`, "
+":meth:`~.api.tcp_client.NiryoRobot.get_hardware_status` "
+":meth:`~.api.tcp_client.NiryoRobot.vision_pick`, ou encore "
+":meth:`~.api.tcp_client.NiryoRobot.run_conveyor`"
+
+#: ../../source/api_doc/api.rst:12
+msgid ""
+":ref:`source/api_doc/api:Enums` are used to pass specific arguments to "
+"functions. For instance :class:`~.api.enums_communication.PinState`, "
+":class:`~.api.enums_communication.ConveyorDirection`, ..."
+msgstr ""
+":ref:`source/api_doc/api:Enums` sont utilisées pour passer des arguments "
+"spécifiques aux fonctions. Par exemple "
+":class:`~.api.enums_communication.PinState`, "
+":class:`~.api.enums_communication.ConveyorDirection`, ..."
+
+#: ../../source/api_doc/api.rst:15
+msgid ""
+":ref:`source/api_doc/api:Python Object classes`, as |pose_object|, ease "
+"some operations"
+msgstr ""
+"Les :ref:`objets Python <source/api_doc/api:Python Object classes>`, tels"
+" que |pose_object|, facilitent certaines opérations."
+
+#: ../../source/api_doc/api.rst:18
+msgid "Command functions"
+msgstr "Fonctions de commande"
+
+#: ../../source/api_doc/api.rst:20
+msgid ""
+"This section references all existing functions to control your robot, "
+"which includes"
+msgstr ""
+"Cette section référence toutes les fonctions existantes permettant de "
+"contrôler votre robot, incluant :"
+
+#: ../../source/api_doc/api.rst:22
+msgid "Moving the robot"
+msgstr "Bouger le robot"
+
+#: ../../source/api_doc/api.rst:23
+msgid "Using Vision"
+msgstr "Utiliser la Vision"
+
+#: ../../source/api_doc/api.rst:24
+msgid "Controlling Conveyor Belts"
+msgstr "Contrôler le convoyeur"
+
+#: ../../source/api_doc/api.rst:25
+msgid "Playing with Hardware"
+msgstr "Utiliser le hardware"
+
+#: ../../source/api_doc/api.rst:27
+msgid ""
+"All functions to control the robot are accessible via an instance of the "
+"class :class:`~.api.enums_communication.NiryoRobot` ::"
+msgstr ""
+"Toutes les fonctions permettant de contrôler le robot sont disponibles "
+"depuis une instance de la classe "
+":class:`~.api.enums_communication.NiryoRobot` : ::"
+
+#: ../../source/api_doc/api.rst:32
+msgid "See examples on :ref:`source/examples/examples_basics:Examples: Basics`"
+msgstr ""
+"Voir un exemple dans la :ref:`section "
+"Exemples<source/examples/examples_basics:Examples: Basics>`"
+
+#: ../../source/api_doc/api.rst:34
+msgid "List of functions subsections:"
+msgstr "Liste des sous-sections des fonctions :"
+
+#: ../../source/api_doc/api.rst:43
+msgid "TCP Connection"
+msgstr "Connexion TCP"
+
+#: api.tcp_client.NiryoRobot.close_connection:1 of
+msgid "Close connection with robot"
+msgstr "Couper la connexion avec le robot"
+
+#: api.objects.PoseObject.copy_with_offsets api.objects.PoseObject.to_list
+#: api.tcp_client.NiryoRobot.activate_electromagnet
+#: api.tcp_client.NiryoRobot.calibrate api.tcp_client.NiryoRobot.calibrate_auto
+#: api.tcp_client.NiryoRobot.close_connection
+#: api.tcp_client.NiryoRobot.close_gripper api.tcp_client.NiryoRobot.connect
+#: api.tcp_client.NiryoRobot.control_conveyor
+#: api.tcp_client.NiryoRobot.deactivate_electromagnet
+#: api.tcp_client.NiryoRobot.delete_pose
+#: api.tcp_client.NiryoRobot.delete_trajectory
+#: api.tcp_client.NiryoRobot.delete_workspace
+#: api.tcp_client.NiryoRobot.detect_object
+#: api.tcp_client.NiryoRobot.digital_read
+#: api.tcp_client.NiryoRobot.digital_write
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses
+#: api.tcp_client.NiryoRobot.execute_trajectory_saved
+#: api.tcp_client.NiryoRobot.forward_kinematics
+#: api.tcp_client.NiryoRobot.get_camera_intrinsics
+#: api.tcp_client.NiryoRobot.get_connected_conveyors_id
+#: api.tcp_client.NiryoRobot.get_current_tool_id
+#: api.tcp_client.NiryoRobot.get_digital_io_state
+#: api.tcp_client.NiryoRobot.get_hardware_status
+#: api.tcp_client.NiryoRobot.get_img_compressed
+#: api.tcp_client.NiryoRobot.get_joints
+#: api.tcp_client.NiryoRobot.get_learning_mode
+#: api.tcp_client.NiryoRobot.get_pose api.tcp_client.NiryoRobot.get_pose_quat
+#: api.tcp_client.NiryoRobot.get_pose_saved
+#: api.tcp_client.NiryoRobot.get_saved_pose_list
+#: api.tcp_client.NiryoRobot.get_saved_trajectory_list
+#: api.tcp_client.NiryoRobot.get_target_pose_from_cam
+#: api.tcp_client.NiryoRobot.get_target_pose_from_rel
+#: api.tcp_client.NiryoRobot.get_trajectory_saved
+#: api.tcp_client.NiryoRobot.get_workspace_list
+#: api.tcp_client.NiryoRobot.get_workspace_ratio
+#: api.tcp_client.NiryoRobot.go_to_sleep
+#: api.tcp_client.NiryoRobot.grasp_with_tool
+#: api.tcp_client.NiryoRobot.inverse_kinematics
+#: api.tcp_client.NiryoRobot.jog_joints api.tcp_client.NiryoRobot.jog_pose
+#: api.tcp_client.NiryoRobot.move_joints
+#: api.tcp_client.NiryoRobot.move_linear_pose
+#: api.tcp_client.NiryoRobot.move_pose
+#: api.tcp_client.NiryoRobot.move_to_home_pose
+#: api.tcp_client.NiryoRobot.move_to_object
+#: api.tcp_client.NiryoRobot.need_calibration
+#: api.tcp_client.NiryoRobot.open_gripper
+#: api.tcp_client.NiryoRobot.pick_and_place
+#: api.tcp_client.NiryoRobot.pick_from_pose
+#: api.tcp_client.NiryoRobot.place_from_pose
+#: api.tcp_client.NiryoRobot.pull_air_vacuum_pump
+#: api.tcp_client.NiryoRobot.push_air_vacuum_pump
+#: api.tcp_client.NiryoRobot.release_with_tool
+#: api.tcp_client.NiryoRobot.run_conveyor api.tcp_client.NiryoRobot.save_pose
+#: api.tcp_client.NiryoRobot.save_trajectory
+#: api.tcp_client.NiryoRobot.save_workspace_from_points
+#: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses
+#: api.tcp_client.NiryoRobot.set_arm_max_velocity
+#: api.tcp_client.NiryoRobot.set_jog_control
+#: api.tcp_client.NiryoRobot.set_learning_mode
+#: api.tcp_client.NiryoRobot.set_pin_mode
+#: api.tcp_client.NiryoRobot.setup_electromagnet
+#: api.tcp_client.NiryoRobot.shift_linear_pose
+#: api.tcp_client.NiryoRobot.shift_pose api.tcp_client.NiryoRobot.stop_conveyor
+#: api.tcp_client.NiryoRobot.update_tool api.tcp_client.NiryoRobot.vision_pick
+#: api.tcp_client.NiryoRobot.wait of
+msgid "Return type"
+msgstr "Type de la variable de retour"
+
+#: api.tcp_client.NiryoRobot.connect:1 of
+msgid "Connect to the TCP Server"
+msgstr "Se connecter au serveur TCP"
+
+#: api.tcp_client.NiryoRobot.activate_electromagnet
+#: api.tcp_client.NiryoRobot.calibrate api.tcp_client.NiryoRobot.close_gripper
+#: api.tcp_client.NiryoRobot.connect api.tcp_client.NiryoRobot.control_conveyor
+#: api.tcp_client.NiryoRobot.deactivate_electromagnet
+#: api.tcp_client.NiryoRobot.delete_workspace
+#: api.tcp_client.NiryoRobot.detect_object
+#: api.tcp_client.NiryoRobot.digital_read
+#: api.tcp_client.NiryoRobot.digital_write
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses
+#: api.tcp_client.NiryoRobot.forward_kinematics
+#: api.tcp_client.NiryoRobot.get_pose_saved
+#: api.tcp_client.NiryoRobot.get_target_pose_from_cam
+#: api.tcp_client.NiryoRobot.get_target_pose_from_rel
+#: api.tcp_client.NiryoRobot.get_workspace_ratio
+#: api.tcp_client.NiryoRobot.inverse_kinematics
+#: api.tcp_client.NiryoRobot.jog_joints api.tcp_client.NiryoRobot.jog_pose
+#: api.tcp_client.NiryoRobot.move_joints
+#: api.tcp_client.NiryoRobot.move_linear_pose
+#: api.tcp_client.NiryoRobot.move_pose api.tcp_client.NiryoRobot.move_to_object
+#: api.tcp_client.NiryoRobot.open_gripper
+#: api.tcp_client.NiryoRobot.pick_and_place
+#: api.tcp_client.NiryoRobot.pick_from_pose
+#: api.tcp_client.NiryoRobot.place_from_pose
+#: api.tcp_client.NiryoRobot.run_conveyor api.tcp_client.NiryoRobot.save_pose
+#: api.tcp_client.NiryoRobot.save_trajectory
+#: api.tcp_client.NiryoRobot.save_workspace_from_points
+#: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses
+#: api.tcp_client.NiryoRobot.set_arm_max_velocity
+#: api.tcp_client.NiryoRobot.set_jog_control
+#: api.tcp_client.NiryoRobot.set_learning_mode
+#: api.tcp_client.NiryoRobot.set_pin_mode
+#: api.tcp_client.NiryoRobot.setup_electromagnet
+#: api.tcp_client.NiryoRobot.shift_linear_pose
+#: api.tcp_client.NiryoRobot.shift_pose api.tcp_client.NiryoRobot.stop_conveyor
+#: api.tcp_client.NiryoRobot.unset_conveyor
+#: api.tcp_client.NiryoRobot.vision_pick api.tcp_client.NiryoRobot.wait of
+msgid "Parameters"
+msgstr "Paramètres"
+
+#: api.tcp_client.NiryoRobot.connect:3 of
+msgid "IP Address"
+msgstr "Adresse IP"
+
+#: ../../source/api_doc/api.rst:50
+msgid "Main purpose functions"
+msgstr "Fonctions principales"
+
+#: api.tcp_client.NiryoRobot.calibrate:1 of
+msgid ""
+"Calibrate (manually or automatically) motors. Automatic calibration will "
+"do nothing if motors are already calibrated"
+msgstr ""
+"Calibrer (manuellement ou automatiquement) les moteurs. La calibration "
+"automatique ne provoquera rien si les moteurs sont déjà calibrés"
+
+#: api.tcp_client.NiryoRobot.calibrate:4 of
+msgid "Auto or Manual"
+msgstr "Auto ou Manuel"
+
+#: api.tcp_client.NiryoRobot.calibrate_auto:1 of
+msgid "Start a automatic motors calibration if motors are not calibrated yet"
+msgstr ""
+"Démarre une calibration automatique des moteurs si les moteurs n'ont pas "
+"encore été calibrés"
+
+#: api.tcp_client.NiryoRobot.need_calibration:1 of
+msgid "Return a bool indicating whereas the robot motors need to be calibrate"
+msgstr ""
+"Renvoie un booléen indiquant si les moteurs du robot ont besoin d'être "
+"calibrés"
+
+#: api.tcp_client.NiryoRobot.get_learning_mode:1 of
+msgid "Get learning mode state"
+msgstr "Afficher l'état du mode apprentissage"
+
+#: api.tcp_client.NiryoRobot.detect_object
+#: api.tcp_client.NiryoRobot.get_camera_intrinsics
+#: api.tcp_client.NiryoRobot.get_connected_conveyors_id
+#: api.tcp_client.NiryoRobot.get_digital_io_state
+#: api.tcp_client.NiryoRobot.get_hardware_status
+#: api.tcp_client.NiryoRobot.get_img_compressed
+#: api.tcp_client.NiryoRobot.get_joints
+#: api.tcp_client.NiryoRobot.get_learning_mode
+#: api.tcp_client.NiryoRobot.get_pose_quat
+#: api.tcp_client.NiryoRobot.get_pose_saved
+#: api.tcp_client.NiryoRobot.get_target_pose_from_cam
+#: api.tcp_client.NiryoRobot.get_target_pose_from_rel
+#: api.tcp_client.NiryoRobot.get_trajectory_saved
+#: api.tcp_client.NiryoRobot.inverse_kinematics
+#: api.tcp_client.NiryoRobot.move_to_object
+#: api.tcp_client.NiryoRobot.vision_pick of
+msgid "Returns"
+msgstr "Retourne"
+
+#: api.tcp_client.NiryoRobot.get_learning_mode:3 of
+msgid "``True`` if learning mode is on"
+msgstr "``Vrai`` si le mode apprentissage est activé"
+
+#: api.tcp_client.NiryoRobot.set_learning_mode:1 of
+msgid "Set learning mode if param is ``True``, else turn it off"
+msgstr "Allumer le mode apprentissage si param est ``Vrai``, sinon l'arrêter"
+
+#: api.tcp_client.NiryoRobot.set_jog_control:3
+#: api.tcp_client.NiryoRobot.set_learning_mode:3 of
+msgid "``True`` or ``False``"
+msgstr "``Vrai`` ou ``Faux``"
+
+#: api.tcp_client.NiryoRobot.set_arm_max_velocity:1 of
+msgid "Limit arm max velocity to a percentage of its maximum velocity"
+msgstr "Limiter la vitesse maximum du bras à un pourcentage de sa vitesse maximum"
+
+#: api.tcp_client.NiryoRobot.set_arm_max_velocity:3 of
+msgid "Should be between 1 & 100"
+msgstr "Peut être entre 1 & 100"
+
+#: api.tcp_client.NiryoRobot.set_jog_control:1 of
+msgid "Set jog control mode if param is True, else turn it off"
+msgstr ""
+"Allumer le mode de contrôle par translation si param est ``Vrai``, sinon "
+"l'arrêter"
+
+#: api.tcp_client.NiryoRobot.wait:1 of
+msgid "Wait for a certain time"
+msgstr "Attendre pendant un certain temps"
+
+#: api.tcp_client.NiryoRobot.wait:3 of
+msgid "duration in seconds"
+msgstr "durée en secondes"
+
+#: ../../source/api_doc/api.rst:59
+msgid "Joints & Pose"
+msgstr "Axe & Pose"
+
+#: api.tcp_client.NiryoRobot.get_joints:1 of
+msgid "Get joints value in radians You can also use a getter ::"
+msgstr ""
+"Obtenir la valeur des axes en radians. Vous pouvez également utiliser un "
+"getter ::"
+
+#: api.tcp_client.NiryoRobot.get_joints:7
+#: api.tcp_client.NiryoRobot.inverse_kinematics:6 of
+msgid "List of joints value"
+msgstr "Liste de la valeur des joints"
+
+#: api.tcp_client.NiryoRobot.get_pose:1 of
+msgid ""
+"Get end effector link pose as [x, y, z, roll, pitch, yaw]. x, y & z are "
+"expressed in meters / roll, pitch & yaw are expressed in radians You can "
+"also use a getter ::"
+msgstr ""
+"Obtenir la position de l'effecteur en [w, y, z, roll, pitch, yaw]. x, y &"
+" z sont exprimés en mètres / roll, pitch & yaw sont exprimés en radians. "
+"Il est également possible d'utiliser un getter ::"
+
+#: api.tcp_client.NiryoRobot.get_pose_quat:1 of
+msgid "Get end effector link pose in Quaternion coordinates"
+msgstr "Obtenir la position de l'effecteur en coordonnées Quaternion"
+
+#: api.tcp_client.NiryoRobot.get_pose_quat:3 of
+msgid ""
+"Position and quaternion coordinates concatenated in a list : [x, y, z, "
+"qx, qy, qz, qw]"
+msgstr ""
+"Position and quaternion coordinates concatenated in a list : [x, y, z, "
+"qx, qy, qz, qw]"
+
+#: api.tcp_client.NiryoRobot.move_joints:1 of
+msgid "Move robot joints. Joints are expressed in radians."
+msgstr "Bouger les axes du robots. Les axes sont exprimés en radians."
+
+#: api.tcp_client.NiryoRobot.move_joints:3
+#: api.tcp_client.NiryoRobot.move_pose:4 of
+msgid "All lines of the next example realize the same operation: ::"
+msgstr ""
+"L'ensemble des lignes du prochain exemple réalisent la même opération : "
+"::\""
+
+#: api.tcp_client.NiryoRobot.forward_kinematics:4
+#: api.tcp_client.NiryoRobot.move_joints:9 of
+msgid "either 6 args (1 for each joints) or a list of 6 joints"
+msgstr "soit 6 args (1 pour chaque axe) ou une liste de 6 axes"
+
+#: api.tcp_client.NiryoRobot.move_pose:1 of
+msgid ""
+"Move robot end effector pose to a (x, y, z, roll, pitch, yaw) pose. x, y "
+"& z are expressed in meters / roll, pitch & yaw are expressed in radians"
+msgstr ""
+"Modifier la position de l'effecteur du robot à une position (x, y, z, "
+"roll, pitch, yaw). x, y & z sont exprimés en mètres, roll, pitch et yaw "
+"sont exprimés en radians"
+
+#: api.tcp_client.NiryoRobot.inverse_kinematics:3
+#: api.tcp_client.NiryoRobot.move_pose:11 of
+msgid ""
+"either 6 args (1 for each coordinates) or a list of 6 coordinates or a "
+"``PoseObject``"
+msgstr ""
+"soit 6 args (1 pour chaque coordonnées) ou une liste de 6 coordonnées, ou"
+" un  ``PoseObject``"
+
+#: api.tcp_client.NiryoRobot.move_linear_pose:1 of
+msgid ""
+"Move robot end effector pose to a (x, y, z, roll, pitch, yaw) pose with a"
+" linear trajectory"
+msgstr ""
+"Modifier la position de l'effecteur du robot à une position (x, y, "
+"z,roll, pitch, yaw) avec une trajectoire linéaire"
+
+#: api.tcp_client.NiryoRobot.move_linear_pose:3
+#: api.tcp_client.NiryoRobot.pick_from_pose:10
+#: api.tcp_client.NiryoRobot.place_from_pose:10
+#: api.tcp_client.NiryoRobot.save_pose:4 of
+msgid ""
+"either 6 args (1 for each coordinates) or a list of 6 coordinates or a "
+"PoseObject"
+msgstr ""
+"soit 6 args (1 pour chaque coordonnées) ou une liste de 6 coordonnées, ou"
+" un PoseObject"
+
+#: api.tcp_client.NiryoRobot.shift_pose:1 of
+msgid "Shift robot end effector pose along one axis"
+msgstr "Glisser la position de l'effecteur du robot le long d'un axe"
+
+#: api.tcp_client.NiryoRobot.shift_linear_pose:3
+#: api.tcp_client.NiryoRobot.shift_pose:3 of
+msgid "Axis along which the robot is shifted"
+msgstr "Axe le long duquel l'effecteur du robot est déplacé"
+
+#: api.tcp_client.NiryoRobot.shift_linear_pose:5
+#: api.tcp_client.NiryoRobot.shift_pose:5 of
+msgid "In meter for X/Y/Z and radians for roll/pitch/yaw"
+msgstr "En mètres pour X/Y/Z et en radians pour roll/pitch/yaw"
+
+#: api.tcp_client.NiryoRobot.shift_linear_pose:1 of
+msgid "Shift robot end effector pose along one axis, with a linear trajectory"
+msgstr ""
+"Glisser la position de l'effecteur du robot le long d'un axe, avec une "
+"trajectoire linéaire"
+
+#: api.tcp_client.NiryoRobot.jog_joints:1 of
+msgid ""
+"Jog robot joints'. Jog corresponds to a shift without motion planning. "
+"Values are expressed in radians."
+msgstr ""
+"Translation des axes du robot. La translation correspond à un glissement "
+"sans plannification de mouvement. Les valeurs sont exprimées en radians."
+
+#: api.tcp_client.NiryoRobot.jog_joints:5 of
+msgid "either 6 args (1 for each joints) or a list of 6 joints offset"
+msgstr "soit 6 args (1 pour chaque axe) ou une liste des offsets des 6 axes"
+
+#: api.tcp_client.NiryoRobot.jog_pose:1 of
+msgid ""
+"Jog robot end effector pose Jog corresponds to a shift without motion "
+"planning Arguments are [dx, dy, dz, d_roll, d_pitch, d_yaw] dx, dy & dz "
+"are expressed in meters / d_roll, d_pitch & d_yaw are expressed in "
+"radians"
+msgstr ""
+"Les arguments sont [dx, dy, dz, d_roll, d_pitch, d_yaw] dx, dy & dz sont "
+"exprimés en mètres / d_roll, d_pitch & d_yaw sont exprimés en radians"
+
+#: api.tcp_client.NiryoRobot.jog_pose:6 of
+msgid "either 6 args (1 for each coordinates) or a list of 6 offset"
+msgstr "soit 6 args (1 pour chaque axe) ou une liste de 6 offset"
+
+#: api.tcp_client.NiryoRobot.move_to_home_pose:1 of
+msgid "Move to a position where the forearm lays on shoulder"
+msgstr ""
+"Bouger le robot à une position dans laquelle l'avant bras du robot repose"
+" sur son épaule"
+
+#: api.tcp_client.NiryoRobot.go_to_sleep:1 of
+msgid "Go to home pose and activate learning mode"
+msgstr "Retourner à la position de départ et activer le mode apprentissage "
+
+#: api.tcp_client.NiryoRobot.forward_kinematics:1 of
+msgid ""
+"Compute forward kinematics of a given joints configuration and give the "
+"associated spatial pose"
+msgstr ""
+"Calculer la cinématique directe d'une configuration des axes donnée et "
+"donner la position dans l'espace qui y est associée"
+
+#: api.tcp_client.NiryoRobot.inverse_kinematics:1 of
+msgid "Compute inverse kinematics"
+msgstr "Calculer la cinématique inverse"
+
+#: ../../source/api_doc/api.rst:70
+msgid "Saved Poses"
+msgstr "Positions sauvegardées"
+
+#: api.tcp_client.NiryoRobot.get_pose_saved:1 of
+msgid "Get pose saved in from Ned's memory"
+msgstr "Utiliser une position sauvegardée depuis la mémoire de Ned"
+
+#: api.tcp_client.NiryoRobot.get_pose_saved:3 of
+msgid "Pose name in robot's memory"
+msgstr "Nom de la position dans la mémoire du robot"
+
+#: api.tcp_client.NiryoRobot.get_pose_saved:5 of
+msgid "Pose associated to pose_name"
+msgstr "Position associée au pose_name"
+
+#: api.tcp_client.NiryoRobot.save_pose:1 of
+msgid "Save pose in robot's memory"
+msgstr "Sauvegarder une position dans la mémoire du robot"
+
+#: api.tcp_client.NiryoRobot.delete_pose:1 of
+msgid "Delete pose from robot's memory"
+msgstr "Supprimer une position dans la mémoire du robot"
+
+#: api.tcp_client.NiryoRobot.get_saved_pose_list:1 of
+msgid "Get list of poses' name saved in robot memory"
+msgstr ""
+"Afficher la liste de noms des positions sauvegardées dans la mémoire du "
+"robot"
+
+#: ../../source/api_doc/api.rst:78
+msgid "Pick & Place"
+msgstr "Pick & Place"
+
+#: api.tcp_client.NiryoRobot.pick_from_pose:1 of
+msgid "Execute a picking from a pose."
+msgstr "Executer un prélèvement depuis une position"
+
+#: api.tcp_client.NiryoRobot.pick_from_pose:3 of
+msgid "A picking is described as :"
+msgstr "Un prélèvement est décrit comme :"
+
+#: api.tcp_client.NiryoRobot.pick_from_pose:5 of
+msgid "* going over the object"
+msgstr "* descendre en direction de l'objet"
+
+#: api.tcp_client.NiryoRobot.pick_from_pose:6
+#: api.tcp_client.NiryoRobot.place_from_pose:6 of
+msgid "* going down until height = z"
+msgstr "* descendre jusque hauteur = z"
+
+#: api.tcp_client.NiryoRobot.pick_from_pose:7 of
+msgid "* grasping with tool"
+msgstr "* attraper avec un outil"
+
+#: api.tcp_client.NiryoRobot.pick_from_pose:8 of
+msgid "* going back over the object"
+msgstr "* retourner au dessus de l'objet "
+
+#: api.tcp_client.NiryoRobot.place_from_pose:1 of
+msgid "Execute a placing from a position."
+msgstr "Executer un placement depuis une position"
+
+#: api.tcp_client.NiryoRobot.place_from_pose:3 of
+msgid "A placing is described as :"
+msgstr "Un placement est décrit comme :"
+
+#: api.tcp_client.NiryoRobot.place_from_pose:5 of
+msgid "* going over the place"
+msgstr "* aller en direction d'un emplacement"
+
+#: api.tcp_client.NiryoRobot.place_from_pose:7 of
+msgid "* releasing the object with tool"
+msgstr "* relâcher l'objet avec un outil"
+
+#: api.tcp_client.NiryoRobot.place_from_pose:8 of
+msgid "* going back over the place"
+msgstr "* retourner au dessus de l'emplacement "
+
+#: api.tcp_client.NiryoRobot.pick_and_place:1 of
+msgid "Execute a pick then a place"
+msgstr "Executer un prélèvement puis un placement"
+
+#: api.tcp_client.NiryoRobot.pick_and_place:3 of
+msgid "Pick Pose : [x, y, z, roll, pitch, yaw] or PoseObject"
+msgstr "Position de prélèvement : [x, y, z, roll, pitch, yaw] ou PoseObject"
+
+#: api.tcp_client.NiryoRobot.pick_and_place:5 of
+msgid "Place Pose : [x, y, z, roll, pitch, yaw] or PoseObject"
+msgstr "Position de placement : [x, y, z, roll, pitch, yaw] ou PoseObject"
+
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses:5
+#: api.tcp_client.NiryoRobot.pick_and_place:7 of
+msgid "Distance from waypoints before smoothing trajectory"
+msgstr "Distance entre les points de passage avant le lissage de la trajectoire"
+
+#: ../../source/api_doc/api.rst:86
+msgid "Trajectories"
+msgstr "Trajectoires"
+
+#: api.tcp_client.NiryoRobot.get_trajectory_saved:1 of
+msgid "Get trajectory saved in Ned's memory"
+msgstr "Obtenir la trajectoire sauvegardée dans la mémoire de Ned"
+
+#: api.tcp_client.NiryoRobot.get_trajectory_saved:4 of
+msgid "Trajectory"
+msgstr "Trajectoires"
+
+#: api.tcp_client.NiryoRobot.execute_trajectory_saved:1 of
+msgid "Execute trajectory from Ned's memory"
+msgstr "Exécuter la trajectoire depuis la mémoire de Ned"
+
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses:1 of
+msgid "Execute trajectory from list of poses"
+msgstr "Exécuter une trajectoire depuis une liste de positions"
+
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses:3
+#: api.tcp_client.NiryoRobot.save_trajectory:4 of
+msgid "List of [x,y,z,qx,qy,qz,qw]"
+msgstr "Liste de [x,y,z,qx,qy,qz,qw]"
+
+#: api.tcp_client.NiryoRobot.save_trajectory:1 of
+msgid "Save trajectory in robot memory"
+msgstr "Sauvegarder la trajectoire dans la mémoire du robot"
+
+#: api.tcp_client.NiryoRobot.delete_trajectory:1 of
+msgid "Delete trajectory from robot's memory"
+msgstr "Supprimer la trajectoire de la mémoire du robot."
+
+#: api.tcp_client.NiryoRobot.get_saved_trajectory_list:1 of
+msgid "Get list of trajectories' name saved in robot memory"
+msgstr ""
+"Obtenir la liste des noms des trajectoires sauvegardées dans la mémoire "
+"du robot"
+
+#: ../../source/api_doc/api.rst:95
+msgid "Tools"
+msgstr "Outils"
+
+#: api.tcp_client.NiryoRobot.get_current_tool_id:1 of
+msgid "Get equipped tool Id"
+msgstr "Obtenir l'ID de l'outil installé"
+
+#: api.tcp_client.NiryoRobot.update_tool:1 of
+msgid "Update equipped tool"
+msgstr "Mettre à jour l'outil installé"
+
+#: api.tcp_client.NiryoRobot.grasp_with_tool:1 of
+msgid ""
+"Grasp with tool | This action correspond to | - Close gripper for "
+"Grippers | - Pull Air for Vacuum pump | - Activate for Electromagnet"
+msgstr ""
+"Saisir avec l'outil | Cette action correspond à | - Close gripper pour "
+"les grippers | - Pull Air pour la pompe à vide | - Activate pour "
+"l'électroaimant"
+
+#: api.tcp_client.NiryoRobot.release_with_tool:1 of
+msgid ""
+"Release with tool | This action correspond to | - Open gripper for "
+"Grippers | - Push Air for Vacuum pump | - Deactivate for Electromagnet"
+msgstr ""
+"Relâcher avec l'outil | Cette action correspond à | - Open gripper pour "
+"les grippers | - Push Air pour la pompe à vide | - Deactivate pour "
+"l'électroaimant"
+
+#: api.tcp_client.NiryoRobot.open_gripper:1 of
+msgid "Open gripper associated to 'gripper_id' with a speed 'speed'"
+msgstr ""
+"Ouvrir le gripper associé à 'gripper_id' avec une vitesse correspondant à"
+" 'speed'"
+
+#: api.tcp_client.NiryoRobot.close_gripper:3
+#: api.tcp_client.NiryoRobot.open_gripper:3 of
+msgid "Between 100 & 1000"
+msgstr "Entre 100 & 1000"
+
+#: api.tcp_client.NiryoRobot.close_gripper:1 of
+msgid "Close gripper associated to 'gripper_id' with a speed 'speed'"
+msgstr ""
+"Fermer le gripper associé à 'gripper_id'avec une vitesse correspondant à "
+"'speed'"
+
+#: api.tcp_client.NiryoRobot.pull_air_vacuum_pump:1 of
+msgid "Pull air of vacuum pump"
+msgstr "Aspirer l'air de la pompe à vide"
+
+#: api.tcp_client.NiryoRobot.push_air_vacuum_pump:1 of
+msgid "Push air of vacuum pump"
+msgstr "Souffler l'air de la pompe à vide"
+
+#: api.tcp_client.NiryoRobot.setup_electromagnet:1 of
+msgid "Setup electromagnet on pin"
+msgstr "Installer l'électroaimant sur une broche"
+
+#: api.tcp_client.NiryoRobot.activate_electromagnet:1 of
+msgid "Activate electromagnet associated to electromagnet_id on pin_id"
+msgstr "Activer l'électroaimant associé à electromagnet_id sur pin_id"
+
+#: api.tcp_client.NiryoRobot.deactivate_electromagnet:1 of
+msgid "Deactivate electromagnet associated to electromagnet_id on pin_id"
+msgstr "Désactiver l'électroaimant associé à electromagnet_id sur pin_id"
+
+#: ../../source/api_doc/api.rst:105
+msgid "Hardware"
+msgstr "Matériel"
+
+#: api.tcp_client.NiryoRobot.set_pin_mode:1 of
+msgid "Set pin number pin_id to mode pin_mode"
+msgstr "Régler le numéro de broche pin_id sur le mode pin_mode"
+
+#: api.tcp_client.NiryoRobot.digital_write:1 of
+msgid "Set pin_id state to digital_state"
+msgstr "Régler l'état de pin_id sur digital_state"
+
+#: api.tcp_client.NiryoRobot.digital_read:1 of
+msgid "Read pin number pin_id and return its state"
+msgstr "Lire le numéro de broche pin_id et retourne à son état"
+
+#: api.tcp_client.NiryoRobot.get_hardware_status:1 of
+msgid ""
+"Get hardware status : Temperature, Hardware version, motors names & types"
+" ..."
+msgstr ""
+"Obtenir le statut hardware : température, version hardware, noms et types"
+" des moteurs ..."
+
+#: api.tcp_client.NiryoRobot.get_hardware_status:3 of
+msgid "Infos contains in a HardwareStatusObject"
+msgstr "Informations contenues dans un HardwareStatusObject"
+
+#: api.tcp_client.NiryoRobot.get_digital_io_state:1 of
+msgid "Get Digital IO state : Names, modes, states"
+msgstr "Obtenir l'état des IO digitaux : noms, modes, états"
+
+#: api.tcp_client.NiryoRobot.get_digital_io_state:3 of
+msgid "List of DigitalPinObject instance"
+msgstr "Liste des instances DigitalPinObject"
+
+#: ../../source/api_doc/api.rst:114
+msgid "Conveyor"
+msgstr "Convoyeur"
+
+#: api.tcp_client.NiryoRobot.set_conveyor:1 of
+msgid "Activate a new conveyor and return its ID"
+msgstr "Activer un nouveau convoyeur et renvoyer son ID"
+
+#: api.tcp_client.NiryoRobot.set_conveyor:3 of
+msgid ":return : New conveyor ID :rtype: ConveyorID"
+msgstr ":retourne : Id du nouveau convoyeur :rtype: ConveyorID"
+
+#: api.tcp_client.NiryoRobot.unset_conveyor:1 of
+msgid "Remove specific conveyor."
+msgstr "Retirer un convoyeur spécifique"
+
+#: api.tcp_client.NiryoRobot.unset_conveyor:3 of
+msgid "Basically, ConveyorID.ONE or ConveyorID.TWO"
+msgstr "Généralement, ConveyorID.ONE ou ConveyorID.TWO"
+
+#: api.tcp_client.NiryoRobot.run_conveyor:1 of
+msgid "Run conveyor at id 'conveyor_id'"
+msgstr "Activer le convoyeur avec l'id 'conveyor_id'"
+
+#: api.tcp_client.NiryoRobot.stop_conveyor:1 of
+msgid "Stop conveyor at id 'conveyor_id'"
+msgstr "Arrêter le convoyeur avec l'id 'conveyor_id'"
+
+#: api.tcp_client.NiryoRobot.control_conveyor:1 of
+msgid "Control conveyor at id 'conveyor_id'"
+msgstr "Contrôler le convoyeur avec l'id 'conveyor_id'"
+
+#: api.tcp_client.NiryoRobot.control_conveyor:7 of
+msgid "New speed which is a percentage of maximum speed"
+msgstr "Nouvelle vitesse qui est un pourcentage de la vitesse maximum"
+
+#: api.tcp_client.NiryoRobot.control_conveyor:9 of
+msgid "Conveyor direction"
+msgstr "Direction du convoyeur"
+
+#: api.tcp_client.NiryoRobot.get_connected_conveyors_id:1 of
+msgid "List of the connected conveyors' ID"
+msgstr "Liste des ID des convoyeurs connectés"
+
+#: ../../source/api_doc/api.rst:123
+msgid "Vision"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_img_compressed:1 of
+msgid ""
+"Get image from video stream in a compressed format.  Use "
+"``uncompress_image`` from the vision package to uncompress it"
+msgstr ""
+"Obtenir l'image du flux vidéo dans un format compressé. Utiliser "
+"``uncompress_image`` du package vision pour les décompresser"
+
+#: api.tcp_client.NiryoRobot.get_img_compressed:4 of
+msgid "string containing a JPEG compressed image"
+msgstr "Chaîne contenant une image JPEG compressée"
+
+#: api.tcp_client.NiryoRobot.get_target_pose_from_rel:1 of
+msgid ""
+"Given a pose (x_rel, y_rel, yaw_rel) relative to a workspace, this "
+"function returns the robot pose in which the current tool will be able to"
+" pick an object at this pose."
+msgstr ""
+"Pour une pose (x_rel, y_rel, yaw_rel) donnée relative à un workspace, "
+"cette fonction retourne la position du robot dans laquelle l'outil actuel"
+" sera capable d'attraper un objet."
+
+#: api.tcp_client.NiryoRobot.get_target_pose_from_rel:4 of
+msgid ""
+"The height_offset argument (in m) defines how high the tool will hover "
+"over the workspace. If height_offset = 0, the tool will nearly touch the "
+"workspace."
+msgstr ""
+"L'argument height_offset (en mètres) définit à quelle hauteur l'outil va "
+"passer au dessus du workspace. Si height_offset = 0, alors l'outil "
+"touchera presque l'espace de travail."
+
+#: api.tcp_client.NiryoRobot.detect_object:3
+#: api.tcp_client.NiryoRobot.get_target_pose_from_cam:4
+#: api.tcp_client.NiryoRobot.get_target_pose_from_rel:7
+#: api.tcp_client.NiryoRobot.move_to_object:3
+#: api.tcp_client.NiryoRobot.vision_pick:20 of
+msgid "name of the workspace"
+msgstr "Nom du workspace"
+
+#: api.tcp_client.NiryoRobot.get_target_pose_from_cam:6
+#: api.tcp_client.NiryoRobot.get_target_pose_from_rel:9
+#: api.tcp_client.NiryoRobot.move_to_object:5
+#: api.tcp_client.NiryoRobot.vision_pick:22 of
+msgid "offset between the workspace and the target height"
+msgstr "Offset entre le workspace sa hauteur cible"
+
+#: api.tcp_client.NiryoRobot.get_target_pose_from_rel:11 of
+msgid "x relative pose (between 0 and 1)"
+msgstr "pose relative de x (entre 0 et 1)"
+
+#: api.tcp_client.NiryoRobot.get_target_pose_from_rel:13 of
+msgid "y relative pose (between 0 and 1)"
+msgstr "pose relative de y (entre 0 et 1)"
+
+#: api.tcp_client.NiryoRobot.get_target_pose_from_rel:15 of
+msgid "Angle in radians"
+msgstr "Angle en radians"
+
+#: api.tcp_client.NiryoRobot.get_target_pose_from_rel:18 of
+msgid "target_pose"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_target_pose_from_cam:1 of
+msgid ""
+"First detects the specified object using the camera and then returns the "
+"robot pose in which the object can be picked with the current tool"
+msgstr ""
+"Commence par détecter l'objet spécifié en utilisant la caméra puis "
+"renvoie la position du robot à laquelle l'objet peut être attrapé avec "
+"l'outil utilisé."
+
+#: api.tcp_client.NiryoRobot.detect_object:5
+#: api.tcp_client.NiryoRobot.get_target_pose_from_cam:8
+#: api.tcp_client.NiryoRobot.move_to_object:7
+#: api.tcp_client.NiryoRobot.vision_pick:24 of
+msgid "shape of the target"
+msgstr "Forme de la cible"
+
+#: api.tcp_client.NiryoRobot.detect_object:7
+#: api.tcp_client.NiryoRobot.get_target_pose_from_cam:10
+#: api.tcp_client.NiryoRobot.move_to_object:9
+#: api.tcp_client.NiryoRobot.vision_pick:26 of
+msgid "color of the target"
+msgstr "Couleur de la cible"
+
+#: api.tcp_client.NiryoRobot.detect_object:9
+#: api.tcp_client.NiryoRobot.get_target_pose_from_cam:12 of
+msgid "object_found, object_pose, object_shape, object_color"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.vision_pick:1 of
+msgid ""
+"Picks the specified object from the workspace. This function has multiple"
+" phases:"
+msgstr ""
+"Attrape l'objet spécifié sur le workspace. Cette fonction est composée de"
+" plusieurs phases :"
+
+#: api.tcp_client.NiryoRobot.vision_pick:3 of
+msgid "1. detect object using the camera"
+msgstr "1. détecte l'objet en utilisant la caméra"
+
+#: api.tcp_client.NiryoRobot.vision_pick:4 of
+msgid "2. prepare the current tool for picking"
+msgstr "2. prépare l'outil utilisé pour la saisie"
+
+#: api.tcp_client.NiryoRobot.vision_pick:5 of
+msgid "3. approach the object"
+msgstr "3. approche l'objet"
+
+#: api.tcp_client.NiryoRobot.vision_pick:6 of
+msgid "4. move down to the correct picking pose"
+msgstr "4. descend jusque la bonne position de saisie"
+
+#: api.tcp_client.NiryoRobot.vision_pick:7 of
+msgid "5. actuate the current tool"
+msgstr "5. actionne l'outil utilisé"
+
+#: api.tcp_client.NiryoRobot.vision_pick:8 of
+msgid "6. lift the object"
+msgstr "6. soulève l'objet"
+
+#: api.tcp_client.NiryoRobot.vision_pick:10 of
+msgid "Example::"
+msgstr "Exemple ::"
+
+#: api.tcp_client.NiryoRobot.move_to_object:11
+#: api.tcp_client.NiryoRobot.vision_pick:28 of
+msgid "object_found, object_shape, object_color"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.move_to_object:1 of
+msgid "Same as `get_target_pose_from_cam` but directly moves to this position"
+msgstr ""
+"Même fonction que `get_target_pose_from_cam` mais bouge directement à "
+"cette position"
+
+#: api.tcp_client.NiryoRobot.detect_object:1 of
+msgid "Detect object in workspace and return its pose and characteristics"
+msgstr ""
+"Détecter l'objet sur le workspace et renvoyer sa position et ses "
+"caractéristiques"
+
+#: api.tcp_client.NiryoRobot.get_camera_intrinsics:1 of
+msgid "Get calibration object: camera intrinsics, distortions coefficients"
+msgstr ""
+"Obtenir la calibration de l'objet : paramètres instrinsèques de la "
+"caméra, taux de distorsion"
+
+#: api.tcp_client.NiryoRobot.get_camera_intrinsics:3 of
+msgid "camera intrinsics, distortions coefficients"
+msgstr "paramètres instrinsèque de la caméra, taux de distorsion"
+
+#: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses:1 of
+msgid ""
+"Save workspace by giving the poses of the robot to point its 4 corners "
+"with the calibration Tip. Corners should be in the good order. Markers' "
+"pose will be deduced from these poses"
+msgstr ""
+"Sauvegarder le workspace en donnant au robot les 4 positions lui "
+"permettant de pointer ses 4 coins avec la pointe de calibration. Les "
+"coins doivent être dans le bon ordre. La position de ces marqueurs sera "
+"déduite de ces positions."
+
+#: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses:5 of
+msgid "Poses should be either a list [x, y, z, roll, pitch, yaw] or a PoseObject"
+msgstr ""
+"Les positions peuvent également être une liste [x, y, z, roll, pitch, "
+"yaw] ou un PoseObject."
+
+#: api.tcp_client.NiryoRobot.save_workspace_from_points:4
+#: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses:7 of
+msgid "workspace name, maximum lenght 30 char."
+msgstr "nom du workspace, maximum 30 caractères"
+
+#: api.tcp_client.NiryoRobot.save_workspace_from_points:1 of
+msgid ""
+"Save workspace by giving the points of worskpace's 4 corners. Points are "
+"written as [x, y, z] Corners should be in the good order."
+msgstr ""
+"Sauvegarder le workspace en donnant les points des 4 coins du workspaces."
+" Ces points sont écrits [x, y, z]. Les coins doivent être dans le bon "
+"ordre."
+
+#: api.tcp_client.NiryoRobot.delete_workspace:1 of
+msgid "Delete workspace from robot's memory"
+msgstr "Supprimer le workspace de la mémoire du robot"
+
+#: api.tcp_client.NiryoRobot.get_workspace_ratio:1 of
+msgid "Get workspace ratio from robot's memory"
+msgstr "Obtenir le ratio du workspace depuis la mémoire du robot"
+
+#: api.tcp_client.NiryoRobot.get_workspace_list:1 of
+msgid "Get list of workspaces' name store in robot's memory"
+msgstr "Obtenir la liste des noms des workspaces stockés dans la mémoire du robot"
+
+#: ../../source/api_doc/api.rst:135
+msgid "Enums"
+msgstr "Enums (énumérations)"
+
+#: ../../source/api_doc/api.rst:137
+msgid "Enums are used to pass specific parameters to functions."
+msgstr ""
+"Les énumérations sont utilisées pour passer des paramètres spécifiques "
+"aux fonctions."
+
+#: ../../source/api_doc/api.rst:139
+msgid ""
+"For instance, :meth:`~.api.tcp_client.NiryoRobot.change_tool` will need a"
+" parameter from :class:`~.api.objects.ToolID` enum ::"
+msgstr ""
+"Par exemple, :meth:`~.api.tcp_client.NiryoRobot.change_tool` aura besoin "
+"d'un paramètre depuis l'enum :class:`~.api.objects.ToolID` ::"
+
+#: ../../source/api_doc/api.rst:145
+msgid "List of enums:"
+msgstr "Liste des énumérations "
+
+#: ../../source/api_doc/api.rst:147
+msgid ":class:`~.api.objects.CalibrateMode`"
+msgstr ""
+
+#: ../../source/api_doc/api.rst:148
+msgid ":class:`~.api.objects.RobotAxis`"
+msgstr ""
+
+#: ../../source/api_doc/api.rst:149
+msgid ":class:`~.api.objects.ToolID`"
+msgstr ""
+
+#: ../../source/api_doc/api.rst:150
+msgid ":class:`~.api.objects.PinMode`"
+msgstr ""
+
+#: ../../source/api_doc/api.rst:151
+msgid ":class:`~.api.objects.PinState`"
+msgstr ""
+
+#: ../../source/api_doc/api.rst:152
+msgid ":class:`~.api.objects.PinID`"
+msgstr ""
+
+#: ../../source/api_doc/api.rst:153
+msgid ":class:`~.api.objects.ConveyorID`"
+msgstr ""
+
+#: ../../source/api_doc/api.rst:154
+msgid ":class:`~.api.objects.ConveyorDirection`"
+msgstr ""
+
+#: ../../source/api_doc/api.rst:155
+msgid ":class:`~.api.objects.ObjectColor`"
+msgstr ""
+
+#: ../../source/api_doc/api.rst:156
+msgid ":class:`~.api.objects.ObjectShape`"
+msgstr ""
+
+#: api.enums_communication.CalibrateMode:1 of
+msgid "Enumeration of Calibration Modes"
+msgstr "Énumération des modes de calibration"
+
+#: api.enums_communication.RobotAxis:1 of
+msgid "Enumeration of Robot Axis : it used for Shift command"
+msgstr "Énumération des axes du robot : utilisé pour la commande shift"
+
+#: api.enums_communication.ToolID:1 of
+msgid "Enumeration of Tools IDs"
+msgstr "Énumération des ID des outils"
+
+#: api.enums_communication.PinMode:1 of
+msgid "Enumeration of Pin Modes"
+msgstr "Énumération des modes des broches"
+
+#: api.enums_communication.PinState:1 of
+msgid "Pin State is either LOW or HIGH"
+msgstr "L'état des broches est soit LOW ou HIGH"
+
+#: api.enums_communication.PinID:1 of
+msgid "Enumeration of Robot Pins"
+msgstr "Énumération des broches du robot"
+
+#: api.enums_communication.ConveyorID:1 of
+msgid "Enumeration of Conveyor IDs used for Conveyor control"
+msgstr "Énumération des ID du convoyeur utilisés pour le contrôle du convoyeur"
+
+#: api.enums_communication.ConveyorDirection:1 of
+msgid "Enumeration of Conveyor Directions used for Conveyor control"
+msgstr ""
+"Énumération des directions du convoyeur utilisés pour le contrôle du "
+"convoyeur"
+
+#: api.enums_communication.ObjectColor:1 of
+msgid "Enumeration of Colors available for image processing"
+msgstr "Énumération des couleurs disponibles pour le traitement d'images"
+
+#: api.enums_communication.ObjectShape:1 of
+msgid "Enumeration of Shapes available for image processing"
+msgstr "Énumération des formes disponibles pour le traitement d'images"
+
+#: ../../source/api_doc/api.rst:169
+msgid "Python object classes"
+msgstr "Classes d'objets Python"
+
+#: ../../source/api_doc/api.rst:171
+msgid "Special objects"
+msgstr "Objets spéciaux"
+
+#: api.objects.PoseObject:1 of
+msgid "Pose object which stores x, y, z, roll, pitch & yaw parameters"
+msgstr "Pose object qui stocke les paramètres x, y, z, roll, pitch & yaw"
+
+#: api.objects.PoseObject.copy_with_offsets:1 of
+msgid "Create a new pose from copying from copying actual pose with offsets"
+msgstr ""
+"Créer une nouvelle position en copiant a position actuelle avec des "
+"offsets "
+
+#: api.objects.PoseObject.to_list:1 of
+msgid ""
+"Return a list [x, y, z, roll, pitch, yaw] corresponding to the pose's "
+"parameters"
+msgstr ""
+"Retourne une liste [x, y, z, roll, pitch, yaw] correspondant aux "
+"paramètres de la position."
+
+#: api.objects.HardwareStatusObject:1 of
+msgid "Object used to store every hardware information"
+msgstr "Objet utilisé pour stocker toutes les informations matérielles"
+
+#: api.objects.DigitalPinObject:1 of
+msgid "Object used to store information on digital pins"
+msgstr ""
+"Objet utilisé pour stocker toutes les informations relatives aux digital "
+"pins"
+
+#~ msgid "Close connection with robot"
+#~ msgstr "Arrêter la connexion avec le robot"
+
+#~ msgid "Return type"
+#~ msgstr "Type de la variable de retour"
+
+#~ msgid "Connect to the TCP Server"
+#~ msgstr "Se connecter au serveur TCP"
+
+#~ msgid "Parameters"
+#~ msgstr "Paramètres"
+
+#~ msgid "IP Address"
+#~ msgstr "Adresse IP"
+
+#~ msgid ""
+#~ "Calibrate (manually or automatically) motors."
+#~ " Automatic calibration will do nothing "
+#~ "if motors are already calibrated"
+#~ msgstr ""
+#~ "Calibrer (manuellement ou automatiquement) les"
+#~ " moteurs. La calibration automatique ne "
+#~ "provoquera rien si les moteurs sont "
+#~ "déjà calibrés"
+
+#~ msgid "Auto or Manual"
+#~ msgstr "Auto ou Manuel"
+
+#~ msgid "Start a automatic motors calibration if motors are not calibrated yet"
+#~ msgstr ""
+#~ "Démarre une calibration automatique des "
+#~ "moteurs si les moteurs n'ont pas "
+#~ "encore été calibrés"
+
+#~ msgid "Return a bool indicating whereas the robot motors need to be calibrate"
+#~ msgstr ""
+#~ "Renvoie un booléen indiquant si les "
+#~ "moteurs du robot ont besoin d'être "
+#~ "calibrés"
+
+#~ msgid "Get learning mode state"
+#~ msgstr "Afficher l'état du mode apprentissage"
+
+#~ msgid "Returns"
+#~ msgstr "Retourne"
+
+#~ msgid "``True`` if learning mode is on"
+#~ msgstr "``Vrai`` si le mode apprentissage est activé"
+
+#~ msgid "Set learning mode if param is ``True``, else turn it off"
+#~ msgstr "Allumer le mode apprentissage si param est ``Vrai``, sinon l'arrêter"
+
+#~ msgid "``True`` or ``False``"
+#~ msgstr "``Vrai`` ou ``Faux``"
+
+#~ msgid "Limit arm max velocity to a percentage of its maximum velocity"
+#~ msgstr ""
+#~ "Limiter la vitesse maximum du bras "
+#~ "à un pourcentage de sa vitesse "
+#~ "maximum"
+
+#~ msgid "Should be between 1 & 100"
+#~ msgstr "Peut être entre 1 & 100"
+
+#~ msgid "Set jog control mode if param is True, else turn it off"
+#~ msgstr ""
+#~ "Allumer le mode de contrôle par "
+#~ "translation si param est ``Vrai``, sinon"
+#~ " l'arrêter"
+
+#~ msgid "Wait for a certain time"
+#~ msgstr "Attendre pendant un certain temps"
+
+#~ msgid "duration in seconds"
+#~ msgstr "durée en secondes"
+
+#~ msgid "Get joints value in radians You can also use a getter ::"
+#~ msgstr ""
+#~ "Obtenir la valeur des axes en "
+#~ "radians. Vous pouvez également utiliser "
+#~ "un getter ::"
+
+#~ msgid "List of joints value"
+#~ msgstr "Liste de la valeur des joints"
+
+#~ msgid ""
+#~ "Get end effector link pose as [x,"
+#~ " y, z, roll, pitch, yaw]. x, y"
+#~ " & z are expressed in meters /"
+#~ " roll, pitch & yaw are expressed "
+#~ "in radians You can also use a "
+#~ "getter ::"
+#~ msgstr ""
+#~ "Obtenir la position de l'effecteur en"
+#~ " [w, y, z, roll, pitch, yaw]. "
+#~ "x, y & z sont exprimés en "
+#~ "mètres / roll, pitch & yaw sont"
+#~ " exprimés en radians. Il est "
+#~ "également possible d'utiliser un getter "
+#~ "::"
+
+#~ msgid "Get end effector link pose in Quaternion coordinates"
+#~ msgstr "Obtenir la position de l'effecteur en coordonées Quaternion"
+
+#~ msgid ""
+#~ "Position and quaternion coordinates "
+#~ "concatenated in a list : [x, y,"
+#~ " z, qx, qy, qz, qw]"
+#~ msgstr ""
+#~ "Position and quaternion coordinates "
+#~ "concatenated in a list : [x, y,"
+#~ " z, qx, qy, qz, qw]"
+
+#~ msgid "Move robot joints. Joints are expressed in radians."
+#~ msgstr "Bouger les axes du robots. Les axes sont exprimés en radians."
+
+#~ msgid "All lines of the next example realize the same operation: ::"
+#~ msgstr ""
+#~ "L'ensemble des lignes du prochain "
+#~ "exemple réalisent la même opération :"
+#~ " ::\""
+
+#~ msgid "either 6 args (1 for each joints) or a list of 6 joints"
+#~ msgstr "soit 6 args (1 pour chaque axe) ou une liste de 6 axes"
+
+#~ msgid ""
+#~ "Move robot end effector pose to a"
+#~ " (x, y, z, roll, pitch, yaw) "
+#~ "pose. x, y & z are expressed "
+#~ "in meters / roll, pitch & yaw "
+#~ "are expressed in radians"
+#~ msgstr ""
+#~ "Modifier la position de l'effecteur du"
+#~ " robot à une position (x, y, z,"
+#~ " roll, pitch, yaw). x, y & z"
+#~ " sont exprimés en mètres, roll, pitch"
+#~ " et yaw sont exprimés en radians"
+
+#~ msgid ""
+#~ "either 6 args (1 for each "
+#~ "coordinates) or a list of 6 "
+#~ "coordinates or a ``PoseObject``"
+#~ msgstr ""
+#~ "soit 6 args (1 pour chaque "
+#~ "coordonnées) ou une liste de 6 "
+#~ "coordonnées, ou un  ``PoseObject``"
+
+#~ msgid ""
+#~ "Move robot end effector pose to a"
+#~ " (x, y, z, roll, pitch, yaw) "
+#~ "pose with a linear trajectory"
+#~ msgstr ""
+#~ "Modifier la position de l'effecteur du"
+#~ " robot à une position (x, y, z,"
+#~ " roll, pitch, yaw) avec une "
+#~ "trajectoire linéaire"
+
+#~ msgid ""
+#~ "either 6 args (1 for each "
+#~ "coordinates) or a list of 6 "
+#~ "coordinates or a PoseObject"
+#~ msgstr ""
+#~ "soit 6 args (1 pour chaque "
+#~ "coordonnées) ou une liste de 6 "
+#~ "coordonnées, ou un PoseObject"
+
+#~ msgid "Shift robot end effector pose along one axis"
+#~ msgstr "Glisser la position de l'effecteur du robot le long d'un axe"
+
+#~ msgid "Axis along which the robot is shifted"
+#~ msgstr "Axe le long duquel l'effecteur du robot est déplacé"
+
+#~ msgid "In meter for X/Y/Z and radians for roll/pitch/yaw"
+#~ msgstr "En mètres pour X/Y/Z et en radians pour roll/pitch/yaw"
+
+#~ msgid "Shift robot end effector pose along one axis, with a linear trajectory"
+#~ msgstr ""
+#~ "lisser la position de l'effecteur du "
+#~ "robot le long d'un axe, avec une"
+#~ " trajectoire linéaire"
+
+#~ msgid ""
+#~ "Jog robot joints'. Jog corresponds to"
+#~ " a shift without motion planning. "
+#~ "Values are expressed in radians."
+#~ msgstr ""
+#~ "Translation des axes du robot. La "
+#~ "translation correspond à un glissement "
+#~ "sans plannification de mouvement. Les "
+#~ "valeurs sont exprimées en radians."
+
+#~ msgid "either 6 args (1 for each joints) or a list of 6 joints offset"
+#~ msgstr "soit 6 args (1 pour chaque axe) ou une liste des offsets des 6 axes"
+
+#~ msgid ""
+#~ "Jog robot end effector pose Jog "
+#~ "corresponds to a shift without motion"
+#~ " planning Arguments are [dx, dy, dz,"
+#~ " d_roll, d_pitch, d_yaw] dx, dy & "
+#~ "dz are expressed in meters / "
+#~ "d_roll, d_pitch & d_yaw are expressed"
+#~ " in radians"
+#~ msgstr ""
+#~ "Les arguments sont [dx, dy, dz, "
+#~ "d_roll, d_pitch, d_yaw] dx, dy & "
+#~ "dz sont exprimés en mètres / "
+#~ "d_roll, d_pitch & d_yaw sont exprimés"
+#~ " en radians"
+
+#~ msgid "either 6 args (1 for each coordinates) or a list of 6 offset"
+#~ msgstr "soit 6 args (1 pour chaque axe) ou une liste de 6 offset"
+
+#~ msgid "Move to a position where the forearm lays on shoulder"
+#~ msgstr ""
+#~ "Bouger le robot à une position "
+#~ "dans laquelle l'avant bras repose sur"
+#~ " l'épaule"
+
+#~ msgid "Go to home pose and activate learning mode"
+#~ msgstr "Retourner à la position de départ et activer le mode apprentissage "
+
+#~ msgid ""
+#~ "Compute forward kinematics of a given"
+#~ " joints configuration and give the "
+#~ "associated spatial pose"
+#~ msgstr ""
+#~ "Calculer la cinématique directe d'une "
+#~ "configuration des axes donnée et donner"
+#~ " la position dans l'espace qui y "
+#~ "est associée"
+
+#~ msgid "Compute inverse kinematics"
+#~ msgstr "Calculer la cinématique inverse"
+
+#~ msgid "Get pose saved in from Ned's memory"
+#~ msgstr "Utiliser une position sauvegardée depuis la mémoire de Ned"
+
+#~ msgid "Pose name in robot's memory"
+#~ msgstr "Nom de la position dans la mémoire du robot"
+
+#~ msgid "Pose associated to pose_name"
+#~ msgstr "Position associée au pose_name"
+
+#~ msgid "Save pose in robot's memory"
+#~ msgstr "Sauvegarder une position dans la mémoire du robot"
+
+#~ msgid "Delete pose from robot's memory"
+#~ msgstr "Supprimer une position dans la mémoire du robot"
+
+#~ msgid "Get list of poses' name saved in robot memory"
+#~ msgstr ""
+#~ "Afficher la liste de noms des "
+#~ "positions sauvegardées dans la mémoire "
+#~ "du robot"
+
+#~ msgid "Execute a picking from a pose."
+#~ msgstr "Executer un prélèvement depuis une position"
+
+#~ msgid "A picking is described as :"
+#~ msgstr "Un prélèvement est décrit comme :"
+
+#~ msgid "* going over the object"
+#~ msgstr "* aller en direction d'un objet"
+
+#~ msgid "* going down until height = z"
+#~ msgstr "* descendre jusque hauteur = z"
+
+#~ msgid "* grasping with tool"
+#~ msgstr "* attraper avec un outil"
+
+#~ msgid "* going back over the object"
+#~ msgstr "* retourner au dessus de l'objet "
+
+#~ msgid "Execute a placing from a position."
+#~ msgstr "Executer un placement depuis une position"
+
+#~ msgid "A placing is described as :"
+#~ msgstr "Un placement est décrit comme :"
+
+#~ msgid "* going over the place"
+#~ msgstr "* aller en direction d'un endroit"
+
+#~ msgid "* releasing the object with tool"
+#~ msgstr "* relâcher l'objet avec un outil"
+
+#~ msgid "* going back over the place"
+#~ msgstr "* retourner au dessus de l'endroit "
+
+#~ msgid "Execute a pick then a place"
+#~ msgstr "Executer un prélèvement puis un placement"
+
+#~ msgid "Pick Pose : [x, y, z, roll, pitch, yaw] or PoseObject"
+#~ msgstr "Position de prélèvement : [x, y, z, roll, pitch, yaw] ou PoseObject"
+
+#~ msgid "Place Pose : [x, y, z, roll, pitch, yaw] or PoseObject"
+#~ msgstr "Position de placement : [x, y, z, roll, pitch, yaw] ou PoseObject"
+
+#~ msgid "Distance from waypoints before smoothing trajectory"
+#~ msgstr "Distance entre les points de passage avant le lissage de la trajectoire"
+
+#~ msgid "Get trajectory saved in Ned's memory"
+#~ msgstr "Obtenir la trajectoire sauvegardée dans la mémoire de Ned"
+
+#~ msgid "Trajectory"
+#~ msgstr "Trajectoires"
+
+#~ msgid "Execute trajectory from Ned's memory"
+#~ msgstr "Exécuter la trajectoire depuis la mémoire de Ned"
+
+#~ msgid "Execute trajectory from list of poses"
+#~ msgstr "Exécuter une trajectoire depuis une liste de positions"
+
+#~ msgid "List of [x,y,z,qx,qy,qz,qw]"
+#~ msgstr "Liste de [x,y,z,qx,qy,qz,qw]"
+
+#~ msgid "Save trajectory in robot memory"
+#~ msgstr "Sauvegarder la trajectoire dans la mémoire du robot"
+
+#~ msgid "Delete trajectory from robot's memory"
+#~ msgstr "Supprimer la trajectoire de la mémoire du robot."
+
+#~ msgid "Get list of trajectories' name saved in robot memory"
+#~ msgstr ""
+#~ "Obtenir la liste des noms des "
+#~ "trajectoires sauvegardées dans la mémoire "
+#~ "du robot"
+
+#~ msgid "Get equipped tool Id"
+#~ msgstr "Obtenir l'ID de l'outil installé"
+
+#~ msgid "Update equipped tool"
+#~ msgstr "Mettre à jour l'outil installé"
+
+#~ msgid ""
+#~ "Grasp with tool | This action "
+#~ "correspond to | - Close gripper "
+#~ "for Grippers | - Pull Air for "
+#~ "Vacuum pump | - Activate for "
+#~ "Electromagnet"
+#~ msgstr ""
+#~ "Saisir avec l'outil | Cette action "
+#~ "correspond à | - Close gripper "
+#~ "pour les grippers | - Pull Air "
+#~ "pour la pompe à vide | - "
+#~ "Activate pour l'électroaimant"
+
+#~ msgid ""
+#~ "Release with tool | This action "
+#~ "correspond to | - Open gripper for"
+#~ " Grippers | - Push Air for "
+#~ "Vacuum pump | - Deactivate for "
+#~ "Electromagnet"
+#~ msgstr ""
+#~ "Relâcher avec l'outil | Cette action "
+#~ "correspond à | - Open gripper pour"
+#~ " les grippers | - Push Air pour"
+#~ " la pompe à vide | - Deactivate"
+#~ " pour l'électroaimant"
+
+#~ msgid "Open gripper associated to 'gripper_id' with a speed 'speed'"
+#~ msgstr ""
+#~ "Ouvrir le gripper associé à 'gripper_id'"
+#~ " avec une vitesse correspondant à "
+#~ "'speed'"
+
+#~ msgid "Between 100 & 1000"
+#~ msgstr "Entre 100 & 1000"
+
+#~ msgid "Close gripper associated to 'gripper_id' with a speed 'speed'"
+#~ msgstr ""
+#~ "Fermer le gripper associé à "
+#~ "'gripper_id'avec une vitesse correspondant à"
+#~ " 'speed'"
+
+#~ msgid "Pull air of vacuum pump"
+#~ msgstr "Aspirer l'air de la pompe à vide"
+
+#~ msgid "Push air of vacuum pump"
+#~ msgstr "Souffler l'air de la pompe à vide"
+
+#~ msgid "Setup electromagnet on pin"
+#~ msgstr "Installer l'électroaimant sur une broche"
+
+#~ msgid "Activate electromagnet associated to electromagnet_id on pin_id"
+#~ msgstr "Activer l'électroaimant associé à electromagnet_id sur pin_id"
+
+#~ msgid "Deactivate electromagnet associated to electromagnet_id on pin_id"
+#~ msgstr "Désactiver l'électroaimant associé à electromagnet_id sur pin_id"
+
+#~ msgid "Set pin number pin_id to mode pin_mode"
+#~ msgstr "Régler le numéro de broche pin_id sur le mode pin_mode"
+
+#~ msgid "Set pin_id state to digital_state"
+#~ msgstr "Régler l'état de pin_id sur digital_state"
+
+#~ msgid "Read pin number pin_id and return its state"
+#~ msgstr "Lire le numéro de broche pin_id et retourne à son état"
+
+#~ msgid ""
+#~ "Get hardware status : Temperature, "
+#~ "Hardware version, motors names & types"
+#~ " ..."
+#~ msgstr ""
+#~ "Obtenir le statut hardware : "
+#~ "température, version hardware, noms et "
+#~ "types des moteurs ..."
+
+#~ msgid "Infos contains in a HardwareStatusObject"
+#~ msgstr "Informations contenues dans un HardwareStatusObject"
+
+#~ msgid "Get Digital IO state : Names, modes, states"
+#~ msgstr "Obtenir l'état des IO digitaux : noms, modes, états"
+
+#~ msgid "List of DigitalPinObject instance"
+#~ msgstr "Liste des instances DigitalPinObject"
+
+#~ msgid "Activate a new conveyor and return its ID"
+#~ msgstr "Activer un nouveau convoyeur et renvoyer son ID"
+
+#~ msgid ":return : New conveyor ID :rtype: ConveyorID"
+#~ msgstr ":retourne : Id du nouveau convoyeur :rtype: ConveyorID"
+
+#~ msgid "Remove specific conveyor."
+#~ msgstr "Retirer un convoyeur spécifique"
+
+#~ msgid "Basically, ConveyorID.ONE or ConveyorID.TWO"
+#~ msgstr "Généralement, ConveyorID.ONE ou ConveyorID.TWO"
+
+#~ msgid "Run conveyor at id 'conveyor_id'"
+#~ msgstr "Activer le convoyeur avec l'id 'conveyor_id'"
+
+#~ msgid "Stop conveyor at id 'conveyor_id'"
+#~ msgstr "Arrêter le convoyeur avec l'id 'conveyor_id'"
+
+#~ msgid "Control conveyor at id 'conveyor_id'"
+#~ msgstr "Contrôler le convoyeur avec l'id 'conveyor_id'"
+
+#~ msgid "New speed which is a percentage of maximum speed"
+#~ msgstr "Nouvelle vitesse qui est un pourcentage de la vitesse maximum"
+
+#~ msgid "Conveyor direction"
+#~ msgstr "Direction du convoyeur"
+
+#~ msgid "List of the connected conveyors' ID"
+#~ msgstr "Liste des ID des convoyeurs connectés"
+
+#~ msgid ""
+#~ "Get image from video stream in a"
+#~ " compressed format.  Use ``uncompress_image`` "
+#~ "from the vision package to uncompress"
+#~ " it"
+#~ msgstr ""
+#~ "Obtenir l'image du flux vidéo dans "
+#~ "un format compressé. Utiliser "
+#~ "``uncompress_image``du package vision pour les"
+#~ " décompresser"
+
+#~ msgid "string containing a JPEG compressed image"
+#~ msgstr "Chaîne contenant une image JPEG compressée"
+
+#~ msgid ""
+#~ "Given a pose (x_rel, y_rel, yaw_rel) "
+#~ "relative to a workspace, this function"
+#~ " returns the robot pose in which "
+#~ "the current tool will be able to"
+#~ " pick an object at this pose."
+#~ msgstr ""
+#~ "Pour une pose (x_rel, y_rel, yaw_rel)"
+#~ " donnée relative à un workspace, "
+#~ "cette fonction retourne la position du"
+#~ " robot dans laquelle l'outil actuel "
+#~ "sera capable d'attraper un objet."
+
+#~ msgid ""
+#~ "The height_offset argument (in m) "
+#~ "defines how high the tool will "
+#~ "hover over the workspace. If "
+#~ "height_offset = 0, the tool will "
+#~ "nearly touch the workspace."
+#~ msgstr ""
+#~ "L'argument height_offset (en mètres) définit"
+#~ " à quelle hauteur l'outil va passer"
+#~ " au dessus du workspace. Si "
+#~ "height_offset = 0, alors l'outil "
+#~ "touchera presque l'espace de travail."
+
+#~ msgid "name of the workspace"
+#~ msgstr "Nom du workspace"
+
+#~ msgid "offset between the workspace and the target height"
+#~ msgstr "Offset entre le workspace sa hauteur cible"
+
+#~ msgid "x relative pose (between 0 and 1)"
+#~ msgstr "pose relative de x (entre 0 et 1)"
+
+#~ msgid "y relative pose (between 0 and 1)"
+#~ msgstr "pose relative de y (entre 0 et 1)"
+
+#~ msgid "Angle in radians"
+#~ msgstr "Angle en radians"
+
+#~ msgid "target_pose"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "First detects the specified object using"
+#~ " the camera and then returns the "
+#~ "robot pose in which the object can"
+#~ " be picked with the current tool"
+#~ msgstr ""
+#~ "Commence par détecter l'objet spécifié "
+#~ "en utilisant la caméra puis renvoie "
+#~ "la position du robot à laquelle "
+#~ "l'objet peut être attrapé avec l'outil"
+#~ " utilisé."
+
+#~ msgid "shape of the target"
+#~ msgstr "Forme de la cible"
+
+#~ msgid "color of the target"
+#~ msgstr "Couleur de la cible"
+
+#~ msgid "object_found, object_pose, object_shape, object_color"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Picks the specified object from the "
+#~ "workspace. This function has multiple "
+#~ "phases:"
+#~ msgstr ""
+#~ "Attrape l'objet spécifié sur le "
+#~ "workspace. Cette fonction est composée "
+#~ "de plusieurs phases :"
+
+#~ msgid "1. detect object using the camera"
+#~ msgstr "1. détecte l'objet en utilisant la caméra"
+
+#~ msgid "2. prepare the current tool for picking"
+#~ msgstr "2. prépare l'outil utilisé pour la saisie"
+
+#~ msgid "3. approach the object"
+#~ msgstr "3. approche l'objet"
+
+#~ msgid "4. move down to the correct picking pose"
+#~ msgstr "4. descend jusque la bonne position de saisie"
+
+#~ msgid "5. actuate the current tool"
+#~ msgstr "5. actionne l'outil utilisé"
+
+#~ msgid "6. lift the object"
+#~ msgstr "6. soulève l'objet"
+
+#~ msgid "Example::"
+#~ msgstr "Exemple ::"
+
+#~ msgid "object_found, object_shape, object_color"
+#~ msgstr ""
+
+#~ msgid "Same as `get_target_pose_from_cam` but directly moves to this position"
+#~ msgstr ""
+#~ "Même fonction que `get_target_pose_from_cam` "
+#~ "mais bouge directement à cette position"
+
+#~ msgid "Detect object in workspace and return its pose and characteristics"
+#~ msgstr ""
+#~ "Détecter l'objet sur le workspace et "
+#~ "renvoyer sa position et ses "
+#~ "caractéristiques"
+
+#~ msgid "Get calibration object: camera intrinsics, distortions coefficients"
+#~ msgstr ""
+#~ "Obtenir la calibration de l'objet : "
+#~ "paramètres instrinsèques de la caméra, "
+#~ "taux de distorsion"
+
+#~ msgid "camera intrinsics, distortions coefficients"
+#~ msgstr "paramètres instrinsèque de la caméra, taux de distorsion"
+
+#~ msgid ""
+#~ "Save workspace by giving the poses "
+#~ "of the robot to point its 4 "
+#~ "corners with the calibration Tip. "
+#~ "Corners should be in the good "
+#~ "order. Markers' pose will be deduced "
+#~ "from these poses"
+#~ msgstr ""
+#~ "Sauvegarder le workspace en donnant au"
+#~ " robot les 4 positions lui permettant"
+#~ " de pointer ses 4 coins avec la"
+#~ " pointe de calibration. Les coins "
+#~ "doivent être dans le bon ordre. La"
+#~ " position de ces marqueurs sera "
+#~ "déduite de ces positions."
+
+#~ msgid ""
+#~ "Poses should be either a list [x,"
+#~ " y, z, roll, pitch, yaw] or a"
+#~ " PoseObject"
+#~ msgstr ""
+#~ "Les positions peuvent également être une"
+#~ " liste [x, y, z, roll, pitch, "
+#~ "yaw] ou un PoseObject."
+
+#~ msgid "workspace name"
+#~ msgstr "Nom du workspace"
+
+#~ msgid ""
+#~ "Save workspace by giving the points "
+#~ "of worskpace's 4 corners. Points are "
+#~ "written as [x, y, z] Corners "
+#~ "should be in the good order."
+#~ msgstr ""
+#~ "Sauvegarder le workspace en donnant les"
+#~ " points des 4 coins du workspaces."
+#~ " Ces points sont écrits [x, y, "
+#~ "z]. Les coins doivent être dans le"
+#~ " bon ordre."
+
+#~ msgid "Delete workspace from robot's memory"
+#~ msgstr "Supprimer le workspace de la mémoire du robot"
+
+#~ msgid "Get workspace ratio from robot's memory"
+#~ msgstr "Obtenir le ratio du workspace depuis la mémoire du robot"
+
+#~ msgid "Get list of workspaces' name store in robot's memory"
+#~ msgstr ""
+#~ "Obtenir la liste des noms des "
+#~ "workspaces stockés dans la mémoire du"
+#~ " robot"
+
+#~ msgid "Enumeration of Calibration Modes"
+#~ msgstr "Énumération des modes de calibration"
+
+#~ msgid "Enumeration of Robot Axis : it used for Shift command"
+#~ msgstr "Énumération des axes du robot : "
+
+#~ msgid "Enumeration of Tools IDs"
+#~ msgstr "Énumération des ID des outils"
+
+#~ msgid "Enumeration of Pin Modes"
+#~ msgstr "Énumération des modes des broches"
+
+#~ msgid "Pin State is either LOW or HIGH"
+#~ msgstr "L'état des broches est soit LOW ou HIGH"
+
+#~ msgid "Enumeration of Robot Pins"
+#~ msgstr "Énumération des broches du robot"
+
+#~ msgid "Enumeration of Conveyor IDs used for Conveyor control"
+#~ msgstr "Énumération des ID du convoyeur utilisés pour le contrôle du convoyeur"
+
+#~ msgid "Enumeration of Conveyor Directions used for Conveyor control"
+#~ msgstr ""
+#~ "Énumération des directions du convoyeur "
+#~ "utilisés pour le contrôle du convoyeur"
+
+#~ msgid "Enumeration of Colors available for image processing"
+#~ msgstr "Énumération des couleurs disponibles pour le traitement d'images"
+
+#~ msgid "Enumeration of Shapes available for image processing"
+#~ msgstr "Énumération des formes disponibles pour le traitement d'images"
+
+#~ msgid "Pose object which stores x, y, z, roll, pitch & yaw parameters"
+#~ msgstr "Pose object qui stocke les paramètres x, y, z, roll, pitch & yaw"
+
+#~ msgid "Create a new pose from copying from copying actual pose with offsets"
+#~ msgstr ""
+#~ "Créer une nouvelle position en copiant"
+#~ " la position actuelle avec des "
+#~ "offsets "
+
+#~ msgid ""
+#~ "Return a list [x, y, z, roll, "
+#~ "pitch, yaw] corresponding to the pose's"
+#~ " parameters"
+#~ msgstr ""
+#~ "Renvoie une liste [x, y, z, roll,"
+#~ " pitch, yaw] correspondant aux paramètres"
+#~ " de la position."
+
+#~ msgid "Object used to store every hardware information"
+#~ msgstr "Objet utilisé pour stocker toutes les informations matérielles"
+
+#~ msgid "Object used to store information on digital pins"
+#~ msgstr ""
+#~ "Objet utilisé pour stocker toutes les"
+#~ " informations relatives aux digital pins"
+
+#~ msgid "toto"
+#~ msgstr ""
+

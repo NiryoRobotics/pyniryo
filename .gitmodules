@@ -1,0 +1,3 @@
+[submodule "front_end"]
+	path = docs/front_end
+	url = ../../documentations/documentation-front-end.git
