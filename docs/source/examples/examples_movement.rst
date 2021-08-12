@@ -3,27 +3,27 @@ Examples: Movement
 
 This document shows how to control Ned in order to make Move Joints & Move Pose.
 
-If you want to see more, you can look at :ref:`PyNiryo - Joints & Pose<Joints & Pose>`
+If you want to see more, you can look at :ref:`PyNiryo - Joints & Pose<source/api_doc/api:Joints & Pose>`
 
 .. important::
     In the following sections, you are supposed to be already connected to a calibrated robot.
-    The robot instance is saved in the variable ``robot``. To know how to do so, go
-    look at section :doc:`examples_basics`
+    The robot's instance is saved in the variable ``robot``. To know how to do so, go
+    look at section :doc:`examples_basics`.
 
 .. danger::
-    If you are using the real robot, make sure the environment around it is clear
+    If you are using the real robot, make sure the environment around it is clear.
 
 Joints
 -------------------
 
 Move Joints
 ^^^^^^^^^^^^^^^^^^
-To make a moveJ, you can either pass :
+To make a moveJ, you can either provide:
 
 - 6 floats : ``j1, j2, j3, j4, j5, j6``
 - a list of 6 floats : ``[j1, j2, j3, j4, j5, j6]``
 
-It is possible to pass these parameters to the function :meth:`~.api.tcp_client.NiryoRobot.move_joints`
+It is possible to provide these parameters to the function :meth:`~.api.tcp_client.NiryoRobot.move_joints`
 or via the ``joints`` setter, at your convenience::
 
     # Moving Joints with function & 6 floats
@@ -40,7 +40,7 @@ or via the ``joints`` setter, at your convenience::
 
 You should note that these 4 commands are doing exactly the same thing!
 In your future scripts, chose the one you prefer, but try to remain consistent to
-keep a good readability
+keep a good readability.
 
 Get Joints
 ^^^^^^^^^^^^^^^^^^
@@ -55,20 +55,20 @@ or the ``joints`` getter. Both will return a list of the 6 joints position::
 
 .. hint::
     As we are developing in Python, we can unpack list very easily, which means that
-    we can retrieve joints value in 6 variables by writing ``j1, j2, j3, j4, j5, j6 = robot.get_joints()``
+    we can retrieve joints value in 6 variables by writing ``j1, j2, j3, j4, j5, j6 = robot.get_joints()``.
 
 Pose
 -------------------
 
 Move Pose
 ^^^^^^^^^^^^
-To perform a moveP, you can pass :
+To perform a moveP, you can provide:
 
 - 6 floats : x, y, z, roll, pitch, yaw
 - a list of 6 floats : [x, y, z, roll, pitch, yaw]
 - a |pose_object|
 
-As for MoveJ, it is possible to pass these parameters
+As for MoveJ, it is possible to provide these parameters
 to the function :meth:`~.api.tcp_client.NiryoRobot.move_pose`
 or the ``pose`` setter, at your convenience::
 
@@ -85,13 +85,13 @@ or the ``pose`` setter, at your convenience::
     robot.pose = pose_target
     robot.pose = pose_target_obj
 
-Each of these 6 commands are doing the same thing
+Each of these 6 commands are doing the same thing.
 
 Get Pose
 ^^^^^^^^^^^^
 To get end effector actual pose, you can use
 the function :meth:`~.api.tcp_client.NiryoRobot.get_pose`
-or the ``pose`` getter. Both will return a |pose_object| ::
+or the ``pose`` getter. Both will return a |pose_object|: ::
 
     # Getting Joints with function
     pose_read = robot.get_pose()
@@ -105,11 +105,11 @@ How to use the PoseObject
 The |pose_object| is a Python object which allows to store all poses' 6 coordinates (x, y, z,
 roll, pitch, yaw) in one single instance.
 It can be converted into a list if needed with the method
-:meth:`~.api.objects.PoseObject.to_list`
+:meth:`~.api.objects.PoseObject.to_list`.
 
 It also allows to create new |pose_object| with some offset, much easier than
 copying list and editing only 1 or 2 values.
-For instance, imagine that we want to shift the place pose by 5 centimeters at each iteration of a for loop,
+For instance, imagine that we want to shift the place pose by 5 centimeters at each iteration of a loop,
 you can use the :meth:`~.api.objects.PoseObject.copy_with_offsets` method::
 
     pick_pose = PoseObject(

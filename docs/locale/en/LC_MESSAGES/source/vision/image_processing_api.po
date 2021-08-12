@@ -5,62 +5,61 @@
 # This file is distributed under the same license as the PyNiryo package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-30 09:26+0200\n"
+"POT-Creation-Date: 2021-08-11 17:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.8.0\n"
+"Generated-By: Babel 2.9.1\n"
 
 #: ../../source/vision/image_processing_api.rst:2
-msgid "Functions Documentation"
+msgid "Functions documentation"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:5
-msgid "Section is not finished yet !"
+#: ../../source/vision/image_processing_api.rst:4
+msgid ""
+"This file presents the different functions and "
+":ref:`source/vision/image_processing_api:Enums Image Processing` "
+"available for image processing"
 msgstr ""
 
 #: ../../source/vision/image_processing_api.rst:7
-msgid ""
-"This file presents the different functions and :ref:`Enums` available for"
-" image processing"
-msgstr ""
-
-#: ../../source/vision/image_processing_api.rst:10
 msgid "These functions are divided in subsections:"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:12
+#: ../../source/vision/image_processing_api.rst:9
 msgid ""
-":ref:`Pure Image Processing` are used to deal with the thresholding, "
-"contours detection, .."
+":ref:`source/vision/image_processing_api:Pure Image Processing` are used "
+"to deal with the thresholding, contours detection, .."
+msgstr ""
+
+#: ../../source/vision/image_processing_api.rst:11
+msgid ""
+":ref:`source/vision/image_processing_api:Workspaces wise` section "
+"contains functions to extract workspace and deal with the relative "
+"position in the workspace"
+msgstr ""
+
+#: ../../source/vision/image_processing_api.rst:13
+msgid ""
+"The section :ref:`source/vision/image_processing_api:Show` allows to "
+"display images"
 msgstr ""
 
 #: ../../source/vision/image_processing_api.rst:14
 msgid ""
-":ref:`Workspaces wise` section contains functions to extract workspace "
-"and deal with the relative position in the workspace"
+":ref:`source/vision/image_processing_api:Image Editing` contains lot of "
+"function which can compress images, add text to image, ..."
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:16
-msgid "The section :ref:`Show` allows to display images"
-msgstr ""
-
-#: ../../source/vision/image_processing_api.rst:17
-msgid ""
-":ref:`Image Editing` contains lot of function which can compress images, "
-"add text to image, ..."
-msgstr ""
-
-#: ../../source/vision/image_processing_api.rst:23
-msgid "Pure Image Processing"
+#: ../../source/vision/image_processing_api.rst:20
+msgid "Pure image processing"
 msgstr ""
 
 #: of vision.image_functions.biggest_contours_finder:1
@@ -251,7 +250,7 @@ msgstr ""
 msgid "threshold image"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:30
+#: ../../source/vision/image_processing_api.rst:28
 msgid "Workspaces wise"
 msgstr ""
 
@@ -306,7 +305,7 @@ msgstr ""
 msgid "X relative, Y relative"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:36
+#: ../../source/vision/image_processing_api.rst:35
 msgid "Show"
 msgstr ""
 
@@ -449,35 +448,35 @@ msgstr ""
 msgid "Undistorted image"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:49
+#: ../../source/vision/image_processing_api.rst:50
 msgid "Enums Image Processing"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:51
+#: ../../source/vision/image_processing_api.rst:52
 msgid "Enums are used to pass specific parameters to functions."
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:53
+#: ../../source/vision/image_processing_api.rst:54
 msgid "List of enums:"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:55
+#: ../../source/vision/image_processing_api.rst:56
 msgid ":class:`~.vision.enums.ColorHSV`"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:56
+#: ../../source/vision/image_processing_api.rst:57
 msgid ":class:`~.vision.enums.ColorHSVPrime`"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:57
+#: ../../source/vision/image_processing_api.rst:58
 msgid ":class:`~.vision.enums.ObjectType`"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:58
+#: ../../source/vision/image_processing_api.rst:59
 msgid ":class:`~.vision.enums.MorphoType`"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:59
+#: ../../source/vision/image_processing_api.rst:60
 msgid ":class:`~.vision.enums.KernelType`"
 msgstr ""
 
@@ -489,4 +488,331 @@ msgstr ""
 #: vision.enums.ObjectType:1
 msgid "An enumeration."
 msgstr ""
+
+#~ msgid ""
+#~ "This file presents the different "
+#~ "functions and :ref:`Enums` available for "
+#~ "image processing"
+#~ msgstr ""
+
+#~ msgid ""
+#~ ":ref:`Pure Image Processing` are used to"
+#~ " deal with the thresholding, contours "
+#~ "detection, .."
+#~ msgstr ""
+
+#~ msgid "Function to find the biggest contour in an binary image"
+#~ msgstr ""
+
+#~ msgid "Parameters"
+#~ msgstr ""
+
+#~ msgid "Binary Image"
+#~ msgstr ""
+
+#~ msgid "maximal number of contours which will be returned"
+#~ msgstr ""
+
+#~ msgid "Returns"
+#~ msgstr ""
+
+#~ msgid "biggest contours found"
+#~ msgstr ""
+
+#~ msgid "Return type"
+#~ msgstr ""
+
+#~ msgid "Return masked image to see the effect of color threshold"
+#~ msgstr ""
+
+#~ msgid "OpenCV image"
+#~ msgstr ""
+
+#~ msgid "Color used for debug"
+#~ msgstr ""
+
+#~ msgid "Masked image"
+#~ msgstr ""
+
+#~ msgid "Draw a list of contour on an image and return the drawing image"
+#~ msgstr ""
+
+#~ msgid "Image"
+#~ msgstr ""
+
+#~ msgid "contours list"
+#~ msgstr ""
+
+#~ msgid "Image with drawing"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Return orientation of a contour "
+#~ "according to the smallest side in "
+#~ "order to be well oriented for "
+#~ "gripper"
+#~ msgstr ""
+
+#~ msgid "contour"
+#~ msgstr ""
+
+#~ msgid "Angle in radians"
+#~ msgstr ""
+
+#~ msgid "Return barycenter of an OpenCV Contour"
+#~ msgstr ""
+
+#~ msgid "Barycenter X, Barycenter Y"
+#~ msgstr ""
+
+#~ msgid "Take black & white image and apply morphological transformation"
+#~ msgstr ""
+
+#~ msgid "Black & White Image"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "CLOSE/OPEN/ERODE/DILATE => See on "
+#~ "OpenCV/Google if you do not know "
+#~ "these words"
+#~ msgstr ""
+
+#~ msgid "tuple corresponding to the size of the kernel"
+#~ msgstr ""
+
+#~ msgid "RECT/ELLIPSE/CROSS => see on OpenCV"
+#~ msgstr ""
+
+#~ msgid "image after processing"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Take BGR image (OpenCV imread result)"
+#~ " and return thresholded image according "
+#~ "to values on HSV (Hue, Saturation, "
+#~ "Value) Pixel will worth 1 if a "
+#~ "pixel has a value between min_v "
+#~ "and max_v for all channels"
+#~ msgstr ""
+
+#~ msgid "image BGR if rgb_space = False"
+#~ msgstr ""
+
+#~ msgid "list corresponding to [min_value_H,min_value_S,min_value_V]"
+#~ msgstr ""
+
+#~ msgid "list corresponding to [max_value_H,max_value_S,max_value_V]"
+#~ msgstr ""
+
+#~ msgid "True if you want to use S channel as S' = S x V else classic"
+#~ msgstr ""
+
+#~ msgid "Useful for Red color cause it is at both extremum"
+#~ msgstr ""
+
+#~ msgid "threshold image"
+#~ msgstr ""
+
+#~ msgid "Display detected markers on an image"
+#~ msgstr ""
+
+#~ msgid "OpenCV image which contain Niryo's markers"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Ratio between the width and the "
+#~ "height of the area represented by "
+#~ "the markers"
+#~ msgstr ""
+
+#~ msgid "(status, annotated image)"
+#~ msgstr ""
+
+#~ msgid "Extract working area from an image thanks to 4 Niryo's markers"
+#~ msgstr ""
+
+#~ msgid "OpenCV image which contain 4 Niryo's markers"
+#~ msgstr ""
+
+#~ msgid "extracted and warped working area image"
+#~ msgstr ""
+
+#~ msgid "Transform a pixels position to a relative position"
+#~ msgstr ""
+
+#~ msgid "Image where the object is detected"
+#~ msgstr ""
+
+#~ msgid "coordinate X"
+#~ msgstr ""
+
+#~ msgid "coordinate Y"
+#~ msgstr ""
+
+#~ msgid "X relative, Y relative"
+#~ msgstr ""
+
+#~ msgid "Display an image during a certain time"
+#~ msgstr ""
+
+#~ msgid "window's name"
+#~ msgstr ""
+
+#~ msgid "Wait time in milliseconds"
+#~ msgstr ""
+
+#~ msgid "value of the key pressed during the display"
+#~ msgstr ""
+
+#~ msgid "Display an image and check whether the user want to close"
+#~ msgstr ""
+
+#~ msgid "boolean indicating if the user wanted to leave"
+#~ msgstr ""
+
+#~ msgid "Display an image and wait that the user close it"
+#~ msgstr ""
+
+#~ msgid "None"
+#~ msgstr ""
+
+#~ msgid "Add Annotation to an image"
+#~ msgstr ""
+
+#~ msgid "text string"
+#~ msgstr ""
+
+#~ msgid "if you write the text on top"
+#~ msgstr ""
+
+#~ msgid "img with text written on it"
+#~ msgstr ""
+
+#~ msgid "Compress OpenCV image"
+#~ msgstr ""
+
+#~ msgid "OpenCV Image"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "integer between 1 - 100. The "
+#~ "higher it is, the less information "
+#~ "will be lost, but the heavier the"
+#~ " compressed image will be"
+#~ msgstr ""
+
+#~ msgid "status & string representing compressed image"
+#~ msgstr ""
+
+#~ msgid "Concat multiple images along 1 axis"
+#~ msgstr ""
+
+#~ msgid "tuple of images"
+#~ msgstr ""
+
+#~ msgid "0 means vertically and 1 means horizontally"
+#~ msgstr ""
+
+#~ msgid "Concat image"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Resize an image. The user should "
+#~ "precise only width or height if he"
+#~ " wants to keep image's ratio"
+#~ msgstr ""
+
+#~ msgid "Target Width"
+#~ msgstr ""
+
+#~ msgid "Target Height"
+#~ msgstr ""
+
+#~ msgid "OpenCV interpolation flag"
+#~ msgstr ""
+
+#~ msgid "resized image"
+#~ msgstr ""
+
+#~ msgid "Take a compressed img and return an OpenCV image"
+#~ msgstr ""
+
+#~ msgid "compressed image"
+#~ msgstr ""
+
+#~ msgid "Use camera intrinsics to undistort raw image"
+#~ msgstr ""
+
+#~ msgid "Raw Image"
+#~ msgstr ""
+
+#~ msgid "Camera Intrinsics matrix"
+#~ msgstr ""
+
+#~ msgid "Distortion Coefficient"
+#~ msgstr ""
+
+#~ msgid "Undistorted image"
+#~ msgstr ""
+
+#~ msgid "MIN HSV, MAX HSV, Invert Hue (bool)"
+#~ msgstr ""
+
+#~ msgid "An enumeration."
+#~ msgstr ""
+
+#~ msgid "Functions Documentation"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This file presents the different "
+#~ "functions and :ref:`Enums` available for "
+#~ "image processing."
+#~ msgstr ""
+
+#~ msgid ""
+#~ ":ref:`Pure Image Processing` are used to"
+#~ " deal with the thresholding, contours "
+#~ "detection, ..."
+#~ msgstr ""
+
+#~ msgid ""
+#~ ":ref:`Image Editing` contains lot of "
+#~ "function which can compress images, add"
+#~ " text to image, ..."
+#~ msgstr ""
+
+#~ msgid "Pure Image Processing"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This file presents the different "
+#~ "functions and :ref:`enums` available for "
+#~ "image processing."
+#~ msgstr ""
+
+#~ msgid ""
+#~ ":ref:`Pure image processing` are used to"
+#~ " deal with the thresholding, contours "
+#~ "detection, ..."
+#~ msgstr ""
+
+#~ msgid ""
+#~ ":ref:`Workspaces wise` section contains "
+#~ "functions to extract workspace and deal"
+#~ " with the relative position in the"
+#~ " workspace"
+#~ msgstr ""
+
+#~ msgid "The section :ref:`Show` allows to display images"
+#~ msgstr ""
+
+#~ msgid ""
+#~ ":ref:`Image editing` contains lot of "
+#~ "function which can compress images, add"
+#~ " text to image, ..."
+#~ msgstr ""
+
+#~ msgid "Section is not finished yet !"
+#~ msgstr ""
 

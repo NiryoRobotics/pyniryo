@@ -29,7 +29,7 @@ Edit this file and fill it with the following code::
 
 .. attention::
     Replace the third line with your :doc:`Robot IP Address <ip_address>`
-    if you are not using Hotspot Mode
+    if you are not using Hotspot Mode.
 
 Still on your computer, open a terminal, and place your current directory in the same folder
 than your file. Then, run the command: ::
@@ -37,8 +37,8 @@ than your file. Then, run the command: ::
     python pyniryo_test.py
 
 .. note::
-    If you are using Python 3, you may need to change ``python`` to ``python3``
+    If you are using Python 3, you may need to change ``python`` to ``python3``.
 
 If your robot starts calibrating, then moves, and finally, goes to learning mode,
-your setup is validated, you can now start coding !
+your setup is validated, you can now start coding!
 

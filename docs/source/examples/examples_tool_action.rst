@@ -1,16 +1,16 @@
-Examples: Tool Action
+Examples: Tool action
 ========================
 
-This page shows how to control Ned's tools
+This page shows how to control Ned's tools.
 
-If you want to see more, you can look at :ref:`PyNiryo - Tools<Tools>`
+If you want to see more, you can look at :ref:`PyNiryo - Tools<source/api_doc/api:Tools>`
 
 .. important::
     In this section, you are already supposed to be connected to a calibrated robot.
-    The robot instance is saved in the variable ``robot``
+    The robot instance is saved in the variable ``robot``.
 
 .. danger::
-    If you are using the real robot, make sure the environment around it is clear
+    If you are using the real robot, make sure the environment around it is clear.
 
 Tool control
 -------------------
@@ -23,33 +23,33 @@ connected to the software wise.
 
 To do that, we should use the function
 :meth:`~.api.tcp_client.NiryoRobot.update_tool`
-which takes no argument. It will scan motor's connections and set the new tool !
+which takes no argument. It will scan motor's connections and set the new tool!
 
-The line to equip a new tool is ::
+The line to equip a new tool is: ::
 
     robot.update_tool()
 
 .. note::
-    For the :ref:`Grasping <Grasping>` and :ref:`Releasing <Releasing>` sections,
+    For the :ref:`source/examples/examples_tool_action:Grasping` and :ref:`source/examples/examples_tool_action:Releasing` sections,
     this command should be added in your codes! If you want to use a specific
-    tool, you need to store the |tool_id| you are using in a variable named ``tool_used``
+    tool, you need to store the |tool_id| you are using in a variable named ``tool_used``.
 
 
 Grasping
 ^^^^^^^^^^^^^^^^^
 
 To grasp with any tool, you can use the function
-:meth:`~.api.tcp_client.NiryoRobot.grasp_with_tool`. This action corresponds to :
+:meth:`~.api.tcp_client.NiryoRobot.grasp_with_tool`. This action corresponds to:
 
  - Close gripper for Grippers
  - Pull Air for Vacuum Pump
  - Activate for Electromagnet
 
-The line to grasp is ::
+The line to grasp is: ::
 
     robot.grasp_with_tool()
 
-To grasp an object by specifying the tool ::
+To grasp an object by specifying the tool: ::
 
     if tool_used in [ToolID.GRIPPER_1, ToolID.GRIPPER_2, ToolID.GRIPPER_3]:
         robot.close_gripper(speed=500)
@@ -71,7 +71,7 @@ To release with any tool, you can use the function
   - Push Air for Vacuum pump
   - Deactivate for Electromagnet
 
-To release an object by specifying parameters ::
+To release an object by specifying parameters: ::
 
     if tool_used in [ToolID.GRIPPER_1, ToolID.GRIPPER_2, ToolID.GRIPPER_3]:
         robot.open_gripper(speed=500)
@@ -89,19 +89,19 @@ Pick & Place with tools
 A Pick & Place is an action which consists in going to a certain pose
 in order to pick an object and then, going to another pose to place it.
 
-This operation can be proceed as follows :
+This operation can be proceed as follows:
 
-#. Going over the object with a certain offset to avoid collision
-#. Going down to the object's height
-#. Grasping with tool
-#. Going back to step 1's pose.
-#. Going over the place pose with a certain offset to avoid collision
-#. Going down to place's height
-#. Releasing the object with tool
+#. Going over the object with a certain offset to avoid collision;
+#. Going down to the object's height;
+#. Grasping with tool;
+#. Going back to step 1's pose;
+#. Going over the place pose with a certain offset to avoid collision;
+#. Going down to place's height;
+#. Releasing the object with tool;
 #. Going back to step 5's pose.
 
 
-There is plenty of ways to perform a pick and place with PyNiryo. Methods will
+There are plenty of ways to perform a pick and place with PyNiryo. Methods will
 be presented from the lowest to highest level.
 
 Code Baseline
@@ -109,7 +109,7 @@ Code Baseline
 
 For the sake of brevity, every piece of code beside the Pick & Place
 function will not be rewritten for every method. So that, you
-will need to use the code and implement the Pick & Place function to it  ::
+will need to use the code and implement the Pick & Place function to it.  ::
 
     # Imports
     from pyniryo import *
@@ -145,10 +145,10 @@ will need to use the code and implement the Pick & Place function to it  ::
         # Releasing connection
         client.close_connection()
 
-First Solution : the heaviest
+First Solution: the heaviest
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 For this first function, every steps are done by hand, as well as
-poses computing
+poses computing.
 
 .. note::
     In this example, the tool used is a Gripper. If you want to use another
@@ -184,14 +184,14 @@ poses computing
         robot.move_pose(place_pose.x, place_pose.y, place_pose.z + height_offset,
                                    place_pose.roll, place_pose.pitch, place_pose.yaw)
 
-Second Solution : Use of PoseObject
+Second Solution: Use of PoseObject
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-For the second solution, we use a  |pose_object| in
-order to calculate approach poses more easily
+For the second solution, we use a |pose_object| in
+order to calculate approach poses more easily.
 
 .. note::
     To see more about |pose_object|, go look at
-    :ref:`PoseObject dedicated section <How to use the PoseObject>`
+    :ref:`PoseObject dedicated section <source/examples/examples_movement:How to use the PoseObject>`
 
 ::
 
@@ -220,7 +220,7 @@ order to calculate approach poses more easily
         # Raising
         robot.move_pose(place_pose_high)
 
-Third Solution : Pick from pose & Place from pose functions
+Third Solution: Pick from pose & Place from pose functions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 For those who have already seen the API Documentation, you may have seen
 pick & place dedicated functions!
@@ -236,13 +236,13 @@ to split our function in only 2 commands! ::
         # Place
         robot.place_from_pose(place_pose)
 
-Fourth Solution : All in one
+Fourth Solution: All in one
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The example exposed in the previous section could be useful if you want
 to do an action between the pick & the place phases.
 
 For those who want to do everything in one command, you can use
-the :meth:`~.api.tcp_client.NiryoRobot.pick_and_place` function ! ::
+the :meth:`~.api.tcp_client.NiryoRobot.pick_and_place` function! ::
 
     def pick_n_place_version_4(robot):
         # Pick & Place
