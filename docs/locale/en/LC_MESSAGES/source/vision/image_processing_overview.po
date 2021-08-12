@@ -1,0 +1,738 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2021, Niryo All rights reserved. No part of this document
+# may be reproduced or transmitted in any form or by any means without prior
+# written consent of Niryo SAS
+# This file is distributed under the same license as the PyNiryo package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PyNiryo 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-29 14:25+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../source/vision/image_processing_overview.rst:2
+msgid "Overview & examples"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:4
+msgid ""
+"This file illustrates few image processing pipeline using vision module "
+"from niryo_edu package. This module is based in `OpenCV "
+"<https://opencv.org/>`_ and its functions are detailed in :doc:`Functions"
+" documentation <image_processing_api>`."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:9
+msgid ""
+"The package niryo_edu comes up with the **vision** module which contains "
+"image processing functions including thresholding, blob detection, ..."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:10
+msgid "To use it, add to your imports ``from pyniryo.vision import *``."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:13
+msgid ""
+"It is also possible to merge both import lines by using ``from pyniryo "
+"import *``."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:16
+msgid "Play with Robot video stream"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:18
+msgid ""
+"We are firstly going to take a look at robot's functions which can be "
+"find at :ref:`API - Vision<source/api_doc/api:Vision>`"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:22
+msgid "Get & display image from stream"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:23
+msgid ""
+"Ned can share its video stream through TCP. As sending raw images will "
+"lead to heavy packets which can saturate the network, it sends compressed"
+" images. You access it through the robot's function: "
+":meth:`~.api.tcp_client.NiryoRobot.get_img_compressed`. Once your image "
+"is received, you firstly need to uncompress via "
+":func:`~.vision.image_functions.uncompress_image` and you can then "
+"display it with :func:`~.vision.image_functions.show_img_and_wait_close`."
+" ::"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:45
+msgid ""
+":func:`~.vision.image_functions.show_img_and_wait_close` will wait for "
+"the user to press either *Q* or *Esc* key, before closing the window."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:49
+msgid "Undistort and display video stream"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:50
+msgid ""
+"In this section, we are going to display the raw video stream & the "
+"undistorted video stream."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:53
+msgid ""
+"As Ned's camera is passing raw images to the robot, these images are "
+"distorted due to the camera lens. In order to undistort them, we need to "
+"use Ned's camera intrinsics."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:57
+msgid ""
+"To undistort the raw image, we use "
+":func:`~.vision.image_functions.undistort_image` which need to be called "
+"with the parameters given by Ned through "
+":meth:`~.api.tcp_client.NiryoRobot.get_camera_intrinsics`."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:61
+msgid ""
+"Once, we have both raw & undistorted images, we can concatenate them in "
+"order to display them in once with "
+":func:`~.vision.image_functions.concat_imgs`. Finally, we display the "
+"image :func:`~.vision.image_functions.show_img`. ::"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:98
+msgid ""
+"To see more about camera distortion/undistortion, go on `OpenCV "
+"Documentation about Camera Calibration "
+"<https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html>`_."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:102
+msgid "Pure image processing functions"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:105
+msgid "See the curriculum on image processing for more theoretical information."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:108
+msgid "In order to illustrate functions, we are going to use the following image."
+msgstr ""
+
+msgid "Image illustration"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:117
+msgid "In this section it is supposed that:"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:119
+msgid "You have imported ``pyniryo.vision``"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:120
+msgid ""
+"The variable ``img`` is containing the image on which image processing is"
+" applied"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:125
+msgid "Color thresholding"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:127
+msgid ""
+"Color thresholding is very useful in order to detect object with an "
+"uniform color. The implemented function to realize this operation is "
+":func:`~.vision.image_functions.threshold_hsv`."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:132
+msgid ""
+"The following code is using parameters from "
+":class:`~.vision.enums.ColorHSV` enum in order to threshold Red features "
+"& *hand made* parameters to extract Blue: ::"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:148
+#: ../../source/vision/image_processing_overview.rst:195
+#: ../../source/vision/image_processing_overview.rst:239
+#: ../../source/vision/image_processing_overview.rst:269
+#: ../../source/vision/image_processing_overview.rst:295
+#: ../../source/vision/image_processing_overview.rst:324
+msgid "Images result"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:153
+msgid "Thresh color"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:154
+#: ../../source/vision/image_processing_overview.rst:201
+msgid "Image result"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:155
+msgid "Blue"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst
+msgid "Image Threshold Blue"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:158
+msgid "Red"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst
+msgid "Image Threshold Red"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:163
+msgid "Morphological transformations"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:165
+msgid ""
+"Morphological transformations are some simple operations based on the "
+"image shape. It is normally performed on binary images. It needs two "
+"inputs, one is our original image, second one is called structuring "
+"element or kernel which decides the nature of operation. Two basic "
+"morphological operators are `Erosion "
+"<https://en.wikipedia.org/wiki/Mathematical_morphology#Erosion>`_ and "
+"`Dilation "
+"<https://en.wikipedia.org/wiki/Mathematical_morphology#Dilation>`_."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:170
+msgid ""
+"Then its variant forms like `Opening "
+"<https://en.wikipedia.org/wiki/Mathematical_morphology#Opening>`_, "
+"`Closing "
+"<https://en.wikipedia.org/wiki/Mathematical_morphology#Closing>`_ also "
+"comes into play. Learn more on `Wikipedia page "
+"<https://en.wikipedia.org/wiki/Mathematical_morphology>`_."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:176
+msgid ""
+"The implemented function to realize these operations is "
+":func:`~.vision.image_functions.morphological_transformations`. It uses "
+":class:`~.vision.enums.MorphoType` and :class:`~.vision.enums.KernelType`"
+" to determine which operation should be applied on the image."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:181
+msgid "The code shows how to do a Closing & an Erosion: ::"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:200
+msgid "Morpho type"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:202
+msgid "None"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst
+msgid "Image Threshold Any"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:205
+msgid "Erode"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst
+msgid "Image Erode"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:208
+msgid "Close"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst
+msgid "Image Close"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:214
+msgid "Contours finder"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:215
+msgid ""
+"Contours can be explained simply as a curve joining all the continuous "
+"points (along the boundary), having same color or intensity. The contours"
+" are a useful tool for shape analysis and object detection and "
+"recognition. See more on `OpenCV Documentation "
+"<https://docs.opencv.org/3.4/d3/d05/tutorial_py_table_of_contents_contours.html>`_."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:221
+msgid ""
+"The implemented function to realize these operations is "
+":func:`~.vision.image_functions.biggest_contours_finder` which takes a "
+"Black & White image, and extract the biggest (in term of area) contours "
+"from it."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:225
+msgid ""
+"The code to extract and draw the 3 biggest contours from an image is the "
+"following: ::"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:243
+#: ../../source/vision/image_processing_overview.rst:273
+msgid "Thresh + Opening"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst
+msgid "Image Threshold Any & Open"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst
+#: ../../source/vision/image_processing_overview.rst:246
+msgid "3 contours"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:251
+msgid "Find object center position"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:252
+msgid ""
+"In order to catch an object, we need to find a pose from where the end "
+"effector can grasp the object. The following method uses contours which "
+"have been found in the previous section and finds their barycenter and "
+"orientation via the functions "
+":func:`~.vision.image_functions.get_contour_barycenter` & "
+":func:`~.vision.image_functions.get_contour_angle`. ::"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst
+#: ../../source/vision/image_processing_overview.rst:276
+msgid "Barycenter + Angle"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:281
+msgid ""
+"The drawn vector is normal to the contour's length because we want Ned to"
+" catch the object by the width rather than the length. Indeed, it leads "
+"to least cases where the gripper cannot open enough."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:286
+msgid "Markers extraction"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:287
+msgid ""
+"As image processing happens in a workspace, it is important to extract "
+"the workspace beforehand! To do so, you can use the function "
+":func:`~.vision.image_functions.extract_img_workspace`. ::"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:299
+#: ../../source/vision/image_processing_overview.rst:328
+msgid "Original"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst
+msgid "Original Image"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:302
+msgid "Extracted"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst
+msgid "Extracted Image"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:308
+msgid "Debug mode"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:309
+msgid ""
+"If Ned's functions are failing, you can use Debug functions which are "
+":func:`~.vision.image_functions.debug_threshold_color` & "
+":func:`~.vision.image_functions.debug_markers` in order to display what "
+"the robot sees."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:314
+msgid "You can use the functions as follow: ::"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:331
+msgid "Debug red"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst
+msgid "Debug Red Image"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:335
+msgid "Debug Markers"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst
+msgid "Debug Markers Image"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:343
+msgid "Do your own image processing!"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:345
+msgid ""
+"Now that you are a master in image processing, let's look at full "
+"examples."
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:349
+msgid "Display video stream with extracted workspace"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:350
+msgid ""
+"In the current state, the following code will display the video stream "
+"and the extracted workspace image. You can add your own image processing "
+"functions maybe to apply additional process. ::"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:399
+msgid "Vision pick via your image processing pipeline"
+msgstr ""
+
+#: ../../source/vision/image_processing_overview.rst:401
+msgid ""
+"You may want to send coordinate to Ned in order to pick the object of "
+"your choice! To do that, use the function "
+":func:`~.vision.image_functions.get_target_pose_from_rel` which converts "
+"a relative pose in the workspace into a pose in the robot's world! ::"
+msgstr ""
+
+#~ msgid ""
+#~ "This file illustrates few image "
+#~ "processing pipeline using vision module "
+#~ "from niryo_edu package. This module is"
+#~ " based in `OpenCV <https://opencv.org/>`_ "
+#~ "and its functions are detailed in "
+#~ ":doc:`Image Processing API <image_processing_api>`"
+#~ msgstr ""
+
+#~ msgid "To use it, add to your imports ``from pyniryo.vision import *``"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "It is also possible to merge both"
+#~ " import lines by using ``from pyniryo"
+#~ " import *``"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "We are firstly going to take a "
+#~ "look at robot's functions which can "
+#~ "be find at :ref:`API - Vision<Vision>`"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Ned can share its video stream "
+#~ "through TCP. As sending raw images "
+#~ "will lead to heavy packets which "
+#~ "can saturate the network, it send "
+#~ "compressed images. You access it through"
+#~ " the Robot's function : "
+#~ ":meth:`~.api.tcp_client.NiryoRobot.get_img_compressed`. Once "
+#~ "your image is received, you firstly "
+#~ "need to uncompress via "
+#~ ":func:`~.vision.image_functions.uncompress_image` and you"
+#~ " can then display it with "
+#~ ":func:`~.vision.image_functions.show_img_and_wait_close`. ::"
+#~ msgstr ""
+
+#~ msgid ""
+#~ ":func:`~.vision.image_functions.show_img_and_wait_close` will"
+#~ " wait for the user to press "
+#~ "either *Q* or *Esc* key, before "
+#~ "closing the window"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "In this section, we are going to"
+#~ " display the raw video stream & "
+#~ "the undistorted video stream"
+#~ msgstr ""
+
+#~ msgid "See TP on image processing for more theoretical information"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "In order to illustrate functions, we "
+#~ "are going to use the following "
+#~ "image"
+#~ msgstr ""
+
+#~ msgid "In this section it is supposed that :"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Morphological transformations are some simple"
+#~ " operations based on the image shape."
+#~ " It is normally performed on binary"
+#~ " images. It needs two inputs, one "
+#~ "is our original image, second one "
+#~ "is called structuring element or kernel"
+#~ " which decides the nature of "
+#~ "operation. Two basic morphological operators"
+#~ " are `Erosion "
+#~ "<https://en.wikipedia.org/wiki/Mathematical_morphology#Erosion>`_ "
+#~ "and `Dilation "
+#~ "<https://en.wikipedia.org/wiki/Mathematical_morphology#Dilation>`_"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Then its variant forms like `Opening "
+#~ "<https://en.wikipedia.org/wiki/Mathematical_morphology#Opening>`_, "
+#~ "`Closing "
+#~ "<https://en.wikipedia.org/wiki/Mathematical_morphology#Closing>`_ "
+#~ "also comes into play. Lean more on"
+#~ " `Wikipedia page "
+#~ "<https://en.wikipedia.org/wiki/Mathematical_morphology>`_"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The implemented function to realize "
+#~ "these operations is "
+#~ ":func:`~.vision.image_functions.morphological_transformations`. "
+#~ "It uses :class:`~.vision.enums.MorphoType` and "
+#~ ":class:`~.vision.enums.KernelType` to determine "
+#~ "which operation should be applied on "
+#~ "the image"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The code to extract and draw the"
+#~ " 3 biggest contours from an image "
+#~ "is the following : ::"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "As image processing happens in a "
+#~ "workspace, it is important to extract"
+#~ " the workspace beforehand ! To do "
+#~ "so, you can use the function "
+#~ ":func:`~.vision.image_functions.extract_img_workspace` ::"
+#~ msgstr ""
+
+#~ msgid "Overview & Examples"
+#~ msgstr ""
+
+#~ msgid "Play with Robot Video Stream"
+#~ msgstr ""
+
+#~ msgid "Get & Display Image from Stream"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Ned can share its video stream "
+#~ "through TCP. As sending raw images "
+#~ "will lead to heavy packets which "
+#~ "can saturate the network, it send "
+#~ "compressed images. You access it through"
+#~ " the Robot's function: "
+#~ ":meth:`~.api.tcp_client.NiryoRobot.get_img_compressed`. Once "
+#~ "your image is received, you firstly "
+#~ "need to uncompress via "
+#~ ":func:`~.vision.image_functions.uncompress_image` and you"
+#~ " can then display it with "
+#~ ":func:`~.vision.image_functions.show_img_and_wait_close`. ::"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Once, we have both raw & "
+#~ "undistorted images, we can concatenate "
+#~ "them in order to display them in"
+#~ " once with "
+#~ ":func:`~.vision.image_functions.concat_imgs`. Finally, we"
+#~ " display the image "
+#~ ":func:`~.vision.image_functions.show_img` ::"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To see more about camera "
+#~ "distortion/undistortion, go on "
+#~ "|opencv_camera_calib|_"
+#~ msgstr ""
+
+#~ msgid "See TP on image processing for more theoretical information."
+#~ msgstr ""
+
+#~ msgid "Color Thresholding"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Color Thresholding is very useful in "
+#~ "order to detect object with an "
+#~ "uniform color. The implemented function "
+#~ "to realize this operation is "
+#~ ":func:`~.vision.image_functions.threshold_hsv`"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The following code is using parameters"
+#~ " from :class:`~.vision.enums.ColorHSV` enum in"
+#~ " order to threshold Red features &"
+#~ " *hand made* parameters to extract "
+#~ "Blue ::"
+#~ msgstr ""
+
+#~ msgid "Thresh Color"
+#~ msgstr ""
+
+#~ msgid "Image Result"
+#~ msgstr ""
+
+#~ msgid "Morphological Transformations"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Then its variant forms like `Opening "
+#~ "<https://en.wikipedia.org/wiki/Mathematical_morphology#Opening>`_, "
+#~ "`Closing "
+#~ "<https://en.wikipedia.org/wiki/Mathematical_morphology#Closing>`_ "
+#~ "also comes into play. Learn more "
+#~ "on `Wikipedia page "
+#~ "<https://en.wikipedia.org/wiki/Mathematical_morphology>`_"
+#~ msgstr ""
+
+#~ msgid "The code shows how to do a Closing & an Erosion ::"
+#~ msgstr ""
+
+#~ msgid "Morpho Type"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The implemented function to realize "
+#~ "these operations is "
+#~ ":func:`~.vision.image_functions.biggest_contours_finder` which"
+#~ " takes a Black & White image, "
+#~ "and extract the biggest (in term "
+#~ "of area) contours from it"
+#~ msgstr ""
+
+#~ msgid "3 Contours"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "In order to catch an object, we"
+#~ " need to find a pose from where"
+#~ " the end effector can grasp the "
+#~ "object. The method which follow uses "
+#~ "contours which have been found in "
+#~ "the previous section and finds their "
+#~ "barycenter and orientation via the "
+#~ "functions "
+#~ ":func:`~.vision.image_functions.get_contour_barycenter` & "
+#~ ":func:`~.vision.image_functions.get_contour_angle` ::"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The drawn vector is normal to the"
+#~ " contour's length because we want Ned"
+#~ " to catch the object by the "
+#~ "width rather than the length. Indeed,"
+#~ " it leads to least cases where "
+#~ "the gripper cannot open enough"
+#~ msgstr ""
+
+#~ msgid "Markers Extraction"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "As image processing happens in a "
+#~ "workspace, it is important to extract"
+#~ " the workspace beforehand! To do so,"
+#~ " you can use the function "
+#~ ":func:`~.vision.image_functions.extract_img_workspace` ::"
+#~ msgstr ""
+
+#~ msgid "Debug Red"
+#~ msgstr ""
+
+#~ msgid "Debug Markers"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Now that you are a master in "
+#~ "image processing, let's look at full "
+#~ "examples"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "In the current state, the following "
+#~ "code will display the video stream "
+#~ "and the extracted workspace img. You "
+#~ "can add your own image processing "
+#~ "functions maybe to apply additional "
+#~ "process ::"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "You may want to send coordinate to"
+#~ " Ned in order to pick the "
+#~ "object of your choice! To do that,"
+#~ " use the function "
+#~ ":func:`~.vision.image_functions.get_target_pose_from_rel` which"
+#~ " convert a relative pose in the "
+#~ "workspace into a pose in the "
+#~ "robot's world! ::"
+#~ msgstr ""
+
+#~ msgid "The code shows how to do a Closing & an Erosion : ::"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To see more about camera "
+#~ "distortion/undistortion, go on "
+#~ "|opencv_camera_calib|_."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To see more about camera "
+#~ "distortion/undistortion, go on `OpenCV "
+#~ "Documentation about Camera Calibration "
+#~ "<https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html>`."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "We are firstly going to take a "
+#~ "look at robot's functions which can "
+#~ "be find at :ref:`API - Vision<Vision>`."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This file illustrates few image "
+#~ "processing pipeline using vision module "
+#~ "from niryo_edu package. This module is"
+#~ " based in `OpenCV <https://opencv.org/>`_ "
+#~ "and its functions are detailed in "
+#~ ":doc:`Image Processing API <image_processing_api>`."
+#~ msgstr ""
+
+#~ msgid "Debug Mmarkers"
+#~ msgstr ""
+

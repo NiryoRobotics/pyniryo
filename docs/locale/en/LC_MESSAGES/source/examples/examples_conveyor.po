@@ -1,0 +1,97 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2021, Niryo All rights reserved. No part of this document
+# may be reproduced or transmitted in any form or by any means without prior
+# written consent of Niryo SAS
+# This file is distributed under the same license as the PyNiryo package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PyNiryo 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-07-29 12:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../source/examples/examples_conveyor.rst:2
+msgid "Examples: Conveyor Belt"
+msgstr ""
+
+#: ../../source/examples/examples_conveyor.rst:4
+msgid "This document shows how to use Ned's Conveyor Belt."
+msgstr ""
+
+#: ../../source/examples/examples_conveyor.rst:6
+msgid ""
+"If you want to see more about Ned's Conveyor Belt functions, you can look"
+" at :ref:`PyNiryo - Conveyor<source/api_doc/api:Conveyor>`"
+msgstr ""
+
+#: ../../source/examples/examples_conveyor.rst:9
+msgid ""
+"If you are using the real robot, make sure the environment around it is "
+"clear."
+msgstr ""
+
+#: ../../source/examples/examples_conveyor.rst:12
+msgid "Simple Conveyor control"
+msgstr ""
+
+#: ../../source/examples/examples_conveyor.rst:13
+msgid ""
+"This short example shows how to connect a conveyor and launch its motor "
+"(control it by setting its speed and direction): ::"
+msgstr ""
+
+#: ../../source/examples/examples_conveyor.rst:37
+msgid "Advanced Conveyor Belt control"
+msgstr ""
+
+#: ../../source/examples/examples_conveyor.rst:38
+msgid ""
+"This example shows how to do a certain amount of pick & place by using "
+"the Conveyor Belt with the infrared sensor: ::"
+msgstr ""
+
+#~ msgid "This document shows how to use Ned's Conveyor Belt"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you want to see more about "
+#~ "Ned's Conveyor Belt functions, you can"
+#~ " look at :ref:`PyNiryo - "
+#~ "Conveyor<Conveyor>`"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you are using the real robot,"
+#~ " make sure the environment around it"
+#~ " is clear"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This short example show how to "
+#~ "connect a conveyor and launch its "
+#~ "motor (control it by setting its "
+#~ "speed and direction): ::"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This example shows how to do a "
+#~ "certain amount of pick & place by"
+#~ " using the Conveyor Belt with the "
+#~ "infrared sensor ::"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you want to see more about "
+#~ "Ned's Conveyor Belt functions, you can"
+#~ " look at :ref:`PyNiryo - "
+#~ "Conveyor<Conveyor>`."
+#~ msgstr ""
+

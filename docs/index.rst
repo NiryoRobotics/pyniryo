@@ -1,8 +1,8 @@
 PyNiryo Documentation
 ================================
 
-.. image:: _static/PyNiryo_logo_2.png
-   :width: 600px
+.. image:: images/PyNiryo_logo_2.png
+   :width: 50%
    :align: center
 
 
@@ -22,15 +22,15 @@ through a terminal.
    :height: 400px
    :align: center
 
-   Niryo Ned
+   Ned
 
 
 Before getting started
 ----------------------------
 
 
-| If you haven’t already done so , make sure to learn about
- the ROS robot software by reading the |ros_doc|_.
+| If you haven’t already done so, make sure to learn about
+ the ROS robot software by reading `ROS documentation <https://docs.niryo.com/dev/ros/index.html>`_.
 
 | This documentation also contains everything you need to
  know if you want to use Ned through simulation.
@@ -39,7 +39,7 @@ Before getting started
 Sections organization
 -----------------------------------
 
-This document is organized in 4 main sections
+This document is organized in 4 main sections.
 
 Setup
 ^^^^^^^^^^^
@@ -60,7 +60,7 @@ then :doc:`find your Robot IP address <source/setup/ip_address>` to be ready.
 Examples
 ^^^^^^^^^^^^^^^
 
-Learn how to use the PyNiryo package to implement various tasks
+Learn how to use the PyNiryo package to implement various tasks.
 
 .. toctree::
    :hidden:
@@ -76,11 +76,11 @@ Learn how to use the PyNiryo package to implement various tasks
 API Documentation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Master controls with PyNiryo with full detailed functions
-:doc:`here <source/api_doc/api>`
+Master controls with PyNiryo with full the detailed functions
+:doc:`here <source/api_doc/api>`.
 
 Discover also :doc:`Vision Functions <source/vision/image_processing_overview>`
-to create your own image processing pipelines !
+to create your own image processing pipelines!
 
 .. toctree::
    :hidden:
@@ -91,7 +91,8 @@ to create your own image processing pipelines !
 Start with Image Processing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Discover how to create your own image processing pipelines !
+
+Discover how to create your own image processing pipelines!
 
 
 .. toctree::
@@ -109,5 +110,3 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. |ros_doc| replace:: Ned's Software documentation
-.. _ros_doc: https://docs.niryo.com/ros-doc/
