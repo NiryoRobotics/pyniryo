@@ -42,127 +42,151 @@ List of functions subsections:
 TCP Connection
 ^^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: NiryoRobot
-    :members: connect, close_connection
-    :noindex:
+.. automethod:: api.tcp_client.NiryoRobot.connect
+.. automethod:: api.tcp_client.NiryoRobot.close_connection
 
 Main purpose functions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. autoclass:: NiryoRobot
-    :members: calibrate, calibrate_auto, need_calibration, get_learning_mode, set_learning_mode,
-              set_arm_max_velocity, set_jog_control, wait
-    :member-order: bysource
-    :noindex:
+.. automethod:: api.tcp_client.NiryoRobot.calibrate
+.. automethod:: api.tcp_client.NiryoRobot.calibrate_auto
+.. automethod:: api.tcp_client.NiryoRobot.need_calibration
+.. automethod:: api.tcp_client.NiryoRobot.get_learning_mode
+.. automethod:: api.tcp_client.NiryoRobot.set_learning_mode
+.. automethod:: api.tcp_client.NiryoRobot.set_arm_max_velocity
+.. automethod:: api.tcp_client.NiryoRobot.set_jog_control
+.. automethod:: api.tcp_client.NiryoRobot.wait
 
 Joints & Pose
 ^^^^^^^^^^^^^
 
-.. autoclass:: NiryoRobot
-    :members: get_joints, get_pose, get_pose_quat, move_joints, move_pose, move_linear_pose,
-              shift_pose, shift_linear_pose, jog_joints, jog_pose,
-               move_to_home_pose, go_to_sleep,
-              forward_kinematics, inverse_kinematics
-    :member-order: bysource
-    :noindex:
+.. automethod:: api.tcp_client.NiryoRobot.get_joints
+.. automethod:: api.tcp_client.NiryoRobot.get_pose
+.. automethod:: api.tcp_client.NiryoRobot.get_pose_quat
+.. automethod:: api.tcp_client.NiryoRobot.move_joints
+.. automethod:: api.tcp_client.NiryoRobot.move_pose
+.. automethod:: api.tcp_client.NiryoRobot.move_linear_pose
+.. automethod:: api.tcp_client.NiryoRobot.shift_pose
+.. automethod:: api.tcp_client.NiryoRobot.shift_linear_pose
+.. automethod:: api.tcp_client.NiryoRobot.jog_joints
+.. automethod:: api.tcp_client.NiryoRobot.jog_pose
+.. automethod:: api.tcp_client.NiryoRobot.move_to_home_pose
+.. automethod:: api.tcp_client.NiryoRobot.go_to_sleep
+.. automethod:: api.tcp_client.NiryoRobot.forward_kinematics
+.. automethod:: api.tcp_client.NiryoRobot.inverse_kinematics
 
 Saved Poses
 ^^^^^^^^^^^^^
 
-.. autoclass:: NiryoRobot
-    :members: get_pose_saved, save_pose, delete_pose, get_saved_pose_list
-    :member-order: bysource
-    :noindex:
+.. automethod:: api.tcp_client.NiryoRobot.get_pose_saved
+.. automethod:: api.tcp_client.NiryoRobot.save_pose
+.. automethod:: api.tcp_client.NiryoRobot.delete_pose
+.. automethod:: api.tcp_client.NiryoRobot.get_saved_pose_list
 
 Pick & Place
 ^^^^^^^^^^^^^
 
-.. autoclass:: NiryoRobot
-    :members: pick_from_pose, place_from_pose, pick_and_place
-    :member-order: bysource
-    :noindex:
+.. automethod:: api.tcp_client.NiryoRobot.pick_from_pose
+.. automethod:: api.tcp_client.NiryoRobot.place_from_pose
+.. automethod:: api.tcp_client.NiryoRobot.pick_and_place
 
 Trajectories
 ^^^^^^^^^^^^^
 
-.. autoclass:: NiryoRobot
-    :members: get_trajectory_saved, execute_trajectory_from_poses, execute_trajectory_saved,
-              save_trajectory, delete_trajectory, get_saved_trajectory_list
-    :member-order: bysource
-    :noindex:
+.. automethod:: api.tcp_client.NiryoRobot.get_trajectory_saved
+.. automethod:: api.tcp_client.NiryoRobot.execute_trajectory_from_poses
+.. automethod:: api.tcp_client.NiryoRobot.execute_trajectory_saved
+.. automethod:: api.tcp_client.NiryoRobot.save_trajectory
+.. automethod:: api.tcp_client.NiryoRobot.delete_trajectory
+.. automethod:: api.tcp_client.NiryoRobot.get_saved_trajectory_list
 
 Tools
 ^^^^^^^^^^^^^
 
-.. autoclass:: NiryoRobot
-    :members: get_current_tool_id, update_tool, grasp_with_tool,release_with_tool,
-              open_gripper, close_gripper, pull_air_vacuum_pump, push_air_vacuum_pump,
-              setup_electromagnet, activate_electromagnet, deactivate_electromagnet,
-              enable_tcp, set_tcp, reset_tcp, tool_reboot
-    :member-order: bysource
-    :noindex:
+.. automethod:: api.tcp_client.NiryoRobot.get_current_tool_id
+.. automethod:: api.tcp_client.NiryoRobot.update_tool
+.. automethod:: api.tcp_client.NiryoRobot.grasp_with_tool
+.. automethod:: api.tcp_client.NiryoRobot.release_with_tool
+.. automethod:: api.tcp_client.NiryoRobot.open_gripper
+.. automethod:: api.tcp_client.NiryoRobot.close_gripper
+.. automethod:: api.tcp_client.NiryoRobot.pull_air_vacuum_pump
+.. automethod:: api.tcp_client.NiryoRobot.push_air_vacuum_pump
+.. automethod:: api.tcp_client.NiryoRobot.setup_electromagnet
+.. automethod:: api.tcp_client.NiryoRobot.activate_electromagnet
+.. automethod:: api.tcp_client.NiryoRobot.deactivate_electromagnet
+.. automethod:: api.tcp_client.NiryoRobot.enable_tcp
+.. automethod:: api.tcp_client.NiryoRobot.set_tcp
+.. automethod:: api.tcp_client.NiryoRobot.reset_tcp
+.. automethod:: api.tcp_client.NiryoRobot.tool_reboot
 
 Hardware
 ^^^^^^^^^^^^^
 
-.. autoclass:: NiryoRobot
-    :members: set_pin_mode, digital_write, digital_read,
-              get_hardware_status, get_digital_io_state
-    :member-order: bysource
-    :noindex:
+.. automethod:: api.tcp_client.NiryoRobot.set_pin_mode
+.. automethod:: api.tcp_client.NiryoRobot.digital_write
+.. automethod:: api.tcp_client.NiryoRobot.digital_read
+.. automethod:: api.tcp_client.NiryoRobot.get_hardware_status
+.. automethod:: api.tcp_client.NiryoRobot.get_digital_io_state
 
 Conveyor
 ^^^^^^^^^^^^^
 
-.. autoclass:: NiryoRobot
-    :members: set_conveyor, unset_conveyor, run_conveyor,
-              stop_conveyor, control_conveyor, get_connected_conveyors_id
-    :member-order: bysource
-    :noindex:
+.. automethod:: api.tcp_client.NiryoRobot.set_conveyor
+.. automethod:: api.tcp_client.NiryoRobot.unset_conveyor
+.. automethod:: api.tcp_client.NiryoRobot.run_conveyor
+.. automethod:: api.tcp_client.NiryoRobot.stop_conveyor
+.. automethod:: api.tcp_client.NiryoRobot.control_conveyor
+.. automethod:: api.tcp_client.NiryoRobot.get_connected_conveyors_id
 
 Vision
 ^^^^^^^^^^^^^
 
-.. autoclass:: NiryoRobot
-    :members: get_img_compressed, set_brightness, set_contrast, set_saturation,
-              get_image_parameters, get_target_pose_from_rel, get_target_pose_from_cam,
-              vision_pick, move_to_object, detect_object, get_camera_intrinsics,
-              save_workspace_from_robot_poses, save_workspace_from_points,
-              delete_workspace, get_workspace_ratio, get_workspace_list
-    :member-order: bysource
-    :noindex:
-
+.. automethod:: api.tcp_client.NiryoRobot.get_img_compressed
+.. automethod:: api.tcp_client.NiryoRobot.set_brightness
+.. automethod:: api.tcp_client.NiryoRobot.set_contrast
+.. automethod:: api.tcp_client.NiryoRobot.set_saturation
+.. automethod:: api.tcp_client.NiryoRobot.get_image_parameters
+.. automethod:: api.tcp_client.NiryoRobot.get_target_pose_from_rel
+.. automethod:: api.tcp_client.NiryoRobot.get_target_pose_from_cam
+.. automethod:: api.tcp_client.NiryoRobot.vision_pick
+.. automethod:: api.tcp_client.NiryoRobot.move_to_object
+.. automethod:: api.tcp_client.NiryoRobot.detect_object
+.. automethod:: api.tcp_client.NiryoRobot.get_camera_intrinsics
+.. automethod:: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses
+.. automethod:: api.tcp_client.NiryoRobot.save_workspace_from_points
+.. automethod:: api.tcp_client.NiryoRobot.delete_workspace
+.. automethod:: api.tcp_client.NiryoRobot.get_workspace_ratio
+.. automethod:: api.tcp_client.NiryoRobot.get_workspace_list
 
 Enums
 ------------------------------------
 
 Enums are used to pass specific parameters to functions.
 
-For instance, :meth:`~.api.tcp_client.NiryoRobot.change_tool`
+For instance, :meth:`~.api.tcp_client.NiryoRobot.shift_pose`
 will need a parameter from
-:class:`~.api.objects.ToolID` enum ::
+:class:`~.api.objects.RobotAxis` enum ::
 
-    robot.change_tool(ToolID.GRIPPER_1)
+    robot.shift_pose(RobotAxis.Y, 0.15)
 
 List of enums:
 
-* :class:`~.api.objects.CalibrateMode`
-* :class:`~.api.objects.RobotAxis`
-* :class:`~.api.objects.ToolID`
-* :class:`~.api.objects.PinMode`
-* :class:`~.api.objects.PinState`
-* :class:`~.api.objects.PinID`
-* :class:`~.api.objects.ConveyorID`
-* :class:`~.api.objects.ConveyorDirection`
-* :class:`~.api.objects.ObjectColor`
-* :class:`~.api.objects.ObjectShape`
+* :class:`~.api.enums_communication.CalibrateMode`
+* :class:`~.api.enums_communication.RobotAxis`
+* :class:`~.api.enums_communication.ToolID`
+* :class:`~.api.enums_communication.PinMode`
+* :class:`~.api.enums_communication.PinState`
+* :class:`~.api.enums_communication.PinID`
+* :class:`~.api.enums_communication.ConveyorID`
+* :class:`~.api.enums_communication.ConveyorDirection`
+* :class:`~.api.enums_communication.ObjectColor`
+* :class:`~.api.enums_communication.ObjectShape`
 
 .. automodule:: api.enums_communication
     :members:
     :undoc-members:
     :exclude-members: Command
     :member-order: bysource
-    :noindex:
 
 .. undoc-members -> allow to see members of enums
 .. show-inheritance -> display enum.Enum
@@ -176,6 +200,5 @@ Special objects
     :members:
     :no-undoc-members:
     :member-order: bysource
-    :noindex:
 
 .. |pose_object| replace:: :class:`~.api.objects.PoseObject`
