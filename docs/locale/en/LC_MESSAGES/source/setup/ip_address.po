@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-29 12:34+0000\n"
+"POT-Creation-Date: 2021-09-06 13:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,8 +24,8 @@ msgstr ""
 
 #: ../../source/setup/ip_address.rst:4
 msgid ""
-"In order to use your robot through TCP connection, you will firstly need "
-"to connect to it, which implies that you know its IP address."
+"In order to use your robot through TCP connection, you will first need to"
+" connect to it, which implies that you know its IP address."
 msgstr ""
 
 #: ../../source/setup/ip_address.rst:7
@@ -40,8 +40,8 @@ msgstr ""
 
 #: ../../source/setup/ip_address.rst:15
 msgid ""
-"If you are directly connected to your robot through its wifi, the IP "
-"Address you will need to use is ``10.10.10.10``."
+"If you are directly connected to your robot through its wi-fi, the IP "
+"address you will need to use is ``10.10.10.10``."
 msgstr ""
 
 #: ../../source/setup/ip_address.rst:19
@@ -67,9 +67,8 @@ msgstr ""
 #: ../../source/setup/ip_address.rst:29
 msgid ""
 "The reader should note that he may need to change his wired settings to "
-"allow the connection. See how `to connect to Ned via Ethernet on Ubuntu "
-"<https://niryo.com/docs/niryo-one/developer-tutorials/connect-to-niryo-"
-"one-via-ethernet-on-ubuntu/>`_."
+"allow the connection. See how to `Connect to Ned via Ethernet on Ubuntu "
+"<https://docs.niryo.com/applications/ned/source/tutorials/setup_connect_ned_ethernet.html>`_."
 msgstr ""
 
 #: ../../source/setup/ip_address.rst:33
@@ -251,5 +250,37 @@ msgstr ""
 #~ "permanent <Make IP permanent>` so that"
 #~ " you will not have to search "
 #~ "for it next time."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The reader should note that he may"
+#~ " need to change his wired settings"
+#~ " to allow the connection. See how "
+#~ "`to connect to Ned via Ethernet on"
+#~ " Ubuntu <https://niryo.com/docs/niryo-one/developer-"
+#~ "tutorials/connect-to-niryo-one-via-"
+#~ "ethernet-on-ubuntu/>`_."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The reader should note that he may"
+#~ " need to change his wired settings"
+#~ " to allow the connection. See how "
+#~ "to |link_ethernet|."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "In order to use your robot through"
+#~ " TCP connection, you will firstly "
+#~ "need to connect to it, which "
+#~ "implies that you know its IP "
+#~ "address."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "If you are directly connected to "
+#~ "your robot through its wifi, the "
+#~ "IP Address you will need to use"
+#~ " is ``10.10.10.10``."
 #~ msgstr ""
 

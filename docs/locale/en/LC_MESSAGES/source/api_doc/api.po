@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-20 13:06+0000\n"
+"POT-Creation-Date: 2021-09-07 07:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid ""
 "This file presents the different :ref:`source/api_doc/api:Command "
 "Functions`, :ref:`source/api_doc/api:Enums` & "
-":ref:`source/api_doc/api:Python Object classes` available with the API"
+":ref:`source/api_doc/api:Python Object classes` available with the API."
 msgstr ""
 
 #: ../../source/api_doc/api.rst:7
@@ -59,7 +59,7 @@ msgstr ""
 #: ../../source/api_doc/api.rst:20
 msgid ""
 "This section references all existing functions to control your robot, "
-"which includes"
+"which includes:"
 msgstr ""
 
 #: ../../source/api_doc/api.rst:22
@@ -109,6 +109,7 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.digital_read
 #: api.tcp_client.NiryoRobot.digital_write api.tcp_client.NiryoRobot.enable_tcp
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints
 #: api.tcp_client.NiryoRobot.forward_kinematics
 #: api.tcp_client.NiryoRobot.get_pose_saved
 #: api.tcp_client.NiryoRobot.get_target_pose_from_cam
@@ -160,6 +161,7 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.digital_read
 #: api.tcp_client.NiryoRobot.digital_write api.tcp_client.NiryoRobot.enable_tcp
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints
 #: api.tcp_client.NiryoRobot.execute_trajectory_saved
 #: api.tcp_client.NiryoRobot.forward_kinematics
 #: api.tcp_client.NiryoRobot.get_camera_intrinsics
@@ -205,6 +207,7 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.set_arm_max_velocity
 #: api.tcp_client.NiryoRobot.set_brightness
 #: api.tcp_client.NiryoRobot.set_contrast
+#: api.tcp_client.NiryoRobot.set_conveyor
 #: api.tcp_client.NiryoRobot.set_jog_control
 #: api.tcp_client.NiryoRobot.set_learning_mode
 #: api.tcp_client.NiryoRobot.set_pin_mode
@@ -263,7 +266,8 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.get_trajectory_saved
 #: api.tcp_client.NiryoRobot.inverse_kinematics
 #: api.tcp_client.NiryoRobot.move_to_object
-#: api.tcp_client.NiryoRobot.vision_pick of
+#: api.tcp_client.NiryoRobot.set_conveyor api.tcp_client.NiryoRobot.vision_pick
+#: of
 msgid "Returns"
 msgstr ""
 
@@ -520,6 +524,7 @@ msgid "Place Pose : [x, y, z, roll, pitch, yaw] or PoseObject"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses:5
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:8
 #: api.tcp_client.NiryoRobot.pick_and_place:7 of
 msgid "Distance from waypoints before smoothing trajectory"
 msgstr ""
@@ -542,7 +547,24 @@ msgstr ""
 
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses:3
 #: api.tcp_client.NiryoRobot.save_trajectory:4 of
-msgid "List of [x,y,z,qx,qy,qz,qw]"
+msgid "List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw]"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:1 of
+msgid "Execute trajectory from list of poses and joints"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:3 of
+msgid ""
+"List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw] or a list "
+"of [j1,j2,j3,j4,j5,j6]"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:5 of
+msgid ""
+"List of string 'pose' or 'joint', or ['pose'] (if poses only) or "
+"['joint'] (if joints only).  If None, it is assumed there are only poses "
+"in the list."
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.execute_trajectory_saved:1 of
@@ -561,7 +583,7 @@ msgstr ""
 msgid "Get list of trajectories' name saved in robot memory"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:104
+#: ../../source/api_doc/api.rst:105
 msgid "Tools"
 msgstr ""
 
@@ -648,7 +670,7 @@ msgid ""
 "occurs. (cf HardwareStatus)"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:123
+#: ../../source/api_doc/api.rst:124
 msgid "Hardware"
 msgstr ""
 
@@ -682,7 +704,7 @@ msgstr ""
 msgid "List of DigitalPinObject instance"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:132
+#: ../../source/api_doc/api.rst:133
 msgid "Conveyor"
 msgstr ""
 
@@ -691,7 +713,7 @@ msgid "Activate a new conveyor and return its ID"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.set_conveyor:3 of
-msgid ":return : New conveyor ID :rtype: ConveyorID"
+msgid "New conveyor ID"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.unset_conveyor:1 of
@@ -726,7 +748,7 @@ msgstr ""
 msgid "List of the connected conveyors' ID"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:142
+#: ../../source/api_doc/api.rst:143
 msgid "Vision"
 msgstr ""
 
@@ -962,61 +984,61 @@ msgstr ""
 msgid "Get list of workspaces' name store in robot's memory"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:162
+#: ../../source/api_doc/api.rst:163
 msgid "Enums"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:164
+#: ../../source/api_doc/api.rst:165
 msgid "Enums are used to pass specific parameters to functions."
 msgstr ""
 
-#: ../../source/api_doc/api.rst:166
+#: ../../source/api_doc/api.rst:167
 msgid ""
 "For instance, :meth:`~.api.tcp_client.NiryoRobot.shift_pose` will need a "
 "parameter from :class:`~.api.objects.RobotAxis` enum ::"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:172
+#: ../../source/api_doc/api.rst:173
 msgid "List of enums:"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:174
+#: ../../source/api_doc/api.rst:175
 msgid ":class:`~.api.enums_communication.CalibrateMode`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:175
+#: ../../source/api_doc/api.rst:176
 msgid ":class:`~.api.enums_communication.RobotAxis`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:176
+#: ../../source/api_doc/api.rst:177
 msgid ":class:`~.api.enums_communication.ToolID`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:177
+#: ../../source/api_doc/api.rst:178
 msgid ":class:`~.api.enums_communication.PinMode`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:178
+#: ../../source/api_doc/api.rst:179
 msgid ":class:`~.api.enums_communication.PinState`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:179
+#: ../../source/api_doc/api.rst:180
 msgid ":class:`~.api.enums_communication.PinID`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:180
+#: ../../source/api_doc/api.rst:181
 msgid ":class:`~.api.enums_communication.ConveyorID`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:181
+#: ../../source/api_doc/api.rst:182
 msgid ":class:`~.api.enums_communication.ConveyorDirection`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:182
+#: ../../source/api_doc/api.rst:183
 msgid ":class:`~.api.enums_communication.ObjectColor`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:183
+#: ../../source/api_doc/api.rst:184
 msgid ":class:`~.api.enums_communication.ObjectShape`"
 msgstr ""
 
@@ -1060,11 +1082,11 @@ msgstr ""
 msgid "Enumeration of Shapes available for image processing"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:195
+#: ../../source/api_doc/api.rst:196
 msgid "Python object classes"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:197
+#: ../../source/api_doc/api.rst:198
 msgid "Special objects"
 msgstr ""
 
@@ -1721,5 +1743,138 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid ":class:`~.api.objects.ObjectShape`"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This file presents the different "
+#~ ":ref:`source/api_doc/api:Command Functions`, "
+#~ ":ref:`source/api_doc/api:Enums` & "
+#~ ":ref:`source/api_doc/api:Python Object classes` "
+#~ "available with the API"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This section references all existing "
+#~ "functions to control your robot, which"
+#~ " includes"
+#~ msgstr ""
+
+#~ msgid "List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw]"
+#~ msgstr ""
+
+#~ msgid "Execute trajectory from list of poses and joints"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "List of [x,y,z,qx,qy,qz,qw] or list of"
+#~ " [x,y,z,roll,pitch,yaw] or a list of "
+#~ "[j1,j2,j3,j4,j5,j6]"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "List of string 'pose' or 'joint', "
+#~ "or ['pose'] (if poses only) or "
+#~ "['joint'] (if joints only).  If None,"
+#~ " it is assumed there are only "
+#~ "poses in the list."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enables or disables the TCP function "
+#~ "(Tool Center Point). If activation is"
+#~ " requested, the last recorded TCP "
+#~ "value will be applied. The default "
+#~ "value depends on the gripper equipped."
+#~ " If deactivation is requested, the "
+#~ "TCP will be coincident with the "
+#~ "tool_link."
+#~ msgstr ""
+
+#~ msgid "True to enable, False otherwise."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Activates the TCP function (Tool Center"
+#~ " Point) and defines the transformation "
+#~ "between the tool_link frame and the "
+#~ "TCP frame."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Reset the TCP (Tool Center Point) "
+#~ "transformation. The TCP will be reset"
+#~ " according to the tool equipped."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Reboot the motor of the tool "
+#~ "equipped. Useful when an Overload error"
+#~ " occurs. (cf HardwareStatus)"
+#~ msgstr ""
+
+#~ msgid "Modify video stream brightness"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "How much to adjust the brightness. "
+#~ "0.5 will give a darkened image, 1"
+#~ " will give the original image while"
+#~ " 2 will enhance the brightness by "
+#~ "a factor of 2."
+#~ msgstr ""
+
+#~ msgid "Modify video stream contrast"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "While a factor of 1 gives original"
+#~ " image. Making the factor towards 0"
+#~ " makes the image greyer, while "
+#~ "factor>1 increases the contrast of the"
+#~ " image."
+#~ msgstr ""
+
+#~ msgid "Modify video stream saturation"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "How much to adjust the saturation. "
+#~ "0 will give a black and white "
+#~ "image, 1 will give the original "
+#~ "image while 2 will enhance the "
+#~ "saturation by a factor of 2."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Get last stream image parameters: "
+#~ "Brightness factor, Contrast factor, Saturation"
+#~ " factor."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Brightness factor: How much to adjust"
+#~ " the brightness. 0.5 will give a "
+#~ "darkened image, 1 will give the "
+#~ "original image while 2 will enhance "
+#~ "the brightness by a factor of 2."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Contrast factor: A factor of 1 "
+#~ "gives original image. Making the factor"
+#~ " towards 0 makes the image greyer,"
+#~ " while factor>1 increases the contrast "
+#~ "of the image."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Saturation factor: 0 will give a "
+#~ "black and white image, 1 will give"
+#~ " the original image while 2 will "
+#~ "enhance the saturation by a factor "
+#~ "of 2."
+#~ msgstr ""
+
+#~ msgid "Brightness factor, Contrast factor, Saturation factor"
 #~ msgstr ""
 
