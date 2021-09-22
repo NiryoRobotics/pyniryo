@@ -1,0 +1,89 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2021, Niryo All rights reserved. No part of this document
+# may be reproduced or transmitted in any form or by any means without prior
+# written consent of Niryo SAS
+# This file is distributed under the same license as the PyNiryo package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PyNiryo v1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-22 15:01+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: ../../source/changelog.rst:2
+msgid "September release - New features batch"
+msgstr ""
+
+#: ../../source/changelog.rst:5
+msgid "Features"
+msgstr ""
+
+#: ../../source/changelog.rst:7
+msgid "New TCP functions available"
+msgstr ""
+
+#: ../../source/changelog.rst:9
+msgid "set_tcp"
+msgstr ""
+
+#: ../../source/changelog.rst:11
+msgid "enable_tcp"
+msgstr ""
+
+#: ../../source/changelog.rst:13
+msgid "reset_tcp"
+msgstr ""
+
+#: ../../source/changelog.rst:15
+msgid "New movement functions available"
+msgstr ""
+
+#: ../../source/changelog.rst:17
+msgid "move linear pose"
+msgstr ""
+
+#: ../../source/changelog.rst:19
+msgid "linear pose"
+msgstr ""
+
+#: ../../source/changelog.rst:21
+msgid "jog pose shift"
+msgstr ""
+
+#: ../../source/changelog.rst:23
+msgid "jog joints shift"
+msgstr ""
+
+#: ../../source/changelog.rst:25
+msgid "shift linear pose"
+msgstr ""
+
+#: ../../source/changelog.rst:27
+msgid "execute trajectory from pose"
+msgstr ""
+
+#: ../../source/changelog.rst:30
+msgid "New camera settings functions available"
+msgstr ""
+
+#: ../../source/changelog.rst:32
+msgid "set_brightness"
+msgstr ""
+
+#: ../../source/changelog.rst:34
+msgid "set_contrast"
+msgstr ""
+
+#: ../../source/changelog.rst:36
+msgid "set_saturation"
+msgstr ""
+
