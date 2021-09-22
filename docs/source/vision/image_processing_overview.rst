@@ -55,7 +55,7 @@ images are distorted due to the camera lens. In order to undistort them,
 we need to use Ned's camera intrinsics.
 
 To undistort the raw image, we use :meth:`~.vision.image_functions.undistort_image`
-which need to be called with the parameters given by Ned through
+which needs to be called with the parameters given by Ned through
 :meth:`~.api.tcp_client.NiryoRobot.get_camera_intrinsics`.
 
 Once, we have both raw & undistorted images, we can concatenate them in order
@@ -100,9 +100,6 @@ Finally, we display the image :meth:`~.vision.image_functions.show_img`. ::
 
 Pure image processing functions
 -------------------------------------
-
-
-.. hint:: See the curriculum on image processing for more theoretical information.
 
 
 In order to illustrate functions, we are going to use the following image.
@@ -220,7 +217,7 @@ object detection and recognition. See more on
 
 The implemented function to realize these operations is
 :meth:`~.vision.image_functions.biggest_contours_finder` which takes a
-Black & White image, and extract the biggest (in term of area) contours from it.
+Black & White image, and extracts the biggest (in term of area) contours from it.
 
 The code to extract and draw the 3 biggest contours from an image is
 the following: ::

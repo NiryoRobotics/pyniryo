@@ -2,7 +2,7 @@ PyNiryo API Documentation
 =====================================
 
 This file presents the different :ref:`source/api_doc/api:Command Functions`,
-:ref:`source/api_doc/api:Enums` & :ref:`source/api_doc/api:Python Object classes` available with the API
+:ref:`source/api_doc/api:Enums` & :ref:`source/api_doc/api:Python Object classes` available with the API.
 
 * :ref:`source/api_doc/api:Command Functions` are used to deal directly with the robot.
   It could be :meth:`~.api.tcp_client.NiryoRobot.move_joints`,
@@ -17,7 +17,7 @@ This file presents the different :ref:`source/api_doc/api:Command Functions`,
 Command functions
 ------------------------------------
 
-This section references all existing functions to control your robot, which includes
+This section references all existing functions to control your robot, which includes:
 
 - Moving the robot
 - Using Vision
@@ -95,6 +95,7 @@ Trajectories
 
 .. automethod:: api.tcp_client.NiryoRobot.get_trajectory_saved
 .. automethod:: api.tcp_client.NiryoRobot.execute_trajectory_from_poses
+.. automethod:: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints
 .. automethod:: api.tcp_client.NiryoRobot.execute_trajectory_saved
 .. automethod:: api.tcp_client.NiryoRobot.save_trajectory
 .. automethod:: api.tcp_client.NiryoRobot.delete_trajectory

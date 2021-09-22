@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-20 13:06+0000\n"
+"POT-Creation-Date: 2021-09-06 13:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -98,8 +98,8 @@ msgstr ""
 #: ../../source/vision/image_processing_overview.rst:57
 msgid ""
 "To undistort the raw image, we use "
-":meth:`~.vision.image_functions.undistort_image` which need to be called "
-"with the parameters given by Ned through "
+":meth:`~.vision.image_functions.undistort_image` which needs to be called"
+" with the parameters given by Ned through "
 ":meth:`~.api.tcp_client.NiryoRobot.get_camera_intrinsics`."
 msgstr ""
 
@@ -123,67 +123,63 @@ msgid "Pure image processing functions"
 msgstr ""
 
 #: ../../source/vision/image_processing_overview.rst:105
-msgid "See the curriculum on image processing for more theoretical information."
-msgstr ""
-
-#: ../../source/vision/image_processing_overview.rst:108
 msgid "In order to illustrate functions, we are going to use the following image."
 msgstr ""
 
 msgid "Image illustration"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:117
+#: ../../source/vision/image_processing_overview.rst:114
 msgid "In this section it is supposed that:"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:119
+#: ../../source/vision/image_processing_overview.rst:116
 msgid "You have imported ``pyniryo.vision``"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:120
+#: ../../source/vision/image_processing_overview.rst:117
 msgid ""
 "The variable ``img`` is containing the image on which image processing is"
 " applied"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:125
+#: ../../source/vision/image_processing_overview.rst:122
 msgid "Color thresholding"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:127
+#: ../../source/vision/image_processing_overview.rst:124
 msgid ""
 "Color thresholding is very useful in order to detect object with an "
 "uniform color. The implemented function to realize this operation is "
 ":meth:`~.vision.image_functions.threshold_hsv`."
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:132
+#: ../../source/vision/image_processing_overview.rst:129
 msgid ""
 "The following code is using parameters from "
 ":class:`~.vision.enums.ColorHSV` enum in order to threshold Red features "
 "& *hand made* parameters to extract Blue: ::"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:148
-#: ../../source/vision/image_processing_overview.rst:195
-#: ../../source/vision/image_processing_overview.rst:239
-#: ../../source/vision/image_processing_overview.rst:269
-#: ../../source/vision/image_processing_overview.rst:295
-#: ../../source/vision/image_processing_overview.rst:324
+#: ../../source/vision/image_processing_overview.rst:145
+#: ../../source/vision/image_processing_overview.rst:192
+#: ../../source/vision/image_processing_overview.rst:236
+#: ../../source/vision/image_processing_overview.rst:266
+#: ../../source/vision/image_processing_overview.rst:292
+#: ../../source/vision/image_processing_overview.rst:321
 msgid "Images result"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:153
+#: ../../source/vision/image_processing_overview.rst:150
 msgid "Thresh color"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:154
-#: ../../source/vision/image_processing_overview.rst:201
+#: ../../source/vision/image_processing_overview.rst:151
+#: ../../source/vision/image_processing_overview.rst:198
 msgid "Image result"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:155
+#: ../../source/vision/image_processing_overview.rst:152
 msgid "Blue"
 msgstr ""
 
@@ -191,7 +187,7 @@ msgstr ""
 msgid "Image Threshold Blue"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:158
+#: ../../source/vision/image_processing_overview.rst:155
 msgid "Red"
 msgstr ""
 
@@ -199,11 +195,11 @@ msgstr ""
 msgid "Image Threshold Red"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:163
+#: ../../source/vision/image_processing_overview.rst:160
 msgid "Morphological transformations"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:165
+#: ../../source/vision/image_processing_overview.rst:162
 msgid ""
 "Morphological transformations are some simple operations based on the "
 "image shape. It is normally performed on binary images. It needs two "
@@ -215,7 +211,7 @@ msgid ""
 "<https://en.wikipedia.org/wiki/Mathematical_morphology#Dilation>`_."
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:170
+#: ../../source/vision/image_processing_overview.rst:167
 msgid ""
 "Then its variant forms like `Opening "
 "<https://en.wikipedia.org/wiki/Mathematical_morphology#Opening>`_, "
@@ -225,7 +221,7 @@ msgid ""
 "<https://en.wikipedia.org/wiki/Mathematical_morphology>`_."
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:176
+#: ../../source/vision/image_processing_overview.rst:173
 msgid ""
 "The implemented function to realize these operations is "
 ":meth:`~.vision.image_functions.morphological_transformations`. It uses "
@@ -233,15 +229,15 @@ msgid ""
 " to determine which operation should be applied on the image."
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:181
+#: ../../source/vision/image_processing_overview.rst:178
 msgid "The code shows how to do a Closing & an Erosion: ::"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:200
+#: ../../source/vision/image_processing_overview.rst:197
 msgid "Morpho type"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:202
+#: ../../source/vision/image_processing_overview.rst:199
 msgid "None"
 msgstr ""
 
@@ -249,7 +245,7 @@ msgstr ""
 msgid "Image Threshold Any"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:205
+#: ../../source/vision/image_processing_overview.rst:202
 msgid "Erode"
 msgstr ""
 
@@ -257,7 +253,7 @@ msgstr ""
 msgid "Image Erode"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:208
+#: ../../source/vision/image_processing_overview.rst:205
 msgid "Close"
 msgstr ""
 
@@ -265,11 +261,11 @@ msgstr ""
 msgid "Image Close"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:214
+#: ../../source/vision/image_processing_overview.rst:211
 msgid "Contours finder"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:215
+#: ../../source/vision/image_processing_overview.rst:212
 msgid ""
 "Contours can be explained simply as a curve joining all the continuous "
 "points (along the boundary), having same color or intensity. The contours"
@@ -278,22 +274,22 @@ msgid ""
 "<https://docs.opencv.org/3.4/d3/d05/tutorial_py_table_of_contents_contours.html>`_."
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:221
+#: ../../source/vision/image_processing_overview.rst:218
 msgid ""
 "The implemented function to realize these operations is "
 ":meth:`~.vision.image_functions.biggest_contours_finder` which takes a "
-"Black & White image, and extract the biggest (in term of area) contours "
+"Black & White image, and extracts the biggest (in term of area) contours "
 "from it."
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:225
+#: ../../source/vision/image_processing_overview.rst:222
 msgid ""
 "The code to extract and draw the 3 biggest contours from an image is the "
 "following: ::"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:243
-#: ../../source/vision/image_processing_overview.rst:273
+#: ../../source/vision/image_processing_overview.rst:240
+#: ../../source/vision/image_processing_overview.rst:270
 msgid "Thresh + Opening"
 msgstr ""
 
@@ -302,15 +298,15 @@ msgid "Image Threshold Any & Open"
 msgstr ""
 
 #: ../../source/vision/image_processing_overview.rst
-#: ../../source/vision/image_processing_overview.rst:246
+#: ../../source/vision/image_processing_overview.rst:243
 msgid "3 contours"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:251
+#: ../../source/vision/image_processing_overview.rst:248
 msgid "Find object center position"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:252
+#: ../../source/vision/image_processing_overview.rst:249
 msgid ""
 "In order to catch an object, we need to find a pose from where the end "
 "effector can grasp the object. The following method uses contours which "
@@ -321,30 +317,30 @@ msgid ""
 msgstr ""
 
 #: ../../source/vision/image_processing_overview.rst
-#: ../../source/vision/image_processing_overview.rst:276
+#: ../../source/vision/image_processing_overview.rst:273
 msgid "Barycenter + Angle"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:281
+#: ../../source/vision/image_processing_overview.rst:278
 msgid ""
 "The drawn vector is normal to the contour's length because we want Ned to"
 " catch the object by the width rather than the length. Indeed, it leads "
 "to least cases where the gripper cannot open enough."
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:286
+#: ../../source/vision/image_processing_overview.rst:283
 msgid "Markers extraction"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:287
+#: ../../source/vision/image_processing_overview.rst:284
 msgid ""
 "As image processing happens in a workspace, it is important to extract "
 "the workspace beforehand! To do so, you can use the function "
 ":meth:`~.vision.image_functions.extract_img_workspace`. ::"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:299
-#: ../../source/vision/image_processing_overview.rst:328
+#: ../../source/vision/image_processing_overview.rst:296
+#: ../../source/vision/image_processing_overview.rst:325
 msgid "Original"
 msgstr ""
 
@@ -352,7 +348,7 @@ msgstr ""
 msgid "Original Image"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:302
+#: ../../source/vision/image_processing_overview.rst:299
 msgid "Extracted"
 msgstr ""
 
@@ -360,11 +356,11 @@ msgstr ""
 msgid "Extracted Image"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:308
+#: ../../source/vision/image_processing_overview.rst:305
 msgid "Debug mode"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:309
+#: ../../source/vision/image_processing_overview.rst:306
 msgid ""
 "If Ned's functions are failing, you can use Debug functions which are "
 ":meth:`~.vision.image_functions.debug_threshold_color` & "
@@ -372,11 +368,11 @@ msgid ""
 "the robot sees."
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:314
+#: ../../source/vision/image_processing_overview.rst:311
 msgid "You can use the functions as follow: ::"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:331
+#: ../../source/vision/image_processing_overview.rst:328
 msgid "Debug red"
 msgstr ""
 
@@ -384,7 +380,7 @@ msgstr ""
 msgid "Debug Red Image"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:335
+#: ../../source/vision/image_processing_overview.rst:332
 msgid "Debug Markers"
 msgstr ""
 
@@ -392,32 +388,32 @@ msgstr ""
 msgid "Debug Markers Image"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:343
+#: ../../source/vision/image_processing_overview.rst:340
 msgid "Do your own image processing!"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:345
+#: ../../source/vision/image_processing_overview.rst:342
 msgid ""
 "Now that you are a master in image processing, let's look at full "
 "examples."
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:349
+#: ../../source/vision/image_processing_overview.rst:346
 msgid "Display video stream with extracted workspace"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:350
+#: ../../source/vision/image_processing_overview.rst:347
 msgid ""
 "In the current state, the following code will display the video stream "
 "and the extracted workspace image. You can add your own image processing "
 "functions maybe to apply additional process. ::"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:399
+#: ../../source/vision/image_processing_overview.rst:396
 msgid "Vision pick via your image processing pipeline"
 msgstr ""
 
-#: ../../source/vision/image_processing_overview.rst:401
+#: ../../source/vision/image_processing_overview.rst:398
 msgid ""
 "You may want to send coordinate to Ned in order to pick the object of "
 "your choice! To do that, use the function "
@@ -842,5 +838,27 @@ msgstr ""
 #~ " converts a relative pose in the "
 #~ "workspace into a pose in the "
 #~ "robot's world! ::"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "To undistort the raw image, we use"
+#~ " :meth:`~.vision.image_functions.undistort_image` which "
+#~ "need to be called with the "
+#~ "parameters given by Ned through "
+#~ ":meth:`~.api.tcp_client.NiryoRobot.get_camera_intrinsics`."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "See the curriculum on image processing"
+#~ " for more theoretical information."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "The implemented function to realize "
+#~ "these operations is "
+#~ ":meth:`~.vision.image_functions.biggest_contours_finder` which"
+#~ " takes a Black & White image, "
+#~ "and extract the biggest (in term "
+#~ "of area) contours from it."
 #~ msgstr ""
 

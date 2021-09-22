@@ -1,7 +1,7 @@
 Functions documentation
 =====================================
 
-This file presents the different functions and :ref:`source/vision/image_processing_api:Enums Image Processing` available for image processing
+This file presents the different functions and :ref:`source/vision/image_processing_api:Enums Image Processing` available for image processing.
 
 
 These functions are divided in subsections:

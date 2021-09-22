@@ -4,7 +4,7 @@ from io import open
 import sys
 from setuptools import find_packages, setup
 
-version = '1.0.4'
+version = '1.0.5'
 
 with open('README.rst', 'r', encoding='utf-8') as f:
     readme = f.read()
@@ -19,8 +19,8 @@ kwargs = {
     'long_description': readme,
     'author': 'Niryo',
     'author_email': 'r.lux@niryo.com',
-    'maintainer': 'Rémi Lux',
-    'maintainer_email': 'r.lux@niryo.com',
+    'maintainer': 'Niryo',
+    'maintainer_email': 'admin.it@niryo.com',
     'install_requires': REQUIRES,
     'include_package_data': True,
     'url': 'https://github.com/NiryoRobotics/pyniryo',

@@ -64,7 +64,7 @@ msgstr ""
 
 #: ../../source/examples/examples_movement.rst:20
 msgid "Move Joints"
-msgstr ""
+msgstr "Move Joints (Faire bouger les axes)"
 
 #: ../../source/examples/examples_movement.rst:21
 msgid "To make a moveJ, you can either provide:"
@@ -72,7 +72,7 @@ msgstr "Pour réaliser un moveJ, vous pouvez passer soit :"
 
 #: ../../source/examples/examples_movement.rst:23
 msgid "6 floats : ``j1, j2, j3, j4, j5, j6``"
-msgstr ""
+msgstr "6 floats (nombre à virgule flottante): ``j1, j2, j3, j4, j5, j6``"
 
 #: ../../source/examples/examples_movement.rst:24
 msgid "a list of 6 floats : ``[j1, j2, j3, j4, j5, j6]``"
@@ -100,7 +100,7 @@ msgstr ""
 
 #: ../../source/examples/examples_movement.rst:46
 msgid "Get Joints"
-msgstr ""
+msgstr "Get Joints (Obtenir la position des joints)"
 
 #: ../../source/examples/examples_movement.rst:47
 msgid ""
@@ -137,7 +137,7 @@ msgstr "Pour réaliser un moveP, vous pouvez passer : "
 
 #: ../../source/examples/examples_movement.rst:67
 msgid "6 floats : x, y, z, roll, pitch, yaw"
-msgstr ""
+msgstr "6 floats : x, y, z, roulis, tangage, lacet"
 
 #: ../../source/examples/examples_movement.rst:68
 msgid "a list of 6 floats : [x, y, z, roll, pitch, yaw]"
@@ -163,7 +163,7 @@ msgstr "Chacune de ces 6 commandes provoquent le même résultat."
 
 #: ../../source/examples/examples_movement.rst:91
 msgid "Get Pose"
-msgstr ""
+msgstr "Get Pose (Obtenir la pose du PCO)"
 
 #: ../../source/examples/examples_movement.rst:92
 msgid ""

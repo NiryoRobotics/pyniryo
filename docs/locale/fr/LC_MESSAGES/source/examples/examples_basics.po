@@ -88,7 +88,7 @@ msgid ""
 "Our process is now over, we can close the connection with "
 ":meth:`~.api.tcp_client.NiryoRobot.quit`. ::"
 msgstr ""
-"Notre process est désormais terminer. On déconnecte le robot avec  "
+"Notre process est désormais terminé. On déconnecte le robot avec  "
 ":meth:`~.api.tcp_client.NiryoRobot.quit`. ::"
 
 #: ../../source/examples/examples_basics.rst:55
