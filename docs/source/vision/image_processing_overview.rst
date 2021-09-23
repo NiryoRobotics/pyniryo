@@ -25,8 +25,8 @@ lead to heavy packets which can saturate the network, it sends compressed images
 You access it through the robot's function:
 :meth:`~.api.tcp_client.NiryoRobot.get_img_compressed`.
 Once your image is received, you firstly need to uncompress via
-:func:`~.vision.image_functions.uncompress_image` and you can then display
-it with :func:`~.vision.image_functions.show_img_and_wait_close`. ::
+:meth:`~.vision.image_functions.uncompress_image` and you can then display
+it with :meth:`~.vision.image_functions.show_img_and_wait_close`. ::
 
     from pyniryo import *
 
@@ -42,7 +42,7 @@ it with :func:`~.vision.image_functions.show_img_and_wait_close`. ::
     show_img_and_wait_close("img_stream", img)
 
 .. note::
-    :func:`~.vision.image_functions.show_img_and_wait_close` will wait for the user
+    :meth:`~.vision.image_functions.show_img_and_wait_close` will wait for the user
     to press either *Q* or *Esc* key, before closing the window.
 
 Undistort and display video stream
@@ -54,13 +54,13 @@ As Ned's camera is passing raw images to the robot, these
 images are distorted due to the camera lens. In order to undistort them,
 we need to use Ned's camera intrinsics.
 
-To undistort the raw image, we use :func:`~.vision.image_functions.undistort_image`
-which need to be called with the parameters given by Ned through
+To undistort the raw image, we use :meth:`~.vision.image_functions.undistort_image`
+which needs to be called with the parameters given by Ned through
 :meth:`~.api.tcp_client.NiryoRobot.get_camera_intrinsics`.
 
 Once, we have both raw & undistorted images, we can concatenate them in order
-to display them in once with :func:`~.vision.image_functions.concat_imgs`.
-Finally, we display the image :func:`~.vision.image_functions.show_img`. ::
+to display them in once with :meth:`~.vision.image_functions.concat_imgs`.
+Finally, we display the image :meth:`~.vision.image_functions.show_img`. ::
 
     from pyniryo import *
 
@@ -102,9 +102,6 @@ Pure image processing functions
 -------------------------------------
 
 
-.. hint:: See the curriculum on image processing for more theoretical information.
-
-
 In order to illustrate functions, we are going to use the following image.
 
 .. figure:: images/img_illustration.jpg
@@ -126,7 +123,7 @@ Color thresholding
 
 Color thresholding is very useful in order to detect object with an uniform color.
 The implemented function to realize this operation is
-:func:`~.vision.image_functions.threshold_hsv`.
+:meth:`~.vision.image_functions.threshold_hsv`.
 
 
 The following code is using parameters from :class:`~.vision.enums.ColorHSV` enum
@@ -174,7 +171,7 @@ also comes into play.
 Learn more on `Wikipedia page <https://en.wikipedia.org/wiki/Mathematical_morphology>`_.
 
 The implemented function to realize these operations is
-:func:`~.vision.image_functions.morphological_transformations`.
+:meth:`~.vision.image_functions.morphological_transformations`.
 It uses :class:`~.vision.enums.MorphoType` and :class:`~.vision.enums.KernelType`
 to determine which operation should be applied on the image.
 
@@ -219,8 +216,8 @@ object detection and recognition. See more on
 `OpenCV Documentation <https://docs.opencv.org/3.4/d3/d05/tutorial_py_table_of_contents_contours.html>`_.
 
 The implemented function to realize these operations is
-:func:`~.vision.image_functions.biggest_contours_finder` which takes a
-Black & White image, and extract the biggest (in term of area) contours from it.
+:meth:`~.vision.image_functions.biggest_contours_finder` which takes a
+Black & White image, and extracts the biggest (in term of area) contours from it.
 
 The code to extract and draw the 3 biggest contours from an image is
 the following: ::
@@ -253,8 +250,8 @@ In order to catch an object, we need to find a pose from where the
 end effector can grasp the object. The following method 
 uses contours which have been found in the previous section and finds their
 barycenter and orientation via the functions
-:func:`~.vision.image_functions.get_contour_barycenter` &
-:func:`~.vision.image_functions.get_contour_angle`. ::
+:meth:`~.vision.image_functions.get_contour_barycenter` &
+:meth:`~.vision.image_functions.get_contour_angle`. ::
 
 
     img_threshold = threshold_hsv(img_test, *ColorHSV.ANY.value)
@@ -286,7 +283,7 @@ Markers extraction
 ^^^^^^^^^^^^^^^^^^^^^^
 As image processing happens in a workspace, it is important to extract
 the workspace beforehand! To do so, you can use the function
-:func:`~.vision.image_functions.extract_img_workspace`. ::
+:meth:`~.vision.image_functions.extract_img_workspace`. ::
 
     status, im_work = extract_img_workspace(img, workspace_ratio=1.0)
     show_img("init", img_test)
@@ -307,8 +304,8 @@ the workspace beforehand! To do so, you can use the function
 Debug mode
 ^^^^^^^^^^^^^
 If Ned's functions are failing, you can use Debug functions which are
-:func:`~.vision.image_functions.debug_threshold_color` &
-:func:`~.vision.image_functions.debug_markers` in order to display what
+:meth:`~.vision.image_functions.debug_threshold_color` &
+:meth:`~.vision.image_functions.debug_markers` in order to display what
 the robot sees.
 
 You can use the functions as follow: ::
@@ -400,7 +397,7 @@ Vision pick via your image processing pipeline
 
 You may want to send coordinate to Ned in order to pick
 the object of your choice! To do that, use the function
-:func:`~.vision.image_functions.get_target_pose_from_rel` which
+:meth:`~.api.tcp_client.NiryoRobot.get_target_pose_from_rel` which
 converts a relative pose in the workspace into a pose in the robot's world! ::
 
     # Initializing variables

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-29 13:17+0000\n"
+"POT-Creation-Date: 2021-09-07 07:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid ""
 "This file presents the different :ref:`source/api_doc/api:Command "
 "Functions`, :ref:`source/api_doc/api:Enums` & "
-":ref:`source/api_doc/api:Python Object classes` available with the API"
+":ref:`source/api_doc/api:Python Object classes` available with the API."
 msgstr ""
 
 #: ../../source/api_doc/api.rst:7
@@ -59,7 +59,7 @@ msgstr ""
 #: ../../source/api_doc/api.rst:20
 msgid ""
 "This section references all existing functions to control your robot, "
-"which includes"
+"which includes:"
 msgstr ""
 
 #: ../../source/api_doc/api.rst:22
@@ -96,8 +96,55 @@ msgstr ""
 msgid "TCP Connection"
 msgstr ""
 
-#: api.tcp_client.NiryoRobot.close_connection:1 of
-msgid "Close connection with robot"
+#: api.tcp_client.NiryoRobot.connect:1 of
+msgid "Connect to the TCP Server"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.activate_electromagnet
+#: api.tcp_client.NiryoRobot.calibrate api.tcp_client.NiryoRobot.close_gripper
+#: api.tcp_client.NiryoRobot.connect api.tcp_client.NiryoRobot.control_conveyor
+#: api.tcp_client.NiryoRobot.deactivate_electromagnet
+#: api.tcp_client.NiryoRobot.delete_workspace
+#: api.tcp_client.NiryoRobot.detect_object
+#: api.tcp_client.NiryoRobot.digital_read
+#: api.tcp_client.NiryoRobot.digital_write api.tcp_client.NiryoRobot.enable_tcp
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints
+#: api.tcp_client.NiryoRobot.forward_kinematics
+#: api.tcp_client.NiryoRobot.get_pose_saved
+#: api.tcp_client.NiryoRobot.get_target_pose_from_cam
+#: api.tcp_client.NiryoRobot.get_target_pose_from_rel
+#: api.tcp_client.NiryoRobot.get_workspace_ratio
+#: api.tcp_client.NiryoRobot.inverse_kinematics
+#: api.tcp_client.NiryoRobot.jog_joints api.tcp_client.NiryoRobot.jog_pose
+#: api.tcp_client.NiryoRobot.move_joints
+#: api.tcp_client.NiryoRobot.move_linear_pose
+#: api.tcp_client.NiryoRobot.move_pose api.tcp_client.NiryoRobot.move_to_object
+#: api.tcp_client.NiryoRobot.open_gripper
+#: api.tcp_client.NiryoRobot.pick_and_place
+#: api.tcp_client.NiryoRobot.pick_from_pose
+#: api.tcp_client.NiryoRobot.place_from_pose
+#: api.tcp_client.NiryoRobot.run_conveyor api.tcp_client.NiryoRobot.save_pose
+#: api.tcp_client.NiryoRobot.save_trajectory
+#: api.tcp_client.NiryoRobot.save_workspace_from_points
+#: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses
+#: api.tcp_client.NiryoRobot.set_arm_max_velocity
+#: api.tcp_client.NiryoRobot.set_brightness
+#: api.tcp_client.NiryoRobot.set_contrast
+#: api.tcp_client.NiryoRobot.set_jog_control
+#: api.tcp_client.NiryoRobot.set_learning_mode
+#: api.tcp_client.NiryoRobot.set_pin_mode
+#: api.tcp_client.NiryoRobot.set_saturation api.tcp_client.NiryoRobot.set_tcp
+#: api.tcp_client.NiryoRobot.setup_electromagnet
+#: api.tcp_client.NiryoRobot.shift_linear_pose
+#: api.tcp_client.NiryoRobot.shift_pose api.tcp_client.NiryoRobot.stop_conveyor
+#: api.tcp_client.NiryoRobot.unset_conveyor
+#: api.tcp_client.NiryoRobot.vision_pick api.tcp_client.NiryoRobot.wait of
+msgid "Parameters"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.connect:3 of
+msgid "IP Address"
 msgstr ""
 
 #: api.objects.PoseObject.copy_with_offsets api.objects.PoseObject.to_list
@@ -112,8 +159,9 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.delete_workspace
 #: api.tcp_client.NiryoRobot.detect_object
 #: api.tcp_client.NiryoRobot.digital_read
-#: api.tcp_client.NiryoRobot.digital_write
+#: api.tcp_client.NiryoRobot.digital_write api.tcp_client.NiryoRobot.enable_tcp
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints
 #: api.tcp_client.NiryoRobot.execute_trajectory_saved
 #: api.tcp_client.NiryoRobot.forward_kinematics
 #: api.tcp_client.NiryoRobot.get_camera_intrinsics
@@ -121,6 +169,7 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.get_current_tool_id
 #: api.tcp_client.NiryoRobot.get_digital_io_state
 #: api.tcp_client.NiryoRobot.get_hardware_status
+#: api.tcp_client.NiryoRobot.get_image_parameters
 #: api.tcp_client.NiryoRobot.get_img_compressed
 #: api.tcp_client.NiryoRobot.get_joints
 #: api.tcp_client.NiryoRobot.get_learning_mode
@@ -150,70 +199,32 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.pull_air_vacuum_pump
 #: api.tcp_client.NiryoRobot.push_air_vacuum_pump
 #: api.tcp_client.NiryoRobot.release_with_tool
-#: api.tcp_client.NiryoRobot.run_conveyor api.tcp_client.NiryoRobot.save_pose
+#: api.tcp_client.NiryoRobot.reset_tcp api.tcp_client.NiryoRobot.run_conveyor
+#: api.tcp_client.NiryoRobot.save_pose
 #: api.tcp_client.NiryoRobot.save_trajectory
 #: api.tcp_client.NiryoRobot.save_workspace_from_points
 #: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses
 #: api.tcp_client.NiryoRobot.set_arm_max_velocity
+#: api.tcp_client.NiryoRobot.set_brightness
+#: api.tcp_client.NiryoRobot.set_contrast
+#: api.tcp_client.NiryoRobot.set_conveyor
 #: api.tcp_client.NiryoRobot.set_jog_control
 #: api.tcp_client.NiryoRobot.set_learning_mode
 #: api.tcp_client.NiryoRobot.set_pin_mode
+#: api.tcp_client.NiryoRobot.set_saturation api.tcp_client.NiryoRobot.set_tcp
 #: api.tcp_client.NiryoRobot.setup_electromagnet
 #: api.tcp_client.NiryoRobot.shift_linear_pose
 #: api.tcp_client.NiryoRobot.shift_pose api.tcp_client.NiryoRobot.stop_conveyor
-#: api.tcp_client.NiryoRobot.update_tool api.tcp_client.NiryoRobot.vision_pick
-#: api.tcp_client.NiryoRobot.wait of
+#: api.tcp_client.NiryoRobot.tool_reboot api.tcp_client.NiryoRobot.update_tool
+#: api.tcp_client.NiryoRobot.vision_pick api.tcp_client.NiryoRobot.wait of
 msgid "Return type"
 msgstr ""
 
-#: api.tcp_client.NiryoRobot.connect:1 of
-msgid "Connect to the TCP Server"
+#: api.tcp_client.NiryoRobot.close_connection:1 of
+msgid "Close connection with robot"
 msgstr ""
 
-#: api.tcp_client.NiryoRobot.activate_electromagnet
-#: api.tcp_client.NiryoRobot.calibrate api.tcp_client.NiryoRobot.close_gripper
-#: api.tcp_client.NiryoRobot.connect api.tcp_client.NiryoRobot.control_conveyor
-#: api.tcp_client.NiryoRobot.deactivate_electromagnet
-#: api.tcp_client.NiryoRobot.delete_workspace
-#: api.tcp_client.NiryoRobot.detect_object
-#: api.tcp_client.NiryoRobot.digital_read
-#: api.tcp_client.NiryoRobot.digital_write
-#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses
-#: api.tcp_client.NiryoRobot.forward_kinematics
-#: api.tcp_client.NiryoRobot.get_pose_saved
-#: api.tcp_client.NiryoRobot.get_target_pose_from_cam
-#: api.tcp_client.NiryoRobot.get_target_pose_from_rel
-#: api.tcp_client.NiryoRobot.get_workspace_ratio
-#: api.tcp_client.NiryoRobot.inverse_kinematics
-#: api.tcp_client.NiryoRobot.jog_joints api.tcp_client.NiryoRobot.jog_pose
-#: api.tcp_client.NiryoRobot.move_joints
-#: api.tcp_client.NiryoRobot.move_linear_pose
-#: api.tcp_client.NiryoRobot.move_pose api.tcp_client.NiryoRobot.move_to_object
-#: api.tcp_client.NiryoRobot.open_gripper
-#: api.tcp_client.NiryoRobot.pick_and_place
-#: api.tcp_client.NiryoRobot.pick_from_pose
-#: api.tcp_client.NiryoRobot.place_from_pose
-#: api.tcp_client.NiryoRobot.run_conveyor api.tcp_client.NiryoRobot.save_pose
-#: api.tcp_client.NiryoRobot.save_trajectory
-#: api.tcp_client.NiryoRobot.save_workspace_from_points
-#: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses
-#: api.tcp_client.NiryoRobot.set_arm_max_velocity
-#: api.tcp_client.NiryoRobot.set_jog_control
-#: api.tcp_client.NiryoRobot.set_learning_mode
-#: api.tcp_client.NiryoRobot.set_pin_mode
-#: api.tcp_client.NiryoRobot.setup_electromagnet
-#: api.tcp_client.NiryoRobot.shift_linear_pose
-#: api.tcp_client.NiryoRobot.shift_pose api.tcp_client.NiryoRobot.stop_conveyor
-#: api.tcp_client.NiryoRobot.unset_conveyor
-#: api.tcp_client.NiryoRobot.vision_pick api.tcp_client.NiryoRobot.wait of
-msgid "Parameters"
-msgstr ""
-
-#: api.tcp_client.NiryoRobot.connect:3 of
-msgid "IP Address"
-msgstr ""
-
-#: ../../source/api_doc/api.rst:50
+#: ../../source/api_doc/api.rst:49
 msgid "Main purpose functions"
 msgstr ""
 
@@ -244,6 +255,7 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.get_connected_conveyors_id
 #: api.tcp_client.NiryoRobot.get_digital_io_state
 #: api.tcp_client.NiryoRobot.get_hardware_status
+#: api.tcp_client.NiryoRobot.get_image_parameters
 #: api.tcp_client.NiryoRobot.get_img_compressed
 #: api.tcp_client.NiryoRobot.get_joints
 #: api.tcp_client.NiryoRobot.get_learning_mode
@@ -254,7 +266,8 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.get_trajectory_saved
 #: api.tcp_client.NiryoRobot.inverse_kinematics
 #: api.tcp_client.NiryoRobot.move_to_object
-#: api.tcp_client.NiryoRobot.vision_pick of
+#: api.tcp_client.NiryoRobot.set_conveyor api.tcp_client.NiryoRobot.vision_pick
+#: of
 msgid "Returns"
 msgstr ""
 
@@ -291,7 +304,7 @@ msgstr ""
 msgid "duration in seconds"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:59
+#: ../../source/api_doc/api.rst:61
 msgid "Joints & Pose"
 msgstr ""
 
@@ -357,7 +370,7 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.move_linear_pose:3
 #: api.tcp_client.NiryoRobot.pick_from_pose:10
 #: api.tcp_client.NiryoRobot.place_from_pose:10
-#: api.tcp_client.NiryoRobot.save_pose:4 of
+#: api.tcp_client.NiryoRobot.save_pose:4 api.tcp_client.NiryoRobot.set_tcp:4 of
 msgid ""
 "either 6 args (1 for each coordinates) or a list of 6 coordinates or a "
 "PoseObject"
@@ -421,7 +434,7 @@ msgstr ""
 msgid "Compute inverse kinematics"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:70
+#: ../../source/api_doc/api.rst:79
 msgid "Saved Poses"
 msgstr ""
 
@@ -449,7 +462,7 @@ msgstr ""
 msgid "Get list of poses' name saved in robot memory"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:78
+#: ../../source/api_doc/api.rst:87
 msgid "Pick & Place"
 msgstr ""
 
@@ -511,11 +524,12 @@ msgid "Place Pose : [x, y, z, roll, pitch, yaw] or PoseObject"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses:5
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:8
 #: api.tcp_client.NiryoRobot.pick_and_place:7 of
 msgid "Distance from waypoints before smoothing trajectory"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:86
+#: ../../source/api_doc/api.rst:94
 msgid "Trajectories"
 msgstr ""
 
@@ -527,17 +541,34 @@ msgstr ""
 msgid "Trajectory"
 msgstr ""
 
-#: api.tcp_client.NiryoRobot.execute_trajectory_saved:1 of
-msgid "Execute trajectory from Ned's memory"
-msgstr ""
-
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses:1 of
 msgid "Execute trajectory from list of poses"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses:3
 #: api.tcp_client.NiryoRobot.save_trajectory:4 of
-msgid "List of [x,y,z,qx,qy,qz,qw]"
+msgid "List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw]"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:1 of
+msgid "Execute trajectory from list of poses and joints"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:3 of
+msgid ""
+"List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw] or a list "
+"of [j1,j2,j3,j4,j5,j6]"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:5 of
+msgid ""
+"List of string 'pose' or 'joint', or ['pose'] (if poses only) or "
+"['joint'] (if joints only).  If None, it is assumed there are only poses "
+"in the list."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.execute_trajectory_saved:1 of
+msgid "Execute trajectory from Ned's memory"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.save_trajectory:1 of
@@ -552,7 +583,7 @@ msgstr ""
 msgid "Get list of trajectories' name saved in robot memory"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:95
+#: ../../source/api_doc/api.rst:105
 msgid "Tools"
 msgstr ""
 
@@ -609,7 +640,37 @@ msgstr ""
 msgid "Deactivate electromagnet associated to electromagnet_id on pin_id"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:105
+#: api.tcp_client.NiryoRobot.enable_tcp:1 of
+msgid ""
+"Enables or disables the TCP function (Tool Center Point). If activation "
+"is requested, the last recorded TCP value will be applied. The default "
+"value depends on the gripper equipped. If deactivation is requested, the "
+"TCP will be coincident with the tool_link."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.enable_tcp:6 of
+msgid "True to enable, False otherwise."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.set_tcp:1 of
+msgid ""
+"Activates the TCP function (Tool Center Point) and defines the "
+"transformation between the tool_link frame and the TCP frame."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.reset_tcp:1 of
+msgid ""
+"Reset the TCP (Tool Center Point) transformation. The TCP will be reset "
+"according to the tool equipped."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.tool_reboot:1 of
+msgid ""
+"Reboot the motor of the tool equipped. Useful when an Overload error "
+"occurs. (cf HardwareStatus)"
+msgstr ""
+
+#: ../../source/api_doc/api.rst:124
 msgid "Hardware"
 msgstr ""
 
@@ -643,7 +704,7 @@ msgstr ""
 msgid "List of DigitalPinObject instance"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:114
+#: ../../source/api_doc/api.rst:133
 msgid "Conveyor"
 msgstr ""
 
@@ -652,7 +713,7 @@ msgid "Activate a new conveyor and return its ID"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.set_conveyor:3 of
-msgid ":return : New conveyor ID :rtype: ConveyorID"
+msgid "New conveyor ID"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.unset_conveyor:1 of
@@ -687,7 +748,7 @@ msgstr ""
 msgid "List of the connected conveyors' ID"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:123
+#: ../../source/api_doc/api.rst:143
 msgid "Vision"
 msgstr ""
 
@@ -699,6 +760,69 @@ msgstr ""
 
 #: api.tcp_client.NiryoRobot.get_img_compressed:4 of
 msgid "string containing a JPEG compressed image"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.set_brightness:1 of
+msgid "Modify video stream brightness"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.set_brightness:3 of
+msgid ""
+"How much to adjust the brightness. 0.5 will give a darkened image, 1 will"
+" give the original image while 2 will enhance the brightness by a factor "
+"of 2."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.set_contrast:1 of
+msgid "Modify video stream contrast"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.set_contrast:3 of
+msgid ""
+"While a factor of 1 gives original image. Making the factor towards 0 "
+"makes the image greyer, while factor>1 increases the contrast of the "
+"image."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.set_saturation:1 of
+msgid "Modify video stream saturation"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.set_saturation:3 of
+msgid ""
+"How much to adjust the saturation. 0 will give a black and white image, 1"
+" will give the original image while 2 will enhance the saturation by a "
+"factor of 2."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_image_parameters:1 of
+msgid ""
+"Get last stream image parameters: Brightness factor, Contrast factor, "
+"Saturation factor."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_image_parameters:3 of
+msgid ""
+"Brightness factor: How much to adjust the brightness. 0.5 will give a "
+"darkened image, 1 will give the original image while 2 will enhance the "
+"brightness by a factor of 2."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_image_parameters:6 of
+msgid ""
+"Contrast factor: A factor of 1 gives original image. Making the factor "
+"towards 0 makes the image greyer, while factor>1 increases the contrast "
+"of the image."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_image_parameters:9 of
+msgid ""
+"Saturation factor: 0 will give a black and white image, 1 will give the "
+"original image while 2 will enhance the saturation by a factor of 2."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_image_parameters:12 of
+msgid "Brightness factor, Contrast factor, Saturation factor"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.get_target_pose_from_rel:1 of
@@ -860,62 +984,62 @@ msgstr ""
 msgid "Get list of workspaces' name store in robot's memory"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:135
+#: ../../source/api_doc/api.rst:163
 msgid "Enums"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:137
+#: ../../source/api_doc/api.rst:165
 msgid "Enums are used to pass specific parameters to functions."
 msgstr ""
 
-#: ../../source/api_doc/api.rst:139
+#: ../../source/api_doc/api.rst:167
 msgid ""
-"For instance, :meth:`~.api.tcp_client.NiryoRobot.change_tool` will need a"
-" parameter from :class:`~.api.objects.ToolID` enum ::"
+"For instance, :meth:`~.api.tcp_client.NiryoRobot.shift_pose` will need a "
+"parameter from :class:`~.api.objects.RobotAxis` enum ::"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:145
+#: ../../source/api_doc/api.rst:173
 msgid "List of enums:"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:147
-msgid ":class:`~.api.objects.CalibrateMode`"
+#: ../../source/api_doc/api.rst:175
+msgid ":class:`~.api.enums_communication.CalibrateMode`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:148
-msgid ":class:`~.api.objects.RobotAxis`"
+#: ../../source/api_doc/api.rst:176
+msgid ":class:`~.api.enums_communication.RobotAxis`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:149
-msgid ":class:`~.api.objects.ToolID`"
+#: ../../source/api_doc/api.rst:177
+msgid ":class:`~.api.enums_communication.ToolID`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:150
-msgid ":class:`~.api.objects.PinMode`"
+#: ../../source/api_doc/api.rst:178
+msgid ":class:`~.api.enums_communication.PinMode`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:151
-msgid ":class:`~.api.objects.PinState`"
+#: ../../source/api_doc/api.rst:179
+msgid ":class:`~.api.enums_communication.PinState`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:152
-msgid ":class:`~.api.objects.PinID`"
+#: ../../source/api_doc/api.rst:180
+msgid ":class:`~.api.enums_communication.PinID`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:153
-msgid ":class:`~.api.objects.ConveyorID`"
+#: ../../source/api_doc/api.rst:181
+msgid ":class:`~.api.enums_communication.ConveyorID`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:154
-msgid ":class:`~.api.objects.ConveyorDirection`"
+#: ../../source/api_doc/api.rst:182
+msgid ":class:`~.api.enums_communication.ConveyorDirection`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:155
-msgid ":class:`~.api.objects.ObjectColor`"
+#: ../../source/api_doc/api.rst:183
+msgid ":class:`~.api.enums_communication.ObjectColor`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:156
-msgid ":class:`~.api.objects.ObjectShape`"
+#: ../../source/api_doc/api.rst:184
+msgid ":class:`~.api.enums_communication.ObjectShape`"
 msgstr ""
 
 #: api.enums_communication.CalibrateMode:1 of
@@ -958,11 +1082,11 @@ msgstr ""
 msgid "Enumeration of Shapes available for image processing"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:169
+#: ../../source/api_doc/api.rst:196
 msgid "Python object classes"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:171
+#: ../../source/api_doc/api.rst:198
 msgid "Special objects"
 msgstr ""
 
@@ -1582,5 +1706,175 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "workspace name, maximum lenght 30 char."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "For instance, "
+#~ ":meth:`~.api.tcp_client.NiryoRobot.change_tool` will need"
+#~ " a parameter from :class:`~.api.objects.ToolID`"
+#~ " enum ::"
+#~ msgstr ""
+
+#~ msgid ":class:`~.api.objects.CalibrateMode`"
+#~ msgstr ""
+
+#~ msgid ":class:`~.api.objects.RobotAxis`"
+#~ msgstr ""
+
+#~ msgid ":class:`~.api.objects.ToolID`"
+#~ msgstr ""
+
+#~ msgid ":class:`~.api.objects.PinMode`"
+#~ msgstr ""
+
+#~ msgid ":class:`~.api.objects.PinState`"
+#~ msgstr ""
+
+#~ msgid ":class:`~.api.objects.PinID`"
+#~ msgstr ""
+
+#~ msgid ":class:`~.api.objects.ConveyorID`"
+#~ msgstr ""
+
+#~ msgid ":class:`~.api.objects.ConveyorDirection`"
+#~ msgstr ""
+
+#~ msgid ":class:`~.api.objects.ObjectColor`"
+#~ msgstr ""
+
+#~ msgid ":class:`~.api.objects.ObjectShape`"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This file presents the different "
+#~ ":ref:`source/api_doc/api:Command Functions`, "
+#~ ":ref:`source/api_doc/api:Enums` & "
+#~ ":ref:`source/api_doc/api:Python Object classes` "
+#~ "available with the API"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This section references all existing "
+#~ "functions to control your robot, which"
+#~ " includes"
+#~ msgstr ""
+
+#~ msgid "List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw]"
+#~ msgstr ""
+
+#~ msgid "Execute trajectory from list of poses and joints"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "List of [x,y,z,qx,qy,qz,qw] or list of"
+#~ " [x,y,z,roll,pitch,yaw] or a list of "
+#~ "[j1,j2,j3,j4,j5,j6]"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "List of string 'pose' or 'joint', "
+#~ "or ['pose'] (if poses only) or "
+#~ "['joint'] (if joints only).  If None,"
+#~ " it is assumed there are only "
+#~ "poses in the list."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Enables or disables the TCP function "
+#~ "(Tool Center Point). If activation is"
+#~ " requested, the last recorded TCP "
+#~ "value will be applied. The default "
+#~ "value depends on the gripper equipped."
+#~ " If deactivation is requested, the "
+#~ "TCP will be coincident with the "
+#~ "tool_link."
+#~ msgstr ""
+
+#~ msgid "True to enable, False otherwise."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Activates the TCP function (Tool Center"
+#~ " Point) and defines the transformation "
+#~ "between the tool_link frame and the "
+#~ "TCP frame."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Reset the TCP (Tool Center Point) "
+#~ "transformation. The TCP will be reset"
+#~ " according to the tool equipped."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Reboot the motor of the tool "
+#~ "equipped. Useful when an Overload error"
+#~ " occurs. (cf HardwareStatus)"
+#~ msgstr ""
+
+#~ msgid "Modify video stream brightness"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "How much to adjust the brightness. "
+#~ "0.5 will give a darkened image, 1"
+#~ " will give the original image while"
+#~ " 2 will enhance the brightness by "
+#~ "a factor of 2."
+#~ msgstr ""
+
+#~ msgid "Modify video stream contrast"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "While a factor of 1 gives original"
+#~ " image. Making the factor towards 0"
+#~ " makes the image greyer, while "
+#~ "factor>1 increases the contrast of the"
+#~ " image."
+#~ msgstr ""
+
+#~ msgid "Modify video stream saturation"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "How much to adjust the saturation. "
+#~ "0 will give a black and white "
+#~ "image, 1 will give the original "
+#~ "image while 2 will enhance the "
+#~ "saturation by a factor of 2."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Get last stream image parameters: "
+#~ "Brightness factor, Contrast factor, Saturation"
+#~ " factor."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Brightness factor: How much to adjust"
+#~ " the brightness. 0.5 will give a "
+#~ "darkened image, 1 will give the "
+#~ "original image while 2 will enhance "
+#~ "the brightness by a factor of 2."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Contrast factor: A factor of 1 "
+#~ "gives original image. Making the factor"
+#~ " towards 0 makes the image greyer,"
+#~ " while factor>1 increases the contrast "
+#~ "of the image."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Saturation factor: 0 will give a "
+#~ "black and white image, 1 will give"
+#~ " the original image while 2 will "
+#~ "enhance the saturation by a factor "
+#~ "of 2."
+#~ msgstr ""
+
+#~ msgid "Brightness factor, Contrast factor, Saturation factor"
 #~ msgstr ""
 

@@ -1,7 +1,7 @@
 Functions documentation
 =====================================
 
-This file presents the different functions and :ref:`source/vision/image_processing_api:Enums Image Processing` available for image processing
+This file presents the different functions and :ref:`source/vision/image_processing_api:Enums Image Processing` available for image processing.
 
 
 These functions are divided in subsections:
@@ -19,32 +19,38 @@ These functions are divided in subsections:
 Pure image processing
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: vision.image_functions
-   :members: threshold_hsv, debug_threshold_color, morphological_transformations, get_contour_barycenter,
-             get_contour_angle, biggest_contour_finder, biggest_contours_finder, draw_contours
-   :noindex:
+.. automethod:: vision.image_functions.threshold_hsv
+.. automethod:: vision.image_functions.debug_threshold_color
+.. automethod:: vision.image_functions.morphological_transformations
+.. automethod:: vision.image_functions.get_contour_barycenter
+.. automethod:: vision.image_functions.get_contour_angle
+.. automethod:: vision.image_functions.biggest_contour_finder
+.. automethod:: vision.image_functions.biggest_contours_finder
+.. automethod:: vision.image_functions.draw_contours
 
 Workspaces wise
 ^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: vision.image_functions
-   :members: extract_img_workspace, debug_markers, relative_pos_from_pixels
-   :noindex:
+.. automethod:: vision.image_functions.extract_img_workspace
+.. automethod:: vision.image_functions.debug_markers
+.. automethod:: vision.image_functions.relative_pos_from_pixels
 
 Show
 ^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: vision.image_functions
-   :members: show_img_and_check_close, show_img, show_img_and_wait_close
-   :noindex:
+.. automethod:: vision.image_functions.show_img_and_check_close
+.. automethod:: vision.image_functions.show_img
+.. automethod:: vision.image_functions.show_img_and_wait_close
 
 Image Editing
 ^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: vision.image_functions
-   :members: compress_image, uncompress_image, add_annotation_to_image,
-             undistort_image, resize_img, concat_imgs
-   :noindex:
+.. automethod:: vision.image_functions.compress_image
+.. automethod:: vision.image_functions.uncompress_image
+.. automethod:: vision.image_functions.add_annotation_to_image
+.. automethod:: vision.image_functions.undistort_image
+.. automethod:: vision.image_functions.resize_img
+.. automethod:: vision.image_functions.concat_imgs
 
 Enums Image Processing
 ^^^^^^^^^^^^^^^^^^^^^^^

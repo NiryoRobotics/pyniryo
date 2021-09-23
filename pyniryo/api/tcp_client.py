@@ -690,34 +690,61 @@ class NiryoRobot(object):
         """
         Execute trajectory from list of poses
 
-        :param list_poses: List of [x,y,z,qx,qy,qz,qw]
+        :param list_poses: List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw]
         :type list_poses: list[list[float]]
         :param dist_smoothing: Distance from waypoints before smoothing trajectory
         :type dist_smoothing: float
         :rtype: None
         """
         for i, pose in enumerate(list_poses):
-            if len(pose) != 7:
-                self.__raise_exception("7 parameters expected in a pose [x,y,z,qx,qy,qz,qw], "
-                                       "{} parameters given".format(len(pose)))
+            if len(pose) != 7 and len(pose) != 6:
+                self.__raise_exception(
+                    "7 parameters expected in a pose [x,y,z,qx,qy,qz,qw], or 6 in a pose [x,y,z,roll,pitch,yaw], "
+                    "{} parameters given".format(len(pose)))
             list_poses[i] = self.__map_list(pose, float)
 
         self.__send_n_receive(Command.EXECUTE_TRAJECTORY_FROM_POSES, list_poses, dist_smoothing)
+
+    def execute_trajectory_from_poses_and_joints(self, list_pose_joints, list_type=None, dist_smoothing=0.0):
+        """
+        Execute trajectory from list of poses and joints
+
+        :param list_pose_joints: List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw] or a list of [j1,j2,j3,j4,j5,j6]
+        :type list_pose_joints: list[list[float]]
+        :param list_type: List of string 'pose' or 'joint', or ['pose'] (if poses only) or ['joint'] (if joints only). 
+                        If None, it is assumed there are only poses in the list.
+        :type list_type: list[string]
+        :param dist_smoothing: Distance from waypoints before smoothing trajectory
+        :type dist_smoothing: float
+        :rtype: None
+        """
+        if list_type is None:
+            list_type = ['pose']
+        for i, pose_or_joint in enumerate(list_pose_joints):
+            if len(pose_or_joint) != 7 and len(pose_or_joint) != 6:
+                self.__raise_exception(
+                    "7 parameters expected in a pose [x,y,z,qx,qy,qz,qw], or 6 in a pose [x,y,z,roll,pitch,yaw], "
+                    "or 6 in a joint [j1,j2,j3,j4,j5,j6]"
+                    "{} parameters given".format(len(pose_or_joint)))
+            list_pose_joints[i] = self.__map_list(pose_or_joint, float)
+        self.__send_n_receive(Command.EXECUTE_TRAJECTORY_FROM_POSES_AND_JOINTS, list_pose_joints, list_type,
+                              dist_smoothing)
 
     def save_trajectory(self, trajectory_name, list_poses):
         """
         Save trajectory in robot memory
 
         :type trajectory_name: str
-        :param list_poses: List of [x,y,z,qx,qy,qz,qw]
+        :param list_poses: List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw]
         :type list_poses: list[list[float]]
         :rtype: None
         """
         self.__check_type(trajectory_name, str)
         for i, pose in enumerate(list_poses):
-            if len(pose) != 7:
-                self.__raise_exception("7 parameters expected in a pose [x,y,z,qx,qy,qz,qw], "
-                                       "{} parameters given".format(len(pose)))
+            if len(pose) != 7 and len(pose) != 6:
+                self.__raise_exception(
+                    "7 parameters expected in a pose [x,y,z,qx,qy,qz,qw], or 6 in a pose [x,y,z,roll,pitch,yaw], "
+                    "{} parameters given".format(len(pose)))
             list_poses[i] = self.__map_list(pose, float)
 
         self.__send_n_receive(Command.SAVE_TRAJECTORY, trajectory_name, list_poses)
@@ -1009,7 +1036,7 @@ class NiryoRobot(object):
         """
         Activate a new conveyor and return its ID
 
-        :return : New conveyor ID
+        :return: New conveyor ID
         :rtype: ConveyorID
         """
         conveyor_id_str = self.__send_n_receive(Command.SET_CONVEYOR)

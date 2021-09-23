@@ -1,7 +1,7 @@
 Find your Robot's IP address
 =================================
 
-In order to use your robot through TCP connection, you will firstly need
+In order to use your robot through TCP connection, you will first need
 to connect to it, which implies that you know its IP address.
 
 The next sections explain how to find your robot IP according to your configuration:
@@ -12,7 +12,7 @@ The next sections explain how to find your robot IP according to your configurat
 
 Hotspot mode
 ----------------------------------------
-If you are directly connected to your robot through its wifi, the IP Address
+If you are directly connected to your robot through its wi-fi, the IP address
 you will need to use is ``10.10.10.10``.
 
 Simulation or directly on the robot
@@ -27,7 +27,7 @@ If you are directly connected to your robot with an ethernet cable, the static I
 robot will be ``169.254.200.200``.
 
 The reader should note that he may need to change his wired settings to allow the connection.
-See how `to connect to Ned via Ethernet on Ubuntu <https://niryo.com/docs/niryo-one/developer-tutorials/connect-to-niryo-one-via-ethernet-on-ubuntu/>`_.
+See how to `Connect to Ned via Ethernet on Ubuntu <https://docs.niryo.com/applications/ned/source/tutorials/setup_connect_ned_ethernet.html>`_.
 
 Computer and robot connected on the same router
 -------------------------------------------------------------
@@ -84,6 +84,3 @@ And add to its end::
 
 From its next reboot, the robot will appear under
 the IP ``192.168.1.<your_ip_address_last_number>``.
-
-.. |link_ethernet| replace:: Connect to Ned via Ethernet on Ubuntu
-.. _link_ethernet: https://niryo.com/docs/niryo-one/developer-tutorials/connect-to-niryo-one-via-ethernet-on-ubuntu/

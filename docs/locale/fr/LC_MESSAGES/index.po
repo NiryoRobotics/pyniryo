@@ -64,7 +64,7 @@ msgid ""
 "This package is able to control Ned in simulation as well as the physical"
 " robot."
 msgstr ""
-"Ce package est capable de contrôler Ned le robot physique mais également "
+"Ce package est capable de contrôler Ned physiquement mais également "
 "en simulation."
 
 #: ../../index.rst:25
