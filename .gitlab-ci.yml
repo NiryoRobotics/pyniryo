@@ -100,6 +100,8 @@ upload_staging_job:
   environment:
     name: staging
     deployment_tier: staging
+  tags:
+    - staging
   variables:
     BASE_FOLDER_DOC_URL: https://staging.docs.niryo.com/dev
     TARGET_FOLDER_OVH: ~/docs_staging/dev
@@ -124,6 +126,8 @@ upload_production_job:
   environment:
     name: production
     deployment_tier: production
+  tags:
+    - production
   variables:
     BASE_FOLDER_DOC_URL: https://docs.niryo.com/dev
     TARGET_FOLDER_OVH: ~/docs/dev
@@ -143,8 +147,6 @@ release_gitlab_job:
   environment:
     name: production
     deployment_tier: production
-  needs:
-    - build_doc_job
   stage: release_gitlab
   retry:
     max: 2
