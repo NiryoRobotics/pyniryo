@@ -9,6 +9,8 @@ variables:
 
   ##############################################################################
 
+  PYPI_PROJECT_NAME: pyniryo
+
   # Allow to pull the directory containing front-end files
   GIT_SUBMODULE_STRATEGY: recursive
   GIT_STRATEGY: fetch
@@ -124,7 +126,7 @@ upload_production_job:
   image: registry.gitlab.com/niryo/dockers/build_docs/base:v1.0.4
   stage: upload
   environment:
-    name: production
+    name: production/documentation
     deployment_tier: production
   tags:
     - production
@@ -137,6 +139,37 @@ upload_production_job:
     - build_doc_job
   extends: .abstract_upload
 
+upload_pypi_job:
+  rules:
+    # Just in case we would restrict to master (https://stackoverflow.com/a/64448994)
+    # If a it's a tag && protected tag && branch master
+    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true" && '$CI_COMMIT_BRANCH == master'
+  image: python:3.10.0-buster
+  stage: upload
+  environment:
+    name: production/pypi
+    deployment_tier: production
+  script:
+    # Install needed dependencies:
+    - python3 -m pip install --upgrade build
+    - python3 -m pip install --upgrade twine
+    - |
+      echo \
+      "[distutils]
+      index-servers =
+        $PYPI_PROJECT_NAME
+
+      [$PYPI_PROJECT_NAME]
+      repository=https://upload.pypi.org/legacy/
+
+      username = $PYPI_ACCOUNT
+      password = $PYPI_PASSWORD" >> ~/.pypirc
+    # Create a dist folder containing pip files
+    - python3 -m build;
+    # Upload created files to Pypi online
+    - python3 -m twine upload --repository $PYPI_PROJECT_NAME dist/*
+
+
 release_gitlab_job:
   rules:
     ## Just in case we would restrict to master (https://stackoverflow.com/a/64448994)
@@ -144,9 +177,6 @@ release_gitlab_job:
     - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"
 
   image: registry.gitlab.com/gitlab-org/release-cli:v0.8.0
-  environment:
-    name: production
-    deployment_tier: production
   stage: release_gitlab
   retry:
     max: 2
