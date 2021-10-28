@@ -149,6 +149,8 @@ upload_pypi_job:
   environment:
     name: production/pypi
     deployment_tier: production
+  tags:
+    - production
   script:
     # Install needed dependencies:
     - python3 -m pip install --upgrade build
