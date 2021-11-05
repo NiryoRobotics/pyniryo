@@ -4,5 +4,7 @@ plugins:
     enabled: true
   sonar-python:
     enabled: true
+  fixme:
+    enabled: true
 exclude_patterns:
   - docs
