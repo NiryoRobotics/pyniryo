@@ -18,6 +18,7 @@ variables:
 
 stages:
   - build
+  - test
   - upload
   - release_gitlab
 
@@ -32,6 +33,24 @@ build_doc_job:
   artifacts:
     paths:
       - ${DOCUMENTATION_OUTPUT_FOLDER}
+
+## See https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
+code_quality:
+  tags:
+    - dind
+  artifacts:
+    paths: [gl-code-quality-report.json]
+
+code_quality_html:
+  extends: code_quality
+  variables:
+    REPORT_FORMAT: html
+  artifacts:
+    paths: [gl-code-quality-report.html]
+##
 
 .abstract_upload:
   before_script:
@@ -111,6 +130,7 @@ upload_staging_job:
   rules:
     - if: $CI_COMMIT_BRANCH
       when: manual
+      allow_failure: true
   dependencies:
     - build_doc_job
   needs:

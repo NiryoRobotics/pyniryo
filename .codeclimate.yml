@@ -1,0 +1,8 @@
+version: "2"
+plugins:
+  pep8:
+    enabled: true
+  sonar-python:
+    enabled: true
+exclude_patterns:
+  - docs
