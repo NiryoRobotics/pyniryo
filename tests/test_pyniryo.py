@@ -2,16 +2,17 @@
 
 import numpy as np
 import sys
-
+from time import time
 import unittest
+import time
 
 from pyniryo import *
 
 simulation = "-rpi" not in sys.argv
 tool_used = ToolID.GRIPPER_1
 
-robot_ip_address_rpi = "192.168.1.202"
-robot_ip_address_gazebo = "127.0.0.1"
+robot_ip_address_rpi = "192.168.1.92"
+robot_ip_address_gazebo = "192.168.1.92"  # "127.0.0.1"
 robot_ip_address = robot_ip_address_gazebo if simulation else robot_ip_address_rpi
 
 
@@ -243,7 +244,22 @@ class TestTrajectoryMethods(BaseTestTcpApi):
         self.assertIsNone(self.niryo_robot.delete_trajectory(traj_name))
 
 
+# noinspection PyTypeChecker
 class TestTools(BaseTestTcpApi):
+    @classmethod
+    def setUpClass(cls):
+        cls.niryo_robot = NiryoRobot(robot_ip_address)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.niryo_robot.close_connection()
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
     # noinspection PyTypeChecker
     def test_select(self):
         # Set tool used and check
@@ -269,24 +285,101 @@ class TestTools(BaseTestTcpApi):
         if tool_used in [ToolID.GRIPPER_1, ToolID.GRIPPER_2, ToolID.GRIPPER_3]:
             self.assertIsNone(self.niryo_robot.close_gripper())
             self.assertIsNone(self.niryo_robot.open_gripper())
+            self.assertIsNone(self.niryo_robot.open_gripper(speed=500))
+            self.assertIsNone(self.niryo_robot.close_gripper(speed=500))
+            self.assertIsNone(self.niryo_robot.open_gripper(max_torque_percentage=100, hold_torque_percentage=50))
+            self.assertIsNone(self.niryo_robot.close_gripper(max_torque_percentage=100, hold_torque_percentage=50))
+
+    def test_electromagnet(self):
+        # Equip tool
+        self.assertIsNone(self.niryo_robot.setup_electromagnet(PinID.GPIO_1A))
+        self.assertIsNone(self.niryo_robot.setup_electromagnet("1B"))
+
+        # Grasp/Release without ID
+        self.assertIsNone(self.niryo_robot.grasp_with_tool())
+        self.assertIsNone(self.niryo_robot.release_with_tool())
+
+        # Grasp/Release with ID
+        self.assertIsNone(self.niryo_robot.activate_electromagnet(PinID.GPIO_1B))
+        self.assertIsNone(self.niryo_robot.deactivate_electromagnet("1B"))
 
 
-@unittest.skipIf(simulation, "Hardware is not available in simulation")
-class TestHardware(BaseTestTcpApi):
-    list_pins = [PinID.GPIO_1A, PinID.GPIO_1B, PinID.GPIO_1C, PinID.GPIO_2A, PinID.GPIO_2B,
-                 PinID.GPIO_2C]
+# noinspection PyTypeChecker
+class TestIOs(BaseTestTcpApi):
+    @classmethod
+    def setUpClass(cls):
+        cls.niryo_robot = NiryoRobot(robot_ip_address)
 
-    def test_hardware(self):
-        for pin in self.list_pins:
-            self.assertIsNone(self.niryo_robot.set_pin_mode(pin, PinMode.OUTPUT))
-            self.assertIsNone(self.niryo_robot.digital_write(pin, PinState.LOW))
-            self.assertEqual(self.niryo_robot.digital_read(pin), PinState.LOW)
-            self.assertIsNone(self.niryo_robot.digital_write(pin, PinState.HIGH))
-            self.assertEqual(self.niryo_robot.digital_read(pin), PinState.HIGH)
+    @classmethod
+    def tearDownClass(cls):
+        cls.niryo_robot.close_connection()
 
-            self.assertIsNone(self.niryo_robot.set_pin_mode(pin, PinMode.INPUT))
-            with self.assertRaises(NiryoRobotException):
-                self.niryo_robot.digital_write(pin, PinState.LOW)
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_digital_ios(self):
+        self.assertIsInstance(self.niryo_robot.get_digital_io_state(), list)
+        self.assertIsInstance(self.niryo_robot.get_digital_io_state()[0], DigitalPinObject)
+        self.assertIsInstance(self.niryo_robot.get_digital_io_state()[0].pin_id, PinID)
+        self.assertIsInstance(self.niryo_robot.get_digital_io_state()[0].name, str)
+        self.assertIsInstance(self.niryo_robot.get_digital_io_state()[0].mode, PinMode)
+        self.assertIsInstance(self.niryo_robot.get_digital_io_state()[0].state, PinState)
+
+        for index, pin_object in enumerate(self.niryo_robot.get_digital_io_state()):
+            if pin_object.name.startswith('DI'):
+                continue
+
+            if not (pin_object.name.startswith('SW') or pin_object.name.startswith('DO')):
+                self.assertIsNone(self.niryo_robot.set_pin_mode(pin_object.name, PinMode.OUTPUT))
+                self.niryo_robot.wait(1)
+
+            self.assertEqual(self.niryo_robot.get_digital_io_state()[index].mode, PinMode.OUTPUT)
+
+            self.assertIsNone(self.niryo_robot.digital_write(pin_object.pin_id, PinState.HIGH))
+            self.assertEqual(self.niryo_robot.digital_read(pin_object.pin_id), PinState.HIGH)
+            self.assertEqual(self.niryo_robot.get_digital_io_state()[index].state, PinState.HIGH)
+            self.assertIsNone(self.niryo_robot.digital_write(pin_object.name, PinState.LOW))
+            self.assertEqual(self.niryo_robot.digital_read(pin_object.name), PinState.LOW)
+            self.assertEqual(self.niryo_robot.get_digital_io_state()[index].state, PinState.LOW)
+
+            if not (pin_object.name.startswith('SW') or pin_object.name.startswith('DO')):
+                self.assertIsNone(self.niryo_robot.set_pin_mode(pin_object.name, PinMode.INPUT))
+                self.assertEqual(self.niryo_robot.get_digital_io_state()[index].mode, PinMode.INPUT)
+
+                # with self.assertRaises(NiryoRobotException):
+                #    self.niryo_robot.digital_write(pin, PinState.LOW)
+
+    def test_analog_ios(self):
+        self.assertIsInstance(self.niryo_robot.get_analog_io_state(), list)
+        self.assertIsInstance(self.niryo_robot.get_analog_io_state()[0], AnalogPinObject)
+        self.assertIsInstance(self.niryo_robot.get_analog_io_state()[0].pin_id, PinID)
+        self.assertIsInstance(self.niryo_robot.get_analog_io_state()[0].name, str)
+        self.assertIsInstance(self.niryo_robot.get_analog_io_state()[0].mode, PinMode)
+        self.assertIsInstance(self.niryo_robot.get_analog_io_state()[0].value, (float, int))
+
+        for index, pin_object in enumerate(self.niryo_robot.get_analog_io_state()):
+            if pin_object.name.startswith('AI'):
+                self.assertEqual(self.niryo_robot.get_analog_io_state()[index].mode, PinMode.INPUT)
+            else:
+                self.assertEqual(self.niryo_robot.get_analog_io_state()[index].mode, PinMode.OUTPUT)
+
+                self.assertIsNone(self.niryo_robot.analog_write(pin_object.pin_id, 5.0))
+                self.assertEqual(self.niryo_robot.analog_read(pin_object.pin_id), 5.0)
+                self.assertEqual(self.niryo_robot.get_analog_io_state()[index].value, 5.0)
+
+                self.assertIsNone(self.niryo_robot.analog_write(pin_object.pin_id, 2.5))
+                self.assertEqual(self.niryo_robot.analog_read(pin_object.pin_id), 2.5)
+                self.assertEqual(self.niryo_robot.get_analog_io_state()[index].value, 2.5)
+
+                self.assertIsNone(self.niryo_robot.analog_write(pin_object.pin_id, 0))
+                self.assertEqual(self.niryo_robot.analog_read(pin_object.pin_id), 0)
+                self.assertEqual(self.niryo_robot.get_analog_io_state()[index].value, 0)
+
+    def test_button(self):
+        self.assertIsInstance(self.niryo_robot.get_custom_button_state(), str)
 
 
 @unittest.skipUnless(simulation, "Vision test is only coded for Gazebo")
@@ -374,6 +467,83 @@ class TestWorkspaceMethods(BaseTestTcpApi):
             self.assertIsNone(self.niryo_robot.delete_workspace(name))
             new_list.pop(new_list.index(name))
             self.assertEqual(self.niryo_robot.get_workspace_list(), new_list)
+
+
+class TestSound(BaseTestTcpApi):
+
+    def test_sons(self):
+        self.assertIsNotNone(self.niryo_robot.get_sounds())
+        self.assertIsInstance(self.niryo_robot.get_sounds(), list)
+
+        sound_name = self.niryo_robot.get_sounds()[0]
+
+        self.assertGreater(self.niryo_robot.get_sound_duration(sound_name), 0)
+        sound_duration = self.niryo_robot.get_sound_duration(sound_name)
+
+        self.assertIsNone(self.niryo_robot.set_volume(200))
+        self.assertIsNone(self.niryo_robot.set_volume(100))
+
+        self.assertIsNone(
+            self.niryo_robot.play_sound(sound_name, True, 0.1, sound_duration - 0.1))
+
+        self.assertIsNone(self.niryo_robot.play_sound(sound_name, False))
+        self.niryo_robot.wait(0.1)
+        self.assertIsNone(self.niryo_robot.stop_sound())
+        self.assertIsNone(self.niryo_robot.stop_sound())
+
+        self.assertIsNone(self.niryo_robot.say("Test", 0))
+
+        sound_list = self.niryo_robot.get_sounds()
+        sound_name_test = "unittest.mp3"
+        while sound_name_test + ".mp3" in sound_list:
+            sound_name_test += "0"
+        sound_name_test += ".mp3"
+
+        with self.assertRaises(TcpCommandException):
+            self.niryo_robot.get_sound_duration(sound_name_test)
+
+        with self.assertRaises(TcpCommandException):
+            self.niryo_robot.play_sound(sound_name_test, True)
+
+        with self.assertRaises(NiryoRobotException):
+            self.niryo_robot.say("Test", -1)
+
+        with self.assertRaises(TcpCommandException):
+            self.niryo_robot.set_volume(-100)
+
+        with self.assertRaises(TcpCommandException):
+            self.niryo_robot.set_volume(201)
+
+
+class TestLedRing(BaseTestTcpApi):
+
+    def test_ledring(self):
+        def check_delay(function, **kwargs):
+            start_time = time.time()
+            self.assertIsNotNone(function(**kwargs))
+            self.assertGreaterEqual(time.time(), start_time + kwargs['period'] * kwargs['iterations'])
+
+        self.assertIsNotNone(self.niryo_robot.set_led_color(1, [0, 255, 255]))
+        self.assertIsNotNone(self.niryo_robot.led_ring_solid([255, 0, 255]))
+        self.assertIsNotNone(
+            self.niryo_robot.led_ring_custom(led_colors=[[i / 30. * 255, 0, 255 - i / 30.] for i in range(30)]))
+
+        check_delay(self.niryo_robot.led_ring_flashing, color=[255, 255, 0], period=0.5, iterations=5, wait=True)
+
+        check_delay(self.niryo_robot.led_ring_alternate, color_list=[[0, 255, 255], [255, 0, 255]],
+                    period=0.5, iterations=4, wait=True)
+
+        check_delay(self.niryo_robot.led_ring_chase, color=[255, 255, 0], period=1, iterations=2, wait=True)
+        check_delay(self.niryo_robot.led_ring_go_up, color=[0, 255, 255], period=0.5, iterations=4, wait=True)
+        check_delay(self.niryo_robot.led_ring_go_up_down, color=[255, 0, 255], period=0.5, iterations=4, wait=True)
+        check_delay(self.niryo_robot.led_ring_breath, color=[255, 255, 0], period=2, iterations=2, wait=True)
+        check_delay(self.niryo_robot.led_ring_snake, color=[0, 255, 255], period=0.5, iterations=4, wait=True)
+
+        check_delay(self.niryo_robot.led_ring_rainbow, period=3, iterations=2, wait=True)
+        check_delay(self.niryo_robot.led_ring_rainbow_cycle, period=3, iterations=2, wait=True)
+        check_delay(self.niryo_robot.led_ring_rainbow_chase, period=5, iterations=1, wait=True)
+
+        self.assertIsNotNone(self.niryo_robot.led_ring_turn_off())
 
 
 if __name__ == '__main__':

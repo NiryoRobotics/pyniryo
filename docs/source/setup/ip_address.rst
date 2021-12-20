@@ -83,4 +83,7 @@ And add to its end::
 
 
 From its next reboot, the robot will appear under
-the IP ``192.168.1.<your_ip_address_last_number>``.
+the IP ``192.168.1.<your_ip_address_last_number>``
+
+.. |link_ethernet| replace:: Connect to Ned via Ethernet on Ubuntu
+.. _link_ethernet: https://docs.niryo.com/applications/ned/source/tutorials/setup_connect_ned_ethernet.html
