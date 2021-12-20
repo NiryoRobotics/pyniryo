@@ -12,7 +12,7 @@ from .enums_communication import *
 from .communication_functions import dict_to_packet, receive_dict, receive_dict_w_payload
 
 from .exceptions import *
-from .objects import PoseObject, HardwareStatusObject, DigitalPinObject
+from .objects import PoseObject, HardwareStatusObject, DigitalPinObject, AnalogPinObject
 
 
 class NiryoRobot(object):
@@ -709,9 +709,10 @@ class NiryoRobot(object):
         """
         Execute trajectory from list of poses and joints
 
-        :param list_pose_joints: List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw] or a list of [j1,j2,j3,j4,j5,j6]
+        :param list_pose_joints: List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw]
+                                        or a list of [j1,j2,j3,j4,j5,j6]
         :type list_pose_joints: list[list[float]]
-        :param list_type: List of string 'pose' or 'joint', or ['pose'] (if poses only) or ['joint'] (if joints only). 
+        :param list_type: List of string 'pose' or 'joint', or ['pose'] (if poses only) or ['joint'] (if joints only).
                         If None, it is assumed there are only poses in the list.
         :type list_type: list[string]
         :param dist_smoothing: Distance from waypoints before smoothing trajectory
@@ -815,29 +816,41 @@ class NiryoRobot(object):
         self.__send_n_receive(Command.RELEASE_WITH_TOOL)
 
     # - Gripper
-    def open_gripper(self, speed=500):
+    def open_gripper(self, speed=500, max_torque_percentage=100, hold_torque_percentage=30):
         """
-        Open gripper associated to 'gripper_id' with a speed 'speed'
+        Open gripper
 
-        :param speed: Between 100 & 1000
+        :param speed: Between 100 & 1000 (only for Niryo One and Ned1)
         :type speed: int
+        :param max_torque_percentage: Closing torque percentage (only for Ned2)
+        :type max_torque_percentage: int
+        :param hold_torque_percentage: Hold torque percentage after closing (only for Ned2)
+        :type hold_torque_percentage: int
         :rtype: None
         """
         speed = self.__transform_to_type(speed, int)
+        max_torque_percentage = self.__transform_to_type(max_torque_percentage, int)
+        hold_torque_percentage = self.__transform_to_type(hold_torque_percentage, int)
 
-        self.__send_n_receive(Command.OPEN_GRIPPER, speed)
+        self.__send_n_receive(Command.OPEN_GRIPPER, speed, max_torque_percentage, hold_torque_percentage)
 
-    def close_gripper(self, speed=500):
+    def close_gripper(self, speed=500, max_torque_percentage=100, hold_torque_percentage=20):
         """
-        Close gripper associated to 'gripper_id' with a speed 'speed'
+        Close gripper
 
-        :param speed: Between 100 & 1000
+        :param speed: Between 100 & 1000 (only for Niryo One and Ned1)
         :type speed: int
+        :param max_torque_percentage: Opening torque percentage (only for Ned2)
+        :type max_torque_percentage: int
+        :param hold_torque_percentage: Hold torque percentage after opening (only for Ned2)
+        :type hold_torque_percentage: int
         :rtype: None
         """
         speed = self.__transform_to_type(speed, int)
+        max_torque_percentage = self.__transform_to_type(max_torque_percentage, int)
+        hold_torque_percentage = self.__transform_to_type(hold_torque_percentage, int)
 
-        self.__send_n_receive(Command.CLOSE_GRIPPER, speed)
+        self.__send_n_receive(Command.CLOSE_GRIPPER, speed, max_torque_percentage, hold_torque_percentage)
 
     # - Vacuum
     def pull_air_vacuum_pump(self):
@@ -862,35 +875,36 @@ class NiryoRobot(object):
         Setup electromagnet on pin
 
         :param pin_id:
-        :type pin_id: PinID
+        :type pin_id: PinID or str
         :rtype: None
         """
-        self.__check_enum_belonging(pin_id, PinID)
-
-        self.__send_n_receive(Command.SETUP_ELECTROMAGNET, pin_id)
+        self.__check_instance(pin_id, (PinID, str))
+        pin_id_str = pin_id.value if isinstance(pin_id, PinID) else pin_id
+        self.__send_n_receive(Command.SETUP_ELECTROMAGNET, pin_id_str)
 
     def activate_electromagnet(self, pin_id):
         """
         Activate electromagnet associated to electromagnet_id on pin_id
 
         :param pin_id:
-        :type pin_id: PinID
+        :type pin_id: PinID or str
         :rtype: None
         """
-        self.__check_enum_belonging(pin_id, PinID)
-
-        self.__send_n_receive(Command.ACTIVATE_ELECTROMAGNET, pin_id)
+        self.__check_instance(pin_id, (PinID, str))
+        pin_id_str = pin_id.value if isinstance(pin_id, PinID) else pin_id
+        self.__send_n_receive(Command.ACTIVATE_ELECTROMAGNET, pin_id_str)
 
     def deactivate_electromagnet(self, pin_id):
         """
         Deactivate electromagnet associated to electromagnet_id on pin_id
 
         :param pin_id:
-        :type pin_id: PinID
+        :type pin_id: PinID or str
         :rtype: None
         """
-        self.__check_enum_belonging(pin_id, PinID)
-        self.__send_n_receive(Command.DEACTIVATE_ELECTROMAGNET, pin_id)
+        self.__check_instance(pin_id, (PinID, str))
+        pin_id_str = pin_id.value if isinstance(pin_id, PinID) else pin_id
+        self.__send_n_receive(Command.DEACTIVATE_ELECTROMAGNET, pin_id_str)
 
     def enable_tcp(self, enable=True):
         """
@@ -942,43 +956,123 @@ class NiryoRobot(object):
         Set pin number pin_id to mode pin_mode
 
         :param pin_id:
-        :type pin_id: PinID
+        :type pin_id: PinID or str
         :param pin_mode:
         :type pin_mode: PinMode
         :rtype: None
         """
-        self.__check_enum_belonging(pin_id, PinID)
         self.__check_enum_belonging(pin_mode, PinMode)
+        self.__check_instance(pin_id, (PinID, str))
+        pin_id_str = pin_id.value if isinstance(pin_id, PinID) else pin_id
 
-        self.__send_n_receive(Command.SET_PIN_MODE, pin_id, pin_mode)
+        self.__send_n_receive(Command.SET_PIN_MODE, pin_id_str, pin_mode)
+
+    @property
+    def digital_io_state(self):
+        return self.get_digital_io_state()
+
+    def get_digital_io_state(self):
+        """
+        Get Digital IO state : Names, modes, states
+
+        :return: List of DigitalPinObject instance
+        :rtype: list[DigitalPinObject]
+        """
+        data = self.__send_n_receive(Command.GET_DIGITAL_IO_STATE)
+        digital_pin_array = []
+        for pin_info in data:
+            name, mode, value = pin_info
+            digital_pin_array.append(DigitalPinObject(PinID(name), name, PinMode(mode), PinState(bool(value))))
+        return digital_pin_array
 
     def digital_write(self, pin_id, digital_state):
         """
         Set pin_id state to digital_state
 
         :param pin_id:
-        :type pin_id: PinID
+        :type pin_id: PinID or str
         :param digital_state:
         :type digital_state: PinState
         :rtype: None
         """
-        self.__check_enum_belonging(pin_id, PinID)
         self.__check_enum_belonging(digital_state, PinState)
+        self.__check_instance(pin_id, (PinID, str))
+        pin_id_str = pin_id.value if isinstance(pin_id, PinID) else pin_id
 
-        self.__send_n_receive(Command.DIGITAL_WRITE, pin_id, digital_state)
+        self.__send_n_receive(Command.DIGITAL_WRITE, pin_id_str, digital_state)
 
     def digital_read(self, pin_id):
         """
         Read pin number pin_id and return its state
 
         :param pin_id:
-        :type pin_id: PinID
+        :type pin_id: PinID or str
         :rtype: PinState
         """
-        self.__check_enum_belonging(pin_id, PinID)
+        self.__check_instance(pin_id, (PinID, str))
+        pin_id_str = pin_id.value if isinstance(pin_id, PinID) else pin_id
 
-        state_id = self.__send_n_receive(Command.DIGITAL_READ, pin_id)
+        state_id = self.__send_n_receive(Command.DIGITAL_READ, pin_id_str)
         return PinState[state_id]
+
+    @property
+    def analog_io_state(self):
+        return self.get_analog_io_state()
+
+    def get_analog_io_state(self):
+        """
+        Get Analog IO state : Names, modes, states
+
+        :return: List of AnalogPinObject instance
+        :rtype: list[AnalogPinObject]
+        """
+        data = self.__send_n_receive(Command.GET_ANALOG_IO_STATE)
+
+        analog_pin_array = []
+        for pin_info in data:
+            name, mode, value = pin_info
+            analog_pin_array.append(AnalogPinObject(PinID(name), name, PinMode(mode), value))
+        return analog_pin_array
+
+    def analog_write(self, pin_id, value):
+        """
+        Set and analog pin_id state to a value
+
+        :param pin_id:
+        :type pin_id: PinID or str
+        :param value: voltage between 0 and 5V
+        :type value: float
+        :rtype: None
+        """
+        self.__check_instance(pin_id, (PinID, str))
+        self.__check_range_belonging(value, 0, 5)
+
+        self.__send_n_receive(Command.ANALOG_WRITE, pin_id, value)
+
+    def analog_read(self, pin_id):
+        """
+        Read the analog pin value
+
+        :param pin_id:
+        :type pin_id: PinID or str
+        :rtype: float
+        """
+        self.__check_instance(pin_id, (PinID, str))
+
+        return self.__send_n_receive(Command.ANALOG_READ, pin_id)
+
+    @property
+    def custom_button_state(self):
+        return self.get_custom_button_state()
+
+    def get_custom_button_state(self):
+        """
+        Get the Ned's custom button state
+
+        :return: True if pressed, False else
+        :rtype: bool
+        """
+        return self.__send_n_receive(Command.CUSTOM_BUTTON_STATE)
 
     @property
     def hardware_status(self):
@@ -1011,24 +1105,6 @@ class NiryoRobot(object):
                                                motor_names, motor_types,
                                                temperatures, voltages, hardware_errors)
         return hardware_status
-
-    @property
-    def digital_io_state(self):
-        return self.get_digital_io_state()
-
-    def get_digital_io_state(self):
-        """
-        Get Digital IO state : Names, modes, states
-
-        :return: List of DigitalPinObject instance
-        :rtype: list[DigitalPinObject]
-        """
-        data = self.__send_n_receive(Command.GET_DIGITAL_IO_STATE)
-        digital_pin_array = []
-        for pin_info in data:
-            pin_id, name, mode, state = pin_info
-            digital_pin_array.append(DigitalPinObject(pin_id, name, mode, state))
-        return digital_pin_array
 
     # - Conveyor
 
@@ -1454,3 +1530,424 @@ class NiryoRobot(object):
         :rtype: list[str]
         """
         return self.__send_n_receive(Command.GET_WORKSPACE_LIST)
+
+    # Sound
+
+    def get_sounds(self):
+        """
+        Get sound name list
+
+        :return: list of the sounds of the robot
+        :rtype: list[string]
+        """
+        return self.__send_n_receive(Command.GET_SOUNDS)
+
+    def play_sound(self, sound_name, wait_end=True, start_time_sec=0, end_time_sec=0):
+        """
+        Play a sound from the robot
+
+        :param sound_name: Name of the sound to play
+        :type sound_name: string
+        :param wait_end: wait for the end of the sound before exiting the function
+        :type wait_end: bool
+        :param start_time_sec: start the sound from this value in seconds
+        :type start_time_sec: float
+        :param end_time_sec: end the sound at this value in seconds
+        :type end_time_sec: float
+        :rtype: None
+        """
+        self.__check_list_belonging(sound_name, self.get_sounds())
+        self.__send_n_receive(Command.PLAY_SOUND, sound_name, wait_end, start_time_sec, end_time_sec)
+
+    def set_volume(self, sound_volume):
+        """
+        Set the volume percentage of the robot.
+
+        :param sound_volume: volume percentage of the sound (0: no sound, 100: max sound)
+        :type sound_volume: int
+        :rtype: None
+        """
+        self.__check_range_belonging(sound_volume, 0, 200)
+        self.__send_n_receive(Command.SET_VOLUME, sound_volume)
+
+    def stop_sound(self):
+        """
+        Stop a sound being played.
+
+        :rtype: None
+        """
+        self.__send_n_receive(Command.STOP_SOUND)
+
+    def get_sound_duration(self, sound_name):
+        """
+        Returns the duration in seconds of a sound stored in the robot database
+        raise SoundRosWrapperException if the sound doesn't exists
+
+        :param sound_name: name of sound
+        :type sound_name: string
+        :return: sound duration in seconds
+        :rtype: float
+        """
+        self.__check_list_belonging(sound_name, self.get_sounds())
+        return self.__send_n_receive(Command.GET_SOUND_DURATION, sound_name)
+
+    def say(self, text, language=0):
+        """
+        Use gtts (Google Text To Speech) to interprete a string as sound
+        Languages available are:
+            - English: 0
+            - French: 1
+            - Spanish: 2
+            - Mandarin: 3
+            - Portuguese: 4
+
+        Example ::
+
+            robot.say("Hello", 0)
+            robot.say("Bonjour", 1)
+            robot.say("Hola", 2)
+
+        :param text: Text that needs to be spoken < 100 char
+        :type text: string
+        :param language: language of the text
+        :type language: int
+        :rtype: None
+        """
+        self.__send_n_receive(Command.SAY, text, language)
+
+    # Led Ring
+
+    def set_led_color(self, led_id, color):
+        """
+        Lights up an LED in one colour. RGB colour between 0 and 255.
+
+        Example: ::
+
+            robot.set_led_color(5, [15, 50, 255])
+
+        :param led_id: Id of the led: between 0 and 29
+        :type led_id: int
+        :param color: Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255.
+        :type color: list[float]
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_SET_LED, led_id, color)
+
+    def led_ring_solid(self, color):
+        """
+        Set the whole Led Ring to a fixed color.
+
+        Example: ::
+
+            robot.led_ring_solid([15, 50, 255])
+
+        :param color: Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255.
+        :type color: list[float]
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_SOLID, color, True)
+
+    def led_ring_turn_off(self):
+        """
+        Turn off all LEDs
+
+        Example: ::
+
+            robot.led_ring_turn_off()
+
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_TURN_OFF, True)
+
+    def led_ring_flashing(self, color, period=0, iterations=0, wait=False):
+        """
+        Flashes a color according to a frequency. The frequency is equal to 1 / period.
+
+        Examples: ::
+
+            robot.led_ring_flashing([15, 50, 255])
+            robot.led_ring_flashing([15, 50, 255], 1, 100, True)
+            robot.led_ring_flashing([15, 50, 255], iterations=20, wait=True)
+
+            frequency = 20  # Hz
+            total_duration = 10 # seconds
+            robot.flashing([15, 50, 255], 1./frequency, total_duration * frequency , True)
+
+        :param color: Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255.
+        :type color: list[float]
+        :param period: Execution time for a pattern in seconds. If 0, the default time will be used.
+        :type period: float
+        :param iterations: Number of consecutive flashes. If 0, the Led Ring flashes endlessly.
+        :type iterations: int
+        :param wait: The service wait for the animation to finish all iterations or not to answer. If iterations
+                is 0, the service answers immediately.
+        :type wait: bool
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_FLASH, color, period, iterations, wait)
+
+    def led_ring_alternate(self, color_list, period=0, iterations=0, wait=False):
+        """
+        Several colors are alternated one after the other.
+
+        Examples: ::
+
+            color_list = [
+                [15, 50, 255],
+                [255, 0, 0],
+                [0, 255, 0],
+            ]
+
+            robot.led_ring_alternate(color_list)
+            robot.led_ring_alternate(color_list, 1, 100, True)
+            robot.led_ring_alternate(color_list, iterations=20, wait=True)
+
+        :param color_list: Led color list of lists of size 3[R, G, B]. RGB channels from 0 to 255.
+        :type color_list: list[list[float]]
+        :param period: Execution time for a pattern in seconds. If 0, the default time will be used.
+        :type period: float
+        :param iterations: Number of consecutive alternations. If 0, the Led Ring alternates endlessly.
+        :type iterations: int
+        :param wait: The service wait for the animation to finish all iterations or not to answer. If iterations
+                is 0, the service answers immediately.
+        :type wait: bool
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_ALTERNATE, color_list, period, iterations, wait)
+
+    def led_ring_chase(self, color, period=0, iterations=0, wait=False):
+        """
+        Movie theater light style chaser animation.
+
+        Examples: ::
+
+
+            robot.led_ring_chase([15, 50, 255])
+            robot.led_ring_chase([15, 50, 255], 1, 100, True)
+            robot.led_ring_chase([15, 50, 255], iterations=20, wait=True)
+
+        :param color: Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255.
+        :type color: list[float]
+        :param period: Execution time for a pattern in seconds. If 0, the default time will be used.
+        :type period: float
+        :param iterations: Number of consecutive chase. If 0, the animation continues endlessly.
+            One chase just lights one Led every 3 LEDs.
+        :type iterations: int
+        :param wait: The service wait for the animation to finish all iterations or not to answer. If iterations
+                is 0, the service answers immediately.
+        :type wait: bool
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_CHASE, color, period, iterations, wait)
+
+    def led_ring_wipe(self, color, period=0, wait=False):
+        """
+        Wipe a color across the Led Ring, light a Led at a time.
+
+        Examples: ::
+
+            robot.led_ring_wipe([15, 50, 255])
+            robot.led_ring_wipe([15, 50, 255], 1, True)
+            robot.led_ring_wipe([15, 50, 255], wait=True)
+
+        :param color: Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255.
+        :type color: list[float]
+        :param period: Execution time for a pattern in seconds. If 0, the default time will be used.
+        :type period: float
+        :param wait: The service wait for the animation to finish or not to answer.
+        :type wait: bool
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_WIPE, color, period, wait)
+
+    def led_ring_rainbow(self, period=0, iterations=0, wait=False):
+        """
+        Draw rainbow that fades across all LEDs at once.
+
+        Examples: ::
+
+            robot.led_ring_rainbow()
+            robot.led_ring_rainbow(5, 2, True)
+            robot.led_ring_rainbow(wait=True)
+
+        :param period: Execution time for a pattern in seconds. If 0, the default time will be used.
+        :type period: float
+        :param iterations: Number of consecutive rainbows. If 0, the animation continues endlessly.
+        :type iterations: int
+        :param wait: The service wait for the animation to finish or not to answer. If iterations
+                is 0, the service answers immediately.
+        :type wait: bool
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_RAINBOW, period, iterations, wait)
+
+    def led_ring_rainbow_cycle(self, period=0, iterations=0, wait=False):
+        """
+        Draw rainbow that uniformly distributes itself across all LEDs.
+
+        Examples: ::
+
+            robot.led_ring_rainbow_cycle()
+            robot.led_ring_rainbow_cycle(5, 2, True)
+            robot.led_ring_rainbow_cycle(wait=True)
+
+        :param period: Execution time for a pattern in seconds. If 0, the default time will be used.
+        :type period: float
+        :param iterations: Number of consecutive rainbow cycles. If 0, the animation continues endlessly.
+        :type iterations: int
+        :param wait: The service wait for the animation to finish or not to answer. If iterations
+                is 0, the service answers immediately.
+        :type wait: bool
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_RAINBOW_CYCLE, period, iterations, wait)
+
+    def led_ring_rainbow_chase(self, period=0, iterations=0, wait=False):
+        """
+        Rainbow chase animation, like the led_ring_chase method.
+
+        Examples: ::
+
+            robot.led_ring_rainbow_chase()
+            robot.led_ring_rainbow_chase(5, 2, True)
+            robot.led_ring_rainbow_chase(wait=True)
+
+        :param period: Execution time for a pattern in seconds. If 0, the default time will be used.
+        :type period: float
+        :param iterations: Number of consecutive rainbow cycles. If 0, the animation continues endlessly.
+        :type iterations: int
+        :param wait: The service wait for the animation to finish or not to answer. If iterations
+                is 0, the service answers immediately.
+        :type wait: bool
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_RAINBOW_CHASE, period, iterations, wait)
+
+    def led_ring_go_up(self, color, period=0, iterations=0, wait=False):
+        """
+        LEDs turn on like a loading circle, and are then all turned off at once.
+
+        Examples: ::
+
+            robot.led_ring_go_up([15, 50, 255])
+            robot.led_ring_go_up([15, 50, 255], 1, 100, True)
+            robot.led_ring_go_up([15, 50, 255], iterations=20, wait=True)
+
+
+        :param color: Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255.
+        :type color: list[float]
+        :param period: Execution time for a pattern in seconds. If 0, the default time will be used.
+        :type period: float
+        :param iterations: Number of consecutive turns around the Led Ring. If 0, the animation
+            continues endlessly.
+        :type iterations: int
+        :param wait: The service wait for the animation to finish or not to answer. If iterations
+                is 0, the service answers immediately.
+        :type wait: bool
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_GO_UP, color, period, iterations, wait)
+
+    def led_ring_go_up_down(self, color, period=0, iterations=0, wait=False):
+        """
+        LEDs turn on like a loading circle, and are turned off the same way.
+
+        Examples: ::
+
+            robot.led_ring_go_up_down([15, 50, 255])
+            robot.led_ring_go_up_down([15, 50, 255], 1, 100, True)
+            robot.led_ring_go_up_down([15, 50, 255], iterations=20, wait=True)
+
+
+        :param color: Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255.
+        :type color: list[float]
+        :param period: Execution time for a pattern in seconds. If 0, the default time will be used.
+        :type period: float
+        :param iterations: Number of consecutive turns around the Led Ring. If 0, the animation
+            continues endlessly.
+        :type iterations: int
+        :param wait: The service wait for the animation to finish or not to answer. If iterations
+                is 0, the service answers immediately.
+        :type wait: bool
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_GO_UP_DOWN, color, period, iterations, wait)
+
+    def led_ring_breath(self, color, period=0, iterations=0, wait=False):
+        """
+        Variation of the light intensity of the LED ring, similar to human breathing.
+
+        Examples: ::
+
+            robot.led_ring_breath([15, 50, 255])
+            robot.led_ring_breath([15, 50, 255], 1, 100, True)
+            robot.led_ring_breath([15, 50, 255], iterations=20, wait=True)
+
+        :param color: Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255.
+        :type color: list[float]
+        :param period: Execution time for a pattern in seconds. If 0, the default time will be used.
+        :type period: float
+        :param iterations: Number of consecutive turns around the Led Ring. If 0, the animation
+            continues endlessly.
+        :type iterations: int
+        :param wait: The service wait for the animation to finish or not to answer. If iterations
+                is 0, the service answers immediately.
+        :type wait: bool
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_BREATH, color, period, iterations, wait)
+
+    def led_ring_snake(self, color, period=0, iterations=0, wait=False):
+        """
+        A small coloured snake (certainly a python :D ) runs around the LED ring.
+
+        Examples: ::
+
+            robot.led_ring_snake([15, 50, 255])
+            robot.led_ring_snake([15, 50, 255], 1, 100, True)
+
+        :param color: Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255.
+        :type color: list[float]
+        :param period: Execution time for a pattern in seconds. If 0, the default duration will be used.
+        :type period: float
+        :param iterations: Number of consecutive turns around the Led Ring. If 0, the animation
+            continues endlessly.
+        :type iterations: int
+        :param wait: The service wait for the animation to finish or not to answer. If iterations
+                is 0, the service answers immediately.
+        :type wait: bool
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_SNAKE, color, period, iterations, wait)
+
+    def led_ring_custom(self, led_colors):
+        """
+        Sends a colour command to all LEDs of the LED ring.
+        The function expects a list of colours for the 30 LEDs  of the robot.
+
+        Example: ::
+
+            led_list = [[i / 30. * 255 , 0, 255 - i / 30.] for i in range(30)]
+            robot.led_ring_custom(led_list)
+
+        :param led_colors: List of size 30 of led color in a list of size 3[R, G, B].
+                RGB channels from 0 to 255.
+        :type led_colors: list[list[float]]
+        :return: status, message
+        :rtype: (int, str)
+        """
+        return self.__send_n_receive(Command.LED_RING_CUSTOM, led_colors)

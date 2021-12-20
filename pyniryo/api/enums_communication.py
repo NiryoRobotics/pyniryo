@@ -53,8 +53,8 @@ class PinMode(Enum):
     """
     Enumeration of Pin Modes
     """
-    INPUT = 0
-    OUTPUT = 1
+    OUTPUT = 0
+    INPUT = 1
 
 
 @unique
@@ -62,8 +62,8 @@ class PinState(Enum):
     """
     Pin State is either LOW or HIGH
     """
-    LOW = 0
-    HIGH = 1
+    LOW = False
+    HIGH = True
 
 
 @unique
@@ -71,16 +71,33 @@ class PinID(Enum):
     """
     Enumeration of Robot Pins
     """
-    GPIO_1A = 0
-    GPIO_1B = 1
-    GPIO_1C = 2
-    GPIO_2A = 3
-    GPIO_2B = 4
-    GPIO_2C = 5
+    GPIO_1A = "1A"
+    GPIO_1B = "1B"
+    GPIO_1C = "1C"
+    GPIO_2A = "2A"
+    GPIO_2B = "2B"
+    GPIO_2C = "2C"
+
+    SW_1 = "SW1"
+    SW_2 = "SW2"
+
+    DO1 = "DO1"
+    DO2 = "DO2"
+    DO3 = "DO3"
+    DO4 = "DO4"
+    DI1 = "DI1"
+    DI2 = "DI2"
+    DI3 = "DI3"
+    DI4 = "DI4"
+    DI5 = "DI5"
+
+    AI1 = "AI1"
+    AI2 = "AI2"
+    AO1 = "AO1"
+    AO2 = "AO2"
 
 
 # - Conveyor
-
 class ConveyorID(Enum):
     """
     Enumeration of Conveyor IDs used for Conveyor control
@@ -100,7 +117,6 @@ class ConveyorDirection(Enum):
 
 
 # - Vision
-
 @unique
 class ObjectColor(Enum):
     """
@@ -127,6 +143,7 @@ class Command(Enum):
     """
     Enumeration of all commands used
     """
+
     # Main purpose
     CALIBRATE = 0
     SET_LEARNING_MODE = 1
@@ -198,6 +215,10 @@ class Command(Enum):
     DIGITAL_READ = 152
     GET_DIGITAL_IO_STATE = 153
     GET_HARDWARE_STATUS = 154
+    ANALOG_WRITE = 155
+    ANALOG_READ = 156
+    GET_ANALOG_IO_STATE = 157
+    CUSTOM_BUTTON_STATE = 158
 
     # - Conveyor
     SET_CONVEYOR = 180
@@ -227,3 +248,29 @@ class Command(Enum):
     SET_IMAGE_SATURATION = 232
     GET_IMAGE_PARAMETERS = 235
 
+    # - Sound
+    PLAY_SOUND = 240
+    SET_VOLUME = 241
+    STOP_SOUND = 242
+    DELETE_SOUND = 243
+    IMPORT_SOUND = 244
+    GET_SOUNDS = 245
+    GET_SOUND_DURATION = 246
+    SAY = 247
+
+    # Led Ring
+    LED_RING_SOLID = 250
+    LED_RING_TURN_OFF = 251
+    LED_RING_FLASH = 252
+    LED_RING_ALTERNATE = 253
+    LED_RING_CHASE = 254
+    LED_RING_WIPE = 255
+    LED_RING_RAINBOW = 256
+    LED_RING_RAINBOW_CYCLE = 257
+    LED_RING_RAINBOW_CHASE = 258
+    LED_RING_GO_UP = 259
+    LED_RING_GO_UP_DOWN = 260
+    LED_RING_BREATH = 261
+    LED_RING_SNAKE = 262
+    LED_RING_CUSTOM = 263
+    LED_RING_SET_LED = 264
