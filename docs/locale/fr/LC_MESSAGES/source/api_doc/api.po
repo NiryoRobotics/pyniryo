@@ -641,27 +641,7 @@ msgstr ""
 msgid ""
 "List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw] or a list "
 "of [j1,j2,j3,j4,j5,j6]"
-msgstr ""
-
-#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:5 of
-msgid ""
-"List of string 'pose' or 'joint', or ['pose'] (if poses only) or "
-"['joint'] (if joints only).  If None, it is assumed there are only poses "
-"in the list."
-msgid "List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw]"
 msgstr "Liste contenant [x,y,z,qx,qy,qz,qw] ou [x,y,z,roll,pitch,yaw]"
-
-#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:1 of
-msgid "Execute trajectory from list of poses and joints"
-msgstr "Exécuter une trajectoire depuis une liste de positions"
-
-#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:3 of
-msgid ""
-"List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw] or a list "
-"of [j1,j2,j3,j4,j5,j6]"
-msgstr ""
-"Liste contenant [x,y,z,qx,qy,qz,qw] ou [x,y,z,roll,pitch,yaw] ou "
-"[j1,j2,j3,j4,j5,j6]"
 
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:5 of
 msgid ""
