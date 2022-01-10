@@ -105,6 +105,8 @@ class ConveyorID(Enum):
     NONE = 0
     ID_1 = 12
     ID_2 = 13
+    ID_3 = 9
+    ID_4 = 10
 
 
 @unique
