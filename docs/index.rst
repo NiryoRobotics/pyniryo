@@ -24,6 +24,24 @@ through a terminal.
 
    Ned
 
+Version compatibility
+----------------------------
+
+.. list-table:: Version compatibility table
+   :header-rows: 1
+   :widths: auto
+   :stub-columns: 0
+   :align: center
+
+   *  -  PyNiryo version
+      -  ROS Stack version
+      -  Robot
+   *  -  <= 1.0.5
+      -  <= 3.2.0
+      -  ``Ned``
+   *  -  1.1.0
+      -  4.0.0
+      -  ``Niryo One``, ``Ned``, ``Ned2``
 
 Before getting started
 ----------------------------

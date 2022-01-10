@@ -35,6 +35,23 @@ Computer and robot connected on the same router
 You will need to find the robot's address using ``nmap``, or you can also use search button
 of Niryo Studio to see which robots are available.
 
+For example for our network configuration, we have:
+
+.. code-block:: bash
+
+    $ nmap -sP 192.168.1.0/24
+
+    Starting Nmap 7.60 ( https://nmap.org ) at 2022-01-10 17:10 CET
+    Nmap scan report for my_router.home (192.168.1.1)
+    Host is up (0.010s latency).
+    Nmap scan report for my_computer.home (192.168.1.10)
+    Host is up (0.010s latency).
+    Nmap scan report for niryo_pi4-11.home (192.168.1.107)
+    Host is up (0.0034s latency).
+
+In our case the ip of our robot is **192.168.1.107**.
+
+
 You can also :ref:`source/setup/ip_address:Make IP permanent` so that
 you will not have to search for it next time
 

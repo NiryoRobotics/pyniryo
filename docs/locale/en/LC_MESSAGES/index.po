@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-11 17:52+0000\n"
+"POT-Creation-Date: 2022-01-10 17:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: ../../index.rst:45 ../../index.rst:52
+#: ../../index.rst:63 ../../index.rst:70
 msgid "Setup"
 msgstr ""
 
-#: ../../index.rst:61 ../../index.rst:65
+#: ../../index.rst:79 ../../index.rst:83
 msgid "Examples"
 msgstr ""
 
-#: ../../index.rst:77 ../../index.rst:85
+#: ../../index.rst:95 ../../index.rst:103
 msgid "API Documentation"
 msgstr ""
 
-#: ../../index.rst:98
+#: ../../index.rst:116
 msgid "Image Processing"
 msgstr ""
 
@@ -66,129 +66,123 @@ msgstr ""
 msgid "Ned"
 msgstr ""
 
-#: ../../index.rst:29
+#: ../../index.rst:28
+msgid "Version compatibility"
+msgstr ""
+
+#: ../../index.rst:30
+msgid "Version compatibility table"
+msgstr ""
+
+#: ../../index.rst:36
+msgid "PyNiryo version"
+msgstr ""
+
+#: ../../index.rst:37
+msgid "ROS Stack version"
+msgstr ""
+
+#: ../../index.rst:38
+msgid "Robot"
+msgstr ""
+
+#: ../../index.rst:39
+msgid "<= 1.0.5"
+msgstr ""
+
+#: ../../index.rst:40
+msgid "<= 3.2.0"
+msgstr ""
+
+#: ../../index.rst:41
+msgid "``Ned``"
+msgstr ""
+
+#: ../../index.rst:42
+msgid "1.1.0"
+msgstr ""
+
+#: ../../index.rst:43
+msgid "4.0.0"
+msgstr ""
+
+#: ../../index.rst:44
+msgid "``Niryo One``, ``Ned``, ``Ned2``"
+msgstr ""
+
+#: ../../index.rst:47
 msgid "Before getting started"
 msgstr ""
 
-#: ../../index.rst:33
+#: ../../index.rst:51
 msgid ""
 "If you haven’t already done so, make sure to learn about the ROS robot "
 "software by reading `ROS documentation "
 "<https://docs.niryo.com/dev/ros/index.html>`_."
 msgstr ""
 
-#: ../../index.rst:36
+#: ../../index.rst:54
 msgid ""
 "This documentation also contains everything you need to know if you want "
 "to use Ned through simulation."
 msgstr ""
 
-#: ../../index.rst:40
+#: ../../index.rst:58
 msgid "Sections organization"
 msgstr ""
 
-#: ../../index.rst:42
+#: ../../index.rst:60
 msgid "This document is organized in 4 main sections."
 msgstr ""
 
-#: ../../index.rst:47
+#: ../../index.rst:65
 msgid "Install & Setup your environment in order to use Ned with PyNiryo."
 msgstr ""
 
-#: ../../index.rst:49
+#: ../../index.rst:67
 msgid ""
 "Firstly, follow :doc:`Installation instructions "
 "<source/setup/installation>`, then :doc:`find your Robot IP address "
 "<source/setup/ip_address>` to be ready."
 msgstr ""
 
-#: ../../index.rst:63
+#: ../../index.rst:81
 msgid "Learn how to use the PyNiryo package to implement various tasks."
 msgstr ""
 
-#: ../../index.rst:79
+#: ../../index.rst:97
 msgid ""
 "Master controls with PyNiryo with full the detailed functions :doc:`here "
 "<source/api_doc/api>`."
 msgstr ""
 
-#: ../../index.rst:82
+#: ../../index.rst:100
 msgid ""
 "Discover also :doc:`Vision Functions "
 "<source/vision/image_processing_overview>` to create your own image "
 "processing pipelines!"
 msgstr ""
 
-#: ../../index.rst:92
+#: ../../index.rst:110
 msgid "Start with Image Processing"
 msgstr ""
 
-#: ../../index.rst:95
+#: ../../index.rst:113
 msgid "Discover how to create your own image processing pipelines!"
 msgstr ""
 
-#: ../../index.rst:107
+#: ../../index.rst:125
 msgid "Indices and tables"
 msgstr ""
 
-#: ../../index.rst:109
+#: ../../index.rst:127
 msgid ":ref:`genindex`"
 msgstr ""
 
-#: ../../index.rst:110
+#: ../../index.rst:128
 msgid ":ref:`modindex`"
 msgstr ""
 
-#: ../../index.rst:111
+#: ../../index.rst:129
 msgid ":ref:`search`"
 msgstr ""
-
-#~ msgid "This document is organized in 4 main sections"
-#~ msgstr ""
-
-#~ msgid "Learn how to use the PyNiryo package to implement various tasks"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Master controls with PyNiryo with full"
-#~ " the detailed functions :doc:`here "
-#~ "<source/api_doc/api>`"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Discover also :doc:`Vision Functions "
-#~ "<source/vision/image_processing_overview>` to create "
-#~ "your own image processing pipelines !"
-#~ msgstr ""
-
-#~ msgid "Discover how to create your own image processing pipelines !"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "If you haven’t already done so, "
-#~ "make sure to learn about the ROS"
-#~ " robot software by reading |ros_doc|_."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "If you haven’t already done so, "
-#~ "make sure to learn about the ROS"
-#~ " robot software by reading "
-#~ "`https://docs.niryo.com/ros-doc/`_."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "If you haven’t already done so, "
-#~ "make sure to learn about the ROS"
-#~ " robot software by reading "
-#~ "`https://docs.niryo.com/ros-doc/ <ROS "
-#~ "documentation>`_."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "If you haven’t already done so, "
-#~ "make sure to learn about the ROS"
-#~ " robot software by reading `ROS "
-#~ "documentation <https://docs.niryo.com/ros-doc/>`_."
-#~ msgstr ""
-

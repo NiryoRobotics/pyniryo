@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-10 15:41+0000\n"
+"POT-Creation-Date: 2022-01-10 16:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,6 +101,14 @@ msgstr ""
 "voir les robots disponibles."
 
 #: ../../source/setup/ip_address.rst:38
+msgid "For example for our network configuration, we have:"
+msgstr "Par example, pour notre configuration réseau, nous avons:"
+
+#: ../../source/setup/ip_address.rst:52
+msgid "In our case the ip of our robot is **192.168.1.107**."
+msgstr "Dans notre cas, l'IP du robot est **192.168.1.107**."
+
+#: ../../source/setup/ip_address.rst:55
 msgid ""
 "You can also :ref:`source/setup/ip_address:Make IP permanent` so that you"
 " will not have to search for it next time"
@@ -109,11 +117,11 @@ msgstr ""
 "<source/setup/ip_address:Make IP permanent>` afin de ne plus avoir à la "
 "rechercher les fois suivantes."
 
-#: ../../source/setup/ip_address.rst:43
+#: ../../source/setup/ip_address.rst:60
 msgid "Make IP permanent"
 msgstr "Rendre l'IP permanente"
 
-#: ../../source/setup/ip_address.rst:45
+#: ../../source/setup/ip_address.rst:62
 msgid ""
 "Go on NiryoStudio in the network configuration section. For a dynamic IP "
 "address (recommended especially if you are a beginner), use the DHCP "
@@ -121,11 +129,12 @@ msgid ""
 "of the robots on the network on Niryo Studio. Otherwise fill in the "
 "Gateway, Sub mask and IP address fields."
 msgstr ""
-"Allez sur NiryoStudio dans la partie configuration réseau. Pour une addresse ip dynamique (Recommandé surtout si vous êtres débutant) , utilisez l'option DHCP. Vous retrouverez la nouvelle adresse IP du robot en relançant un scan des robots sur Niryo Studio.
-Sinon remplissez les champs Gateway, Sub mask et adresse IP.
-"
+"Allez sur NiryoStudio dans la partie configuration réseau. Pour une "
+"addresse ip dynamique (Recommandé surtout si vous êtres débutant) , "
+"utilisez l'option DHCP. Vous retrouverez la nouvelle adresse IP du robot "
+"en relançant un scan des robots sur Niryo Studio"
 
-#: ../../source/setup/ip_address.rst:57
+#: ../../source/setup/ip_address.rst:74
 msgid "Setting up a custom static IP on Niryo Studio"
 msgstr "Configuration d'une IP statique sur Niryo Studio"
 
