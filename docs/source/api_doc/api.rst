@@ -128,6 +128,11 @@ Hardware
 .. automethod:: api.tcp_client.NiryoRobot.digital_read
 .. automethod:: api.tcp_client.NiryoRobot.get_hardware_status
 .. automethod:: api.tcp_client.NiryoRobot.get_digital_io_state
+.. automethod:: api.tcp_client.NiryoRobot.get_analog_io_state
+.. automethod:: api.tcp_client.NiryoRobot.analog_write
+.. automethod:: api.tcp_client.NiryoRobot.analog_read
+.. automethod:: api.tcp_client.NiryoRobot.get_custom_button_state
+
 
 Conveyor
 ^^^^^^^^^^^^^
@@ -161,12 +166,33 @@ Vision
 
 Led Ring
 ^^^^^^^^^^^^^
+.. automethod:: api.tcp_client.NiryoRobot.set_led_color
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_solid
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_turn_off
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_flashing
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_alternate
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_chase
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_wipe
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_rainbow
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_rainbow_chase
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_go_up
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_go_up_down
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_breath
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_snake
+.. automethod:: api.tcp_client.NiryoRobot.led_ring_custom
 
-.. autoclass:: NiryoRobot
-    :members: led_ring_solid, led_ring_turn_off, led_ring_flash, led_ring_alternate,
-                led_ring_chase, led_ring_wipe, led_ring_rainbow, led_ring_rainbow_cycle,
-                led_ring_rainbow_chase, led_ring_go_up, led_ring_go_up_down
-    :member-order: bysource
+Sound
+^^^^^^^^^^^^^
+
+.. automethod:: api.tcp_client.NiryoRobot.get_sounds
+.. automethod:: api.tcp_client.NiryoRobot.play_sound
+.. automethod:: api.tcp_client.NiryoRobot.set_volume
+.. automethod:: api.tcp_client.NiryoRobot.stop_sound
+.. automethod:: api.tcp_client.NiryoRobot.get_sound_duration
+.. automethod:: api.tcp_client.NiryoRobot.say
+
+
 Enums
 ------------------------------------
 
