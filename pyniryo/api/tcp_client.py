@@ -296,6 +296,20 @@ class NiryoRobot(object):
 
     @property
     def learning_mode(self):
+        """
+        Property
+        Get learning mode state
+
+        Example: ::
+
+            if robot.learning_mode:
+                print("Torque off")
+            else:
+                print("Torque on")
+
+        :return: ``True`` if learning mode is on
+        :rtype: bool
+        """
         return self.get_learning_mode()
 
     def get_learning_mode(self):
@@ -709,6 +723,14 @@ class NiryoRobot(object):
         """
         Execute trajectory from list of poses and joints
 
+        Example: ::
+
+            robot.execute_trajectory_from_poses_and_joints(
+               list_pose_joints = [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0], [0.25, 0.0, 0.0, 0.0, 0.0, 0.0]],
+               list_type = ['joint', 'pose'],
+               dist_smoothing = 0.01
+            )
+
         :param list_pose_joints: List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw]
                                         or a list of [j1,j2,j3,j4,j5,j6]
         :type list_pose_joints: list[list[float]]
@@ -973,7 +995,12 @@ class NiryoRobot(object):
 
     def get_digital_io_state(self):
         """
-        Get Digital IO state : Names, modes, states
+        Get Digital IO state : Names, modes, states.
+
+        Example: ::
+
+            digital_io_state = robot.digital_io_state
+            digital_io_state = robot.get_digital_io_state()
 
         :return: List of DigitalPinObject instance
         :rtype: list[DigitalPinObject]
@@ -1023,6 +1050,12 @@ class NiryoRobot(object):
         """
         Get Analog IO state : Names, modes, states
 
+        Example: ::
+
+            analog_io_state = robot.analog_io_state
+            analog_io_state = robot.get_analog_io_state()
+
+
         :return: List of AnalogPinObject instance
         :rtype: list[AnalogPinObject]
         """
@@ -1067,7 +1100,7 @@ class NiryoRobot(object):
 
     def get_custom_button_state(self):
         """
-        Get the Ned's custom button state
+        Get the Ned2's custom button state
 
         :return: True if pressed, False else
         :rtype: bool
@@ -1595,11 +1628,11 @@ class NiryoRobot(object):
         """
         Use gtts (Google Text To Speech) to interprete a string as sound
         Languages available are:
-            - English: 0
-            - French: 1
-            - Spanish: 2
-            - Mandarin: 3
-            - Portuguese: 4
+        * English: 0
+        * French: 1
+        * Spanish: 2
+        * Mandarin: 3
+        * Portuguese: 4
 
         Example ::
 
