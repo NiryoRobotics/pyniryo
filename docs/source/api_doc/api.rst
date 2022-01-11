@@ -222,6 +222,7 @@ List of enums:
     :undoc-members:
     :exclude-members: Command
     :member-order: bysource
+    :noindex:
 
 .. undoc-members -> allow to see members of enums
 .. show-inheritance -> display enum.Enum
