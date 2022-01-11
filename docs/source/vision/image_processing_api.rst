@@ -27,6 +27,8 @@ Pure image processing
 .. automethod:: vision.image_functions.biggest_contour_finder
 .. automethod:: vision.image_functions.biggest_contours_finder
 .. automethod:: vision.image_functions.draw_contours
+.. automethod:: vision.image_functions.draw_barycenter
+.. automethod:: vision.image_functions.draw_angle
 
 Workspaces wise
 ^^^^^^^^^^^^^^^^^^^^

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-06 14:54+0000\n"
+"POT-Creation-Date: 2022-01-11 14:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,6 +74,7 @@ msgstr ""
 #: vision.image_functions.compress_image vision.image_functions.concat_imgs
 #: vision.image_functions.debug_markers
 #: vision.image_functions.debug_threshold_color
+#: vision.image_functions.draw_angle vision.image_functions.draw_barycenter
 #: vision.image_functions.draw_contours
 #: vision.image_functions.extract_img_workspace
 #: vision.image_functions.get_contour_angle
@@ -113,6 +114,7 @@ msgstr ""
 #: vision.image_functions.compress_image vision.image_functions.concat_imgs
 #: vision.image_functions.debug_markers
 #: vision.image_functions.debug_threshold_color
+#: vision.image_functions.draw_angle vision.image_functions.draw_barycenter
 #: vision.image_functions.draw_contours
 #: vision.image_functions.extract_img_workspace
 #: vision.image_functions.get_contour_angle
@@ -136,6 +138,7 @@ msgstr ""
 #: vision.image_functions.compress_image vision.image_functions.concat_imgs
 #: vision.image_functions.debug_markers
 #: vision.image_functions.debug_threshold_color
+#: vision.image_functions.draw_angle vision.image_functions.draw_barycenter
 #: vision.image_functions.draw_contours
 #: vision.image_functions.extract_img_workspace
 #: vision.image_functions.get_contour_angle
@@ -236,6 +239,7 @@ msgid "Draw a list of contour on an image and return the drawing image"
 msgstr ""
 
 #: of vision.image_functions.add_annotation_to_image:3
+#: vision.image_functions.draw_angle:3 vision.image_functions.draw_barycenter:3
 #: vision.image_functions.draw_contours:3 vision.image_functions.show_img:5
 #: vision.image_functions.show_img_and_check_close:5
 #: vision.image_functions.show_img_and_wait_close:5
@@ -246,11 +250,58 @@ msgstr ""
 msgid "contours list"
 msgstr ""
 
-#: of vision.image_functions.draw_contours:7
+#: of vision.image_functions.draw_angle:17
+#: vision.image_functions.draw_barycenter:15
+#: vision.image_functions.draw_contours:7
 msgid "Image with drawing"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:32
+#: of vision.image_functions.draw_barycenter:1
+msgid "Draw a barycenter marker on an image and return the drawing image"
+msgstr ""
+
+#: of vision.image_functions.draw_angle:5
+#: vision.image_functions.draw_barycenter:5
+msgid "Barycenter X"
+msgstr ""
+
+#: of vision.image_functions.draw_angle:7
+#: vision.image_functions.draw_barycenter:7
+msgid "Barycenter Y"
+msgstr ""
+
+#: of vision.image_functions.draw_angle:11
+#: vision.image_functions.draw_barycenter:9
+msgid "(R, G, B) colors of the marker"
+msgstr ""
+
+#: of vision.image_functions.draw_barycenter:11
+msgid "size of the marker"
+msgstr ""
+
+#: of vision.image_functions.draw_barycenter:13
+msgid "thickness of the marker"
+msgstr ""
+
+#: of vision.image_functions.draw_angle:1
+msgid ""
+"Draw an arrow that represents the orientation of an object on an image "
+"and return the drawing image"
+msgstr ""
+
+#: of vision.image_functions.draw_angle:9
+msgid "angle to display"
+msgstr ""
+
+#: of vision.image_functions.draw_angle:13
+msgid "length of the arrow marker"
+msgstr ""
+
+#: of vision.image_functions.draw_angle:15
+msgid "thickness of the arrow marker"
+msgstr ""
+
+#: ../../source/vision/image_processing_api.rst:34
 msgid "Workspaces wise"
 msgstr ""
 
@@ -305,7 +356,7 @@ msgstr ""
 msgid "X relative, Y relative"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:39
+#: ../../source/vision/image_processing_api.rst:41
 msgid "Show"
 msgstr ""
 
@@ -343,7 +394,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:46
+#: ../../source/vision/image_processing_api.rst:48
 msgid "Image Editing"
 msgstr ""
 
@@ -448,35 +499,35 @@ msgstr ""
 msgid "Concat image"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:56
+#: ../../source/vision/image_processing_api.rst:58
 msgid "Enums Image Processing"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:58
+#: ../../source/vision/image_processing_api.rst:60
 msgid "Enums are used to pass specific parameters to functions."
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:60
+#: ../../source/vision/image_processing_api.rst:62
 msgid "List of enums:"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:62
+#: ../../source/vision/image_processing_api.rst:64
 msgid ":class:`~.vision.enums.ColorHSV`"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:63
+#: ../../source/vision/image_processing_api.rst:65
 msgid ":class:`~.vision.enums.ColorHSVPrime`"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:64
+#: ../../source/vision/image_processing_api.rst:66
 msgid ":class:`~.vision.enums.ObjectType`"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:65
+#: ../../source/vision/image_processing_api.rst:67
 msgid ":class:`~.vision.enums.MorphoType`"
 msgstr ""
 
-#: ../../source/vision/image_processing_api.rst:66
+#: ../../source/vision/image_processing_api.rst:68
 msgid ":class:`~.vision.enums.KernelType`"
 msgstr ""
 

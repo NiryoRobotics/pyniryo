@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-07 07:54+0000\n"
+"POT-Creation-Date: 2022-01-10 15:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,6 +101,7 @@ msgid "Connect to the TCP Server"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.activate_electromagnet
+#: api.tcp_client.NiryoRobot.analog_read api.tcp_client.NiryoRobot.analog_write
 #: api.tcp_client.NiryoRobot.calibrate api.tcp_client.NiryoRobot.close_gripper
 #: api.tcp_client.NiryoRobot.connect api.tcp_client.NiryoRobot.control_conveyor
 #: api.tcp_client.NiryoRobot.deactivate_electromagnet
@@ -112,11 +113,25 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints
 #: api.tcp_client.NiryoRobot.forward_kinematics
 #: api.tcp_client.NiryoRobot.get_pose_saved
+#: api.tcp_client.NiryoRobot.get_sound_duration
 #: api.tcp_client.NiryoRobot.get_target_pose_from_cam
 #: api.tcp_client.NiryoRobot.get_target_pose_from_rel
 #: api.tcp_client.NiryoRobot.get_workspace_ratio
 #: api.tcp_client.NiryoRobot.inverse_kinematics
 #: api.tcp_client.NiryoRobot.jog_joints api.tcp_client.NiryoRobot.jog_pose
+#: api.tcp_client.NiryoRobot.led_ring_alternate
+#: api.tcp_client.NiryoRobot.led_ring_breath
+#: api.tcp_client.NiryoRobot.led_ring_chase
+#: api.tcp_client.NiryoRobot.led_ring_custom
+#: api.tcp_client.NiryoRobot.led_ring_flashing
+#: api.tcp_client.NiryoRobot.led_ring_go_up
+#: api.tcp_client.NiryoRobot.led_ring_go_up_down
+#: api.tcp_client.NiryoRobot.led_ring_rainbow
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_chase
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle
+#: api.tcp_client.NiryoRobot.led_ring_snake
+#: api.tcp_client.NiryoRobot.led_ring_solid
+#: api.tcp_client.NiryoRobot.led_ring_wipe
 #: api.tcp_client.NiryoRobot.move_joints
 #: api.tcp_client.NiryoRobot.move_linear_pose
 #: api.tcp_client.NiryoRobot.move_pose api.tcp_client.NiryoRobot.move_to_object
@@ -124,17 +139,20 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.pick_and_place
 #: api.tcp_client.NiryoRobot.pick_from_pose
 #: api.tcp_client.NiryoRobot.place_from_pose
-#: api.tcp_client.NiryoRobot.run_conveyor api.tcp_client.NiryoRobot.save_pose
+#: api.tcp_client.NiryoRobot.play_sound api.tcp_client.NiryoRobot.run_conveyor
+#: api.tcp_client.NiryoRobot.save_pose
 #: api.tcp_client.NiryoRobot.save_trajectory
 #: api.tcp_client.NiryoRobot.save_workspace_from_points
 #: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses
-#: api.tcp_client.NiryoRobot.set_arm_max_velocity
+#: api.tcp_client.NiryoRobot.say api.tcp_client.NiryoRobot.set_arm_max_velocity
 #: api.tcp_client.NiryoRobot.set_brightness
 #: api.tcp_client.NiryoRobot.set_contrast
 #: api.tcp_client.NiryoRobot.set_jog_control
 #: api.tcp_client.NiryoRobot.set_learning_mode
+#: api.tcp_client.NiryoRobot.set_led_color
 #: api.tcp_client.NiryoRobot.set_pin_mode
 #: api.tcp_client.NiryoRobot.set_saturation api.tcp_client.NiryoRobot.set_tcp
+#: api.tcp_client.NiryoRobot.set_volume
 #: api.tcp_client.NiryoRobot.setup_electromagnet
 #: api.tcp_client.NiryoRobot.shift_linear_pose
 #: api.tcp_client.NiryoRobot.shift_pose api.tcp_client.NiryoRobot.stop_conveyor
@@ -149,6 +167,7 @@ msgstr ""
 
 #: api.objects.PoseObject.copy_with_offsets api.objects.PoseObject.to_list
 #: api.tcp_client.NiryoRobot.activate_electromagnet
+#: api.tcp_client.NiryoRobot.analog_read api.tcp_client.NiryoRobot.analog_write
 #: api.tcp_client.NiryoRobot.calibrate api.tcp_client.NiryoRobot.calibrate_auto
 #: api.tcp_client.NiryoRobot.close_connection
 #: api.tcp_client.NiryoRobot.close_gripper api.tcp_client.NiryoRobot.connect
@@ -164,9 +183,11 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints
 #: api.tcp_client.NiryoRobot.execute_trajectory_saved
 #: api.tcp_client.NiryoRobot.forward_kinematics
+#: api.tcp_client.NiryoRobot.get_analog_io_state
 #: api.tcp_client.NiryoRobot.get_camera_intrinsics
 #: api.tcp_client.NiryoRobot.get_connected_conveyors_id
 #: api.tcp_client.NiryoRobot.get_current_tool_id
+#: api.tcp_client.NiryoRobot.get_custom_button_state
 #: api.tcp_client.NiryoRobot.get_digital_io_state
 #: api.tcp_client.NiryoRobot.get_hardware_status
 #: api.tcp_client.NiryoRobot.get_image_parameters
@@ -177,6 +198,8 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.get_pose_saved
 #: api.tcp_client.NiryoRobot.get_saved_pose_list
 #: api.tcp_client.NiryoRobot.get_saved_trajectory_list
+#: api.tcp_client.NiryoRobot.get_sound_duration
+#: api.tcp_client.NiryoRobot.get_sounds
 #: api.tcp_client.NiryoRobot.get_target_pose_from_cam
 #: api.tcp_client.NiryoRobot.get_target_pose_from_rel
 #: api.tcp_client.NiryoRobot.get_trajectory_saved
@@ -186,6 +209,20 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.grasp_with_tool
 #: api.tcp_client.NiryoRobot.inverse_kinematics
 #: api.tcp_client.NiryoRobot.jog_joints api.tcp_client.NiryoRobot.jog_pose
+#: api.tcp_client.NiryoRobot.led_ring_alternate
+#: api.tcp_client.NiryoRobot.led_ring_breath
+#: api.tcp_client.NiryoRobot.led_ring_chase
+#: api.tcp_client.NiryoRobot.led_ring_custom
+#: api.tcp_client.NiryoRobot.led_ring_flashing
+#: api.tcp_client.NiryoRobot.led_ring_go_up
+#: api.tcp_client.NiryoRobot.led_ring_go_up_down
+#: api.tcp_client.NiryoRobot.led_ring_rainbow
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_chase
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle
+#: api.tcp_client.NiryoRobot.led_ring_snake
+#: api.tcp_client.NiryoRobot.led_ring_solid
+#: api.tcp_client.NiryoRobot.led_ring_turn_off
+#: api.tcp_client.NiryoRobot.led_ring_wipe
 #: api.tcp_client.NiryoRobot.move_joints
 #: api.tcp_client.NiryoRobot.move_linear_pose
 #: api.tcp_client.NiryoRobot.move_pose
@@ -196,6 +233,7 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.pick_and_place
 #: api.tcp_client.NiryoRobot.pick_from_pose
 #: api.tcp_client.NiryoRobot.place_from_pose
+#: api.tcp_client.NiryoRobot.play_sound
 #: api.tcp_client.NiryoRobot.pull_air_vacuum_pump
 #: api.tcp_client.NiryoRobot.push_air_vacuum_pump
 #: api.tcp_client.NiryoRobot.release_with_tool
@@ -204,19 +242,22 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.save_trajectory
 #: api.tcp_client.NiryoRobot.save_workspace_from_points
 #: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses
-#: api.tcp_client.NiryoRobot.set_arm_max_velocity
+#: api.tcp_client.NiryoRobot.say api.tcp_client.NiryoRobot.set_arm_max_velocity
 #: api.tcp_client.NiryoRobot.set_brightness
 #: api.tcp_client.NiryoRobot.set_contrast
 #: api.tcp_client.NiryoRobot.set_conveyor
 #: api.tcp_client.NiryoRobot.set_jog_control
 #: api.tcp_client.NiryoRobot.set_learning_mode
+#: api.tcp_client.NiryoRobot.set_led_color
 #: api.tcp_client.NiryoRobot.set_pin_mode
 #: api.tcp_client.NiryoRobot.set_saturation api.tcp_client.NiryoRobot.set_tcp
+#: api.tcp_client.NiryoRobot.set_volume
 #: api.tcp_client.NiryoRobot.setup_electromagnet
 #: api.tcp_client.NiryoRobot.shift_linear_pose
 #: api.tcp_client.NiryoRobot.shift_pose api.tcp_client.NiryoRobot.stop_conveyor
-#: api.tcp_client.NiryoRobot.tool_reboot api.tcp_client.NiryoRobot.update_tool
-#: api.tcp_client.NiryoRobot.vision_pick api.tcp_client.NiryoRobot.wait of
+#: api.tcp_client.NiryoRobot.stop_sound api.tcp_client.NiryoRobot.tool_reboot
+#: api.tcp_client.NiryoRobot.update_tool api.tcp_client.NiryoRobot.vision_pick
+#: api.tcp_client.NiryoRobot.wait of
 msgid "Return type"
 msgstr ""
 
@@ -251,8 +292,10 @@ msgid "Get learning mode state"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.detect_object
+#: api.tcp_client.NiryoRobot.get_analog_io_state
 #: api.tcp_client.NiryoRobot.get_camera_intrinsics
 #: api.tcp_client.NiryoRobot.get_connected_conveyors_id
+#: api.tcp_client.NiryoRobot.get_custom_button_state
 #: api.tcp_client.NiryoRobot.get_digital_io_state
 #: api.tcp_client.NiryoRobot.get_hardware_status
 #: api.tcp_client.NiryoRobot.get_image_parameters
@@ -261,13 +304,30 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.get_learning_mode
 #: api.tcp_client.NiryoRobot.get_pose_quat
 #: api.tcp_client.NiryoRobot.get_pose_saved
+#: api.tcp_client.NiryoRobot.get_sound_duration
+#: api.tcp_client.NiryoRobot.get_sounds
 #: api.tcp_client.NiryoRobot.get_target_pose_from_cam
 #: api.tcp_client.NiryoRobot.get_target_pose_from_rel
 #: api.tcp_client.NiryoRobot.get_trajectory_saved
 #: api.tcp_client.NiryoRobot.inverse_kinematics
+#: api.tcp_client.NiryoRobot.led_ring_alternate
+#: api.tcp_client.NiryoRobot.led_ring_breath
+#: api.tcp_client.NiryoRobot.led_ring_chase
+#: api.tcp_client.NiryoRobot.led_ring_custom
+#: api.tcp_client.NiryoRobot.led_ring_flashing
+#: api.tcp_client.NiryoRobot.led_ring_go_up
+#: api.tcp_client.NiryoRobot.led_ring_go_up_down
+#: api.tcp_client.NiryoRobot.led_ring_rainbow
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_chase
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle
+#: api.tcp_client.NiryoRobot.led_ring_snake
+#: api.tcp_client.NiryoRobot.led_ring_solid
+#: api.tcp_client.NiryoRobot.led_ring_turn_off
+#: api.tcp_client.NiryoRobot.led_ring_wipe
 #: api.tcp_client.NiryoRobot.move_to_object
-#: api.tcp_client.NiryoRobot.set_conveyor api.tcp_client.NiryoRobot.vision_pick
-#: of
+#: api.tcp_client.NiryoRobot.set_conveyor
+#: api.tcp_client.NiryoRobot.set_led_color
+#: api.tcp_client.NiryoRobot.vision_pick of
 msgid "Returns"
 msgstr ""
 
@@ -524,7 +584,7 @@ msgid "Place Pose : [x, y, z, roll, pitch, yaw] or PoseObject"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses:5
-#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:8
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:17
 #: api.tcp_client.NiryoRobot.pick_and_place:7 of
 msgid "Distance from waypoints before smoothing trajectory"
 msgstr ""
@@ -554,16 +614,26 @@ msgstr ""
 msgid "Execute trajectory from list of poses and joints"
 msgstr ""
 
-#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:3 of
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:3
+#: api.tcp_client.NiryoRobot.get_analog_io_state:3
+#: api.tcp_client.NiryoRobot.get_digital_io_state:3
+#: api.tcp_client.NiryoRobot.led_ring_custom:4
+#: api.tcp_client.NiryoRobot.led_ring_solid:3
+#: api.tcp_client.NiryoRobot.led_ring_turn_off:3
+#: api.tcp_client.NiryoRobot.set_led_color:3 of
+msgid "Example: ::"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:11 of
 msgid ""
 "List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw] or a list "
 "of [j1,j2,j3,j4,j5,j6]"
 msgstr ""
 
-#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:5 of
+#: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:14 of
 msgid ""
 "List of string 'pose' or 'joint', or ['pose'] (if poses only) or "
-"['joint'] (if joints only).  If None, it is assumed there are only poses "
+"['joint'] (if joints only). If None, it is assumed there are only poses "
 "in the list."
 msgstr ""
 
@@ -608,16 +678,32 @@ msgid ""
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.open_gripper:1 of
-msgid "Open gripper associated to 'gripper_id' with a speed 'speed'"
+msgid "Open gripper"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.close_gripper:3
 #: api.tcp_client.NiryoRobot.open_gripper:3 of
-msgid "Between 100 & 1000"
+msgid "Between 100 & 1000 (only for Niryo One and Ned1)"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.open_gripper:5 of
+msgid "Closing torque percentage (only for Ned2)"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.open_gripper:7 of
+msgid "Hold torque percentage after closing (only for Ned2)"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.close_gripper:1 of
-msgid "Close gripper associated to 'gripper_id' with a speed 'speed'"
+msgid "Close gripper"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.close_gripper:5 of
+msgid "Opening torque percentage (only for Ned2)"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.close_gripper:7 of
+msgid "Hold torque percentage after opening (only for Ned2)"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.pull_air_vacuum_pump:1 of
@@ -697,14 +783,42 @@ msgid "Infos contains in a HardwareStatusObject"
 msgstr ""
 
 #: api.tcp_client.NiryoRobot.get_digital_io_state:1 of
-msgid "Get Digital IO state : Names, modes, states"
+msgid "Get Digital IO state : Names, modes, states."
 msgstr ""
 
-#: api.tcp_client.NiryoRobot.get_digital_io_state:3 of
+#: api.tcp_client.NiryoRobot.get_digital_io_state:8 of
 msgid "List of DigitalPinObject instance"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:133
+#: api.tcp_client.NiryoRobot.get_analog_io_state:1 of
+msgid "Get Analog IO state : Names, modes, states"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_analog_io_state:9 of
+msgid "List of AnalogPinObject instance"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.analog_write:1 of
+msgid "Set and analog pin_id state to a value"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.analog_write:5 of
+msgid "voltage between 0 and 5V"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.analog_read:1 of
+msgid "Read the analog pin value"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_custom_button_state:1 of
+msgid "Get the Ned2's custom button state"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_custom_button_state:3 of
+msgid "True if pressed, False else"
+msgstr ""
+
+#: ../../source/api_doc/api.rst:138
 msgid "Conveyor"
 msgstr ""
 
@@ -748,7 +862,7 @@ msgstr ""
 msgid "List of the connected conveyors' ID"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:143
+#: ../../source/api_doc/api.rst:148
 msgid "Vision"
 msgstr ""
 
@@ -984,61 +1098,347 @@ msgstr ""
 msgid "Get list of workspaces' name store in robot's memory"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:163
+#: ../../source/api_doc/api.rst:168
+msgid "Led Ring"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.set_led_color:1 of
+msgid "Lights up an LED in one colour. RGB colour between 0 and 255."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.set_led_color:7 of
+msgid "Id of the led: between 0 and 29"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_breath:9
+#: api.tcp_client.NiryoRobot.led_ring_chase:10
+#: api.tcp_client.NiryoRobot.led_ring_flashing:13
+#: api.tcp_client.NiryoRobot.led_ring_go_up:10
+#: api.tcp_client.NiryoRobot.led_ring_go_up_down:10
+#: api.tcp_client.NiryoRobot.led_ring_snake:8
+#: api.tcp_client.NiryoRobot.led_ring_solid:7
+#: api.tcp_client.NiryoRobot.led_ring_wipe:9
+#: api.tcp_client.NiryoRobot.set_led_color:9 of
+msgid "Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_alternate:24
+#: api.tcp_client.NiryoRobot.led_ring_breath:19
+#: api.tcp_client.NiryoRobot.led_ring_chase:20
+#: api.tcp_client.NiryoRobot.led_ring_custom:12
+#: api.tcp_client.NiryoRobot.led_ring_flashing:22
+#: api.tcp_client.NiryoRobot.led_ring_go_up:20
+#: api.tcp_client.NiryoRobot.led_ring_go_up_down:20
+#: api.tcp_client.NiryoRobot.led_ring_rainbow:16
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_chase:16
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle:16
+#: api.tcp_client.NiryoRobot.led_ring_snake:18
+#: api.tcp_client.NiryoRobot.led_ring_solid:9
+#: api.tcp_client.NiryoRobot.led_ring_turn_off:7
+#: api.tcp_client.NiryoRobot.led_ring_wipe:15
+#: api.tcp_client.NiryoRobot.set_led_color:11 of
+msgid "status, message"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_solid:1 of
+msgid "Set the whole Led Ring to a fixed color."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_turn_off:1 of
+msgid "Turn off all LEDs"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_flashing:1 of
+msgid ""
+"Flashes a color according to a frequency. The frequency is equal to 1 / "
+"period."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_alternate:3
+#: api.tcp_client.NiryoRobot.led_ring_breath:3
+#: api.tcp_client.NiryoRobot.led_ring_chase:3
+#: api.tcp_client.NiryoRobot.led_ring_flashing:3
+#: api.tcp_client.NiryoRobot.led_ring_go_up:3
+#: api.tcp_client.NiryoRobot.led_ring_go_up_down:3
+#: api.tcp_client.NiryoRobot.led_ring_rainbow:3
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_chase:3
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle:3
+#: api.tcp_client.NiryoRobot.led_ring_snake:3
+#: api.tcp_client.NiryoRobot.led_ring_wipe:3 of
+msgid "Examples: ::"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_alternate:17
+#: api.tcp_client.NiryoRobot.led_ring_breath:11
+#: api.tcp_client.NiryoRobot.led_ring_chase:12
+#: api.tcp_client.NiryoRobot.led_ring_flashing:15
+#: api.tcp_client.NiryoRobot.led_ring_go_up:12
+#: api.tcp_client.NiryoRobot.led_ring_go_up_down:12
+#: api.tcp_client.NiryoRobot.led_ring_rainbow:9
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_chase:9
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle:9
+#: api.tcp_client.NiryoRobot.led_ring_wipe:11 of
+msgid ""
+"Execution time for a pattern in seconds. If 0, the default time will be "
+"used."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_flashing:17 of
+msgid "Number of consecutive flashes. If 0, the Led Ring flashes endlessly."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_alternate:21
+#: api.tcp_client.NiryoRobot.led_ring_chase:17
+#: api.tcp_client.NiryoRobot.led_ring_flashing:19 of
+msgid ""
+"The service wait for the animation to finish all iterations or not to "
+"answer. If iterations is 0, the service answers immediately."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_alternate:1 of
+msgid "Several colors are alternated one after the other."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_alternate:15 of
+msgid "Led color list of lists of size 3[R, G, B]. RGB channels from 0 to 255."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_alternate:19 of
+msgid ""
+"Number of consecutive alternations. If 0, the Led Ring alternates "
+"endlessly."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_chase:1 of
+msgid "Movie theater light style chaser animation."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_chase:14 of
+msgid ""
+"Number of consecutive chase. If 0, the animation continues endlessly. One"
+" chase just lights one Led every 3 LEDs."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_wipe:1 of
+msgid "Wipe a color across the Led Ring, light a Led at a time."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_wipe:13 of
+msgid "The service wait for the animation to finish or not to answer."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_rainbow:1 of
+msgid "Draw rainbow that fades across all LEDs at once."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_rainbow:11 of
+msgid "Number of consecutive rainbows. If 0, the animation continues endlessly."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_breath:16
+#: api.tcp_client.NiryoRobot.led_ring_go_up:17
+#: api.tcp_client.NiryoRobot.led_ring_go_up_down:17
+#: api.tcp_client.NiryoRobot.led_ring_rainbow:13
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_chase:13
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle:13
+#: api.tcp_client.NiryoRobot.led_ring_snake:15 of
+msgid ""
+"The service wait for the animation to finish or not to answer. If "
+"iterations is 0, the service answers immediately."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle:1 of
+msgid "Draw rainbow that uniformly distributes itself across all LEDs."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_chase:11
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle:11 of
+msgid ""
+"Number of consecutive rainbow cycles. If 0, the animation continues "
+"endlessly."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_chase:1 of
+msgid "Rainbow chase animation, like the led_ring_chase method."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_go_up:1 of
+msgid "LEDs turn on like a loading circle, and are then all turned off at once."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_breath:13
+#: api.tcp_client.NiryoRobot.led_ring_go_up:14
+#: api.tcp_client.NiryoRobot.led_ring_go_up_down:14
+#: api.tcp_client.NiryoRobot.led_ring_snake:12 of
+msgid ""
+"Number of consecutive turns around the Led Ring. If 0, the animation "
+"continues endlessly."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_go_up_down:1 of
+msgid "LEDs turn on like a loading circle, and are turned off the same way."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_breath:1 of
+msgid ""
+"Variation of the light intensity of the LED ring, similar to human "
+"breathing."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_snake:1 of
+msgid "A small coloured snake (certainly a python :D ) runs around the LED ring."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_snake:10 of
+msgid ""
+"Execution time for a pattern in seconds. If 0, the default duration will "
+"be used."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_custom:1 of
+msgid ""
+"Sends a colour command to all LEDs of the LED ring. The function expects "
+"a list of colours for the 30 LEDs  of the robot."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.led_ring_custom:9 of
+msgid ""
+"List of size 30 of led color in a list of size 3[R, G, B]. RGB channels "
+"from 0 to 255."
+msgstr ""
+
+#: ../../source/api_doc/api.rst:186
+msgid "Sound"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_sounds:1 of
+msgid "Get sound name list"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_sounds:3 of
+msgid "list of the sounds of the robot"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.play_sound:1 of
+msgid "Play a sound from the robot"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.play_sound:3 of
+msgid "Name of the sound to play"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.play_sound:5 of
+msgid "wait for the end of the sound before exiting the function"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.play_sound:7 of
+msgid "start the sound from this value in seconds"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.play_sound:9 of
+msgid "end the sound at this value in seconds"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.set_volume:1 of
+msgid "Set the volume percentage of the robot."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.set_volume:3 of
+msgid "volume percentage of the sound (0: no sound, 100: max sound)"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.stop_sound:1 of
+msgid "Stop a sound being played."
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_sound_duration:1 of
+msgid ""
+"Returns the duration in seconds of a sound stored in the robot database "
+"raise SoundRosWrapperException if the sound doesn't exists"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_sound_duration:4 of
+msgid "name of sound"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.get_sound_duration:6 of
+msgid "sound duration in seconds"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.say:1 of
+msgid ""
+"Use gtts (Google Text To Speech) to interprete a string as sound "
+"Languages available are: * English: 0 * French: 1 * Spanish: 2 * "
+"Mandarin: 3 * Portuguese: 4"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.say:9 of
+msgid "Example ::"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.say:15 of
+msgid "Text that needs to be spoken < 100 char"
+msgstr ""
+
+#: api.tcp_client.NiryoRobot.say:17 of
+msgid "language of the text"
+msgstr ""
+
+#: ../../source/api_doc/api.rst:197
 msgid "Enums"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:165
+#: ../../source/api_doc/api.rst:199
 msgid "Enums are used to pass specific parameters to functions."
 msgstr ""
 
-#: ../../source/api_doc/api.rst:167
+#: ../../source/api_doc/api.rst:201
 msgid ""
 "For instance, :meth:`~.api.tcp_client.NiryoRobot.shift_pose` will need a "
 "parameter from :class:`~.api.objects.RobotAxis` enum ::"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:173
+#: ../../source/api_doc/api.rst:207
 msgid "List of enums:"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:175
+#: ../../source/api_doc/api.rst:209
 msgid ":class:`~.api.enums_communication.CalibrateMode`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:176
+#: ../../source/api_doc/api.rst:210
 msgid ":class:`~.api.enums_communication.RobotAxis`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:177
+#: ../../source/api_doc/api.rst:211
 msgid ":class:`~.api.enums_communication.ToolID`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:178
+#: ../../source/api_doc/api.rst:212
 msgid ":class:`~.api.enums_communication.PinMode`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:179
+#: ../../source/api_doc/api.rst:213
 msgid ":class:`~.api.enums_communication.PinState`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:180
+#: ../../source/api_doc/api.rst:214
 msgid ":class:`~.api.enums_communication.PinID`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:181
+#: ../../source/api_doc/api.rst:215
 msgid ":class:`~.api.enums_communication.ConveyorID`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:182
+#: ../../source/api_doc/api.rst:216
 msgid ":class:`~.api.enums_communication.ConveyorDirection`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:183
+#: ../../source/api_doc/api.rst:217
 msgid ":class:`~.api.enums_communication.ObjectColor`"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:184
+#: ../../source/api_doc/api.rst:218
 msgid ":class:`~.api.enums_communication.ObjectShape`"
 msgstr ""
 
@@ -1082,11 +1482,11 @@ msgstr ""
 msgid "Enumeration of Shapes available for image processing"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:196
+#: ../../source/api_doc/api.rst:230
 msgid "Python object classes"
 msgstr ""
 
-#: ../../source/api_doc/api.rst:198
+#: ../../source/api_doc/api.rst:232
 msgid "Special objects"
 msgstr ""
 
@@ -1108,7 +1508,7 @@ msgstr ""
 msgid "Object used to store every hardware information"
 msgstr ""
 
-#: api.objects.DigitalPinObject:1 of
+#: api.objects.AnalogPinObject:1 api.objects.DigitalPinObject:1 of
 msgid "Object used to store information on digital pins"
 msgstr ""
 
@@ -1876,5 +2276,96 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "Brightness factor, Contrast factor, Saturation factor"
+#~ msgstr ""
+
+#~ msgid "Led ring color, in a list of size 3 (r, g, b: 0.0 - 255.0)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Wait for the animation to finish "
+#~ "or not to return.  For this "
+#~ "method, the animation is quickly done,"
+#~ " so waiting is also quick."
+#~ msgstr ""
+
+#~ msgid "Turn off all Leds"
+#~ msgstr ""
+
+#~ msgid "Flashes a color according to a frequency."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "flashing frequency, in Hertz. From 1 "
+#~ "Hz to 100 Hz. If 0 or not"
+#~ " filled, the default  frequency is "
+#~ "used (4 Hz)"
+#~ msgstr ""
+
+#~ msgid "Number of consecutives flashes. If 0, the Led Ring flashes endlessly."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Wait for the animation to finish "
+#~ "all iterations or not to return. "
+#~ "If iterations is 0, return immediatly."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Number of consecutives alternations. If "
+#~ "0, the Led Ring alternates endlessly."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Speed of animation between each step,"
+#~ " in milliseconde.  the bigger this "
+#~ "param is, the slower the animation "
+#~ "will be. If 0 or not filled, "
+#~ "the default speed is used (50 ms)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Number of consecutives chase. If 0, "
+#~ "the animation continues endlessly. One "
+#~ "chase just lights one Led every 3"
+#~ " Leds."
+#~ msgstr ""
+
+#~ msgid "Draw rainbow that fades across all Leds at once."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Speed of animation between each step,"
+#~ " in milliseconde.  the bigger this "
+#~ "param is, the slower the animation "
+#~ "will be. If 0 or not filled, "
+#~ "the default speed is used (20 ms)"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Number of consecutives rainbows. If 0,"
+#~ " the animation continues endlessly."
+#~ msgstr ""
+
+#~ msgid "Draw rainbow that uniformly distributes itself across all Leds."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Number of consecutives rainbow cycles. "
+#~ "If 0, the animation continues endlessly."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Leds turn on like a loading "
+#~ "circle, and are then all turned "
+#~ "off at once."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Number of consecutives turns around the"
+#~ " Led Ring. If 0, the animation  "
+#~ "continues endlessly."
+#~ msgstr ""
+
+#~ msgid "Leds turn on like a loading circle, and are turned off the same way."
 #~ msgstr ""
 
