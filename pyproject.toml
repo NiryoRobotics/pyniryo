@@ -3,7 +3,7 @@ name = 'pyniryo'
 version = '1.0.5'
 description = ''
 author = 'Niryo'
-author_email = 'r.lux@niryo.com'
+author_email = 'v.pitre@niryo.com'
 license = 'MIT/Apache-2.0'
 url = 'https://github.com/NiryoRobotics/pyniryo'
 
