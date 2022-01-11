@@ -6,6 +6,7 @@ sys.path.append(os.path.abspath('../pyniryo'))
 # Kindda hack the import to import shared config file
 sys.path.append(os.path.abspath('.'))
 from front_end.config import shared_conf
+from front_end.config import base_conf
 
 # -- Project information -----------------------------------------------------
 
@@ -14,21 +15,13 @@ copyright = shared_conf.copyright
 author = shared_conf.author
 
 # The short X.Y version
-version = u'v1.0'
+version = u'v1.1'
 # The full version, including alpha/beta/rc tags
-release = u'v1.0.5'
+release = u'v1.1.0'
 
 # -- General configuration ---------------------------------------------------
 
-extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosectionlabel',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
-    'sphinx.ext.extlinks',
-    'sphinx.ext.todo',
-]
+extensions = base_conf.extensions
 
 # Avoid autosection label to trigger warning on low level titles
 autosectionlabel_maxdepth = 3

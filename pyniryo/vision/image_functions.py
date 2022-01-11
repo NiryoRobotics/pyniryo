@@ -12,6 +12,8 @@ __all__ = [
     "biggest_contour_finder",
     "biggest_contours_finder",
     "draw_contours",
+    "draw_barycenter",
+    "draw_angle",
     "extract_img_workspace",
     "relative_pos_from_pixels",
 
@@ -205,6 +207,66 @@ def draw_contours(img, contours):
     else:
         img_bgr = img.copy()
     cv2.drawContours(img_bgr, contours, -1, (255, 0, 0), 3)
+    return img_bgr
+
+
+def draw_barycenter(img, cx, cy, color=(255, 0, 255), marker_size=10, thickness=2):
+    """
+    Draw a barycenter marker on an image and return the drawing image
+
+    :param img: Image
+    :type img: numpy.array
+    :param cx: Barycenter X
+    :type cx: int
+    :param cy: Barycenter Y
+    :type cy: int
+    :param color: (R, G, B) colors of the marker
+    :type color: list[uint8, utin8, uint8]
+    :param marker_size: size of the marker
+    :type marker_size: int
+    :param thickness: thickness of the marker
+    :type thickness: int
+    :return: Image with drawing
+    :rtype: numpy.array
+    """
+    if len(img.shape) == 2:
+        img_bgr = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    else:
+        img_bgr = img.copy()
+
+    cv2.drawMarker(img_bgr, (cx, cy), markerType=cv2.MARKER_DIAMOND,
+                   markerSize=marker_size, thickness=thickness, color=color)
+    return img_bgr
+
+
+def draw_angle(img, cx, cy, angle, color=(0, 0, 255), arrow_length=30, thickness=2):
+    """
+    Draw an arrow that represents the orientation of an object on an image and return the drawing image
+
+    :param img: Image
+    :type img: numpy.array
+    :param cx: Barycenter X
+    :type cx: int
+    :param cy: Barycenter Y
+    :type cy: int
+    :param angle: angle to display
+    :type angle:
+    :param color: (R, G, B) colors of the marker
+    :type color: list[uint8, utin8, uint8]
+    :param arrow_length: length of the arrow marker
+    :type arrow_length: int
+    :param thickness: thickness of the arrow marker
+    :type thickness: int
+    :return: Image with drawing
+    :rtype: numpy.array
+    """
+    if len(img.shape) == 2:
+        img_bgr = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    else:
+        img_bgr = img.copy()
+
+    x2, y2 = cx+int(arrow_length * math.cos(angle)), cy+int(arrow_length * math.sin(angle))
+    cv2.arrowedLine(img_bgr, (cx, cy), (x2, y2), color, thickness=thickness)
     return img_bgr
 
 

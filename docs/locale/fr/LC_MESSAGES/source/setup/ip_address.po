@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-06 13:39+0000\n"
+"POT-Creation-Date: 2022-01-10 16:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,8 +48,8 @@ msgid ""
 "If you are directly connected to your robot through its wi-fi, the IP "
 "address you will need to use is ``10.10.10.10``."
 msgstr ""
-"Si vous connecté directement à votre robot depuis son wi-fi, l'adresse IP "
-"que vous devrez utiliser est ``10.10.10.10``."
+"Si vous connecté directement à votre robot depuis son wi-fi, l'adresse IP"
+" que vous devrez utiliser est ``10.10.10.10``."
 
 #: ../../source/setup/ip_address.rst:19
 msgid "Simulation or directly on the robot"
@@ -101,6 +101,14 @@ msgstr ""
 "voir les robots disponibles."
 
 #: ../../source/setup/ip_address.rst:38
+msgid "For example for our network configuration, we have:"
+msgstr "Par example, pour notre configuration réseau, nous avons:"
+
+#: ../../source/setup/ip_address.rst:52
+msgid "In our case the ip of our robot is **192.168.1.107**."
+msgstr "Dans notre cas, l'IP du robot est **192.168.1.107**."
+
+#: ../../source/setup/ip_address.rst:55
 msgid ""
 "You can also :ref:`source/setup/ip_address:Make IP permanent` so that you"
 " will not have to search for it next time"
@@ -109,101 +117,24 @@ msgstr ""
 "<source/setup/ip_address:Make IP permanent>` afin de ne plus avoir à la "
 "rechercher les fois suivantes."
 
-#: ../../source/setup/ip_address.rst:43
+#: ../../source/setup/ip_address.rst:60
 msgid "Make IP permanent"
 msgstr "Rendre l'IP permanente"
 
-#: ../../source/setup/ip_address.rst:45
-msgid "Step 1"
-msgstr "Étape 1"
-
-#: ../../source/setup/ip_address.rst:46
-msgid "Firstly, you need to be connected to your robot via SSH."
-msgstr "Tout d'abord, connectez vous à votre robot en SSH."
-
-#: ../../source/setup/ip_address.rst:48
-msgid "On Ubuntu, use the command line::"
-msgstr "Sur Ubuntu, utilisez la ligne de commande : ::"
-
-#: ../../source/setup/ip_address.rst:52
-msgid "The password is ``robotics``."
-msgstr "Le mot de passe est ``robotics``."
-
-#: ../../source/setup/ip_address.rst:54
+#: ../../source/setup/ip_address.rst:62
 msgid ""
-"On Windows, you can use `Putty <https://www.putty.org/>`_. Robot username"
-" is ``niryo`` and password is ``robotics``."
+"Go on NiryoStudio in the network configuration section. For a dynamic IP "
+"address (recommended especially if you are a beginner), use the DHCP "
+"option. You will find the new IP address of the robot by running a scan "
+"of the robots on the network on Niryo Studio. Otherwise fill in the "
+"Gateway, Sub mask and IP address fields."
 msgstr ""
-"Sur Windows, vous pouvez utiliser `Putty <https://www.putty.org/>`_. Le "
-"nom d'utilisateur est ``niryo`` et le mot de passe est ``robotics``."
-
-#: ../../source/setup/ip_address.rst:58
-msgid "Step 2"
-msgstr "Étape 2"
-
-#: ../../source/setup/ip_address.rst:59
-msgid "Find your proxy key: ::"
-msgstr "Trouvez votre clé proxy : "
-
-#: ../../source/setup/ip_address.rst:63
-msgid ""
-"Your proxy key is written on the first line and should look something "
-"like ``eth0``."
-msgstr ""
-"Votre clé proxy est indiquée sur la première ligne et vous devriez voir "
-"quelque chose comme ``eth0``."
-
-#: ../../source/setup/ip_address.rst:67
-msgid "Step 3"
-msgstr "Étape 3"
-
-#: ../../source/setup/ip_address.rst:68
-msgid ""
-"Select arbitrarily a number between 50 & 255. It will be your IP address'"
-" last number."
-msgstr ""
-"Choisissez arbitrairement un nombre entre 50 et 255. Ce sera le dernier "
-"nombre de votre adresse IP."
-
-#: ../../source/setup/ip_address.rst:70
-msgid "Then, edit the file ``/etc/network/interfaces``::"
-msgstr "Ensuite, éditez le document ``/etc/network/interfaces``::"
+"Allez sur NiryoStudio dans la partie configuration réseau. Pour une "
+"addresse ip dynamique (Recommandé surtout si vous êtres débutant) , "
+"utilisez l'option DHCP. Vous retrouverez la nouvelle adresse IP du robot "
+"en relançant un scan des robots sur Niryo Studio"
 
 #: ../../source/setup/ip_address.rst:74
-msgid "And add to its end::"
-msgstr "Et ajoutez à la fin : ::"
-
-#: ../../source/setup/ip_address.rst:85
-msgid ""
-"From its next reboot, the robot will appear under the IP "
-"``192.168.1.<your_ip_address_last_number>``."
-msgstr ""
-"À partir de son prochain redémarrage, le robot apparaître sous l'adresse "
-"IP ``192.168.1.<your_ip_address_last_number>``."
-
-#~ msgid "ifconfig"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "The reader should note that he may"
-#~ " need to change his wired settings"
-#~ " to allow the connection. See how "
-#~ "|link_ethernet|_."
-#~ msgstr ""
-#~ "Il est possible que vous ayez "
-#~ "besoin de changer les paramètres de "
-#~ "votre réseau câblé afin de permettre "
-#~ "une connexion. Regardez comment sur "
-#~ "|link_ethernet|_."
-
-#~ msgid ""
-#~ "The reader should note that he may"
-#~ " need to change his wired settings"
-#~ " to allow the connection. See how "
-#~ "to |link_ethernet|."
-#~ msgstr ""
-#~ "Notez qu'il peut être nécessaire de "
-#~ "changer vos paramètres de connexion "
-#~ "câblée afin de permet la connexion. "
-#~ "Découvrez comment |link_ethernet|."
+msgid "Setting up a custom static IP on Niryo Studio"
+msgstr "Configuration d'une IP statique sur Niryo Studio"
 

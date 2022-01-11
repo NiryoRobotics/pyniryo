@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-06 14:22+0000\n"
+"POT-Creation-Date: 2022-01-11 14:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,6 +92,7 @@ msgstr ""
 #: vision.image_functions.compress_image vision.image_functions.concat_imgs
 #: vision.image_functions.debug_markers
 #: vision.image_functions.debug_threshold_color
+#: vision.image_functions.draw_angle vision.image_functions.draw_barycenter
 #: vision.image_functions.draw_contours
 #: vision.image_functions.extract_img_workspace
 #: vision.image_functions.get_contour_angle
@@ -133,6 +134,7 @@ msgstr "Utile pour la couleur rouge car elle est aux deux extrêmes"
 #: vision.image_functions.compress_image vision.image_functions.concat_imgs
 #: vision.image_functions.debug_markers
 #: vision.image_functions.debug_threshold_color
+#: vision.image_functions.draw_angle vision.image_functions.draw_barycenter
 #: vision.image_functions.draw_contours
 #: vision.image_functions.extract_img_workspace
 #: vision.image_functions.get_contour_angle
@@ -156,6 +158,7 @@ msgstr "image seuillée"
 #: vision.image_functions.compress_image vision.image_functions.concat_imgs
 #: vision.image_functions.debug_markers
 #: vision.image_functions.debug_threshold_color
+#: vision.image_functions.draw_angle vision.image_functions.draw_barycenter
 #: vision.image_functions.draw_contours
 #: vision.image_functions.extract_img_workspace
 #: vision.image_functions.get_contour_angle
@@ -235,7 +238,7 @@ msgstr ""
 
 #: of vision.image_functions.get_contour_angle:4
 msgid "contour"
-msgstr ""
+msgstr "contour"
 
 #: of vision.image_functions.get_contour_angle:6
 msgid "Angle in radians"
@@ -264,21 +267,70 @@ msgid "Draw a list of contour on an image and return the drawing image"
 msgstr "Dresse une liste des contours d'une image et retourne le schéma de l'image"
 
 #: of vision.image_functions.add_annotation_to_image:3
+#: vision.image_functions.draw_angle:3 vision.image_functions.draw_barycenter:3
 #: vision.image_functions.draw_contours:3 vision.image_functions.show_img:5
 #: vision.image_functions.show_img_and_check_close:5
 #: vision.image_functions.show_img_and_wait_close:5
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
 #: of vision.image_functions.draw_contours:5
 msgid "contours list"
 msgstr "List des contours"
 
-#: of vision.image_functions.draw_contours:7
+#: of vision.image_functions.draw_angle:17
+#: vision.image_functions.draw_barycenter:15
+#: vision.image_functions.draw_contours:7
 msgid "Image with drawing"
 msgstr "Image avec schéma"
 
-#: ../../source/vision/image_processing_api.rst:32
+#: of vision.image_functions.draw_barycenter:1
+msgid "Draw a barycenter marker on an image and return the drawing image"
+msgstr "Dessine le barycentre d'un contours sur une image et retourne l'image dessinée"
+
+#: of vision.image_functions.draw_angle:5
+#: vision.image_functions.draw_barycenter:5
+msgid "Barycenter X"
+msgstr "Barycentre X"
+
+#: of vision.image_functions.draw_angle:7
+#: vision.image_functions.draw_barycenter:7
+msgid "Barycenter Y"
+msgstr "Barycentre Y"
+
+#: of vision.image_functions.draw_angle:11
+#: vision.image_functions.draw_barycenter:9
+msgid "(R, G, B) colors of the marker"
+msgstr "(R, V, B) couleurs du marqueur"
+
+#: of vision.image_functions.draw_barycenter:11
+msgid "size of the marker"
+msgstr "taille du marqueur"
+
+#: of vision.image_functions.draw_barycenter:13
+msgid "thickness of the marker"
+msgstr "épaisseur du marqueur"
+
+#: of vision.image_functions.draw_angle:1
+msgid ""
+"Draw an arrow that represents the orientation of an object on an image "
+"and return the drawing image"
+msgstr "Dessine une flèche qui représente l'orientation d'un objet sur"
+"une image et retournez l'image du dessin"
+
+#: of vision.image_functions.draw_angle:9
+msgid "angle to display"
+msgstr "angle à afficher"
+
+#: of vision.image_functions.draw_angle:13
+msgid "length of the arrow marker"
+msgstr "longueur du marqueur de flèche"
+
+#: of vision.image_functions.draw_angle:15
+msgid "thickness of the arrow marker"
+msgstr "épaisseur du marqueur de flèche"
+
+#: ../../source/vision/image_processing_api.rst:34
 msgid "Workspaces wise"
 msgstr "Workspaces"
 
@@ -335,7 +387,7 @@ msgstr "Coordonnées Y"
 msgid "X relative, Y relative"
 msgstr "X relatif, Y relativ"
 
-#: ../../source/vision/image_processing_api.rst:39
+#: ../../source/vision/image_processing_api.rst:41
 msgid "Show"
 msgstr "Affiche"
 
@@ -373,7 +425,7 @@ msgstr "Affiche une image et attend que l'utilisateur la ferme"
 msgid "None"
 msgstr "Aucun"
 
-#: ../../source/vision/image_processing_api.rst:46
+#: ../../source/vision/image_processing_api.rst:48
 msgid "Image Editing"
 msgstr "Retouche d'image"
 
@@ -484,43 +536,43 @@ msgstr "0 signifie verticalement, et 1 signifie horizontalement"
 msgid "Concat image"
 msgstr "Concatène l'image"
 
-#: ../../source/vision/image_processing_api.rst:56
+#: ../../source/vision/image_processing_api.rst:58
 msgid "Enums Image Processing"
 msgstr "Énumérations de traitement d'images"
 
-#: ../../source/vision/image_processing_api.rst:58
+#: ../../source/vision/image_processing_api.rst:60
 msgid "Enums are used to pass specific parameters to functions."
 msgstr ""
 "Les énumérations sont utilisées pour passer des paramètres spécifiques "
 "aux fonctions."
 
-#: ../../source/vision/image_processing_api.rst:60
+#: ../../source/vision/image_processing_api.rst:62
 msgid "List of enums:"
 msgstr "Liste des énumérations"
 
-#: ../../source/vision/image_processing_api.rst:62
-msgid ":class:`~.vision.enums.ColorHSV`"
-msgstr ""
-
-#: ../../source/vision/image_processing_api.rst:63
-msgid ":class:`~.vision.enums.ColorHSVPrime`"
-msgstr ""
-
 #: ../../source/vision/image_processing_api.rst:64
-msgid ":class:`~.vision.enums.ObjectType`"
-msgstr ""
+msgid ":class:`~.vision.enums.ColorHSV`"
+msgstr ":class:`~.vision.enums.ColorHSV`"
 
 #: ../../source/vision/image_processing_api.rst:65
-msgid ":class:`~.vision.enums.MorphoType`"
-msgstr ""
+msgid ":class:`~.vision.enums.ColorHSVPrime`"
+msgstr ":class:`~.vision.enums.ColorHSVPrime`"
 
 #: ../../source/vision/image_processing_api.rst:66
+msgid ":class:`~.vision.enums.ObjectType`"
+msgstr ":class:`~.vision.enums.ObjectType`"
+
+#: ../../source/vision/image_processing_api.rst:67
+msgid ":class:`~.vision.enums.MorphoType`"
+msgstr ":class:`~.vision.enums.MorphoType`"
+
+#: ../../source/vision/image_processing_api.rst:68
 msgid ":class:`~.vision.enums.KernelType`"
-msgstr ""
+msgstr ":class:`~.vision.enums.KernelType`"
 
 #: of vision.enums.ColorHSV:1 vision.enums.ColorHSVPrime:1
 msgid "MIN HSV, MAX HSV, Invert Hue (bool)"
-msgstr ""
+msgstr "MIN HSV, MAX HSV, Invert Hue (bool)"
 
 #: of vision.enums.KernelType:1 vision.enums.MorphoType:1
 #: vision.enums.ObjectType:1

@@ -22,3 +22,4 @@ dev/
 _build/
 *.mo
 docs_build/
+generated_pdfs/

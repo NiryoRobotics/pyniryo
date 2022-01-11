@@ -16,18 +16,21 @@ objects will be pack over the lower level
 from pyniryo import *
 
 # -- MUST Change these variables
-robot_ip_address = "10.10.10.10"  # IP address of Ned
-workspace_name = "workspace_1"  # Robot's Workspace Name
+simulation_mode = True
+if simulation_mode:
+    robot_ip_address, workspace_name = "127.0.0.1", "gazebo_1"
+else:
+    robot_ip_address, workspace_name = "10.10.10.10", "workspace_1"
 
 # -- Can Change these variables
 grid_dimension = (3, 3)  # conditioning grid dimension
-vision_process_on_robot = True  # boolean to indicate if the image processing append on the Robot
+vision_process_on_robot = False  # boolean to indicate if the image processing append on the Robot
 display_stream = True  # Only used if vision on computer
 
 # -- Should Change these variables
 # The pose from where the image processing happens
 observation_pose = PoseObject(
-    x=0.20, y=0., z=0.3,
+    x=0.17, y=0., z=0.35,
     roll=0.0, pitch=1.57, yaw=0.0,
 )
 
@@ -41,6 +44,11 @@ center_conditioning_pose = PoseObject(
 # -- MAIN PROGRAM
 
 def process(niryo_robot):
+    """
+
+    :type niryo_robot: NiryoRobot
+    :rtype: None
+    """
     # Initializing variables
     obj_pose = None
     try_without_success = 0
@@ -66,8 +74,8 @@ def process(niryo_robot):
             img = uncompress_image(img_compressed)
             img = undistort_image(img, mtx, dist)
             # extracting working area
-            status, im_work = extract_img_workspace(img, workspace_ratio=1.0)
-            if not status:
+            im_work = extract_img_workspace(img, workspace_ratio=1.0)
+            if im_work is None:
                 print("Unable to find markers")
                 try_without_success += 1
                 if display_stream:
@@ -80,22 +88,25 @@ def process(niryo_robot):
             img_thresh = threshold_hsv(im_work, *color_hsv_setting)
 
             if display_stream:
-                show_img("Last image saw", img, wait_ms=0)
-                show_img("Image thresh", img_thresh, wait_ms=30)
+                show_img("Last image saw", img, wait_ms=100)
+                show_img("Image thresh", img_thresh, wait_ms=100)
             # Getting biggest contour/blob from threshold image
             contour = biggest_contour_finder(img_thresh)
             if contour is None or len(contour) == 0:
                 print("No blob found")
                 obj_found = False
             else:
-                img_thresh_rgb = cv2.cvtColor(img_thresh, cv2.COLOR_GRAY2BGR)
-                draw_contours(img_thresh_rgb, [contour])
-                show_img("Image thresh", img_thresh, wait_ms=30)
+                img_thresh_rgb_w_contour = draw_contours(img_thresh, [contour])
 
                 # Getting contour/blob center and angle
                 cx, cy = get_contour_barycenter(contour)
+                img_thresh_rgb_w_contour = draw_barycenter(img_thresh_rgb_w_contour, cx, cy)
                 cx_rel, cy_rel = relative_pos_from_pixels(im_work, cx, cy)
+
                 angle = get_contour_angle(contour)
+                img_thresh_rgb_w_contour = draw_angle(img_thresh_rgb_w_contour, cx, cy, angle)
+
+                show_img("Image thresh", img_thresh_rgb_w_contour, wait_ms=30)
 
                 # Getting object world pose from relative pose
                 obj_pose = niryo_robot.get_target_pose_from_rel(workspace_name,
