@@ -170,7 +170,7 @@ msgid "In order to illustrate functions, we are going to use the following image
 msgstr "Afin d'illuster les fonctions, nous allons utiliser l'image suivante."
 
 msgid "Image illustration"
-msgstr ""
+msgstr "Image illustration"
 
 #: ../../source/vision/image_processing_overview.rst:114
 msgid "In this section it is supposed that:"
@@ -237,7 +237,7 @@ msgstr "Bleu"
 
 #: ../../source/vision/image_processing_overview.rst
 msgid "Image Threshold Blue"
-msgstr ""
+msgstr "Image Threshold Blue"
 
 #: ../../source/vision/image_processing_overview.rst:155
 msgid "Red"
@@ -245,7 +245,7 @@ msgstr "Rouge"
 
 #: ../../source/vision/image_processing_overview.rst
 msgid "Image Threshold Red"
-msgstr ""
+msgstr "Image Threshold Red"
 
 #: ../../source/vision/image_processing_overview.rst:160
 msgid "Morphological transformations"
@@ -315,7 +315,7 @@ msgstr "Aucun"
 
 #: ../../source/vision/image_processing_overview.rst
 msgid "Image Threshold Any"
-msgstr ""
+msgstr "Image Threshold Any"
 
 #: ../../source/vision/image_processing_overview.rst:202
 msgid "Erode"
@@ -331,7 +331,7 @@ msgstr "Fermé"
 
 #: ../../source/vision/image_processing_overview.rst
 msgid "Image Close"
-msgstr ""
+msgstr "Image Close"
 
 #: ../../source/vision/image_processing_overview.rst:211
 msgid "Contours finder"
@@ -378,12 +378,12 @@ msgstr "Seuil + ouverture"
 
 #: ../../source/vision/image_processing_overview.rst
 msgid "Image Threshold Any & Open"
-msgstr ""
+msgstr "Image Threshold Any & Open"
 
 #: ../../source/vision/image_processing_overview.rst
 #: ../../source/vision/image_processing_overview.rst:243
 msgid "3 contours"
-msgstr ""
+msgstr "3 contours"
 
 #: ../../source/vision/image_processing_overview.rst:248
 msgid "Find object center position"
@@ -439,11 +439,11 @@ msgstr ""
 #: ../../source/vision/image_processing_overview.rst:296
 #: ../../source/vision/image_processing_overview.rst:325
 msgid "Original"
-msgstr ""
+msgstr "Original"
 
 #: ../../source/vision/image_processing_overview.rst
 msgid "Original Image"
-msgstr ""
+msgstr "Original Image"
 
 #: ../../source/vision/image_processing_overview.rst:299
 msgid "Extracted"

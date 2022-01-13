@@ -21,25 +21,25 @@ msgstr ""
 #: ../../front_end/templates/layout.html:89
 #, python-format
 msgid "Search within %(docstitle)s"
-msgstr ""
+msgstr "Search within %(docstitle)s"
 
 #: ../../front_end/templates/layout.html:97
 msgid "About these documents"
-msgstr ""
+msgstr "A propos de ces documents"
 
 #: ../../front_end/templates/layout.html:100
 msgid "Index"
-msgstr ""
+msgstr "Index"
 
 #: ../../front_end/templates/layout.html:103
 msgid "Search"
-msgstr ""
+msgstr "Rechercher"
 
 #: ../../front_end/templates/layout.html:106
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 #: ../../front_end/templates/layout.html:343
 msgid "Logo"
-msgstr ""
+msgstr "Logo"
 
