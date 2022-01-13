@@ -104,6 +104,8 @@ linkchecker_staging_job:
   stage: environment_test
   variables:
     <<: *staging_variables
+  rules:
+    - if: $CI_COMMIT_BRANCH
   needs:
     - upload_staging_job
   extends: .abstract_linkchecker
