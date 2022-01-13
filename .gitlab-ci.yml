@@ -76,6 +76,9 @@ missing_translation_job:
   stage: test
   variables:
     LOCALE_FOLDER_PATH: ./docs/locale
+  rules:
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_TAG
 
 .staging_job:
   variables: &staging_variables
