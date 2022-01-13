@@ -20,7 +20,7 @@ msgstr ""
 
 #: ../../source/setup/installation.rst:2
 msgid "Installation"
-msgstr ""
+msgstr "Installation"
 
 #: ../../source/setup/installation.rst:5
 msgid ""
