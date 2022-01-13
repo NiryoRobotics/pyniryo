@@ -60,7 +60,7 @@ msgstr ""
 
 #: ../../source/examples/examples_movement.rst:17
 msgid "Joints"
-msgstr ""
+msgstr "Joints"
 
 #: ../../source/examples/examples_movement.rst:20
 msgid "Move Joints"
@@ -125,11 +125,11 @@ msgstr ""
 
 #: ../../source/examples/examples_movement.rst:61
 msgid "Pose"
-msgstr ""
+msgstr "Pose"
 
 #: ../../source/examples/examples_movement.rst:64
 msgid "Move Pose"
-msgstr ""
+msgstr "Move Pose"
 
 #: ../../source/examples/examples_movement.rst:65
 msgid "To perform a moveP, you can provide:"

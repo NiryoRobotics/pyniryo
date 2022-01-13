@@ -69,11 +69,11 @@ msgstr ""
 
 #: ../../index.rst:25
 msgid "Niryo Ned"
-msgstr ""
+msgstr "Niryo Ned"
 
 #: ../../index.rst:25
 msgid "Ned"
-msgstr ""
+msgstr "Ned"
 
 #: ../../index.rst:28
 msgid "Version compatibility"
@@ -93,31 +93,31 @@ msgstr "Version de la stack ROS"
 
 #: ../../index.rst:38
 msgid "Robot"
-msgstr ""
+msgstr "Robot"
 
 #: ../../index.rst:39
 msgid "<= 1.0.5"
-msgstr ""
+msgstr "<= 1.0.5"
 
 #: ../../index.rst:40
 msgid "<= 3.2.0"
-msgstr ""
+msgstr "<= 3.2.0"
 
 #: ../../index.rst:41
 msgid "``Ned``"
-msgstr ""
+msgstr "``Ned``"
 
 #: ../../index.rst:42
 msgid "1.1.0"
-msgstr ""
+msgstr "1.1.0"
 
 #: ../../index.rst:43
 msgid "4.0.0"
-msgstr ""
+msgstr "4.0.0"
 
 #: ../../index.rst:44
 msgid "``Niryo One``, ``Ned``, ``Ned2``"
-msgstr ""
+msgstr "``Niryo One``, ``Ned``, ``Ned2``"
 
 #: ../../index.rst:47
 msgid "Before getting started"
@@ -203,13 +203,13 @@ msgstr "Indexes et tableaux"
 
 #: ../../index.rst:127
 msgid ":ref:`genindex`"
-msgstr ""
+msgstr ":ref:`genindex`"
 
 #: ../../index.rst:128
 msgid ":ref:`modindex`"
-msgstr ""
+msgstr ":ref:`modindex`"
 
 #: ../../index.rst:129
 msgid ":ref:`search`"
-msgstr ""
+msgstr ":ref:`search`"
 

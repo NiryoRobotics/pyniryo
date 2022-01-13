@@ -148,7 +148,7 @@ msgstr "Le process est maintenant terminé. On déconnecte alors le robot. ::"
 
 #: ../../source/examples/examples_basics.rst:111
 msgid "Notes"
-msgstr ""
+msgstr "Notes"
 
 #: ../../source/examples/examples_basics.rst:114
 msgid ""

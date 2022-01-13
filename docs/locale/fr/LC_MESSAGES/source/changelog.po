@@ -33,15 +33,15 @@ msgstr "Nouvelles fonctions PCO (Point Central de l'Outil / TCP)"
 
 #: ../../source/changelog.rst:9
 msgid "set_tcp"
-msgstr ""
+msgstr "set_tcp"
 
 #: ../../source/changelog.rst:11
 msgid "enable_tcp"
-msgstr ""
+msgstr "enable_tcp"
 
 #: ../../source/changelog.rst:13
 msgid "reset_tcp"
-msgstr ""
+msgstr "reset_tcp"
 
 #: ../../source/changelog.rst:15
 msgid "New movement functions available"
@@ -49,27 +49,27 @@ msgstr "Nouvelles fonctions de mouvement"
 
 #: ../../source/changelog.rst:17
 msgid "move linear pose"
-msgstr ""
+msgstr "move linear pose"
 
 #: ../../source/changelog.rst:19
 msgid "linear pose"
-msgstr ""
+msgstr "linear pose"
 
 #: ../../source/changelog.rst:21
 msgid "jog pose shift"
-msgstr ""
+msgstr "jog pose shift"
 
 #: ../../source/changelog.rst:23
 msgid "jog joints shift"
-msgstr ""
+msgstr "jog joints shift"
 
 #: ../../source/changelog.rst:25
 msgid "shift linear pose"
-msgstr ""
+msgstr "shift linear pose"
 
 #: ../../source/changelog.rst:27
 msgid "execute trajectory from pose"
-msgstr ""
+msgstr "execute trajectory from pose"
 
 #: ../../source/changelog.rst:30
 msgid "New camera settings functions available"
@@ -77,13 +77,13 @@ msgstr "Nouvelles fonctions de configuration de la caméra"
 
 #: ../../source/changelog.rst:32
 msgid "set_brightness"
-msgstr ""
+msgstr "set_brightness"
 
 #: ../../source/changelog.rst:34
 msgid "set_contrast"
-msgstr ""
+msgstr "set_contrast"
 
 #: ../../source/changelog.rst:36
 msgid "set_saturation"
-msgstr ""
+msgstr "set_saturation"
 
