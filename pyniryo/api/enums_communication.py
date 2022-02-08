@@ -103,10 +103,8 @@ class ConveyorID(Enum):
     Enumeration of Conveyor IDs used for Conveyor control
     """
     NONE = 0
-    ID_1 = 12
-    ID_2 = 13
-    ID_3 = 9
-    ID_4 = 10
+    ID_1 = -1
+    ID_2 = -2
 
 
 @unique
