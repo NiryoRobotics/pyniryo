@@ -17,7 +17,7 @@ author = shared_conf.author
 # The short X.Y version
 version = u'v1.1'
 # The full version, including alpha/beta/rc tags
-release = u'v1.1.0'
+release = u'v1.1.1'
 
 # -- General configuration ---------------------------------------------------
 
