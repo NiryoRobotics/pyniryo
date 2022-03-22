@@ -15,6 +15,7 @@ from .exceptions import *
 from .objects import PoseObject, HardwareStatusObject, DigitalPinObject, AnalogPinObject
 from trajectory_msgs.msg import JointTrajectory
 
+
 class NiryoRobot(object):
     def __init__(self, ip_address=None):
         self.__ip_address = None
@@ -698,7 +699,6 @@ class NiryoRobot(object):
         """
         return self.__send_n_receive(Command.GET_SAVED_TRAJECTORY_LIST)
 
-
     def execute_registered_trajectory(self, trajectory_name):
         """
         Execute trajectory from Ned's memory
@@ -777,6 +777,13 @@ class NiryoRobot(object):
         self.__check_type(trajectory_name, str)
         self.__check_type(trajectory_description, str)
         self.__check_type(trajectory, list)
+        for joints in trajectory:
+            self.__check_type(joints, list)
+            length = len(joints)
+            if length != 6:
+                self.__raise_exception(
+                    "Expect 6 joint values per waypoint [j1,j2,j3,j4,j5,j6], but {} parameters given: {} ".format(
+                        length, joints))
 
         self.__send_n_receive(Command.SAVE_TRAJECTORY, trajectory, trajectory_name, trajectory_description)
 
