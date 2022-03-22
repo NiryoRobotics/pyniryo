@@ -13,7 +13,7 @@ from .communication_functions import dict_to_packet, receive_dict, receive_dict_
 
 from .exceptions import *
 from .objects import PoseObject, HardwareStatusObject, DigitalPinObject, AnalogPinObject
-
+from trajectory_msgs.msg import JointTrajectory
 
 class NiryoRobot(object):
     def __init__(self, ip_address=None):
@@ -685,12 +685,21 @@ class NiryoRobot(object):
 
         :type trajectory_name: str
         :return: Trajectory
-        :rtype: list[list[float]]
+        :rtype: list[Joints]
         """
         self.__check_type(trajectory_name, str)
         return self.__send_n_receive(Command.GET_TRAJECTORY_SAVED, trajectory_name)
 
-    def execute_trajectory_saved(self, trajectory_name):
+    def get_saved_trajectory_list(self):
+        """
+        Get list of trajectories' name saved in robot memory
+
+        :rtype: list[str]
+        """
+        return self.__send_n_receive(Command.GET_SAVED_TRAJECTORY_LIST)
+
+
+    def execute_registered_trajectory(self, trajectory_name):
         """
         Execute trajectory from Ned's memory
 
@@ -698,7 +707,7 @@ class NiryoRobot(object):
         :rtype: None
         """
         self.__check_type(trajectory_name, str)
-        self.__send_n_receive(Command.EXECUTE_TRAJECTORY_SAVED, trajectory_name)
+        self.__send_n_receive(Command.EXECUTE_REGISTERED_TRAJECTORY, trajectory_name)
 
     def execute_trajectory_from_poses(self, list_poses, dist_smoothing=0.0):
         """
@@ -753,24 +762,52 @@ class NiryoRobot(object):
         self.__send_n_receive(Command.EXECUTE_TRAJECTORY_FROM_POSES_AND_JOINTS, list_pose_joints, list_type,
                               dist_smoothing)
 
-    def save_trajectory(self, trajectory_name, list_poses):
+    def save_trajectory(self, trajectory, trajectory_name, trajectory_description):
         """
         Save trajectory in robot memory
 
+        :param trajectory: list of Joints [j1, j2, j3, j4, j5, j6] as waypoints to create the trajectory
+        :type trajectory: list[list[float]]
+        :param trajectory_name: Name you want to give to the trajectory
         :type trajectory_name: str
-        :param list_poses: List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw]
-        :type list_poses: list[list[float]]
+        :param trajectory_description: Description you want to give to the trajectory
+
         :rtype: None
         """
         self.__check_type(trajectory_name, str)
-        for i, pose in enumerate(list_poses):
-            if len(pose) != 7 and len(pose) != 6:
-                self.__raise_exception(
-                    "7 parameters expected in a pose [x,y,z,qx,qy,qz,qw], or 6 in a pose [x,y,z,roll,pitch,yaw], "
-                    "{} parameters given".format(len(pose)))
-            list_poses[i] = self.__map_list(pose, float)
+        self.__check_type(trajectory_description, str)
+        self.__check_type(trajectory, list)
 
-        self.__send_n_receive(Command.SAVE_TRAJECTORY, trajectory_name, list_poses)
+        self.__send_n_receive(Command.SAVE_TRAJECTORY, trajectory, trajectory_name, trajectory_description)
+
+    def save_last_learned_trajectory(self, name, description):
+        """
+        Save last user executed trajectory
+
+        :type name: str
+        :type description: str
+        :rtype: None
+        """
+        self.__check_type(name, str)
+        self.__check_type(description, str)
+        self.__send_n_receive(Command.SAVE_LAST_LEARNED_TRAJECTORY)
+
+    def update_trajectory_infos(self, name, new_name, new_description):
+        """"
+        Update trajectory infos
+
+        :param name: current name of the trajectory you want to update infos
+        :type name: str
+        :param new_name: new name you want to give the trajectory
+        :type new_name: str
+        :param new_description: new description you want to give the trajectory
+        :type new_description: str
+        :rtype: None
+        """
+        self.__check_type(name, str)
+        self.__check_type(new_name, str)
+        self.__check_type(new_description, str)
+        self.__send_n_receive(Command.UPDATE_TRAJECTORY_INFOS)
 
     def delete_trajectory(self, trajectory_name):
         """
@@ -782,13 +819,14 @@ class NiryoRobot(object):
         self.__check_type(trajectory_name, str)
         self.__send_n_receive(Command.DELETE_TRAJECTORY, trajectory_name)
 
-    def get_saved_trajectory_list(self):
+    def clean_trajectory_memory(self):
         """
-        Get list of trajectories' name saved in robot memory
+        Delete trajectory from robot's memory
 
-        :rtype: list[str]
+        :type trajectory_name: str
+        :rtype: None
         """
-        return self.__send_n_receive(Command.GET_SAVED_TRAJECTORY_LIST)
+        self.__send_n_receive(Command.CLEAN_TRAJECTORY_MEMORY)
 
     # -- Tools
 
