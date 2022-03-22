@@ -111,7 +111,7 @@ msgid "``Niryo One``, ``Ned``, ``Ned2``"
 msgstr ""
 
 #: ../../index.rst:45
-msgid "1.1.1"
+msgid "1.1.2"
 msgstr ""
 
 #: ../../index.rst:46

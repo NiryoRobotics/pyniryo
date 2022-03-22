@@ -120,8 +120,8 @@ msgid "``Niryo One``, ``Ned``, ``Ned2``"
 msgstr "``Niryo One``, ``Ned``, ``Ned2``"
 
 #: ../../index.rst:45
-msgid "1.1.1"
-msgstr "1.1.1"
+msgid "1.1.2"
+msgstr "1.1.2"
 
 #: ../../index.rst:46
 msgid "4.0.1"
