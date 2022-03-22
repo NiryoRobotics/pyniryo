@@ -22,7 +22,6 @@ Very simple, straightforward: ::
     # Releasing connection
     robot.close_connection()
 
-
 Advanced template
 -------------------
 

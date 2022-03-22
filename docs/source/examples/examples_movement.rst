@@ -31,7 +31,7 @@ or via the ``joints`` setter, at your convenience::
 
     # Moving Joints with function & a list of floats
     robot.move_joints([-0.5, -0.6, 0.0, 0.3, 0.0, 0.0])
-    
+
     # Moving Joints with setter & 6 floats
     robot.joints = 0.2, -0.4, 0.0, 0.0, 0.0, 0.0
 
