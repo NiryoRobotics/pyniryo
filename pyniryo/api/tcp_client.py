@@ -13,7 +13,6 @@ from .communication_functions import dict_to_packet, receive_dict, receive_dict_
 
 from .exceptions import *
 from .objects import PoseObject, HardwareStatusObject, DigitalPinObject, AnalogPinObject
-from trajectory_msgs.msg import JointTrajectory
 
 
 class NiryoRobot(object):
