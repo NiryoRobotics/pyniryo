@@ -103,6 +103,18 @@ Trajectories
 .. automethod:: api.tcp_client.NiryoRobot.delete_trajectory
 .. automethod:: api.tcp_client.NiryoRobot.clean_trajectory_memory
 
+Dynamic frames
+^^^^^^^^^^^^^^^^^^^^^^
+
+.. automethod:: api.tcp_client.NiryoRobot.get_saved_dynamic_frame_list
+.. automethod:: api.tcp_client.NiryoRobot.get_saved_dynamic_frame
+.. automethod:: api.tcp_client.NiryoRobot.save_dynamic_frame_from_poses
+.. automethod:: api.tcp_client.NiryoRobot.save_dynamic_frame_from_points
+.. automethod:: api.tcp_client.NiryoRobot.edit_dynamic_frame
+.. automethod:: api.tcp_client.NiryoRobot.delete_dynamic_frame
+.. automethod:: api.tcp_client.NiryoRobot.move_relative
+.. automethod:: api.tcp_client.NiryoRobot.move_linear_relative
+
 Tools
 ^^^^^^^^^^^^^
 
