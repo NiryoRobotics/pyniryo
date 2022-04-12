@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-29 12:34+0000\n"
+"POT-Creation-Date: 2022-03-25 14:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Generated-By: Babel 2.9.1\n"
 
 #: ../../source/examples/examples_conveyor.rst:2
-msgid "Examples: Conveyor Belt"
+msgid "Examples : Conveyor Belt"
 msgstr ""
 
 #: ../../source/examples/examples_conveyor.rst:4
@@ -93,5 +93,8 @@ msgstr ""
 #~ "Ned's Conveyor Belt functions, you can"
 #~ " look at :ref:`PyNiryo - "
 #~ "Conveyor<Conveyor>`."
+#~ msgstr ""
+
+#~ msgid "Examples: Conveyor Belt"
 #~ msgstr ""
 

@@ -9,14 +9,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-10 15:41+0000\n"
+"POT-Creation-Date: 2022-03-24 16:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Language: fr_FR\n"
+"X-Source-Language: C\n"
 
 #: ../../source/api_doc/api.rst:2
 msgid "PyNiryo API Documentation"
@@ -34,9 +37,8 @@ msgstr ""
 
 #: ../../source/api_doc/api.rst:7
 msgid ""
-":ref:`source/api_doc/api:Command Functions` are used to deal directly "
-"with the robot. It could be "
-":meth:`~.api.tcp_client.NiryoRobot.move_joints`, "
+":ref:`source/api_doc/api:Command Functions` are used to deal directly with "
+"the robot. It could be :meth:`~.api.tcp_client.NiryoRobot.move_joints`, "
 ":meth:`~.api.tcp_client.NiryoRobot.get_hardware_status` "
 ":meth:`~.api.tcp_client.NiryoRobot.vision_pick`, or also "
 ":meth:`~.api.tcp_client.NiryoRobot.run_conveyor`"
@@ -61,11 +63,11 @@ msgstr ""
 
 #: ../../source/api_doc/api.rst:15
 msgid ""
-":ref:`source/api_doc/api:Python Object classes`, as |pose_object|, ease "
-"some operations"
+":ref:`source/api_doc/api:Python Object classes`, as |pose_object|, ease some "
+"operations"
 msgstr ""
-"Les :ref:`objets Python <source/api_doc/api:Python Object classes>`, tels"
-" que |pose_object|, facilitent certaines opérations."
+"Les :ref:`objets Python <source/api_doc/api:Python Object classes>`, tels "
+"que |pose_object|, facilitent certaines opérations."
 
 #: ../../source/api_doc/api.rst:18
 msgid "Command functions"
@@ -73,8 +75,8 @@ msgstr "Fonctions de commande"
 
 #: ../../source/api_doc/api.rst:20
 msgid ""
-"This section references all existing functions to control your robot, "
-"which includes:"
+"This section references all existing functions to control your robot, which "
+"includes:"
 msgstr ""
 "Cette section référence toutes les fonctions existantes permettant de "
 "contrôler votre robot, incluant :"
@@ -123,18 +125,23 @@ msgid "Connect to the TCP Server"
 msgstr "Se connecter au serveur TCP"
 
 #: api.tcp_client.NiryoRobot.activate_electromagnet
-#: api.tcp_client.NiryoRobot.analog_read api.tcp_client.NiryoRobot.analog_write
-#: api.tcp_client.NiryoRobot.calibrate api.tcp_client.NiryoRobot.close_gripper
-#: api.tcp_client.NiryoRobot.connect api.tcp_client.NiryoRobot.control_conveyor
+#: api.tcp_client.NiryoRobot.analog_read
+#: api.tcp_client.NiryoRobot.analog_write api.tcp_client.NiryoRobot.calibrate
+#: api.tcp_client.NiryoRobot.close_gripper api.tcp_client.NiryoRobot.connect
+#: api.tcp_client.NiryoRobot.control_conveyor
 #: api.tcp_client.NiryoRobot.deactivate_electromagnet
+#: api.tcp_client.NiryoRobot.delete_dynamic_frame
 #: api.tcp_client.NiryoRobot.delete_workspace
 #: api.tcp_client.NiryoRobot.detect_object
 #: api.tcp_client.NiryoRobot.digital_read
-#: api.tcp_client.NiryoRobot.digital_write api.tcp_client.NiryoRobot.enable_tcp
+#: api.tcp_client.NiryoRobot.digital_write
+#: api.tcp_client.NiryoRobot.edit_dynamic_frame
+#: api.tcp_client.NiryoRobot.enable_tcp
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints
 #: api.tcp_client.NiryoRobot.forward_kinematics
 #: api.tcp_client.NiryoRobot.get_pose_saved
+#: api.tcp_client.NiryoRobot.get_saved_dynamic_frame
 #: api.tcp_client.NiryoRobot.get_sound_duration
 #: api.tcp_client.NiryoRobot.get_target_pose_from_cam
 #: api.tcp_client.NiryoRobot.get_target_pose_from_rel
@@ -156,17 +163,22 @@ msgstr "Se connecter au serveur TCP"
 #: api.tcp_client.NiryoRobot.led_ring_wipe
 #: api.tcp_client.NiryoRobot.move_joints
 #: api.tcp_client.NiryoRobot.move_linear_pose
-#: api.tcp_client.NiryoRobot.move_pose api.tcp_client.NiryoRobot.move_to_object
+#: api.tcp_client.NiryoRobot.move_linear_relative
+#: api.tcp_client.NiryoRobot.move_pose api.tcp_client.NiryoRobot.move_relative
+#: api.tcp_client.NiryoRobot.move_to_object
 #: api.tcp_client.NiryoRobot.open_gripper
 #: api.tcp_client.NiryoRobot.pick_and_place
 #: api.tcp_client.NiryoRobot.pick_from_pose
 #: api.tcp_client.NiryoRobot.place_from_pose
 #: api.tcp_client.NiryoRobot.play_sound api.tcp_client.NiryoRobot.run_conveyor
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_points
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_poses
 #: api.tcp_client.NiryoRobot.save_pose
 #: api.tcp_client.NiryoRobot.save_trajectory
 #: api.tcp_client.NiryoRobot.save_workspace_from_points
 #: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses
-#: api.tcp_client.NiryoRobot.say api.tcp_client.NiryoRobot.set_arm_max_velocity
+#: api.tcp_client.NiryoRobot.say
+#: api.tcp_client.NiryoRobot.set_arm_max_velocity
 #: api.tcp_client.NiryoRobot.set_brightness
 #: api.tcp_client.NiryoRobot.set_contrast
 #: api.tcp_client.NiryoRobot.set_jog_control
@@ -177,7 +189,8 @@ msgstr "Se connecter au serveur TCP"
 #: api.tcp_client.NiryoRobot.set_volume
 #: api.tcp_client.NiryoRobot.setup_electromagnet
 #: api.tcp_client.NiryoRobot.shift_linear_pose
-#: api.tcp_client.NiryoRobot.shift_pose api.tcp_client.NiryoRobot.stop_conveyor
+#: api.tcp_client.NiryoRobot.shift_pose
+#: api.tcp_client.NiryoRobot.stop_conveyor
 #: api.tcp_client.NiryoRobot.unset_conveyor
 #: api.tcp_client.NiryoRobot.vision_pick api.tcp_client.NiryoRobot.wait of
 msgid "Parameters"
@@ -189,18 +202,22 @@ msgstr "Adresse IP"
 
 #: api.objects.PoseObject.copy_with_offsets api.objects.PoseObject.to_list
 #: api.tcp_client.NiryoRobot.activate_electromagnet
-#: api.tcp_client.NiryoRobot.analog_read api.tcp_client.NiryoRobot.analog_write
-#: api.tcp_client.NiryoRobot.calibrate api.tcp_client.NiryoRobot.calibrate_auto
+#: api.tcp_client.NiryoRobot.analog_read
+#: api.tcp_client.NiryoRobot.analog_write api.tcp_client.NiryoRobot.calibrate
+#: api.tcp_client.NiryoRobot.calibrate_auto
 #: api.tcp_client.NiryoRobot.close_connection
 #: api.tcp_client.NiryoRobot.close_gripper api.tcp_client.NiryoRobot.connect
 #: api.tcp_client.NiryoRobot.control_conveyor
 #: api.tcp_client.NiryoRobot.deactivate_electromagnet
+#: api.tcp_client.NiryoRobot.delete_dynamic_frame
 #: api.tcp_client.NiryoRobot.delete_pose
 #: api.tcp_client.NiryoRobot.delete_trajectory
 #: api.tcp_client.NiryoRobot.delete_workspace
 #: api.tcp_client.NiryoRobot.detect_object
 #: api.tcp_client.NiryoRobot.digital_read
-#: api.tcp_client.NiryoRobot.digital_write api.tcp_client.NiryoRobot.enable_tcp
+#: api.tcp_client.NiryoRobot.digital_write
+#: api.tcp_client.NiryoRobot.edit_dynamic_frame
+#: api.tcp_client.NiryoRobot.enable_tcp
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints
 #: api.tcp_client.NiryoRobot.execute_trajectory_saved
@@ -218,6 +235,8 @@ msgstr "Adresse IP"
 #: api.tcp_client.NiryoRobot.get_learning_mode
 #: api.tcp_client.NiryoRobot.get_pose api.tcp_client.NiryoRobot.get_pose_quat
 #: api.tcp_client.NiryoRobot.get_pose_saved
+#: api.tcp_client.NiryoRobot.get_saved_dynamic_frame
+#: api.tcp_client.NiryoRobot.get_saved_dynamic_frame_list
 #: api.tcp_client.NiryoRobot.get_saved_pose_list
 #: api.tcp_client.NiryoRobot.get_saved_trajectory_list
 #: api.tcp_client.NiryoRobot.get_sound_duration
@@ -247,7 +266,8 @@ msgstr "Adresse IP"
 #: api.tcp_client.NiryoRobot.led_ring_wipe
 #: api.tcp_client.NiryoRobot.move_joints
 #: api.tcp_client.NiryoRobot.move_linear_pose
-#: api.tcp_client.NiryoRobot.move_pose
+#: api.tcp_client.NiryoRobot.move_linear_relative
+#: api.tcp_client.NiryoRobot.move_pose api.tcp_client.NiryoRobot.move_relative
 #: api.tcp_client.NiryoRobot.move_to_home_pose
 #: api.tcp_client.NiryoRobot.move_to_object
 #: api.tcp_client.NiryoRobot.need_calibration
@@ -260,11 +280,14 @@ msgstr "Adresse IP"
 #: api.tcp_client.NiryoRobot.push_air_vacuum_pump
 #: api.tcp_client.NiryoRobot.release_with_tool
 #: api.tcp_client.NiryoRobot.reset_tcp api.tcp_client.NiryoRobot.run_conveyor
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_points
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_poses
 #: api.tcp_client.NiryoRobot.save_pose
 #: api.tcp_client.NiryoRobot.save_trajectory
 #: api.tcp_client.NiryoRobot.save_workspace_from_points
 #: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses
-#: api.tcp_client.NiryoRobot.say api.tcp_client.NiryoRobot.set_arm_max_velocity
+#: api.tcp_client.NiryoRobot.say
+#: api.tcp_client.NiryoRobot.set_arm_max_velocity
 #: api.tcp_client.NiryoRobot.set_brightness
 #: api.tcp_client.NiryoRobot.set_contrast
 #: api.tcp_client.NiryoRobot.set_conveyor
@@ -276,7 +299,8 @@ msgstr "Adresse IP"
 #: api.tcp_client.NiryoRobot.set_volume
 #: api.tcp_client.NiryoRobot.setup_electromagnet
 #: api.tcp_client.NiryoRobot.shift_linear_pose
-#: api.tcp_client.NiryoRobot.shift_pose api.tcp_client.NiryoRobot.stop_conveyor
+#: api.tcp_client.NiryoRobot.shift_pose
+#: api.tcp_client.NiryoRobot.stop_conveyor
 #: api.tcp_client.NiryoRobot.stop_sound api.tcp_client.NiryoRobot.tool_reboot
 #: api.tcp_client.NiryoRobot.update_tool api.tcp_client.NiryoRobot.vision_pick
 #: api.tcp_client.NiryoRobot.wait of
@@ -293,8 +317,8 @@ msgstr "Fonctions principales"
 
 #: api.tcp_client.NiryoRobot.calibrate:1 of
 msgid ""
-"Calibrate (manually or automatically) motors. Automatic calibration will "
-"do nothing if motors are already calibrated"
+"Calibrate (manually or automatically) motors. Automatic calibration will do "
+"nothing if motors are already calibrated"
 msgstr ""
 "Calibrer (manuellement ou automatiquement) les moteurs. La calibration "
 "automatique ne provoquera rien si les moteurs sont déjà calibrés"
@@ -319,7 +343,9 @@ msgstr ""
 msgid "Get learning mode state"
 msgstr "Afficher l'état du mode apprentissage"
 
+#: api.tcp_client.NiryoRobot.delete_dynamic_frame
 #: api.tcp_client.NiryoRobot.detect_object
+#: api.tcp_client.NiryoRobot.edit_dynamic_frame
 #: api.tcp_client.NiryoRobot.get_analog_io_state
 #: api.tcp_client.NiryoRobot.get_camera_intrinsics
 #: api.tcp_client.NiryoRobot.get_connected_conveyors_id
@@ -332,6 +358,8 @@ msgstr "Afficher l'état du mode apprentissage"
 #: api.tcp_client.NiryoRobot.get_learning_mode
 #: api.tcp_client.NiryoRobot.get_pose_quat
 #: api.tcp_client.NiryoRobot.get_pose_saved
+#: api.tcp_client.NiryoRobot.get_saved_dynamic_frame
+#: api.tcp_client.NiryoRobot.get_saved_dynamic_frame_list
 #: api.tcp_client.NiryoRobot.get_sound_duration
 #: api.tcp_client.NiryoRobot.get_sounds
 #: api.tcp_client.NiryoRobot.get_target_pose_from_cam
@@ -352,7 +380,11 @@ msgstr "Afficher l'état du mode apprentissage"
 #: api.tcp_client.NiryoRobot.led_ring_solid
 #: api.tcp_client.NiryoRobot.led_ring_turn_off
 #: api.tcp_client.NiryoRobot.led_ring_wipe
+#: api.tcp_client.NiryoRobot.move_linear_relative
+#: api.tcp_client.NiryoRobot.move_relative
 #: api.tcp_client.NiryoRobot.move_to_object
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_points
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_poses
 #: api.tcp_client.NiryoRobot.set_conveyor
 #: api.tcp_client.NiryoRobot.set_led_color
 #: api.tcp_client.NiryoRobot.vision_pick of
@@ -374,7 +406,8 @@ msgstr "``Vrai`` ou ``Faux``"
 
 #: api.tcp_client.NiryoRobot.set_arm_max_velocity:1 of
 msgid "Limit arm max velocity to a percentage of its maximum velocity"
-msgstr "Limiter la vitesse maximum du bras à un pourcentage de sa vitesse maximum"
+msgstr ""
+"Limiter la vitesse maximum du bras à un pourcentage de sa vitesse maximum"
 
 #: api.tcp_client.NiryoRobot.set_arm_max_velocity:3 of
 msgid "Should be between 1 & 100"
@@ -415,9 +448,9 @@ msgid ""
 "expressed in meters / roll, pitch & yaw are expressed in radians You can "
 "also use a getter ::"
 msgstr ""
-"Obtenir la position de l'effecteur en [w, y, z, roll, pitch, yaw]. x, y &"
-" z sont exprimés en mètres / roll, pitch & yaw sont exprimés en radians. "
-"Il est également possible d'utiliser un getter ::"
+"Obtenir la position de l'effecteur en [w, y, z, roll, pitch, yaw]. x, y & z "
+"sont exprimés en mètres / roll, pitch & yaw sont exprimés en radians. Il est "
+"également possible d'utiliser un getter ::"
 
 #: api.tcp_client.NiryoRobot.get_pose_quat:1 of
 msgid "Get end effector link pose in Quaternion coordinates"
@@ -425,20 +458,21 @@ msgstr "Obtenir la position de l'effecteur en coordonnées Quaternion"
 
 #: api.tcp_client.NiryoRobot.get_pose_quat:3 of
 msgid ""
-"Position and quaternion coordinates concatenated in a list : [x, y, z, "
-"qx, qy, qz, qw]"
+"Position and quaternion coordinates concatenated in a list : [x, y, z, qx, "
+"qy, qz, qw]"
 msgstr ""
-"Position and quaternion coordinates concatenated in a list : [x, y, z, "
-"qx, qy, qz, qw]"
+"Position and quaternion coordinates concatenated in a list : [x, y, z, qx, "
+"qy, qz, qw]"
 
 #: api.tcp_client.NiryoRobot.move_joints:1 of
 msgid "Move robot joints. Joints are expressed in radians."
 msgstr "Bouger les axes du robots. Les axes sont exprimés en radians."
 
 #: api.tcp_client.NiryoRobot.move_joints:3
-#: api.tcp_client.NiryoRobot.move_pose:4 of
+#: api.tcp_client.NiryoRobot.move_pose:5 of
 msgid "All lines of the next example realize the same operation: ::"
-msgstr "L'ensemble des lignes du prochain exemple réalisent la même opération : ::"
+msgstr ""
+"L'ensemble des lignes du prochain exemple réalisent la même opération : ::"
 
 #: api.tcp_client.NiryoRobot.forward_kinematics:4
 #: api.tcp_client.NiryoRobot.move_joints:9 of
@@ -447,40 +481,31 @@ msgstr "soit 6 args (1 pour chaque axe) ou une liste de 6 axes"
 
 #: api.tcp_client.NiryoRobot.move_pose:1 of
 msgid ""
-"Move robot end effector pose to a (x, y, z, roll, pitch, yaw) pose. x, y "
-"& z are expressed in meters / roll, pitch & yaw are expressed in radians"
+"Move robot end effector pose to a (x, y, z, roll, pitch, yaw, frame_name) "
+"pose in a particular frame (frame_name) if defined. x, y & z are expressed "
+"in meters / roll, pitch & yaw are expressed in radians"
 msgstr ""
-"Modifier la position de l'effecteur du robot à une position (x, y, z, "
-"roll, pitch, yaw). x, y & z sont exprimés en mètres, roll, pitch et yaw "
-"sont exprimés en radians"
+"Modifie la position de l'effecteur du robot à une position (x, y, z,roll, "
+"pitch, yaw), dans un repère particulier si défini. x, y & z sont exprimés en "
+"mètres / roll, pitch, yaw sont exprimés en radians"
 
-#: api.tcp_client.NiryoRobot.inverse_kinematics:3
-#: api.tcp_client.NiryoRobot.move_pose:11 of
+#: api.tcp_client.NiryoRobot.move_linear_pose:4
+#: api.tcp_client.NiryoRobot.move_pose:15 of
 msgid ""
-"either 6 args (1 for each coordinates) or a list of 6 coordinates or a "
-"``PoseObject``"
+"either 7 args (1 for each coordinates and 1 for the name of the frame) or a "
+"list of 6 coordinates or a ``PoseObject`` and 1 for the frame name"
 msgstr ""
-"soit 6 args (1 pour chaque coordonnées) ou une liste de 6 coordonnées, ou"
-" un  ``PoseObject``"
+"soit 6 args (1 pour chaque coordonnées et 1 pour le nom du repère) ou une "
+"liste de 6 coordonnées, ou un  ``PoseObject`` et 1 pour le nom du repère"
 
 #: api.tcp_client.NiryoRobot.move_linear_pose:1 of
 msgid ""
-"Move robot end effector pose to a (x, y, z, roll, pitch, yaw) pose with a"
-" linear trajectory"
+"Move robot end effector pose to a (x, y, z, roll, pitch, yaw) pose with a "
+"linear trajectory, in a particular frame (frame_name) if defined"
 msgstr ""
-"Modifier la position de l'effecteur du robot à une position (x, y, "
-"z,roll, pitch, yaw) avec une trajectoire linéaire"
-
-#: api.tcp_client.NiryoRobot.move_linear_pose:3
-#: api.tcp_client.NiryoRobot.pick_from_pose:10
-#: api.tcp_client.NiryoRobot.place_from_pose:10
-#: api.tcp_client.NiryoRobot.save_pose:4 api.tcp_client.NiryoRobot.set_tcp:4 of
-msgid ""
-"either 6 args (1 for each coordinates) or a list of 6 coordinates or a "
-"PoseObject"
-msgstr ""
-"soit 6 args (1 pour chaque coordonnées) ou une liste de 6 coordonnées, ou"
-" un PoseObject"
+"Modifie la position de l'effecteur du robot à une position (x, y, z,roll, "
+"pitch, yaw), dans un repère particulier si défini, avec une trajectoire "
+"linéaire"
 
 #: api.tcp_client.NiryoRobot.shift_pose:1 of
 msgid "Shift robot end effector pose along one axis"
@@ -517,9 +542,8 @@ msgstr "soit 6 args (1 pour chaque axe) ou une liste des offsets des 6 axes"
 #: api.tcp_client.NiryoRobot.jog_pose:1 of
 msgid ""
 "Jog robot end effector pose Jog corresponds to a shift without motion "
-"planning Arguments are [dx, dy, dz, d_roll, d_pitch, d_yaw] dx, dy & dz "
-"are expressed in meters / d_roll, d_pitch & d_yaw are expressed in "
-"radians"
+"planning Arguments are [dx, dy, dz, d_roll, d_pitch, d_yaw] dx, dy & dz are "
+"expressed in meters / d_roll, d_pitch & d_yaw are expressed in radians"
 msgstr ""
 "Les arguments sont [dx, dy, dz, d_roll, d_pitch, d_yaw] dx, dy & dz sont "
 "exprimés en mètres / d_roll, d_pitch & d_yaw sont exprimés en radians"
@@ -531,8 +555,8 @@ msgstr "soit 6 args (1 pour chaque axe) ou une liste de 6 offset"
 #: api.tcp_client.NiryoRobot.move_to_home_pose:1 of
 msgid "Move to a position where the forearm lays on shoulder"
 msgstr ""
-"Bouger le robot à une position dans laquelle l'avant bras du robot repose"
-" sur son épaule"
+"Bouger le robot à une position dans laquelle l'avant bras du robot repose "
+"sur son épaule"
 
 #: api.tcp_client.NiryoRobot.go_to_sleep:1 of
 msgid "Go to home pose and activate learning mode"
@@ -549,6 +573,14 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.inverse_kinematics:1 of
 msgid "Compute inverse kinematics"
 msgstr "Calculer la cinématique inverse"
+
+#: api.tcp_client.NiryoRobot.inverse_kinematics:3 of
+msgid ""
+"either 6 args (1 for each coordinates) or a list of 6 coordinates or a "
+"``PoseObject``"
+msgstr ""
+"soit 6 args (1 pour chaque coordonnées) ou une liste de 6 coordonnées, ou un "
+" ``PoseObject``"
 
 #: ../../source/api_doc/api.rst:79
 msgid "Saved Poses"
@@ -570,6 +602,16 @@ msgstr "Position associée au pose_name"
 msgid "Save pose in robot's memory"
 msgstr "Sauvegarder une position dans la mémoire du robot"
 
+#: api.tcp_client.NiryoRobot.pick_from_pose:10
+#: api.tcp_client.NiryoRobot.place_from_pose:10
+#: api.tcp_client.NiryoRobot.save_pose:4 api.tcp_client.NiryoRobot.set_tcp:4 of
+msgid ""
+"either 6 args (1 for each coordinates) or a list of 6 coordinates or a "
+"PoseObject"
+msgstr ""
+"soit 6 args (1 pour chaque coordonnées) ou une liste de 6 coordonnées, ou un "
+"PoseObject"
+
 #: api.tcp_client.NiryoRobot.delete_pose:1 of
 msgid "Delete pose from robot's memory"
 msgstr "Supprimer une position dans la mémoire du robot"
@@ -577,8 +619,7 @@ msgstr "Supprimer une position dans la mémoire du robot"
 #: api.tcp_client.NiryoRobot.get_saved_pose_list:1 of
 msgid "Get list of poses' name saved in robot memory"
 msgstr ""
-"Afficher la liste de noms des positions sauvegardées dans la mémoire du "
-"robot"
+"Afficher la liste de noms des positions sauvegardées dans la mémoire du robot"
 
 #: ../../source/api_doc/api.rst:87
 msgid "Pick & Place"
@@ -645,7 +686,8 @@ msgstr "Position de placement : [x, y, z, roll, pitch, yaw] ou PoseObject"
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:17
 #: api.tcp_client.NiryoRobot.pick_and_place:7 of
 msgid "Distance from waypoints before smoothing trajectory"
-msgstr "Distance entre les points de passage avant le lissage de la trajectoire"
+msgstr ""
+"Distance entre les points de passage avant le lissage de la trajectoire"
 
 #: ../../source/api_doc/api.rst:94
 msgid "Trajectories"
@@ -666,38 +708,49 @@ msgstr "Exécuter une trajectoire depuis une liste de positions"
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses:3
 #: api.tcp_client.NiryoRobot.save_trajectory:4 of
 msgid "List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw]"
-msgstr "Liste de position [x,y,z,qx,qy,qz,qw] ou liste de posiiton [x,y,z,roll,pitch,yaw]"
+msgstr ""
+"Liste de position [x,y,z,qx,qy,qz,qw] ou liste de posiiton "
+"[x,y,z,roll,pitch,yaw]"
 
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:1 of
 msgid "Execute trajectory from list of poses and joints"
-msgstr "Exécuter la trajectoire à partir de la liste de positions cartésiennes et de"
-"positions des joints"
+msgstr ""
+"Exécuter la trajectoire à partir de la liste de positions cartésiennes et "
+"depositions des joints"
 
+#: api.tcp_client.NiryoRobot.delete_dynamic_frame:3
+#: api.tcp_client.NiryoRobot.edit_dynamic_frame:3
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:3
 #: api.tcp_client.NiryoRobot.get_analog_io_state:3
 #: api.tcp_client.NiryoRobot.get_digital_io_state:3
+#: api.tcp_client.NiryoRobot.get_saved_dynamic_frame:3
+#: api.tcp_client.NiryoRobot.get_saved_dynamic_frame_list:3
 #: api.tcp_client.NiryoRobot.led_ring_custom:4
 #: api.tcp_client.NiryoRobot.led_ring_solid:3
 #: api.tcp_client.NiryoRobot.led_ring_turn_off:3
-#: api.tcp_client.NiryoRobot.set_led_color:3 of
+#: api.tcp_client.NiryoRobot.move_linear_relative:3
+#: api.tcp_client.NiryoRobot.move_relative:3
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_points:3
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_poses:3
+#: api.tcp_client.NiryoRobot.set_led_color:3
+#: api.tcp_client.NiryoRobot.tool_reboot:3 of
 msgid "Example: ::"
 msgstr "Exemple ::"
 
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:11 of
 msgid ""
-"List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw] or a list "
-"of [j1,j2,j3,j4,j5,j6]"
+"List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw] or a list of "
+"[j1,j2,j3,j4,j5,j6]"
 msgstr "Liste contenant [x,y,z,qx,qy,qz,qw] ou [x,y,z,roll,pitch,yaw]"
 
 #: api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints:14 of
 msgid ""
-"List of string 'pose' or 'joint', or ['pose'] (if poses only) or "
-"['joint'] (if joints only). If None, it is assumed there are only poses "
-"in the list."
+"List of string 'pose' or 'joint', or ['pose'] (if poses only) or ['joint'] "
+"(if joints only). If None, it is assumed there are only poses in the list."
 msgstr ""
-"Liste de string contenant 'pose' ou 'joint', ou ['pose'] (si uniquement "
-"des 'pose') ou ['joint'] (si uniquement des 'joint'). Si l'argument est "
-"None, le type est mis à ['Pose'] par défaut."
+"Liste de string contenant 'pose' ou 'joint', ou ['pose'] (si uniquement des "
+"'pose') ou ['joint'] (si uniquement des 'joint'). Si l'argument est None, le "
+"type est mis à ['Pose'] par défaut."
 
 #: api.tcp_client.NiryoRobot.execute_trajectory_saved:1 of
 msgid "Execute trajectory from Ned's memory"
@@ -714,10 +767,138 @@ msgstr "Supprimer la trajectoire de la mémoire du robot."
 #: api.tcp_client.NiryoRobot.get_saved_trajectory_list:1 of
 msgid "Get list of trajectories' name saved in robot memory"
 msgstr ""
-"Obtenir la liste des noms des trajectoires sauvegardées dans la mémoire "
-"du robot"
+"Obtenir la liste des noms des trajectoires sauvegardées dans la mémoire du "
+"robot"
 
 #: ../../source/api_doc/api.rst:105
+msgid "Dynamic frames"
+msgstr "Repères dynamiques"
+
+#: api.tcp_client.NiryoRobot.get_saved_dynamic_frame_list:1 of
+msgid "Get list of saved dynamic frames"
+msgstr "Obtient la liste des repères sauvegardés"
+
+#: api.tcp_client.NiryoRobot.get_saved_dynamic_frame_list:9 of
+msgid "list of dynamic frames name, list of description of dynamic frames"
+msgstr "la liste des nom des repères, la liste des descriptions des repères"
+
+#: api.tcp_client.NiryoRobot.get_saved_dynamic_frame:1 of
+msgid "Get name, description and pose of a dynamic frame"
+msgstr "Obtient le nom, la description et la position d'un repère dynamique"
+
+#: api.tcp_client.NiryoRobot.edit_dynamic_frame:7
+#: api.tcp_client.NiryoRobot.get_saved_dynamic_frame:7
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_points:11
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_poses:11 of
+msgid "name of the frame"
+msgstr "nom du repère"
+
+#: api.tcp_client.NiryoRobot.get_saved_dynamic_frame:9 of
+msgid "name, description, position and orientation of a frame"
+msgstr "le nom, la description et la position d'un repère"
+
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_poses:1 of
+msgid "Create a dynamic frame with 3 poses (origin, x, y)"
+msgstr "Créer un repère dynamique avec 3 positions (origine, x, y)"
+
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_points:13
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_poses:13 of
+msgid "description of the frame"
+msgstr "description du repère"
+
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_poses:15 of
+msgid "pose of the origin of the frame"
+msgstr "position d'origine du repère"
+
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_poses:17 of
+msgid "pose of the point x of the frame"
+msgstr "position du point x du repère"
+
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_poses:19 of
+msgid "pose of the point y of the frame"
+msgstr "position du point y du repère"
+
+#: api.tcp_client.NiryoRobot.delete_dynamic_frame:9
+#: api.tcp_client.NiryoRobot.edit_dynamic_frame:13
+#: api.tcp_client.NiryoRobot.led_ring_alternate:24
+#: api.tcp_client.NiryoRobot.led_ring_breath:19
+#: api.tcp_client.NiryoRobot.led_ring_chase:20
+#: api.tcp_client.NiryoRobot.led_ring_custom:12
+#: api.tcp_client.NiryoRobot.led_ring_flashing:22
+#: api.tcp_client.NiryoRobot.led_ring_go_up:20
+#: api.tcp_client.NiryoRobot.led_ring_go_up_down:20
+#: api.tcp_client.NiryoRobot.led_ring_rainbow:16
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_chase:16
+#: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle:16
+#: api.tcp_client.NiryoRobot.led_ring_snake:18
+#: api.tcp_client.NiryoRobot.led_ring_solid:9
+#: api.tcp_client.NiryoRobot.led_ring_turn_off:7
+#: api.tcp_client.NiryoRobot.led_ring_wipe:15
+#: api.tcp_client.NiryoRobot.move_linear_relative:11
+#: api.tcp_client.NiryoRobot.move_relative:11
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_points:21
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_poses:21
+#: api.tcp_client.NiryoRobot.set_led_color:11 of
+msgid "status, message"
+msgstr "status, message"
+
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_points:1 of
+msgid "Create a dynamic frame with 3 points (origin, x, y)"
+msgstr "Créer un repère dynamique avec 3 points (origine, x, y)"
+
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_points:15 of
+msgid "origin point of the frame"
+msgstr "point d'origine du repère"
+
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_points:17 of
+msgid "point x of the frame"
+msgstr "point x du repère"
+
+#: api.tcp_client.NiryoRobot.save_dynamic_frame_from_points:19 of
+msgid "point y of the frame"
+msgstr "point y du repère"
+
+#: api.tcp_client.NiryoRobot.edit_dynamic_frame:1 of
+msgid "Modify a dynamic frame"
+msgstr "Modifie un repère dynamique"
+
+#: api.tcp_client.NiryoRobot.edit_dynamic_frame:9 of
+msgid "new name of the frame"
+msgstr "nouveau nom du repère"
+
+#: api.tcp_client.NiryoRobot.edit_dynamic_frame:11 of
+msgid "new description of the frame"
+msgstr "nouvelle description du repère"
+
+#: api.tcp_client.NiryoRobot.delete_dynamic_frame:1 of
+msgid "Delete a dynamic frame"
+msgstr "Supprime un repère dynamique"
+
+#: api.tcp_client.NiryoRobot.delete_dynamic_frame:7 of
+msgid "name of the frame to remove"
+msgstr "nom du repère à supprimer"
+
+#: api.tcp_client.NiryoRobot.move_relative:1 of
+msgid "Move robot end of a offset in a frame"
+msgstr "Déplace l'effecteur du robot d'un offset dans un repère"
+
+#: api.tcp_client.NiryoRobot.move_linear_relative:7
+#: api.tcp_client.NiryoRobot.move_relative:7 of
+msgid "name of local frame"
+msgstr "nom du repère"
+
+#: api.tcp_client.NiryoRobot.move_linear_relative:9
+#: api.tcp_client.NiryoRobot.move_relative:9 of
+msgid "list which contains offset of x, y, z, roll, pitch, yaw"
+msgstr "list qui contient les paramètres x, y, z, roll, pitch & yaw"
+
+#: api.tcp_client.NiryoRobot.move_linear_relative:1 of
+msgid "Move robot end of a offset by a linear movement in a frame"
+msgstr ""
+"Déplace l'effecteur du robot d'un offset dans un repère par un mouvement "
+"linéaire"
+
+#: ../../source/api_doc/api.rst:117
 msgid "Tools"
 msgstr "Outils"
 
@@ -731,20 +912,19 @@ msgstr "Mettre à jour l'outil installé"
 
 #: api.tcp_client.NiryoRobot.grasp_with_tool:1 of
 msgid ""
-"Grasp with tool | This action correspond to | - Close gripper for "
-"Grippers | - Pull Air for Vacuum pump | - Activate for Electromagnet"
+"Grasp with tool | This action correspond to | - Close gripper for Grippers | "
+"- Pull Air for Vacuum pump | - Activate for Electromagnet"
 msgstr ""
-"Saisir avec l'outil | Cette action correspond à | - Close gripper pour "
-"les grippers | - Pull Air pour la pompe à vide | - Activate pour "
-"l'électroaimant"
+"Saisir avec l'outil | Cette action correspond à | - Close gripper pour les "
+"grippers | - Pull Air pour la pompe à vide | - Activate pour l'électroaimant"
 
 #: api.tcp_client.NiryoRobot.release_with_tool:1 of
 msgid ""
-"Release with tool | This action correspond to | - Open gripper for "
-"Grippers | - Push Air for Vacuum pump | - Deactivate for Electromagnet"
+"Release with tool | This action correspond to | - Open gripper for Grippers "
+"| - Push Air for Vacuum pump | - Deactivate for Electromagnet"
 msgstr ""
-"Relâcher avec l'outil | Cette action correspond à | - Open gripper pour "
-"les grippers | - Push Air pour la pompe à vide | - Deactivate pour "
+"Relâcher avec l'outil | Cette action correspond à | - Open gripper pour les "
+"grippers | - Push Air pour la pompe à vide | - Deactivate pour "
 "l'électroaimant"
 
 #: api.tcp_client.NiryoRobot.open_gripper:1 of
@@ -762,8 +942,8 @@ msgstr "Pourcentage de couple de fermeture (uniquement pour Ned2)"
 
 #: api.tcp_client.NiryoRobot.open_gripper:7 of
 msgid "Hold torque percentage after closing (only for Ned2)"
-msgstr "Pourcentage de couple de maintien après fermeture (uniquement"
-"pour Ned2)"
+msgstr ""
+"Pourcentage de couple de maintien après fermeture (uniquementpour Ned2)"
 
 #: api.tcp_client.NiryoRobot.close_gripper:1 of
 msgid "Close gripper"
@@ -775,8 +955,7 @@ msgstr "Pourcentage de couple d'ouverture (uniquement pour Ned2)"
 
 #: api.tcp_client.NiryoRobot.close_gripper:7 of
 msgid "Hold torque percentage after opening (only for Ned2)"
-msgstr "Pourcentage de couple de maintien ouverture (uniquement"
-"pour Ned2)"
+msgstr "Pourcentage de couple de maintien ouverture (uniquementpour Ned2)"
 
 #: api.tcp_client.NiryoRobot.pull_air_vacuum_pump:1 of
 msgid "Pull air of vacuum pump"
@@ -800,16 +979,15 @@ msgstr "Désactiver l'électroaimant associé à electromagnet_id sur pin_id"
 
 #: api.tcp_client.NiryoRobot.enable_tcp:1 of
 msgid ""
-"Enables or disables the TCP function (Tool Center Point). If activation "
-"is requested, the last recorded TCP value will be applied. The default "
-"value depends on the gripper equipped. If deactivation is requested, the "
-"TCP will be coincident with the tool_link."
+"Enables or disables the TCP function (Tool Center Point). If activation is "
+"requested, the last recorded TCP value will be applied. The default value "
+"depends on the gripper equipped. If deactivation is requested, the TCP will "
+"be coincident with the tool_link."
 msgstr ""
 "Active ou désactive la fonction PCO (Point Central de l'Outil). Si une "
-"activation est demandée, la dernière valeur pour le PCO va être "
-"appliquée. Par défaut la valeur dépend de la pince équipée. Si la "
-"désactivation est demandée, le PCO va coincider avec le repère "
-"'tool_link'."
+"activation est demandée, la dernière valeur pour le PCO va être appliquée. "
+"Par défaut la valeur dépend de la pince équipée. Si la désactivation est "
+"demandée, le PCO va coincider avec le repère 'tool_link'."
 
 #: api.tcp_client.NiryoRobot.enable_tcp:6 of
 msgid "True to enable, False otherwise."
@@ -828,18 +1006,14 @@ msgid ""
 "Reset the TCP (Tool Center Point) transformation. The TCP will be reset "
 "according to the tool equipped."
 msgstr ""
-"Réinitialise la transformation appliquée au PCO (Point Central de "
-"l'Outil). La valeur par défaut dépend de l'outil actuellement équipé."
+"Réinitialise la transformation appliquée au PCO (Point Central de l'Outil). "
+"La valeur par défaut dépend de l'outil actuellement équipé."
 
 #: api.tcp_client.NiryoRobot.tool_reboot:1 of
-msgid ""
-"Reboot the motor of the tool equipped. Useful when an Overload error "
-"occurs. (cf HardwareStatus)"
-msgstr ""
-"Redémarre le moteur de l'outil actuellement équipé. Peut être utile quand"
-" une erreur 'Overload' apparaît. (cf HardwareStatus)"
+msgid "Reboot the motor of the tool equparam_list = [workspace_name]"
+msgstr "Redémarre le moteur de l'outil equipé"
 
-#: ../../source/api_doc/api.rst:124
+#: ../../source/api_doc/api.rst:136
 msgid "Hardware"
 msgstr "Matériel"
 
@@ -857,11 +1031,10 @@ msgstr "Lire le numéro de broche pin_id et retourne à son état"
 
 #: api.tcp_client.NiryoRobot.get_hardware_status:1 of
 msgid ""
-"Get hardware status : Temperature, Hardware version, motors names & types"
-" ..."
+"Get hardware status : Temperature, Hardware version, motors names & types ..."
 msgstr ""
-"Obtenir le statut hardware : température, version hardware, noms et types"
-" des moteurs ..."
+"Obtenir le statut hardware : température, version hardware, noms et types "
+"des moteurs ..."
 
 #: api.tcp_client.NiryoRobot.get_hardware_status:3 of
 msgid "Infos contains in a HardwareStatusObject"
@@ -903,7 +1076,7 @@ msgstr "Optenir l'état du bouton **Custom** du Ned2"
 msgid "True if pressed, False else"
 msgstr "True si pressé, False sinon"
 
-#: ../../source/api_doc/api.rst:138
+#: ../../source/api_doc/api.rst:150
 msgid "Conveyor"
 msgstr "Convoyeur"
 
@@ -947,7 +1120,7 @@ msgstr "Direction du convoyeur"
 msgid "List of the connected conveyors' ID"
 msgstr "Liste des ID des convoyeurs connectés"
 
-#: ../../source/api_doc/api.rst:148
+#: ../../source/api_doc/api.rst:160
 msgid "Vision"
 msgstr "Vision"
 
@@ -969,12 +1142,11 @@ msgstr "Modifie la luminosité du stream vidéo"
 
 #: api.tcp_client.NiryoRobot.set_brightness:3 of
 msgid ""
-"How much to adjust the brightness. 0.5 will give a darkened image, 1 will"
-" give the original image while 2 will enhance the brightness by a factor "
-"of 2."
+"How much to adjust the brightness. 0.5 will give a darkened image, 1 will "
+"give the original image while 2 will enhance the brightness by a factor of 2."
 msgstr ""
-"Comment ajuster la luminosité: 0.5 donnera une image assombrie, 1 l'image"
-" d'origine et 2 augmentera la luminosité par un facteur de 2."
+"Comment ajuster la luminosité: 0.5 donnera une image assombrie, 1 l'image "
+"d'origine et 2 augmentera la luminosité par un facteur de 2."
 
 #: api.tcp_client.NiryoRobot.set_contrast:1 of
 msgid "Modify video stream contrast"
@@ -982,13 +1154,12 @@ msgstr "Modifie le contraste du stream vidéo"
 
 #: api.tcp_client.NiryoRobot.set_contrast:3 of
 msgid ""
-"While a factor of 1 gives original image. Making the factor towards 0 "
-"makes the image greyer, while factor>1 increases the contrast of the "
-"image."
+"While a factor of 1 gives original image. Making the factor towards 0 makes "
+"the image greyer, while factor>1 increases the contrast of the image."
 msgstr ""
 "Un facteur de 1 équivaut à l'image d'origine. Plus le multiplicateur se "
-"rapproche de 0 et plus l'image deviendra grise, \"tandis qu'un facteur > "
-"1 augmentera le contraste de l'image."
+"rapproche de 0 et plus l'image deviendra grise, \"tandis qu'un facteur > 1 "
+"augmentera le contraste de l'image."
 
 #: api.tcp_client.NiryoRobot.set_saturation:1 of
 msgid "Modify video stream saturation"
@@ -996,13 +1167,13 @@ msgstr "Modifie la saturation du stream vidéo"
 
 #: api.tcp_client.NiryoRobot.set_saturation:3 of
 msgid ""
-"How much to adjust the saturation. 0 will give a black and white image, 1"
-" will give the original image while 2 will enhance the saturation by a "
-"factor of 2."
+"How much to adjust the saturation. 0 will give a black and white image, 1 "
+"will give the original image while 2 will enhance the saturation by a factor "
+"of 2."
 msgstr ""
 "Comment ajuster la saturation: 0 donnera une image en noir et blanc, 1 "
-"équivaut à l'image d'origine, tandis que 2 va augmenter la saturation par"
-" un facteur de 2."
+"équivaut à l'image d'origine, tandis que 2 va augmenter la saturation par un "
+"facteur de 2."
 
 #: api.tcp_client.NiryoRobot.get_image_parameters:1 of
 msgid ""
@@ -1018,19 +1189,18 @@ msgid ""
 "darkened image, 1 will give the original image while 2 will enhance the "
 "brightness by a factor of 2."
 msgstr ""
-"Comment ajuster le facteur de luminosité: 0.5 donnera une image "
-"assombrie, 1 l'image d'origine et 2 augmentera la luminosité par un "
-"facteur de 2."
+"Comment ajuster le facteur de luminosité: 0.5 donnera une image assombrie, 1 "
+"l'image d'origine et 2 augmentera la luminosité par un facteur de 2."
 
 #: api.tcp_client.NiryoRobot.get_image_parameters:6 of
 msgid ""
 "Contrast factor: A factor of 1 gives original image. Making the factor "
-"towards 0 makes the image greyer, while factor>1 increases the contrast "
-"of the image."
+"towards 0 makes the image greyer, while factor>1 increases the contrast of "
+"the image."
 msgstr ""
 "Comment ajuster le facteur de contraste: 1 équivaut à l'image d'origine. "
-"Plus le multiplicateur se rapproche de 0 et plus l'image deviendra grise,"
-" \"tandis qu'un facteur > 1 augmentera le contraste de l'image."
+"Plus le multiplicateur se rapproche de 0 et plus l'image deviendra grise, "
+"\"tandis qu'un facteur > 1 augmentera le contraste de l'image."
 
 #: api.tcp_client.NiryoRobot.get_image_parameters:9 of
 msgid ""
@@ -1047,23 +1217,23 @@ msgstr "Facteur de luminosité, contraste et saturation"
 
 #: api.tcp_client.NiryoRobot.get_target_pose_from_rel:1 of
 msgid ""
-"Given a pose (x_rel, y_rel, yaw_rel) relative to a workspace, this "
-"function returns the robot pose in which the current tool will be able to"
-" pick an object at this pose."
+"Given a pose (x_rel, y_rel, yaw_rel) relative to a workspace, this function "
+"returns the robot pose in which the current tool will be able to pick an "
+"object at this pose."
 msgstr ""
-"Pour une pose (x_rel, y_rel, yaw_rel) donnée relative à un workspace, "
-"cette fonction retourne la position du robot dans laquelle l'outil actuel"
-" sera capable d'attraper un objet."
+"Pour une pose (x_rel, y_rel, yaw_rel) donnée relative à un workspace, cette "
+"fonction retourne la position du robot dans laquelle l'outil actuel sera "
+"capable d'attraper un objet."
 
 #: api.tcp_client.NiryoRobot.get_target_pose_from_rel:4 of
 msgid ""
-"The height_offset argument (in m) defines how high the tool will hover "
-"over the workspace. If height_offset = 0, the tool will nearly touch the "
+"The height_offset argument (in m) defines how high the tool will hover over "
+"the workspace. If height_offset = 0, the tool will nearly touch the "
 "workspace."
 msgstr ""
 "L'argument height_offset (en mètres) définit à quelle hauteur l'outil va "
-"passer au dessus du workspace. Si height_offset = 0, alors l'outil "
-"touchera presque l'espace de travail."
+"passer au dessus du workspace. Si height_offset = 0, alors l'outil touchera "
+"presque l'espace de travail."
 
 #: api.tcp_client.NiryoRobot.detect_object:3
 #: api.tcp_client.NiryoRobot.get_target_pose_from_cam:4
@@ -1101,9 +1271,9 @@ msgid ""
 "First detects the specified object using the camera and then returns the "
 "robot pose in which the object can be picked with the current tool"
 msgstr ""
-"Commence par détecter l'objet spécifié en utilisant la caméra puis "
-"renvoie la position du robot à laquelle l'objet peut être attrapé avec "
-"l'outil utilisé."
+"Commence par détecter l'objet spécifié en utilisant la caméra puis renvoie "
+"la position du robot à laquelle l'objet peut être attrapé avec l'outil "
+"utilisé."
 
 #: api.tcp_client.NiryoRobot.detect_object:5
 #: api.tcp_client.NiryoRobot.get_target_pose_from_cam:8
@@ -1126,11 +1296,11 @@ msgstr "object_found, object_pose, object_shape, object_color"
 
 #: api.tcp_client.NiryoRobot.vision_pick:1 of
 msgid ""
-"Picks the specified object from the workspace. This function has multiple"
-" phases:"
+"Picks the specified object from the workspace. This function has multiple "
+"phases:"
 msgstr ""
-"Attrape l'objet spécifié sur le workspace. Cette fonction est composée de"
-" plusieurs phases :"
+"Attrape l'objet spécifié sur le workspace. Cette fonction est composée de "
+"plusieurs phases :"
 
 #: api.tcp_client.NiryoRobot.vision_pick:3 of
 msgid "1. detect object using the camera"
@@ -1168,8 +1338,8 @@ msgstr "object_found, object_shape, object_color"
 #: api.tcp_client.NiryoRobot.move_to_object:1 of
 msgid "Same as `get_target_pose_from_cam` but directly moves to this position"
 msgstr ""
-"Même fonction que `get_target_pose_from_cam` mais bouge directement à "
-"cette position"
+"Même fonction que `get_target_pose_from_cam` mais bouge directement à cette "
+"position"
 
 #: api.tcp_client.NiryoRobot.detect_object:1 of
 msgid "Detect object in workspace and return its pose and characteristics"
@@ -1180,29 +1350,30 @@ msgstr ""
 #: api.tcp_client.NiryoRobot.get_camera_intrinsics:1 of
 msgid "Get calibration object: camera intrinsics, distortions coefficients"
 msgstr ""
-"Obtenir la calibration de l'objet : paramètres instrinsèques de la "
-"caméra, taux de distorsion"
+"Obtenir la calibration de l'objet : paramètres instrinsèques de la caméra, "
+"taux de distorsion"
 
 #: api.tcp_client.NiryoRobot.get_camera_intrinsics:3 of
-msgid "camera intrinsics, distortions coefficients"
+msgid "camera intrinsics, distortions coefficientspose_origin"
 msgstr "paramètres instrinsèque de la caméra, taux de distorsion"
 
 #: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses:1 of
 msgid ""
-"Save workspace by giving the poses of the robot to point its 4 corners "
-"with the calibration Tip. Corners should be in the good order. Markers' "
-"pose will be deduced from these poses"
+"Save workspace by giving the poses of the robot to point its 4 corners with "
+"the calibration Tip. Corners should be in the good order. Markers' pose will "
+"be deduced from these poses"
 msgstr ""
-"Sauvegarder le workspace en donnant au robot les 4 positions lui "
-"permettant de pointer ses 4 coins avec la pointe de calibration. Les "
-"coins doivent être dans le bon ordre. La position de ces marqueurs sera "
-"déduite de ces positions."
+"Sauvegarder le workspace en donnant au robot les 4 positions lui permettant "
+"de pointer ses 4 coins avec la pointe de calibration. Les coins doivent être "
+"dans le bon ordre. La position de ces marqueurs sera déduite de ces "
+"positions."
 
 #: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses:5 of
-msgid "Poses should be either a list [x, y, z, roll, pitch, yaw] or a PoseObject"
+msgid ""
+"Poses should be either a list [x, y, z, roll, pitch, yaw] or a PoseObject"
 msgstr ""
-"Les positions peuvent également être une liste [x, y, z, roll, pitch, "
-"yaw] ou un PoseObject."
+"Les positions peuvent également être une liste [x, y, z, roll, pitch, yaw] "
+"ou un PoseObject."
 
 #: api.tcp_client.NiryoRobot.save_workspace_from_points:4
 #: api.tcp_client.NiryoRobot.save_workspace_from_robot_poses:7 of
@@ -1214,9 +1385,8 @@ msgid ""
 "Save workspace by giving the points of worskpace's 4 corners. Points are "
 "written as [x, y, z] Corners should be in the good order."
 msgstr ""
-"Sauvegarder le workspace en donnant les points des 4 coins du workspaces."
-" Ces points sont écrits [x, y, z]. Les coins doivent être dans le bon "
-"ordre."
+"Sauvegarder le workspace en donnant les points des 4 coins du workspaces. "
+"Ces points sont écrits [x, y, z]. Les coins doivent être dans le bon ordre."
 
 #: api.tcp_client.NiryoRobot.delete_workspace:1 of
 msgid "Delete workspace from robot's memory"
@@ -1228,9 +1398,10 @@ msgstr "Obtenir le ratio du workspace depuis la mémoire du robot"
 
 #: api.tcp_client.NiryoRobot.get_workspace_list:1 of
 msgid "Get list of workspaces' name store in robot's memory"
-msgstr "Obtenir la liste des noms des workspaces stockés dans la mémoire du robot"
+msgstr ""
+"Obtenir la liste des noms des workspaces stockés dans la mémoire du robot"
 
-#: ../../source/api_doc/api.rst:168
+#: ../../source/api_doc/api.rst:180
 msgid "Led Ring"
 msgstr "Anneau Led"
 
@@ -1252,25 +1423,9 @@ msgstr "ID de la LED: entre 0 et 29"
 #: api.tcp_client.NiryoRobot.led_ring_wipe:9
 #: api.tcp_client.NiryoRobot.set_led_color:9 of
 msgid "Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255."
-msgstr "Couleur du led dans une liste de taille 3[R, G, B]. Les canaux RVB ont une valeur comprise entre 0 et 255."
-
-#: api.tcp_client.NiryoRobot.led_ring_alternate:24
-#: api.tcp_client.NiryoRobot.led_ring_breath:19
-#: api.tcp_client.NiryoRobot.led_ring_chase:20
-#: api.tcp_client.NiryoRobot.led_ring_custom:12
-#: api.tcp_client.NiryoRobot.led_ring_flashing:22
-#: api.tcp_client.NiryoRobot.led_ring_go_up:20
-#: api.tcp_client.NiryoRobot.led_ring_go_up_down:20
-#: api.tcp_client.NiryoRobot.led_ring_rainbow:16
-#: api.tcp_client.NiryoRobot.led_ring_rainbow_chase:16
-#: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle:16
-#: api.tcp_client.NiryoRobot.led_ring_snake:18
-#: api.tcp_client.NiryoRobot.led_ring_solid:9
-#: api.tcp_client.NiryoRobot.led_ring_turn_off:7
-#: api.tcp_client.NiryoRobot.led_ring_wipe:15
-#: api.tcp_client.NiryoRobot.set_led_color:11 of
-msgid "status, message"
-msgstr "status, message"
+msgstr ""
+"Couleur du led dans une liste de taille 3[R, G, B]. Les canaux RVB ont une "
+"valeur comprise entre 0 et 255."
 
 #: api.tcp_client.NiryoRobot.led_ring_solid:1 of
 msgid "Set the whole Led Ring to a fixed color."
@@ -1284,8 +1439,9 @@ msgstr "Éteignez toutes les LED"
 msgid ""
 "Flashes a color according to a frequency. The frequency is equal to 1 / "
 "period."
-msgstr "Clignote d'une couleur selon une fréquence. La fréquence est égale"
-"à 1/période."
+msgstr ""
+"Clignote d'une couleur selon une fréquence. La fréquence est égaleà "
+"1/période."
 
 #: api.tcp_client.NiryoRobot.led_ring_alternate:3
 #: api.tcp_client.NiryoRobot.led_ring_breath:3
@@ -1312,15 +1468,15 @@ msgstr "Exemple ::"
 #: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle:9
 #: api.tcp_client.NiryoRobot.led_ring_wipe:11 of
 msgid ""
-"Execution time for a pattern in seconds. If 0, the default time will be "
-"used."
-msgstr "Temps d'exécution d'un motif en secondes. Si 0, la période par défaut"
-"sera utilisée."
+"Execution time for a pattern in seconds. If 0, the default time will be used."
+msgstr ""
+"Temps d'exécution d'un motif en secondes. Si 0, la période par défautsera "
+"utilisée."
 
 #: api.tcp_client.NiryoRobot.led_ring_flashing:17 of
 msgid "Number of consecutive flashes. If 0, the Led Ring flashes endlessly."
-msgstr "Nombre de clignotements consécutifs. Si 0, la Led Ring clignote"
-"indéfiniment."
+msgstr ""
+"Nombre de clignotements consécutifs. Si 0, la Led Ring clignoteindéfiniment."
 
 #: api.tcp_client.NiryoRobot.led_ring_alternate:21
 #: api.tcp_client.NiryoRobot.led_ring_chase:17
@@ -1328,8 +1484,9 @@ msgstr "Nombre de clignotements consécutifs. Si 0, la Led Ring clignote"
 msgid ""
 "The service wait for the animation to finish all iterations or not to "
 "answer. If iterations is 0, the service answers immediately."
-msgstr "Le service attend que l'animation termine toutes les itérations"
-"ou ne réponde pas. Si le nombre d'itérations vaut 0, le service répond immédiatement."
+msgstr ""
+"Le service attend que l'animation termine toutes les itérationsou ne réponde "
+"pas. Si le nombre d'itérations vaut 0, le service répond immédiatement."
 
 #: api.tcp_client.NiryoRobot.led_ring_alternate:1 of
 msgid "Several colors are alternated one after the other."
@@ -1337,15 +1494,14 @@ msgstr "Plusieurs couleurs s'alternéent les unes après les autres."
 
 #: api.tcp_client.NiryoRobot.led_ring_alternate:15 of
 msgid "Led color list of lists of size 3[R, G, B]. RGB channels from 0 to 255."
-msgstr "Liste des couleurs des leds de taille 3[R, G, B]. Canaux RVB"
-"de 0 à 255."
+msgstr ""
+"Liste des couleurs des leds de taille 3[R, G, B]. Canaux RVBde 0 à 255."
 
 #: api.tcp_client.NiryoRobot.led_ring_alternate:19 of
 msgid ""
-"Number of consecutive alternations. If 0, the Led Ring alternates "
-"endlessly."
-msgstr "Nombre d'alternances consécutives. Si 0, le Led Ring alterne"
-"indéfiniment."
+"Number of consecutive alternations. If 0, the Led Ring alternates endlessly."
+msgstr ""
+"Nombre d'alternances consécutives. Si 0, le Led Ring alterneindéfiniment."
 
 #: api.tcp_client.NiryoRobot.led_ring_chase:1 of
 msgid "Movie theater light style chaser animation."
@@ -1353,10 +1509,11 @@ msgstr "Animation de **Chase** de style lumière de cinéma."
 
 #: api.tcp_client.NiryoRobot.led_ring_chase:14 of
 msgid ""
-"Number of consecutive chase. If 0, the animation continues endlessly. One"
-" chase just lights one Led every 3 LEDs."
-msgstr "Nombre de poursuites consécutives. Si 0, l'animation continue"
-"indéfiniment. Un **Chase** allume juste une LED sur 3."
+"Number of consecutive chase. If 0, the animation continues endlessly. One "
+"chase just lights one Led every 3 LEDs."
+msgstr ""
+"Nombre de poursuites consécutives. Si 0, l'animation continueindéfiniment. "
+"Un **Chase** allume juste une LED sur 3."
 
 #: api.tcp_client.NiryoRobot.led_ring_wipe:1 of
 msgid "Wipe a color across the Led Ring, light a Led at a time."
@@ -1368,13 +1525,13 @@ msgstr "Le service attend que l'animation se termine ou ne réponde pas."
 
 #: api.tcp_client.NiryoRobot.led_ring_rainbow:1 of
 msgid "Draw rainbow that fades across all LEDs at once."
-msgstr "Dessinez un arc-en-ciel qui s'estompe sur toutes les LED à la"
-"fois."
+msgstr "Dessinez un arc-en-ciel qui s'estompe sur toutes les LED à lafois."
 
 #: api.tcp_client.NiryoRobot.led_ring_rainbow:11 of
-msgid "Number of consecutive rainbows. If 0, the animation continues endlessly."
-msgstr "Nombre d'arcs-en-ciel consécutifs. Si 0, l'animation continue"
-"indéfiniment."
+msgid ""
+"Number of consecutive rainbows. If 0, the animation continues endlessly."
+msgstr ""
+"Nombre d'arcs-en-ciel consécutifs. Si 0, l'animation continueindéfiniment."
 
 #: api.tcp_client.NiryoRobot.led_ring_breath:16
 #: api.tcp_client.NiryoRobot.led_ring_go_up:17
@@ -1384,32 +1541,36 @@ msgstr "Nombre d'arcs-en-ciel consécutifs. Si 0, l'animation continue"
 #: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle:13
 #: api.tcp_client.NiryoRobot.led_ring_snake:15 of
 msgid ""
-"The service wait for the animation to finish or not to answer. If "
-"iterations is 0, the service answers immediately."
-msgstr "Le service attend que l'animation se termine ou ne réponde pas."
-"Si itérations vaut 0, le service répond immédiatement."
+"The service wait for the animation to finish or not to answer. If iterations "
+"is 0, the service answers immediately."
+msgstr ""
+"Le service attend que l'animation se termine ou ne réponde pas.Si itérations "
+"vaut 0, le service répond immédiatement."
 
 #: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle:1 of
 msgid "Draw rainbow that uniformly distributes itself across all LEDs."
-msgstr "Dessinez un arc-en-ciel qui se répartit uniformément sur toutes"
-"les LED."
+msgstr ""
+"Dessinez un arc-en-ciel qui se répartit uniformément sur toutesles LED."
 
 #: api.tcp_client.NiryoRobot.led_ring_rainbow_chase:11
 #: api.tcp_client.NiryoRobot.led_ring_rainbow_cycle:11 of
 msgid ""
 "Number of consecutive rainbow cycles. If 0, the animation continues "
 "endlessly."
-msgstr "Nombre de cycles arc-en-ciel consécutifs. Si 0, l'animation continue"
-"indéfiniment."
+msgstr ""
+"Nombre de cycles arc-en-ciel consécutifs. Si 0, l'animation "
+"continueindéfiniment."
 
 #: api.tcp_client.NiryoRobot.led_ring_rainbow_chase:1 of
 msgid "Rainbow chase animation, like the led_ring_chase method."
 msgstr "Animation de **Chase** arc-en-ciel, comme la méthode led_ring_chase."
 
 #: api.tcp_client.NiryoRobot.led_ring_go_up:1 of
-msgid "LEDs turn on like a loading circle, and are then all turned off at once."
-msgstr "Les LED s'allument comme un cercle de chargement, puis s'éteignent"
-"toutes en même temps."
+msgid ""
+"LEDs turn on like a loading circle, and are then all turned off at once."
+msgstr ""
+"Les LED s'allument comme un cercle de chargement, puis s'éteignenttoutes en "
+"même temps."
 
 #: api.tcp_client.NiryoRobot.led_ring_breath:13
 #: api.tcp_client.NiryoRobot.led_ring_go_up:14
@@ -1418,48 +1579,55 @@ msgstr "Les LED s'allument comme un cercle de chargement, puis s'éteignent"
 msgid ""
 "Number of consecutive turns around the Led Ring. If 0, the animation "
 "continues endlessly."
-msgstr "Nombre de tours consécutifs autour du Led Ring. Si 0, l'animation"
-"continue indéfiniment."
+msgstr ""
+"Nombre de tours consécutifs autour du Led Ring. Si 0, l'animationcontinue "
+"indéfiniment."
 
 #: api.tcp_client.NiryoRobot.led_ring_go_up_down:1 of
 msgid "LEDs turn on like a loading circle, and are turned off the same way."
-msgstr "Les LED s'allument comme un cercle de chargement et s'éteignent"
-"de la même manière."
+msgstr ""
+"Les LED s'allument comme un cercle de chargement et s'éteignentde la même "
+"manière."
 
 #: api.tcp_client.NiryoRobot.led_ring_breath:1 of
 msgid ""
-"Variation of the light intensity of the LED ring, similar to human "
-"breathing."
-msgstr "Variation de l'intensité lumineuse de l'anneau LED, similaire"
-"à la respiration humaine."
+"Variation of the light intensity of the LED ring, similar to human breathing."
+msgstr ""
+"Variation de l'intensité lumineuse de l'anneau LED, similaireà la "
+"respiration humaine."
 
 #: api.tcp_client.NiryoRobot.led_ring_snake:1 of
-msgid "A small coloured snake (certainly a python :D ) runs around the LED ring."
-msgstr "Un petit serpent coloré (certainement un python :D ) court autour"
-"de l'anneau LED."
+msgid ""
+"A small coloured snake (certainly a python :D ) runs around the LED ring."
+msgstr ""
+"Un petit serpent coloré (certainement un python :D ) court autourde l'anneau "
+"LED."
 
 #: api.tcp_client.NiryoRobot.led_ring_snake:10 of
 msgid ""
-"Execution time for a pattern in seconds. If 0, the default duration will "
-"be used."
-msgstr "Temps d'exécution d'un motif en secondes. Si 0, la durée par"
-"défaut sera utilisée."
+"Execution time for a pattern in seconds. If 0, the default duration will be "
+"used."
+msgstr ""
+"Temps d'exécution d'un motif en secondes. Si 0, la durée pardéfaut sera "
+"utilisée."
 
 #: api.tcp_client.NiryoRobot.led_ring_custom:1 of
 msgid ""
-"Sends a colour command to all LEDs of the LED ring. The function expects "
-"a list of colours for the 30 LEDs  of the robot."
-msgstr "Envoie une commande de couleur à toutes les LED de l'anneau LED."
-"La fonction attend une liste de couleurs pour les 30 LED du robot."
+"Sends a colour command to all LEDs of the LED ring. The function expects a "
+"list of colours for the 30 LEDs  of the robot."
+msgstr ""
+"Envoie une commande de couleur à toutes les LED de l'anneau LED.La fonction "
+"attend une liste de couleurs pour les 30 LED du robot."
 
 #: api.tcp_client.NiryoRobot.led_ring_custom:9 of
 msgid ""
-"List of size 30 of led color in a list of size 3[R, G, B]. RGB channels "
-"from 0 to 255."
-msgstr "Liste de taille 30 de couleur led dans une liste de taille 3[R,"
-"G, B]. La valeur des canaux RVB est comprise entre de 0 et 255."
+"List of size 30 of led color in a list of size 3[R, G, B]. RGB channels from "
+"0 to 255."
+msgstr ""
+"Liste de taille 30 de couleur led dans une liste de taille 3[R,G, B]. La "
+"valeur des canaux RVB est comprise entre de 0 et 255."
 
-#: ../../source/api_doc/api.rst:186
+#: ../../source/api_doc/api.rst:198
 msgid "Sound"
 msgstr "Son"
 
@@ -1507,9 +1675,9 @@ msgstr "Arrête un son en cours de lecture."
 msgid ""
 "Returns the duration in seconds of a sound stored in the robot database "
 "raise SoundRosWrapperException if the sound doesn't exists"
-msgstr "Renvoie la durée en secondes d'un son stocké dans la base de"
-"données du robot. Lève SoundRosWrapperException si le son n'existe"
-"pas"
+msgstr ""
+"Renvoie la durée en secondes d'un son stocké dans la base dedonnées du "
+"robot. Lève SoundRosWrapperException si le son n'existepas"
 
 #: api.tcp_client.NiryoRobot.get_sound_duration:4 of
 msgid "name of sound"
@@ -1521,12 +1689,13 @@ msgstr "durée du son en secondes"
 
 #: api.tcp_client.NiryoRobot.say:1 of
 msgid ""
-"Use gtts (Google Text To Speech) to interprete a string as sound "
-"Languages available are: * English: 0 * French: 1 * Spanish: 2 * "
-"Mandarin: 3 * Portuguese: 4"
-msgstr "Utilisez gtts (Google Text To Speech) pour interpréter une chaîne de caractères"
-"comme un son.  Les langues disponibles sont : * Anglais : 0 * Français"
-": 1 * Espagnol : 2 * Mandarin : 3 * Portugais : 4"
+"Use gtts (Google Text To Speech) to interprete a string as sound Languages "
+"available are: * English: 0 * French: 1 * Spanish: 2 * Mandarin: 3 * "
+"Portuguese: 4"
+msgstr ""
+"Utilisez gtts (Google Text To Speech) pour interpréter une chaîne de "
+"caractèrescomme un son.  Les langues disponibles sont : * Anglais : 0 * "
+"Français: 1 * Espagnol : 2 * Mandarin : 3 * Portugais : 4"
 
 #: api.tcp_client.NiryoRobot.say:9 of
 msgid "Example ::"
@@ -1540,65 +1709,65 @@ msgstr "Texte qui doit être prononcé < 100 caractères"
 msgid "language of the text"
 msgstr "Langage du texte"
 
-#: ../../source/api_doc/api.rst:197
+#: ../../source/api_doc/api.rst:209
 msgid "Enums"
 msgstr "Enums (énumérations)"
 
-#: ../../source/api_doc/api.rst:199
+#: ../../source/api_doc/api.rst:211
 msgid "Enums are used to pass specific parameters to functions."
 msgstr ""
-"Les énumérations sont utilisées pour passer des paramètres spécifiques "
-"aux fonctions."
+"Les énumérations sont utilisées pour passer des paramètres spécifiques aux "
+"fonctions."
 
-#: ../../source/api_doc/api.rst:201
+#: ../../source/api_doc/api.rst:213
 msgid ""
 "For instance, :meth:`~.api.tcp_client.NiryoRobot.shift_pose` will need a "
 "parameter from :class:`~.api.objects.RobotAxis` enum ::"
 msgstr ""
-"Par exemple, :meth:`~.api.tcp_client.NiryoRobot.shift_pose` aura besoin "
-"d'un paramètre de type l'enum :class:`~.api.objects.RobotAxis` ::"
+"Par exemple, :meth:`~.api.tcp_client.NiryoRobot.shift_pose` aura besoin d'un "
+"paramètre de type l'enum :class:`~.api.objects.RobotAxis` ::"
 
-#: ../../source/api_doc/api.rst:207
+#: ../../source/api_doc/api.rst:219
 msgid "List of enums:"
 msgstr "Liste des énumérations "
 
-#: ../../source/api_doc/api.rst:209
+#: ../../source/api_doc/api.rst:221
 msgid ":class:`~.api.enums_communication.CalibrateMode`"
 msgstr ":class:`~.api.enums_communication.CalibrateMode`"
 
-#: ../../source/api_doc/api.rst:210
+#: ../../source/api_doc/api.rst:222
 msgid ":class:`~.api.enums_communication.RobotAxis`"
 msgstr ":class:`~.api.enums_communication.RobotAxis`"
 
-#: ../../source/api_doc/api.rst:211
+#: ../../source/api_doc/api.rst:223
 msgid ":class:`~.api.enums_communication.ToolID`"
 msgstr ":class:`~.api.enums_communication.ToolID`"
 
-#: ../../source/api_doc/api.rst:212
+#: ../../source/api_doc/api.rst:224
 msgid ":class:`~.api.enums_communication.PinMode`"
 msgstr ":class:`~.api.enums_communication.PinMode`"
 
-#: ../../source/api_doc/api.rst:213
+#: ../../source/api_doc/api.rst:225
 msgid ":class:`~.api.enums_communication.PinState`"
 msgstr ":class:`~.api.enums_communication.PinState`"
 
-#: ../../source/api_doc/api.rst:214
+#: ../../source/api_doc/api.rst:226
 msgid ":class:`~.api.enums_communication.PinID`"
 msgstr ":class:`~.api.enums_communication.PinID`"
 
-#: ../../source/api_doc/api.rst:215
+#: ../../source/api_doc/api.rst:227
 msgid ":class:`~.api.enums_communication.ConveyorID`"
 msgstr ":class:`~.api.enums_communication.ConveyorID`"
 
-#: ../../source/api_doc/api.rst:216
+#: ../../source/api_doc/api.rst:228
 msgid ":class:`~.api.enums_communication.ConveyorDirection`"
 msgstr ":class:`~.api.enums_communication.ConveyorDirection`"
 
-#: ../../source/api_doc/api.rst:217
+#: ../../source/api_doc/api.rst:229
 msgid ":class:`~.api.enums_communication.ObjectColor`"
 msgstr ":class:`~.api.enums_communication.ObjectColor`"
 
-#: ../../source/api_doc/api.rst:218
+#: ../../source/api_doc/api.rst:230
 msgid ":class:`~.api.enums_communication.ObjectShape`"
 msgstr ":class:`~.api.enums_communication.ObjectShape`"
 
@@ -1644,11 +1813,11 @@ msgstr "Énumération des couleurs disponibles pour le traitement d'images"
 msgid "Enumeration of Shapes available for image processing"
 msgstr "Énumération des formes disponibles pour le traitement d'images"
 
-#: ../../source/api_doc/api.rst:230
+#: ../../source/api_doc/api.rst:243
 msgid "Python object classes"
 msgstr "Classes d'objets Python"
 
-#: ../../source/api_doc/api.rst:232
+#: ../../source/api_doc/api.rst:245
 msgid "Special objects"
 msgstr "Objets spéciaux"
 
@@ -1659,16 +1828,15 @@ msgstr "Pose object qui stocke les paramètres x, y, z, roll, pitch & yaw"
 #: api.objects.PoseObject.copy_with_offsets:1 of
 msgid "Create a new pose from copying from copying actual pose with offsets"
 msgstr ""
-"Créer une nouvelle position en copiant a position actuelle avec des "
-"offsets "
+"Créer une nouvelle position en copiant a position actuelle avec des offsets "
 
 #: api.objects.PoseObject.to_list:1 of
 msgid ""
 "Return a list [x, y, z, roll, pitch, yaw] corresponding to the pose's "
 "parameters"
 msgstr ""
-"Retourne une liste [x, y, z, roll, pitch, yaw] correspondant aux "
-"paramètres de la position."
+"Retourne une liste [x, y, z, roll, pitch, yaw] correspondant aux paramètres "
+"de la position."
 
 #: api.objects.HardwareStatusObject:1 of
 msgid "Object used to store every hardware information"
@@ -1677,5 +1845,13 @@ msgstr "Objet utilisé pour stocker toutes les informations matérielles"
 #: api.objects.AnalogPinObject:1 api.objects.DigitalPinObject:1 of
 msgid "Object used to store information on digital pins"
 msgstr ""
-"Objet utilisé pour stocker toutes les informations relatives aux digital "
-"pins"
+"Objet utilisé pour stocker toutes les informations relatives aux digital pins"
+
+#~ msgid ""
+#~ ":param frame_name : name of local frame :type frame_name: str :param "
+#~ "offset: list which contains offset of x, y, z, roll, pitch, yaw :type "
+#~ "offset: list[float] :return: status, message :rtype: (int, str)"
+#~ msgstr ""
+
+#~ msgid "pose of a frame"
+#~ msgstr "position d'un repère"

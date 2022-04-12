@@ -446,7 +446,8 @@ class NiryoRobot(object):
 
     def move_pose(self, *args):
         """
-        Move robot end effector pose to a (x, y, z, roll, pitch, yaw) pose.
+        Move robot end effector pose to a (x, y, z, roll, pitch, yaw, frame_name) pose
+        in a particular frame (frame_name) if defined.
         x, y & z are expressed in meters / roll, pitch & yaw are expressed in radians
 
         All lines of the next example realize the same operation: ::
@@ -454,25 +455,36 @@ class NiryoRobot(object):
             robot.pose = [0.2, 0.1, 0.3, 0.0, 0.5, 0.0]
             robot.move_pose([0.2, 0.1, 0.3, 0.0, 0.5, 0.0])
             robot.move_pose(0.2, 0.1, 0.3, 0.0, 0.5, 0.0)
+            robot.move_pose(0.2, 0.1, 0.3, 0.0, 0.5, 0.0)
             robot.move_pose(PoseObject(0.2, 0.1, 0.3, 0.0, 0.5, 0.0))
+            robot.move_pose([0.2, 0.1, 0.3, 0.0, 0.5, 0.0], "frame")
+            robot.move_pose(PoseObject(0.2, 0.1, 0.3, 0.0, 0.5, 0.0), "frame")
 
-        :param args: either 6 args (1 for each coordinates) or a list of 6 coordinates or a ``PoseObject``
-        :type args: Union[tuple[float], list[float], PoseObject]
-
+        :param args: either 7 args (1 for each coordinates and 1 for the name of the frame) or a list of 6 coordinates or a ``PoseObject``
+         and 1 for the frame name
+        :type args: Union[tuple[float], list[float], PoseObject, [tuple[float], str], [list[float], str], [PoseObject, str]]
         :rtype: None
         """
-        pose_list = self.__args_pose_to_list(*args)
+        if len(args) in [2, 7]:
+            pose_list = list(self.__args_pose_to_list(*args[:-1])) + [args[-1]]
+        else:
+            pose_list = list(self.__args_pose_to_list(*args)) + ['']
         self.__send_n_receive(Command.MOVE_POSE, *pose_list)
 
     def move_linear_pose(self, *args):
         """
-        Move robot end effector pose to a (x, y, z, roll, pitch, yaw) pose with a linear trajectory
+        Move robot end effector pose to a (x, y, z, roll, pitch, yaw) pose with a linear trajectory,
+        in a particular frame (frame_name) if defined
 
-        :param args: either 6 args (1 for each coordinates) or a list of 6 coordinates or a PoseObject
-        :type args: Union[tuple[float], list[float], PoseObject]
+        :param args: either 7 args (1 for each coordinates and 1 for the name of the frame) or a list of 6 coordinates or a ``PoseObject``
+         and 1 for the frame name
+        :type args: Union[tuple[float], list[float], PoseObject, [tuple[float], str], [list[float], str], [PoseObject, str]]
         :rtype: None
         """
-        pose_list = self.__args_pose_to_list(*args)
+        if len(args) in [2, 7]:
+            pose_list = list(self.__args_pose_to_list(*args[:-1])) + [args[-1]]
+        else:
+            pose_list = list(self.__args_pose_to_list(*args)) + ['']
         self.__send_n_receive(Command.MOVE_LINEAR_POSE, *pose_list)
 
     def shift_pose(self, axis, shift_value):
@@ -582,7 +594,7 @@ class NiryoRobot(object):
     def get_pose_saved(self, pose_name):
         """
         Get pose saved in from Ned's memory
-        
+
         :param pose_name: Pose name in robot's memory
         :type pose_name: str 
         :return: Pose associated to pose_name
@@ -596,7 +608,7 @@ class NiryoRobot(object):
     def save_pose(self, pose_name, *args):
         """
         Save pose in robot's memory
-        
+
         :type pose_name: str
         :param args: either 6 args (1 for each coordinates) or a list of 6 coordinates or a PoseObject
         :type args: Union[list[float], tuple[float], PoseObject]
@@ -647,7 +659,7 @@ class NiryoRobot(object):
     def place_from_pose(self, *args):
         """
         Execute a placing from a position.
-        
+
         A placing is described as : \n
         | * going over the place
         | * going down until height = z
@@ -1009,7 +1021,13 @@ class NiryoRobot(object):
 
     def tool_reboot(self):
         """
-        Reboot the motor of the tool equipped. Useful when an Overload error occurs. (cf HardwareStatus)
+        Reboot the motor of the tool equparam_list = [workspace_name]
+
+        Example: ::
+
+            for pose in (pose_origin, pose_2, pose_3, pose_4):
+                pose_list = self.__args_pose_to_list(pose)
+                param_list.append(pose_list)ipped. Useful when an Overload error occurs. (cf HardwareStatus)
 
         :rtype: None
         """
@@ -1348,7 +1366,7 @@ class NiryoRobot(object):
         """
         Given a pose (x_rel, y_rel, yaw_rel) relative to a workspace, this function
         returns the robot pose in which the current tool will be able to pick an object at this pose.
-        
+
         The height_offset argument (in m) defines how high the tool will hover over the workspace. If height_offset = 0,
         the tool will nearly touch the workspace.
 
@@ -1607,6 +1625,198 @@ class NiryoRobot(object):
         :rtype: list[str]
         """
         return self.__send_n_receive(Command.GET_WORKSPACE_LIST)
+
+    # Dynamic frames
+
+    def get_saved_dynamic_frame_list(self):
+        """
+        Get list of saved dynamic frames
+
+        Example: ::
+
+            list_frame, list_desc = robot.get_saved_dynamic_frame_list()
+            print(list_frame)
+            print(list_desc)
+
+        :return: list of dynamic frames name, list of description of dynamic frames
+        :rtype: list[str], list[str]
+        """
+        return self.__send_n_receive(Command.GET_SAVED_DYNAMIC_FRAME_LIST)
+
+    def get_saved_dynamic_frame(self, frame_name):
+        """
+        Get name, description and pose of a dynamic frame
+
+        Example: ::
+
+            frame = robot.get_saved_dynamic_frame("default_frame")
+
+        :param frame_name: name of the frame
+        :type frame_name: str
+        :return: name, description, position and orientation of a frame
+        :rtype: list[str, str, list[float]]
+        """
+        self.__check_type(frame_name, str)
+        return self.__send_n_receive(Command.GET_SAVED_DYNAMIC_FRAME, frame_name)
+
+    def save_dynamic_frame_from_poses(self, frame_name, description, pose_origin, pose_x, pose_y):
+        """
+        Create a dynamic frame with 3 poses (origin, x, y)
+
+        Example: ::
+
+            pose_o = [0.1, 0.1, 0.1, 0, 0, 0]
+            pose_x = [0.2, 0.1, 0.1, 0, 0, 0]
+            pose_y = [0.1, 0.2, 0.1, 0, 0, 0]
+
+            robot.save_dynamic_frame_from_poses("name", "une description test", pose_o, pose_x, pose_y)
+
+        :param frame_name: name of the frame
+        :type frame_name: str
+        :param description: description of the frame
+        :type description: str
+        :param pose_origin: pose of the origin of the frame
+        :type pose_origin: list[float] [x, y, z, roll, pitch, yaw]
+        :param pose_x: pose of the point x of the frame
+        :type pose_x: list[float] [x, y, z, roll, pitch, yaw]
+        :param pose_y: pose of the point y of the frame
+        :type pose_y: list[float] [x, y, z, roll, pitch, yaw]
+        :return: status, message
+        :rtype: (int, str)
+        """
+        self.__check_type(frame_name, str)
+        self.__check_type(description, str)
+        self.__check_instance(pose_origin, (list, PoseObject))
+        self.__check_instance(pose_x, (list, PoseObject))
+        self.__check_instance(pose_y, (list, PoseObject))
+
+        param_list = [frame_name, description]
+        for pose in (pose_origin, pose_x, pose_y):
+            pose_list = self.__args_pose_to_list(pose)
+            param_list.append(pose_list)
+        self.__send_n_receive(Command.SAVE_DYNAMIC_FRAME_FROM_POSES, *param_list)
+
+    def save_dynamic_frame_from_points(self, frame_name, description, point_origin, point_x, point_y):
+        """
+        Create a dynamic frame with 3 points (origin, x, y)
+
+        Example: ::
+
+            point_o = [-0.1, -0.1, 0.1]
+            point_x = [-0.2, -0.1, 0.1]
+            point_y = [-0.1, -0.2, 0.1]
+
+            robot.save_dynamic_frame_from_points("name", "une description test", point_o, point_x, point_y)
+
+        :param frame_name: name of the frame
+        :type frame_name: str
+        :param description: description of the frame
+        :type description: str
+        :param point_origin: origin point of the frame
+        :type point_origin: list[float] [x, y, z]
+        :param point_x: point x of the frame
+        :type point_x: list[float] [x, y, z]
+        :param point_y: point y of the frame
+        :type point_y: list[float] [x, y, z]
+        :return: status, message
+        :rtype: (int, str)
+        """
+        self.__check_type(frame_name, str)
+        self.__check_type(description, str)
+        self.__check_type(point_origin, list)
+        self.__check_type(point_x, list)
+        self.__check_type(point_y, list)
+
+        param_list = [frame_name, description]
+        for point in (point_origin, point_x, point_y):
+            param_list.append(self.__map_list(point, float))
+        self.__send_n_receive(Command.SAVE_DYNAMIC_FRAME_FROM_POINTS, *param_list)
+
+    def edit_dynamic_frame(self, frame_name, new_frame_name, new_description):
+        """
+        Modify a dynamic frame
+
+        Example: ::
+
+            robot.edit_dynamic_frame("name", "new_name", "new description")
+
+        :param frame_name: name of the frame
+        :type frame_name: str
+        :param new_frame_name: new name of the frame
+        :type new_frame_name: str
+        :param new_description: new description of the frame
+        :type new_description: str
+        :return: status, message
+        :rtype: (int, str)
+        """
+        self.__check_type(frame_name, str)
+        self.__check_type(new_frame_name, str)
+        self.__check_type(new_description, str)
+
+        param_list = [frame_name, new_frame_name, new_description]
+        self.__send_n_receive(Command.EDIT_DYNAMIC_FRAME, *param_list)
+
+    def delete_dynamic_frame(self, frame_name):
+        """
+        Delete a dynamic frame
+
+        Example: ::
+
+            robot.delete_saved_dynamic_frame("name")
+
+        :param frame_name: name of the frame to remove
+        :type frame_name: str
+        :return: status, message
+        :rtype: (int, str)
+        """
+        self.__check_type(frame_name, str)
+        self.__send_n_receive(Command.DELETE_DYNAMIC_FRAME, frame_name)
+
+    def move_relative(self, frame_name, offset):
+        """
+        Move robot end of a offset in a frame
+
+        Example: ::
+
+            robot.move_relative("default_frame", [0.05, 0.05, 0.05, 0.3, 0, 0])
+
+        :param frame_name: name of local frame
+        :type frame_name: str
+        :param offset: list which contains offset of x, y, z, roll, pitch, yaw
+        :type offset: list[float]
+        :return: status, message
+        :rtype: (int, str)
+        """
+        self.__check_type(frame_name, str)
+        self.__check_type(offset, list)
+        if len(offset) != 6:
+            self.__raise_exception("An offset must contain 6 members: [x, y, z, roll, pitch, yaw]")
+
+        param_list = [frame_name, offset]
+        self.__send_n_receive(Command.MOVE_RELATIVE, *param_list)
+
+    def move_linear_relative(self, frame_name, offset):
+        """
+        Move robot end of a offset by a linear movement in a frame
+
+        Example: ::
+
+            robot.move_linear_relative("default_frame", [0.05, 0.05, 0.05, 0.3, 0, 0])
+
+        :param frame_name: name of local frame
+        :type frame_name: str
+        :param offset: list which contains offset of x, y, z, roll, pitch, yaw
+        :type offset: list[float]
+        :return: status, message
+        :rtype: (int, str)
+        """
+        self.__check_type(frame_name, str)
+        self.__check_type(offset, list)
+        if len(offset) != 6:
+            self.__raise_exception("An offset must contain 6 members: [x, y, z, roll, pitch, yaw]")
+
+        param_list = [frame_name, offset]
+        self.__send_n_receive(Command.MOVE_LINEAR_RELATIVE, *param_list)
 
     # Sound
 

@@ -92,6 +92,7 @@ Learn how to use the PyNiryo package to implement various tasks.
    source/examples/examples_tool_action
    source/examples/examples_conveyor
    source/examples/examples_vision
+   source/examples/examples_frames
    source/examples/code_templates
 
 API Documentation
