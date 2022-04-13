@@ -1772,50 +1772,50 @@ class NiryoRobot(object):
         self.__check_type(frame_name, str)
         self.__send_n_receive(Command.DELETE_DYNAMIC_FRAME, frame_name)
 
-    def move_relative(self, frame_name, offset):
+    def move_relative(self, offset, frame="world"):
         """
         Move robot end of a offset in a frame
 
         Example: ::
 
-            robot.move_relative("default_frame", [0.05, 0.05, 0.05, 0.3, 0, 0])
+            robot.move_relative([0.05, 0.05, 0.05, 0.3, 0, 0], frame="default_frame")
 
-        :param frame_name: name of local frame
-        :type frame_name: str
         :param offset: list which contains offset of x, y, z, roll, pitch, yaw
         :type offset: list[float]
+        :param frame: name of local frame
+        :type frame: str
         :return: status, message
         :rtype: (int, str)
         """
-        self.__check_type(frame_name, str)
+        self.__check_type(frame, str)
         self.__check_type(offset, list)
         if len(offset) != 6:
             self.__raise_exception("An offset must contain 6 members: [x, y, z, roll, pitch, yaw]")
 
-        param_list = [frame_name, offset]
+        param_list = [offset, frame]
         self.__send_n_receive(Command.MOVE_RELATIVE, *param_list)
 
-    def move_linear_relative(self, frame_name, offset):
+    def move_linear_relative(self, offset, frame="world"):
         """
         Move robot end of a offset by a linear movement in a frame
 
         Example: ::
 
-            robot.move_linear_relative("default_frame", [0.05, 0.05, 0.05, 0.3, 0, 0])
+            robot.move_linear_relative([0.05, 0.05, 0.05, 0.3, 0, 0], frame="default_frame")
 
-        :param frame_name: name of local frame
-        :type frame_name: str
         :param offset: list which contains offset of x, y, z, roll, pitch, yaw
         :type offset: list[float]
+        :param frame: name of local frame
+        :type frame: str
         :return: status, message
         :rtype: (int, str)
         """
-        self.__check_type(frame_name, str)
+        self.__check_type(frame, str)
         self.__check_type(offset, list)
         if len(offset) != 6:
             self.__raise_exception("An offset must contain 6 members: [x, y, z, roll, pitch, yaw]")
 
-        param_list = [frame_name, offset]
+        param_list = [offset, frame]
         self.__send_n_receive(Command.MOVE_LINEAR_RELATIVE, *param_list)
 
     # Sound
