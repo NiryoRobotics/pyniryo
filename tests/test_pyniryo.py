@@ -349,7 +349,6 @@ class TestDynamicFrame(BaseTestTcpApi):
     def __test_creation_edition_frame(self):
         base_list_name, base_list_desc = self.niryo_robot.get_saved_dynamic_frame_list()
         new_list_name = [frame for frame in base_list_name]
-        new_list_desc = [desc for desc in base_list_desc]
 
         # Create frame by pose
         list_saved = []
@@ -368,7 +367,7 @@ class TestDynamicFrame(BaseTestTcpApi):
                 new_edit_name = 'unitEditTestFramePose_{:03d}'.format(i)
                 new_edit_desc = 'descEditTestFramePose_{:03d}'.format(i)
                 self.assertIsNone(self.niryo_robot.edit_dynamic_frame(new_name, new_edit_name, new_edit_desc))
-                self.assertEqual(self.niryo_robot.get_saved_dynamic_frame(new_edit_name)[1], new_edit_desc)
+                self.assertEqual(self.niryo_robot.get_saved_dynamic_frame(new_edit_name)[0], new_edit_name)
 
                 with self.assertRaises(TcpCommandException):
                     self.niryo_robot.get_saved_dynamic_frame(0)
@@ -377,11 +376,9 @@ class TestDynamicFrame(BaseTestTcpApi):
                     new_list_name.append(new_edit_name)
                     list_saved.append(new_edit_name)
 
-                if new_edit_desc not in new_list_desc:
-                    new_list_desc.append(new_edit_desc)
+                new_list_name.sort()
 
                 self.assertEqual(self.niryo_robot.get_saved_dynamic_frame_list()[0], new_list_name)
-                self.assertEqual(self.niryo_robot.get_saved_dynamic_frame_list()[1], new_list_desc)
 
                 with self.assertRaises(TcpCommandException):
                     self.niryo_robot.save_dynamic_frame_from_poses(0, "unittest", pose_o, pose_x, pose_y)
@@ -406,17 +403,15 @@ class TestDynamicFrame(BaseTestTcpApi):
                 new_edit_name = 'unitEditTestFramePose_{:03d}'.format(i)
                 new_edit_desc = 'descEditTestFramePose_{:03d}'.format(i)
                 self.assertIsNone(self.niryo_robot.edit_dynamic_frame(new_name, new_edit_name, new_edit_desc))
-                self.assertEqual(self.niryo_robot.get_saved_dynamic_frame(new_edit_name)[1], new_edit_desc)
+                self.assertEqual(self.niryo_robot.get_saved_dynamic_frame(new_edit_name)[0], new_edit_name)
 
                 if new_edit_name not in new_list_name:
                     new_list_name.append(new_edit_name)
                     list_saved.append(new_edit_name)
 
-                if new_edit_desc not in new_list_desc:
-                    new_list_desc.append(new_edit_desc)
+                new_list_name.sort()
 
                 self.assertEqual(self.niryo_robot.get_saved_dynamic_frame_list()[0], new_list_name)
-                self.assertEqual(self.niryo_robot.get_saved_dynamic_frame_list()[1], new_list_desc)
 
     def __test_move_in_frame(self):
         # Move frame 000
@@ -435,23 +430,29 @@ class TestDynamicFrame(BaseTestTcpApi):
         pose2 = (0, 0, 0, 0, 1.57, 0)
         self.assertIsNone(self.niryo_robot.move_pose(pose2, "unitEditTestFramePose_002"))
         self.assertIsNone(
-            self.niryo_robot.move_relative("unitEditTestFramePose_002", [0.05, 0.05, 0.05, 0.1, 0.1, 0.1]))
+            self.niryo_robot.move_relative([0.05, 0.05, 0.05, 0.1, 0.1, 0.1], "unitEditTestFramePose_002"))
         self.assertIsNone(
-            self.niryo_robot.move_linear_relative("unitEditTestFramePose_002", [-0.05, -0.05, -0.05, 0, 0, 0]))
+            self.niryo_robot.move_linear_relative([-0.05, -0.05, -0.05, 0, 0, 0], "unitEditTestFramePose_002"))
 
         # Move frame 003
         pose3 = PoseObject(0, 0, 0, 0, 1.57, 0)
         self.assertIsNone(self.niryo_robot.move_pose(pose3, "unitEditTestFramePose_003"))
         self.assertIsNone(
-            self.niryo_robot.move_relative("unitEditTestFramePose_003", [0.05, 0.05, 0.05, 0.1, 0.1, 0.1]))
+            self.niryo_robot.move_relative([0.05, 0.05, 0.05, 0.1, 0.1, 0.1], "unitEditTestFramePose_003"))
         self.assertIsNone(
-            self.niryo_robot.move_linear_relative("unitEditTestFramePose_003", [-0.05, -0.05, -0.05, 0, 0, 0]))
+            self.niryo_robot.move_linear_relative([-0.05, -0.05, -0.05, 0, 0, 0], "unitEditTestFramePose_003"))
+
+        # Test default world frame
+        self.assertIsNone(
+            self.niryo_robot.move_relative([0.1, 0.1, 0.1, 0, 0, 0]))
+        self.assertIsNone(
+            self.niryo_robot.move_linear_relative([0, 0, -0.1, 0, 0, 0]))
 
         with self.assertRaises(TcpCommandException):
-            self.niryo_robot.move_relative(0, [0.05, 0.05, 0.05, 0.1, 0.1, 0.1])
+            self.niryo_robot.move_relative([0.05, 0.05, 0.05, 0.1, 0.1, 0.1], 0)
 
         with self.assertRaises(TcpCommandException):
-            self.niryo_robot.move_linear_relative(0, [0.05, 0.05, 0.05, 0.1, 0.1, 0.1])
+            self.niryo_robot.move_linear_relative([0.05, 0.05, 0.05, 0.1, 0.1, 0.1], 0)
 
     def __test_deletion(self):
         base_list = self.niryo_robot.get_saved_dynamic_frame_list()[0]

@@ -41,13 +41,13 @@ This example shows how to create a frame and do a small pick and place in this f
         robot.close_gripper(gripper_speed)
 
         # Move in frame
-        robot.move_linear_relative("dynamic_frame", [0, 0, 0.1, 0, 0, 0])
-        robot.move_relative("dynamic_frame", [0.1, 0, 0, 0, 0, 0])
-        robot.move_linear_relative("dynamic_frame", [0, 0, -0.1, 0, 0, 0])
+        robot.move_linear_relative([0, 0, 0.1, 0, 0, 0], "dynamic_frame")
+        robot.move_relative([0.1, 0, 0, 0, 0, 0], "dynamic_frame")
+        robot.move_linear_relative([0, 0, -0.1, 0, 0, 0], "dynamic_frame")
 
         # Place
         robot.open_gripper(gripper_speed)
-        robot.move_linear_relative("dynamic_frame", [0, 0, 0.1, 0, 0, 0])
+        robot.move_linear_relative([0, 0, 0.1, 0, 0, 0], "dynamic_frame")
 
         # Home
         robot.move_joints(0, 0.5, -1.25, 0, 0, 0)
