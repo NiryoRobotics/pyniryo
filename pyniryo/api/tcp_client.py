@@ -1659,7 +1659,8 @@ class NiryoRobot(object):
         self.__check_type(frame_name, str)
         return self.__send_n_receive(Command.GET_SAVED_DYNAMIC_FRAME, frame_name)
 
-    def save_dynamic_frame_from_poses(self, frame_name, description, pose_origin, pose_x, pose_y):
+    def save_dynamic_frame_from_poses(self, frame_name, description, pose_origin, pose_x, pose_y,
+                                      belong_to_workspace=False):
         """
         Create a dynamic frame with 3 poses (origin, x, y)
 
@@ -1681,11 +1682,14 @@ class NiryoRobot(object):
         :type pose_x: list[float] [x, y, z, roll, pitch, yaw]
         :param pose_y: pose of the point y of the frame
         :type pose_y: list[float] [x, y, z, roll, pitch, yaw]
+        :param belong_to_workspace: indicate if the frame belong to a workspace
+        :type belong_to_workspace: boolean
         :return: status, message
         :rtype: (int, str)
         """
         self.__check_type(frame_name, str)
         self.__check_type(description, str)
+        self.__check_type(belong_to_workspace, bool)
         self.__check_instance(pose_origin, (list, PoseObject))
         self.__check_instance(pose_x, (list, PoseObject))
         self.__check_instance(pose_y, (list, PoseObject))
@@ -1694,9 +1698,11 @@ class NiryoRobot(object):
         for pose in (pose_origin, pose_x, pose_y):
             pose_list = self.__args_pose_to_list(pose)
             param_list.append(pose_list)
+        param_list.append(belong_to_workspace)
         self.__send_n_receive(Command.SAVE_DYNAMIC_FRAME_FROM_POSES, *param_list)
 
-    def save_dynamic_frame_from_points(self, frame_name, description, point_origin, point_x, point_y):
+    def save_dynamic_frame_from_points(self, frame_name, description, point_origin, point_x, point_y,
+                                       belong_to_workspace=False):
         """
         Create a dynamic frame with 3 points (origin, x, y)
 
@@ -1718,11 +1724,14 @@ class NiryoRobot(object):
         :type point_x: list[float] [x, y, z]
         :param point_y: point y of the frame
         :type point_y: list[float] [x, y, z]
+        :param belong_to_workspace: indicate if the frame belong to a workspace
+        :type belong_to_workspace: boolean
         :return: status, message
         :rtype: (int, str)
         """
         self.__check_type(frame_name, str)
         self.__check_type(description, str)
+        self.__check_type(belong_to_workspace, bool)
         self.__check_type(point_origin, list)
         self.__check_type(point_x, list)
         self.__check_type(point_y, list)
@@ -1730,6 +1739,7 @@ class NiryoRobot(object):
         param_list = [frame_name, description]
         for point in (point_origin, point_x, point_y):
             param_list.append(self.__map_list(point, float))
+        param_list.append(belong_to_workspace)
         self.__send_n_receive(Command.SAVE_DYNAMIC_FRAME_FROM_POINTS, *param_list)
 
     def edit_dynamic_frame(self, frame_name, new_frame_name, new_description):
@@ -1756,7 +1766,7 @@ class NiryoRobot(object):
         param_list = [frame_name, new_frame_name, new_description]
         self.__send_n_receive(Command.EDIT_DYNAMIC_FRAME, *param_list)
 
-    def delete_dynamic_frame(self, frame_name):
+    def delete_dynamic_frame(self, frame_name, belong_to_workspace=False):
         """
         Delete a dynamic frame
 
@@ -1766,11 +1776,14 @@ class NiryoRobot(object):
 
         :param frame_name: name of the frame to remove
         :type frame_name: str
+        :param belong_to_workspace: indicate if the frame belong to a workspace
+        :type belong_to_workspace: boolean
         :return: status, message
         :rtype: (int, str)
         """
         self.__check_type(frame_name, str)
-        self.__send_n_receive(Command.DELETE_DYNAMIC_FRAME, frame_name)
+        self.__check_type(belong_to_workspace, bool)
+        self.__send_n_receive(Command.DELETE_DYNAMIC_FRAME, *[frame_name, belong_to_workspace])
 
     def move_relative(self, offset, frame="world"):
         """
