@@ -11,8 +11,8 @@ from pyniryo import *
 simulation = "-rpi" not in sys.argv
 tool_used = ToolID.GRIPPER_1
 
-robot_ip_address_rpi = "192.168.1.92"
-robot_ip_address_gazebo = "192.168.1.92"  # "127.0.0.1"
+robot_ip_address_rpi = "10.10.10.10"
+robot_ip_address_gazebo = "127.0.0.1"
 robot_ip_address = robot_ip_address_gazebo if simulation else robot_ip_address_rpi
 
 
@@ -77,44 +77,57 @@ class TestJointsPoseFunctions(BaseTestTcpApi):
             self.niryo_robot.joints = joints
 
         # Classic Move Joints & Get Joints
-        self.assertIsNone(self.niryo_robot.move_joints(0.1, -0.1, 0.0, 0.0, 0.0, 0.0))
-        self.assertAlmostEqualVector(self.niryo_robot.joints, [0.1, -0.1, 0.0, 0.0, 0.0, 0.0])
+        self.assertIsNone(self.niryo_robot.move_joints(
+            0.1, -0.1, 0.0, 0.0, 0.0, 0.0))
+        self.assertAlmostEqualVector(self.niryo_robot.joints, [
+                                     0.1, -0.1, 0.0, 0.0, 0.0, 0.0])
         self.assertIsNone(setter_joints([0, 0, 0, 0, 0, 0]))
         self.assertAlmostEqualVector(self.niryo_robot.get_joints(), 6 * [0.0])
         # Jog
         self.assertIsNone(self.niryo_robot.jog_joints(0.1, -0.1, 0, 0, 0, 0))
         self.niryo_robot.wait(0.75)
         self.niryo_robot.set_jog_control(False)
-        self.assertAlmostEqualVector(self.niryo_robot.get_joints(), [0.1, -0.1, 0.0, 0.0, 0.0, 0.0])
+        self.assertAlmostEqualVector(self.niryo_robot.get_joints(), [
+                                     0.1, -0.1, 0.0, 0.0, 0.0, 0.0])
         # Check Exception
         with self.assertRaises(TcpCommandException):
-            self.niryo_robot.move_joints(0.54, 0.964, 0.34, "a", "m", ConveyorID.ID_1)
+            self.niryo_robot.move_joints(
+                0.54, 0.964, 0.34, "a", "m", ConveyorID.ID_1)
 
     def test_pose(self):
         def setter_pose(pose):
             self.niryo_robot.pose = pose
 
         # Classic Move Pose & Get Pose
-        self.assertIsNone(self.niryo_robot.move_pose(0.15, 0.0, 0.25, 0.0, 0.0, 0.0))
+        self.assertIsNone(self.niryo_robot.move_pose(
+            0.15, 0.0, 0.25, 0.0, 0.0, 0.0))
         self.assertIsNone(self.niryo_robot.move_pose([0.2, 0, 0.25, 0, 0, 0]))
         self.assertIsNone(setter_pose(PoseObject(0.2, 0, 0.3, 0, 0, 0)))
-        self.assertAlmostEqualVector(self.niryo_robot.get_pose().to_list(), [0.2, 0.0, 0.3, 0.0, 0.0, 0.0])
-        self.assertAlmostEqualVector(self.niryo_robot.pose.to_list(), [0.2, 0.0, 0.3, 0.0, 0.0, 0.0])
+        self.assertAlmostEqualVector(self.niryo_robot.get_pose().to_list(), [
+                                     0.2, 0.0, 0.3, 0.0, 0.0, 0.0])
+        self.assertAlmostEqualVector(self.niryo_robot.pose.to_list(), [
+                                     0.2, 0.0, 0.3, 0.0, 0.0, 0.0])
         # Linear Move Pose
-        self.assertIsNone(self.niryo_robot.move_linear_pose(0.15, 0.0, 0.25, 0.0, 0.0, 0.0))
-        self.assertIsNone(self.niryo_robot.move_linear_pose([0.2, 0, 0.3, 0, 0, 0]))
-        self.assertAlmostEqualVector(self.niryo_robot.get_pose().to_list(), [0.2, 0.0, 0.3, 0.0, 0.0, 0.0])
+        self.assertIsNone(self.niryo_robot.move_linear_pose(
+            0.15, 0.0, 0.25, 0.0, 0.0, 0.0))
+        self.assertIsNone(
+            self.niryo_robot.move_linear_pose([0.2, 0, 0.3, 0, 0, 0]))
+        self.assertAlmostEqualVector(self.niryo_robot.get_pose().to_list(), [
+                                     0.2, 0.0, 0.3, 0.0, 0.0, 0.0])
         # Shift axis & Jog
         self.assertIsNone(self.niryo_robot.shift_pose(RobotAxis.Y, 0.05))
-        self.assertIsNone(self.niryo_robot.jog_pose(-0.02, 0.0, 0.02, 0.1, 0, 0))
+        self.assertIsNone(
+            self.niryo_robot.jog_pose(-0.02, 0.0, 0.02, 0.1, 0, 0))
         self.niryo_robot.set_jog_control(False)
         # Shift axis linear
-        self.assertIsNone(self.niryo_robot.shift_linear_pose(RobotAxis.Y, 0.05))
+        self.assertIsNone(
+            self.niryo_robot.shift_linear_pose(RobotAxis.Y, 0.05))
         # Check Exceptions
         with self.assertRaises(TcpCommandException):
             self.niryo_robot.shift_pose(ToolID.ELECTROMAGNET_1, 0.05)
         with self.assertRaises(TcpCommandException):
-            self.niryo_robot.move_pose(0.54, 0.964, 0.34, "a", "m", ConveyorID.ID_1)
+            self.niryo_robot.move_pose(
+                0.54, 0.964, 0.34, "a", "m", ConveyorID.ID_1)
         with self.assertRaises(TcpCommandException):
             self.niryo_robot.move_linear_pose(0.54, 0.964, 0.7, "a", "m", 1)
         with self.assertRaises(TcpCommandException):
@@ -129,10 +142,13 @@ class TestJointsPoseFunctions(BaseTestTcpApi):
         joints_reached = self.niryo_robot.get_joints()
         self.assertAlmostEqualVector(joints_target, joints_reached)
         # Inverse Kinematics
-        joints_target_to_initial_pose = self.niryo_robot.inverse_kinematics(initial_pose)
-        self.assertIsNone(self.niryo_robot.move_joints(joints_target_to_initial_pose))
+        joints_target_to_initial_pose = self.niryo_robot.inverse_kinematics(
+            initial_pose)
+        self.assertIsNone(self.niryo_robot.move_joints(
+            joints_target_to_initial_pose))
         pose_reached = self.niryo_robot.get_pose()
-        self.assertAlmostEqualVector(initial_pose.to_list(), pose_reached.to_list())
+        self.assertAlmostEqualVector(
+            initial_pose.to_list(), pose_reached.to_list())
 
 
 class TestSavedPose(BaseTestTcpApi):
@@ -148,11 +164,14 @@ class TestSavedPose(BaseTestTcpApi):
         for i in range(3):
             new_name = 'test_{:03d}'.format(i)
             if i == 0:
-                self.assertIsNone(self.niryo_robot.save_pose(new_name, [0.2, 0.0, 0.3, 0.0, 0.0, 0.0]))
+                self.assertIsNone(self.niryo_robot.save_pose(
+                    new_name, [0.2, 0.0, 0.3, 0.0, 0.0, 0.0]))
             elif i == 1:
-                self.assertIsNone(self.niryo_robot.save_pose(new_name, 0.2, 0.0, 0.3, 0.0, 0.0, 0.0))
+                self.assertIsNone(self.niryo_robot.save_pose(
+                    new_name, 0.2, 0.0, 0.3, 0.0, 0.0, 0.0))
             else:
-                self.assertIsNone(self.niryo_robot.save_pose(new_name, PoseObject(0.2, 0.0, 0.3, 0.0, 0.0, 0.0)))
+                self.assertIsNone(self.niryo_robot.save_pose(
+                    new_name, PoseObject(0.2, 0.0, 0.3, 0.0, 0.0, 0.0)))
             if new_name not in new_list:
                 new_list.append(new_name)
                 list_names_saved.append(new_name)
@@ -161,7 +180,8 @@ class TestSavedPose(BaseTestTcpApi):
         # Delete created poses
         for name in list_names_saved:
             saved_pose = self.niryo_robot.get_pose_saved(name)
-            self.assertListEqual(saved_pose.to_list(), [0.2, 0.0, 0.3, 0.0, 0.0, 0.0])
+            self.assertListEqual(saved_pose.to_list(), [
+                                 0.2, 0.0, 0.3, 0.0, 0.0, 0.0])
             self.assertIsNone(self.niryo_robot.delete_pose(name))
             new_list.pop(new_list.index(name))
             self.assertEqual(self.niryo_robot.get_saved_pose_list(), new_list)
@@ -178,7 +198,8 @@ class TestSavedPose(BaseTestTcpApi):
 
         # Moving to the pose
         self.assertIsNone(self.niryo_robot.move_pose(pose_recup))
-        self.assertAlmostEqualVector(pose_target, self.niryo_robot.get_pose().to_list())
+        self.assertAlmostEqualVector(
+            pose_target, self.niryo_robot.get_pose().to_list())
 
         # Deleting the pose
         self.assertIsNone(self.niryo_robot.delete_pose(pose_name))
@@ -195,53 +216,255 @@ class TestPickPlaceFunction(BaseTestTcpApi):
 
     def test_pick_n_place_individually(self):
         # Picking
-        self.assertIsNone(self.niryo_robot.pick_from_pose(PoseObject(*self.pose_1)))
+        self.assertIsNone(self.niryo_robot.pick_from_pose(
+            PoseObject(*self.pose_1)))
         # Placing
         self.assertIsNone(self.niryo_robot.place_from_pose(*self.pose_2))
         # Testing random values
         with self.assertRaises(TcpCommandException):
-            self.niryo_robot.pick_from_pose(0.54, 0.964, 0.34, "a", "m", ConveyorID.ID_1)
+            self.niryo_robot.pick_from_pose(
+                0.54, 0.964, 0.34, "a", "m", ConveyorID.ID_1)
 
     def test_pick_n_place_in_one(self):
-        self.assertIsNone(self.niryo_robot.pick_and_place(PoseObject(*self.pose_2), self.pose_1))
+        self.assertIsNone(self.niryo_robot.pick_and_place(
+            PoseObject(*self.pose_2), self.pose_1))
 
 
 class TestTrajectoryMethods(BaseTestTcpApi):
+    joints_list = [[-0.493, -0.32, -0.505, -0.814, -0.282, 0],
+                   [0.834, -0.319, -0.466, 0.822, -0.275, 0],
+                   [1.037, -0.081, 0.248, 1.259, -0.276, 0]]
+
     robot_poses = [[0.25, 0.1, 0.25, 0., 0., 0., 1.],
                    [0.25, -0.1, 0.25, 0., 0., 0., 1.],
                    [0.25, -0.1, 0.3, 0., 0., 0., 1.],
                    [0.25, 0.1, 0.3, 0., 0., 0., 1.]]
 
+    def test_last_learned_trajectory(self):
+        for i in range(3):
+            new_name = 'test_{:03d}'.format(i)
+            new_description = 'test_description_{:03d}'.format(i)
+            self.assertIsNone(self.niryo_robot.save_trajectory(
+                self.joints_list, new_name, new_description))
+        self.assertIsNone(self.niryo_robot.clean_trajectory_memory())
+        result = self.niryo_robot.get_saved_trajectory_list()
+        self.assertEqual(result["name_list"], [])
+        self.assertEqual(result["description_list"], [])
+
+        self.assertIsNone(self.niryo_robot.save_trajectory(
+            self.joints_list, "last_executed_trajectory", ""))
+        self.assertIsNone(self.niryo_robot.save_last_learned_trajectory(
+            "unittest_name", "unittest_description"))
+        result = self.niryo_robot.get_saved_trajectory_list()
+        self.assertEqual(result["name_list"], ["unittest_name"])
+        self.assertEqual(result["description_list"], ["unittest_description"])
+
     def test_creation_delete_trajectory(self):
         # Get saved trajectory list & copy it
-        base_list = self.niryo_robot.get_saved_trajectory_list()
-        new_list = [v for v in base_list]
+
+        self.assertIsNone(self.niryo_robot.clean_trajectory_memory())
+        result = self.niryo_robot.get_saved_trajectory_list()
+        self.assertEqual(result["name_list"], [])
+        self.assertEqual(result["description_list"], [])
+
+        new_list = []
+        list_description = []
 
         # Create new trajectories
         list_names_saved = []
         for i in range(3):
             new_name = 'test_{:03d}'.format(i)
-            self.assertIsNone(self.niryo_robot.save_trajectory(new_name, self.robot_poses))
+            new_description = 'test_description_{:03d}'.format(i)
+            self.assertIsNone(self.niryo_robot.save_trajectory(
+                self.joints_list, new_name, new_description))
             if new_name not in new_list:
-                new_list.append(new_name)
                 list_names_saved.append(new_name)
-            self.assertEqual(self.niryo_robot.get_saved_trajectory_list(), new_list)
+                list_description.append(new_description)
+            result = self.niryo_robot.get_saved_trajectory_list()
+            self.assertEqual(result["name_list"], new_list)
+            self.assertEqual(result["description_list"], list_description)
+
+        # Update Trajectories
+        old_names = list(list_names_saved)
+        for i in range(3):
+            old_name = old_names[i]
+            new_name = 'test_update_{:03d}'.format(i)
+            new_description = 'test_update_description_{:03d}'.format(i)
+            self.assertIsNone(self.niryo_robot.update_trajectory_infos(
+                old_name, new_name, new_description))
+            if new_name not in new_list:
+                list_names_saved.append(new_name)
+                list_names_saved.remove(old_name)
+                list_description.append(new_description)
+                list_description.pop(0)
+            result = self.niryo_robot.get_saved_trajectory_list()
+            self.assertEqual(result["name_list"], new_list)
+            self.assertEqual(result["description_list"], list_description)
 
         # Delete created trajectories
-        for name in list_names_saved:
+        list_names = list(list_names_saved)
+        for name in list_names:
             self.assertIsNone(self.niryo_robot.delete_trajectory(name))
-            new_list.pop(new_list.index(name))
-            self.assertEqual(self.niryo_robot.get_saved_trajectory_list(), new_list)
+            list_names_saved.pop(list_names_saved.index(name))
+            list_description.pop(list_description.index(name))
+            result = self.niryo_robot.get_saved_trajectory_list()
+            self.assertEqual(result["name_list"], list_names_saved)
+            self.assertEqual(result["description_list"], list_description)
 
     def test_execute_trajectory(self):
         # Testing trajectory from poses
-        self.assertIsNone(self.niryo_robot.execute_trajectory_from_poses(self.robot_poses))
+        self.assertIsNone(
+            self.niryo_robot.execute_trajectory_from_poses(self.robot_poses))
 
         # Create & save a trajectory, then execute it & eventually delete it
         traj_name = "test_trajectory_save_and_execute"
-        self.assertIsNone(self.niryo_robot.save_trajectory(traj_name, self.robot_poses))
-        self.assertIsNone(self.niryo_robot.execute_trajectory_saved(traj_name))
+        traj_description = "test_description_trajectory_save_and_execute"
+        self.assertIsNone(self.niryo_robot.save_trajectory(
+            self.joints_list, traj_name, traj_description))
+        self.assertIsNone(
+            self.niryo_robot.execute_registered_trajectory(traj_name))
         self.assertIsNone(self.niryo_robot.delete_trajectory(traj_name))
+
+
+class TestDynamicFrame(BaseTestTcpApi):
+    robot_poses = [[[0.2, 0.2, 0.1, 0, 0, 0],
+                    [0.4, 0.3, 0.1, 0, 0, 0],
+                    [0.3, 0.4, 0.1, 0, 0, 0]],
+                   [[-0.2, -0.2, 0.1, 0, 0, 0],
+                    [-0.4, -0.3, 0.1, 0, 0, 0],
+                    [-0.3, -0.4, 0.1, 0, 0, 0], ]]
+
+    robot_point = [[[-0.2, 0.2, 0.1],
+                    [0.4, 0.3, 0],
+                    [0.3, 0.4, 0]],
+                   [[0.2, -0.2, 0.1],
+                    [-0.4, -0.3, 0],
+                    [-0.3, -0.4, 0]]]
+
+    def test_main_frame(self):
+        self.__test_creation_edition_frame()
+        self.__test_move_in_frame()
+        self.__test_deletion()
+
+    def __test_creation_edition_frame(self):
+        base_list_name, base_list_desc = self.niryo_robot.get_saved_dynamic_frame_list()
+        new_list_name = [frame for frame in base_list_name]
+
+        # Create frame by pose
+        list_saved = []
+        for i in range(4):
+            if i < 2:
+                # Test creation by poses
+                new_name = 'unitTestFramePose_{:03d}'.format(i)
+                new_desc = 'descTestFramePose_{:03d}'.format(i)
+                pose_o = self.robot_poses[i][0]
+                pose_x = self.robot_poses[i][1]
+                pose_y = self.robot_poses[i][2]
+                self.assertIsNone(
+                    self.niryo_robot.save_dynamic_frame_from_poses(new_name, new_desc, pose_o, pose_x, pose_y))
+
+                # Test edition
+                new_edit_name = 'unitEditTestFramePose_{:03d}'.format(i)
+                new_edit_desc = 'descEditTestFramePose_{:03d}'.format(i)
+                self.assertIsNone(self.niryo_robot.edit_dynamic_frame(new_name, new_edit_name, new_edit_desc))
+                self.assertEqual(self.niryo_robot.get_saved_dynamic_frame(new_edit_name)[0], new_edit_name)
+
+                with self.assertRaises(TcpCommandException):
+                    self.niryo_robot.get_saved_dynamic_frame(0)
+
+                if new_edit_name not in new_list_name:
+                    new_list_name.append(new_edit_name)
+                    list_saved.append(new_edit_name)
+
+                new_list_name.sort()
+
+                self.assertEqual(self.niryo_robot.get_saved_dynamic_frame_list()[0], new_list_name)
+
+                with self.assertRaises(TcpCommandException):
+                    self.niryo_robot.save_dynamic_frame_from_poses(0, "unittest", pose_o, pose_x, pose_y)
+
+                with self.assertRaises(TcpCommandException):
+                    self.niryo_robot.save_dynamic_frame_from_points(0, "unittest", pose_o, pose_x, pose_y)
+
+                with self.assertRaises(TcpCommandException):
+                    self.niryo_robot.edit_dynamic_frame("unitTestFramePose_000", 0, 0)
+
+            else:
+                # Test creation by points
+                new_name = 'unitTestFramePose_{:03d}'.format(i)
+                new_desc = 'descTestFramePose_{:03d}'.format(i)
+                point_o = self.robot_point[2 - i][0]
+                point_x = self.robot_point[2 - i][1]
+                point_y = self.robot_point[2 - i][2]
+                self.assertIsNone(
+                    self.niryo_robot.save_dynamic_frame_from_points(new_name, new_desc, point_o, point_x, point_y))
+
+                # Test edition
+                new_edit_name = 'unitEditTestFramePose_{:03d}'.format(i)
+                new_edit_desc = 'descEditTestFramePose_{:03d}'.format(i)
+                self.assertIsNone(self.niryo_robot.edit_dynamic_frame(new_name, new_edit_name, new_edit_desc))
+                self.assertEqual(self.niryo_robot.get_saved_dynamic_frame(new_edit_name)[0], new_edit_name)
+
+                if new_edit_name not in new_list_name:
+                    new_list_name.append(new_edit_name)
+                    list_saved.append(new_edit_name)
+
+                new_list_name.sort()
+
+                self.assertEqual(self.niryo_robot.get_saved_dynamic_frame_list()[0], new_list_name)
+
+    def __test_move_in_frame(self):
+        # Move frame 000
+        pose0 = (0, 0, 0, 0, 1.57, 0)
+        self.assertIsNone(self.niryo_robot.move_pose(pose0, "unitEditTestFramePose_000"))
+        self.assertIsNone(
+            self.niryo_robot.move_linear_pose((0.05, 0.05, 0.05, 0, 1.57, 0), "unitEditTestFramePose_000"))
+
+        # Move frame 001
+        pose1 = PoseObject(0, 0, 0, 0, 1.57, 0)
+        self.assertIsNone(self.niryo_robot.move_pose(pose1, "unitEditTestFramePose_001"))
+        self.assertIsNone(
+            self.niryo_robot.move_linear_pose((0.05, 0.05, 0.05, 0, 1.57, 0), "unitEditTestFramePose_001"))
+
+        # Move frame 002
+        pose2 = (0, 0, 0, 0, 1.57, 0)
+        self.assertIsNone(self.niryo_robot.move_pose(pose2, "unitEditTestFramePose_002"))
+        self.assertIsNone(
+            self.niryo_robot.move_relative([0.05, 0.05, 0.05, 0.1, 0.1, 0.1], "unitEditTestFramePose_002"))
+        self.assertIsNone(
+            self.niryo_robot.move_linear_relative([-0.05, -0.05, -0.05, 0, 0, 0], "unitEditTestFramePose_002"))
+
+        # Move frame 003
+        pose3 = PoseObject(0, 0, 0, 0, 1.57, 0)
+        self.assertIsNone(self.niryo_robot.move_pose(pose3, "unitEditTestFramePose_003"))
+        self.assertIsNone(
+            self.niryo_robot.move_relative([0.05, 0.05, 0.05, 0.1, 0.1, 0.1], "unitEditTestFramePose_003"))
+        self.assertIsNone(
+            self.niryo_robot.move_linear_relative([-0.05, -0.05, -0.05, 0, 0, 0], "unitEditTestFramePose_003"))
+
+        # Test default world frame
+        self.assertIsNone(
+            self.niryo_robot.move_relative([0.1, 0.1, 0.1, 0, 0, 0]))
+        self.assertIsNone(
+            self.niryo_robot.move_linear_relative([0, 0, -0.1, 0, 0, 0]))
+
+        with self.assertRaises(TcpCommandException):
+            self.niryo_robot.move_relative([0.05, 0.05, 0.05, 0.1, 0.1, 0.1], 0)
+
+        with self.assertRaises(TcpCommandException):
+            self.niryo_robot.move_linear_relative([0.05, 0.05, 0.05, 0.1, 0.1, 0.1], 0)
+
+    def __test_deletion(self):
+        base_list = self.niryo_robot.get_saved_dynamic_frame_list()[0]
+        new_list = [frame for frame in base_list]
+
+        for i in range(4):
+            name_delete = 'unitEditTestFramePose_{:03d}'.format(i)
+            self.assertIsNone(self.niryo_robot.delete_dynamic_frame(name_delete))
+
+            new_list.remove(name_delete)
+
+            self.assertEqual(self.niryo_robot.get_saved_dynamic_frame_list()[0], new_list)
 
 
 # noinspection PyTypeChecker
@@ -266,8 +489,10 @@ class TestTools(BaseTestTcpApi):
         self.assertIsNone(self.niryo_robot.update_tool())
         self.assertEqual(tool_used, self.niryo_robot.tool)
         self.assertEqual(tool_used, self.niryo_robot.get_current_tool_id())
-        self.assertNotEqual(self.niryo_robot.get_current_tool_id(), tool_used.value)
-        self.assertNotEqual(self.niryo_robot.get_current_tool_id(), ToolID.NONE)
+        self.assertNotEqual(
+            self.niryo_robot.get_current_tool_id(), tool_used.value)
+        self.assertNotEqual(
+            self.niryo_robot.get_current_tool_id(), ToolID.NONE)
 
     def test_use_tool(self):
         # Equip tool
@@ -287,8 +512,10 @@ class TestTools(BaseTestTcpApi):
             self.assertIsNone(self.niryo_robot.open_gripper())
             self.assertIsNone(self.niryo_robot.open_gripper(speed=500))
             self.assertIsNone(self.niryo_robot.close_gripper(speed=500))
-            self.assertIsNone(self.niryo_robot.open_gripper(max_torque_percentage=100, hold_torque_percentage=50))
-            self.assertIsNone(self.niryo_robot.close_gripper(max_torque_percentage=100, hold_torque_percentage=50))
+            self.assertIsNone(self.niryo_robot.open_gripper(
+                max_torque_percentage=100, hold_torque_percentage=50))
+            self.assertIsNone(self.niryo_robot.close_gripper(
+                max_torque_percentage=100, hold_torque_percentage=50))
 
     def test_electromagnet(self):
         # Equip tool
@@ -300,7 +527,8 @@ class TestTools(BaseTestTcpApi):
         self.assertIsNone(self.niryo_robot.release_with_tool())
 
         # Grasp/Release with ID
-        self.assertIsNone(self.niryo_robot.activate_electromagnet(PinID.GPIO_1B))
+        self.assertIsNone(
+            self.niryo_robot.activate_electromagnet(PinID.GPIO_1B))
         self.assertIsNone(self.niryo_robot.deactivate_electromagnet("1B"))
 
 
@@ -322,61 +550,92 @@ class TestIOs(BaseTestTcpApi):
 
     def test_digital_ios(self):
         self.assertIsInstance(self.niryo_robot.get_digital_io_state(), list)
-        self.assertIsInstance(self.niryo_robot.get_digital_io_state()[0], DigitalPinObject)
-        self.assertIsInstance(self.niryo_robot.get_digital_io_state()[0].pin_id, PinID)
-        self.assertIsInstance(self.niryo_robot.get_digital_io_state()[0].name, str)
-        self.assertIsInstance(self.niryo_robot.get_digital_io_state()[0].mode, PinMode)
-        self.assertIsInstance(self.niryo_robot.get_digital_io_state()[0].state, PinState)
+        self.assertIsInstance(self.niryo_robot.get_digital_io_state()[
+                              0], DigitalPinObject)
+        self.assertIsInstance(
+            self.niryo_robot.get_digital_io_state()[0].pin_id, PinID)
+        self.assertIsInstance(
+            self.niryo_robot.get_digital_io_state()[0].name, str)
+        self.assertIsInstance(
+            self.niryo_robot.get_digital_io_state()[0].mode, PinMode)
+        self.assertIsInstance(
+            self.niryo_robot.get_digital_io_state()[0].state, PinState)
 
         for index, pin_object in enumerate(self.niryo_robot.get_digital_io_state()):
             if pin_object.name.startswith('DI'):
                 continue
 
             if not (pin_object.name.startswith('SW') or pin_object.name.startswith('DO')):
-                self.assertIsNone(self.niryo_robot.set_pin_mode(pin_object.name, PinMode.OUTPUT))
+                self.assertIsNone(self.niryo_robot.set_pin_mode(
+                    pin_object.name, PinMode.OUTPUT))
                 self.niryo_robot.wait(1)
 
-            self.assertEqual(self.niryo_robot.get_digital_io_state()[index].mode, PinMode.OUTPUT)
+            self.assertEqual(self.niryo_robot.get_digital_io_state()[
+                             index].mode, PinMode.OUTPUT)
 
-            self.assertIsNone(self.niryo_robot.digital_write(pin_object.pin_id, PinState.HIGH))
-            self.assertEqual(self.niryo_robot.digital_read(pin_object.pin_id), PinState.HIGH)
-            self.assertEqual(self.niryo_robot.get_digital_io_state()[index].state, PinState.HIGH)
-            self.assertIsNone(self.niryo_robot.digital_write(pin_object.name, PinState.LOW))
-            self.assertEqual(self.niryo_robot.digital_read(pin_object.name), PinState.LOW)
-            self.assertEqual(self.niryo_robot.get_digital_io_state()[index].state, PinState.LOW)
+            self.assertIsNone(self.niryo_robot.digital_write(
+                pin_object.pin_id, PinState.HIGH))
+            self.assertEqual(self.niryo_robot.digital_read(
+                pin_object.pin_id), PinState.HIGH)
+            self.assertEqual(self.niryo_robot.get_digital_io_state()[
+                             index].state, PinState.HIGH)
+            self.assertIsNone(self.niryo_robot.digital_write(
+                pin_object.name, PinState.LOW))
+            self.assertEqual(self.niryo_robot.digital_read(
+                pin_object.name), PinState.LOW)
+            self.assertEqual(self.niryo_robot.get_digital_io_state()[
+                             index].state, PinState.LOW)
 
             if not (pin_object.name.startswith('SW') or pin_object.name.startswith('DO')):
-                self.assertIsNone(self.niryo_robot.set_pin_mode(pin_object.name, PinMode.INPUT))
-                self.assertEqual(self.niryo_robot.get_digital_io_state()[index].mode, PinMode.INPUT)
+                self.assertIsNone(self.niryo_robot.set_pin_mode(
+                    pin_object.name, PinMode.INPUT))
+                self.assertEqual(self.niryo_robot.get_digital_io_state()[
+                                 index].mode, PinMode.INPUT)
 
                 # with self.assertRaises(NiryoRobotException):
                 #    self.niryo_robot.digital_write(pin, PinState.LOW)
 
     def test_analog_ios(self):
         self.assertIsInstance(self.niryo_robot.get_analog_io_state(), list)
-        self.assertIsInstance(self.niryo_robot.get_analog_io_state()[0], AnalogPinObject)
-        self.assertIsInstance(self.niryo_robot.get_analog_io_state()[0].pin_id, PinID)
-        self.assertIsInstance(self.niryo_robot.get_analog_io_state()[0].name, str)
-        self.assertIsInstance(self.niryo_robot.get_analog_io_state()[0].mode, PinMode)
-        self.assertIsInstance(self.niryo_robot.get_analog_io_state()[0].value, (float, int))
+        self.assertIsInstance(self.niryo_robot.get_analog_io_state()[
+                              0], AnalogPinObject)
+        self.assertIsInstance(
+            self.niryo_robot.get_analog_io_state()[0].pin_id, PinID)
+        self.assertIsInstance(
+            self.niryo_robot.get_analog_io_state()[0].name, str)
+        self.assertIsInstance(
+            self.niryo_robot.get_analog_io_state()[0].mode, PinMode)
+        self.assertIsInstance(self.niryo_robot.get_analog_io_state()[
+                              0].value, (float, int))
 
         for index, pin_object in enumerate(self.niryo_robot.get_analog_io_state()):
             if pin_object.name.startswith('AI'):
-                self.assertEqual(self.niryo_robot.get_analog_io_state()[index].mode, PinMode.INPUT)
+                self.assertEqual(self.niryo_robot.get_analog_io_state()[
+                                 index].mode, PinMode.INPUT)
             else:
-                self.assertEqual(self.niryo_robot.get_analog_io_state()[index].mode, PinMode.OUTPUT)
+                self.assertEqual(self.niryo_robot.get_analog_io_state()[
+                                 index].mode, PinMode.OUTPUT)
 
-                self.assertIsNone(self.niryo_robot.analog_write(pin_object.pin_id, 5.0))
-                self.assertEqual(self.niryo_robot.analog_read(pin_object.pin_id), 5.0)
-                self.assertEqual(self.niryo_robot.get_analog_io_state()[index].value, 5.0)
+                self.assertIsNone(
+                    self.niryo_robot.analog_write(pin_object.pin_id, 5.0))
+                self.assertEqual(self.niryo_robot.analog_read(
+                    pin_object.pin_id), 5.0)
+                self.assertEqual(self.niryo_robot.get_analog_io_state()[
+                                 index].value, 5.0)
 
-                self.assertIsNone(self.niryo_robot.analog_write(pin_object.pin_id, 2.5))
-                self.assertEqual(self.niryo_robot.analog_read(pin_object.pin_id), 2.5)
-                self.assertEqual(self.niryo_robot.get_analog_io_state()[index].value, 2.5)
+                self.assertIsNone(
+                    self.niryo_robot.analog_write(pin_object.pin_id, 2.5))
+                self.assertEqual(self.niryo_robot.analog_read(
+                    pin_object.pin_id), 2.5)
+                self.assertEqual(self.niryo_robot.get_analog_io_state()[
+                                 index].value, 2.5)
 
-                self.assertIsNone(self.niryo_robot.analog_write(pin_object.pin_id, 0))
-                self.assertEqual(self.niryo_robot.analog_read(pin_object.pin_id), 0)
-                self.assertEqual(self.niryo_robot.get_analog_io_state()[index].value, 0)
+                self.assertIsNone(
+                    self.niryo_robot.analog_write(pin_object.pin_id, 0))
+                self.assertEqual(
+                    self.niryo_robot.analog_read(pin_object.pin_id), 0)
+                self.assertEqual(
+                    self.niryo_robot.get_analog_io_state()[index].value, 0)
 
     def test_button(self):
         self.assertIsInstance(self.niryo_robot.get_custom_button_state(), str)
@@ -393,13 +652,15 @@ class TestVision(BaseTestTcpApi):
 
     def setUp(self):
         super(TestVision, self).setUp()
-        self.assertIsNone(self.niryo_robot.move_joints(0.0, 0.0, 0.0, 0.0, -1.57, 0.0))
+        self.assertIsNone(self.niryo_robot.move_joints(
+            0.0, 0.0, 0.0, 0.0, -1.57, 0.0))
         self.assertIsNone(self.niryo_robot.update_tool())
         self.assertIsNone(self.niryo_robot.save_workspace_from_points(
             self.workspace_name, self.point_1, self.point_2, self.point_3, self.point_4))
 
     def tearDown(self):
-        self.assertIsNone(self.niryo_robot.delete_workspace(self.workspace_name))
+        self.assertIsNone(
+            self.niryo_robot.delete_workspace(self.workspace_name))
         super(TestVision, self).tearDown()
 
     def test_vision_detect(self):
@@ -414,14 +675,16 @@ class TestVision(BaseTestTcpApi):
         self.assertIsNotNone(self.niryo_robot.get_target_pose_from_cam(
             self.workspace_name, 0.1, ObjectShape.ANY, ObjectColor.ANY))
 
-        self.assertIsNotNone(self.niryo_robot.detect_object(self.workspace_name, ObjectShape.ANY, ObjectColor.RED))
+        self.assertIsNotNone(self.niryo_robot.detect_object(
+            self.workspace_name, ObjectShape.ANY, ObjectColor.RED))
 
     def test_vision_move(self):
         # Test to move to the object
         self.assertIsNotNone(self.niryo_robot.move_to_object(self.workspace_name, 0.1,
                                                              ObjectShape.ANY, ObjectColor.GREEN))
         # Going back to observation pose
-        self.assertIsNone(self.niryo_robot.move_joints(0.0, 0.0, 0.0, 0.0, -1.57, 0.0))
+        self.assertIsNone(self.niryo_robot.move_joints(
+            0.0, 0.0, 0.0, 0.0, -1.57, 0.0))
         # Vision Pick
         self.assertIsNotNone(self.niryo_robot.vision_pick(self.workspace_name, 0.1,
                                                           ObjectShape.ANY, ObjectColor.BLUE))
@@ -451,10 +714,12 @@ class TestWorkspaceMethods(BaseTestTcpApi):
                 self.assertIsNone(self.niryo_robot.save_workspace_from_robot_poses(new_name,
                                                                                    *self.robot_poses))
             else:
-                self.assertIsNone(self.niryo_robot.save_workspace_from_points(new_name, *self.points))
+                self.assertIsNone(
+                    self.niryo_robot.save_workspace_from_points(new_name, *self.points))
 
             # Checking ratio
-            self.assertAlmostEquals(self.niryo_robot.get_workspace_ratio(new_name), 1.0, places=2)
+            self.assertAlmostEquals(
+                self.niryo_robot.get_workspace_ratio(new_name), 1.0, places=2)
 
             if new_name not in new_list:
                 new_list.append(new_name)
@@ -521,27 +786,37 @@ class TestLedRing(BaseTestTcpApi):
         def check_delay(function, **kwargs):
             start_time = time.time()
             self.assertIsNotNone(function(**kwargs))
-            self.assertGreaterEqual(time.time(), start_time + kwargs['period'] * kwargs['iterations'])
+            self.assertGreaterEqual(
+                time.time(), start_time + kwargs['period'] * kwargs['iterations'])
 
         self.assertIsNotNone(self.niryo_robot.set_led_color(1, [0, 255, 255]))
         self.assertIsNotNone(self.niryo_robot.led_ring_solid([255, 0, 255]))
         self.assertIsNotNone(
             self.niryo_robot.led_ring_custom(led_colors=[[i / 30. * 255, 0, 255 - i / 30.] for i in range(30)]))
 
-        check_delay(self.niryo_robot.led_ring_flashing, color=[255, 255, 0], period=0.5, iterations=5, wait=True)
+        check_delay(self.niryo_robot.led_ring_flashing, color=[
+                    255, 255, 0], period=0.5, iterations=5, wait=True)
 
         check_delay(self.niryo_robot.led_ring_alternate, color_list=[[0, 255, 255], [255, 0, 255]],
                     period=0.5, iterations=4, wait=True)
 
-        check_delay(self.niryo_robot.led_ring_chase, color=[255, 255, 0], period=1, iterations=2, wait=True)
-        check_delay(self.niryo_robot.led_ring_go_up, color=[0, 255, 255], period=0.5, iterations=4, wait=True)
-        check_delay(self.niryo_robot.led_ring_go_up_down, color=[255, 0, 255], period=0.5, iterations=4, wait=True)
-        check_delay(self.niryo_robot.led_ring_breath, color=[255, 255, 0], period=2, iterations=2, wait=True)
-        check_delay(self.niryo_robot.led_ring_snake, color=[0, 255, 255], period=0.5, iterations=4, wait=True)
+        check_delay(self.niryo_robot.led_ring_chase, color=[
+                    255, 255, 0], period=1, iterations=2, wait=True)
+        check_delay(self.niryo_robot.led_ring_go_up, color=[
+                    0, 255, 255], period=0.5, iterations=4, wait=True)
+        check_delay(self.niryo_robot.led_ring_go_up_down, color=[
+                    255, 0, 255], period=0.5, iterations=4, wait=True)
+        check_delay(self.niryo_robot.led_ring_breath, color=[
+                    255, 255, 0], period=2, iterations=2, wait=True)
+        check_delay(self.niryo_robot.led_ring_snake, color=[
+                    0, 255, 255], period=0.5, iterations=4, wait=True)
 
-        check_delay(self.niryo_robot.led_ring_rainbow, period=3, iterations=2, wait=True)
-        check_delay(self.niryo_robot.led_ring_rainbow_cycle, period=3, iterations=2, wait=True)
-        check_delay(self.niryo_robot.led_ring_rainbow_chase, period=5, iterations=1, wait=True)
+        check_delay(self.niryo_robot.led_ring_rainbow,
+                    period=3, iterations=2, wait=True)
+        check_delay(self.niryo_robot.led_ring_rainbow_cycle,
+                    period=3, iterations=2, wait=True)
+        check_delay(self.niryo_robot.led_ring_rainbow_chase,
+                    period=5, iterations=1, wait=True)
 
         self.assertIsNotNone(self.niryo_robot.led_ring_turn_off())
 
