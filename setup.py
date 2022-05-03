@@ -4,7 +4,7 @@ from io import open
 import sys
 from setuptools import find_packages, setup
 
-version = '1.1.1'
+version = '1.1.2'
 
 with open('README.rst', 'r', encoding='utf-8') as f:
     readme = f.read()

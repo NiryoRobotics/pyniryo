@@ -1,4 +1,4 @@
-Examples: Conveyor Belt
+Examples : Conveyor Belt
 ========================
 
 This document shows how to use Ned's Conveyor Belt.

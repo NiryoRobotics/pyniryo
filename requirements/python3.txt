@@ -1,2 +1,2 @@
 -r base.txt
-opencv-python==4.3.0.38
+opencv-python>=4.3.0.38
