@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyNiryo 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-08 10:44+0000\n"
+"POT-Creation-Date: 2022-05-03 09:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-#: ../../index.rst:66 ../../index.rst:73
+#: ../../index.rst:69 ../../index.rst:76
 msgid "Setup"
 msgstr ""
 
-#: ../../index.rst:82 ../../index.rst:86
+#: ../../index.rst:85 ../../index.rst:89
 msgid "Examples"
 msgstr ""
 
-#: ../../index.rst:98 ../../index.rst:106
+#: ../../index.rst:102 ../../index.rst:110
 msgid "API Documentation"
 msgstr ""
 
-#: ../../index.rst:119
+#: ../../index.rst:123
 msgid "Image Processing"
 msgstr ""
 
@@ -106,92 +106,100 @@ msgstr ""
 msgid "4.0.0"
 msgstr ""
 
-#: ../../index.rst:44 ../../index.rst:47
+#: ../../index.rst:44 ../../index.rst:47 ../../index.rst:50
 msgid "``Niryo One``, ``Ned``, ``Ned2``"
 msgstr ""
 
 #: ../../index.rst:45
-msgid "1.1.2"
+msgid "1.1.1"
 msgstr ""
 
 #: ../../index.rst:46
 msgid "4.0.1"
 msgstr ""
 
-#: ../../index.rst:50
+#: ../../index.rst:48
+msgid "1.1.2"
+msgstr ""
+
+#: ../../index.rst:49
+msgid ">=4.1.1"
+msgstr ""
+
+#: ../../index.rst:53
 msgid "Before getting started"
 msgstr ""
 
-#: ../../index.rst:54
+#: ../../index.rst:57
 msgid ""
 "If you haven’t already done so, make sure to learn about the ROS robot "
 "software by reading `ROS documentation "
 "<https://docs.niryo.com/dev/ros/index.html>`_."
 msgstr ""
 
-#: ../../index.rst:57
+#: ../../index.rst:60
 msgid ""
 "This documentation also contains everything you need to know if you want "
 "to use Ned through simulation."
 msgstr ""
 
-#: ../../index.rst:61
+#: ../../index.rst:64
 msgid "Sections organization"
 msgstr ""
 
-#: ../../index.rst:63
+#: ../../index.rst:66
 msgid "This document is organized in 4 main sections."
 msgstr ""
 
-#: ../../index.rst:68
+#: ../../index.rst:71
 msgid "Install & Setup your environment in order to use Ned with PyNiryo."
 msgstr ""
 
-#: ../../index.rst:70
+#: ../../index.rst:73
 msgid ""
 "Firstly, follow :doc:`Installation instructions "
 "<source/setup/installation>`, then :doc:`find your Robot IP address "
 "<source/setup/ip_address>` to be ready."
 msgstr ""
 
-#: ../../index.rst:84
+#: ../../index.rst:87
 msgid "Learn how to use the PyNiryo package to implement various tasks."
 msgstr ""
 
-#: ../../index.rst:100
+#: ../../index.rst:104
 msgid ""
 "Master controls with PyNiryo with full the detailed functions :doc:`here "
 "<source/api_doc/api>`."
 msgstr ""
 
-#: ../../index.rst:103
+#: ../../index.rst:107
 msgid ""
 "Discover also :doc:`Vision Functions "
 "<source/vision/image_processing_overview>` to create your own image "
 "processing pipelines!"
 msgstr ""
 
-#: ../../index.rst:113
+#: ../../index.rst:117
 msgid "Start with Image Processing"
 msgstr ""
 
-#: ../../index.rst:116
+#: ../../index.rst:120
 msgid "Discover how to create your own image processing pipelines!"
 msgstr ""
 
-#: ../../index.rst:128
+#: ../../index.rst:132
 msgid "Indices and tables"
 msgstr ""
 
-#: ../../index.rst:130
+#: ../../index.rst:134
 msgid ":ref:`genindex`"
 msgstr ""
 
-#: ../../index.rst:131
+#: ../../index.rst:135
 msgid ":ref:`modindex`"
 msgstr ""
 
-#: ../../index.rst:132
+#: ../../index.rst:136
 msgid ":ref:`search`"
 msgstr ""
 
