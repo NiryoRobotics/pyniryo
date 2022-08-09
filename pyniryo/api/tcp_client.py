@@ -930,6 +930,26 @@ class NiryoRobot(object):
 
         self.__send_n_receive(Command.CLOSE_GRIPPER, speed, max_torque_percentage, hold_torque_percentage)
 
+    def percentage_open_gripper(self, speed=500, max_torque_percentage=100, hold_torque_percentage=20, percentage_opening=None):
+        """
+        percentage open gripper
+
+        :param speed: Between 100 & 1000 (only for Niryo One and Ned1)
+        :type speed: int
+        :param max_torque_percentage: Opening torque percentage (only for Ned2)
+        :type max_torque_percentage: int
+        :param hold_torque_percentage: Hold torque percentage after opening (only for Ned2)
+        :type hold_torque_percentage: int
+        :param percentage_opening: Set an opening percentage Default -> None
+        :type percentage_opening: int
+        :rtype: None        
+        """
+        speed = self.__transform_to_type(speed, int)
+        max_torque_percentage = self.__transform_to_type(max_torque_percentage, int)
+        hold_torque_percentage = self.__transform_to_type(hold_torque_percentage, int)
+        percentage_opening = self.__transform_to_type(percentage_opening, int)
+        self.__send_n_receive(Command.PERCENTAGE_OPEN_GRIPPER, speed, max_torque_percentage, hold_torque_percentage, percentage_opening)
+
     # - Vacuum
     def pull_air_vacuum_pump(self):
         """
