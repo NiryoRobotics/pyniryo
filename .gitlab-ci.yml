@@ -1,4 +1,4 @@
-image: registry.gitlab.com/niryo/dockers/build_docs/pyniryo/v1.0.6:amd64
+image: gitlab01.niryotech.com:5050/documentations/build_docs/pyniryo:v1.2.0_amd64
 
 variables:
 
@@ -9,7 +9,7 @@ variables:
 
   DOCUMENTATION_OUTPUT_FOLDER: "output_build"
 
-  BASE_GITLAB_CI_RESSOURCE_URL: "https://gitlab.com/niryo/admin/gitlab-ci-ressources/-/raw/master/"
+  BASE_GITLAB_CI_RESSOURCE_URL: "https://gitlab01.niryotech.com/pipelines/gitlab-ci-jobs/-/raw/master/"
 
   ##############################################################################
 
@@ -29,23 +29,23 @@ stages:
 
 include:
   # Build documentation
-  - project: 'niryo/admin/gitlab-ci-ressources'
+  - project: 'pipelines/gitlab-ci-jobs'
     ref: master
     file: 'documentation/build_documentation/build_documentation_config.yml'
   # Check for missing translations or fuzzy
-  - project: 'niryo/admin/gitlab-ci-ressources'
+  - project: 'pipelines/gitlab-ci-jobs'
     ref: master
     file: 'documentation/missing_translations/missing_translations_config.yml'
   # Upload documentation to niryo.com ftp
-  - project: 'niryo/admin/gitlab-ci-ressources'
+  - project: 'pipelines/gitlab-ci-jobs'
     ref: master
     file: 'documentation/upload_to_ftp/upload_to_ftp_config.yml'
   # Check for broken links in website
-  - project: 'niryo/admin/gitlab-ci-ressources'
+  - project: 'pipelines/gitlab-ci-jobs'
     ref: master
     file: 'documentation/link_checker/link_checker_config.yml'
   # Create Gitlab release (tag + release)
-  - project: 'niryo/admin/gitlab-ci-ressources'
+  - project: 'pipelines/gitlab-ci-jobs'
     ref: master
     file: 'various/release_gitlab/release_gitlab_config.yml'
   ## See https://docs.gitlab.com/ee/user/project/merge_requests/code_quality.html
