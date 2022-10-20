@@ -1,4 +1,4 @@
-image: gitlab01.niryotech.com:5050/documentations/build_docs/pyniryo:v1.2.0_amd64
+image: gitlab01.niryotech.com:5050/documentations/build_docs/pyniryo:latest_amd64
 
 variables:
 
