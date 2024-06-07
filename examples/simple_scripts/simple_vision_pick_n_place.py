@@ -4,7 +4,7 @@ You will need one workspace recorded in the Niryo studio
 """
 
 # Imports
-from pyniryo import *
+from pyniryo import NiryoRobot, ToolID, PoseObject, ObjectShape, ObjectColor, CalibrateMode
 
 # -- MUST Change these variables
 simulation_mode = True
@@ -17,32 +17,26 @@ robot_ip_address = robot_ip_address_simulation if simulation_mode else robot_ip_
 
 # -- Should Change these variables
 # The pose from where the image processing happens
-observation_pose = PoseObject(
-    x=0.18, y=0.0, z=0.35,
-    roll=0.0, pitch=1.57, yaw=-0.2,
-)
+observation_pose = PoseObject(0.18, 0.0, 0.35, 3.14, -0.01, -0.19)
 
 # Center of the conditioning area
-place_pose = PoseObject(
-    x=0.0, y=-0.23, z=0.12,
-    roll=0.0, pitch=1.57, yaw=-1.57
-)
-
+place_pose = PoseObject(0.0, -0.23, 0.12, 3.14, 0.01, -1.57)
 
 # -- MAIN PROGRAM
 
-def vision_pick_n_place_1(niyro_robot):
+
+def vision_pick_n_place_1(niyro_robot: NiryoRobot):
     # Loop
     try_without_success = 0
     while try_without_success < 5:
         # Moving to observation pose
-        niyro_robot.move_pose(*observation_pose.to_list())
+        niyro_robot.move(observation_pose)
         # Trying to get target pose using camera
         ret = niyro_robot.get_target_pose_from_cam(workspace_name,
                                                    height_offset=0.0,
                                                    shape=ObjectShape.ANY,
                                                    color=ObjectColor.ANY)
-        obj_found, obj_pose, shape, color = ret
+        obj_found, obj_pose, _, _ = ret
         if not obj_found:
             try_without_success += 1
             continue
@@ -52,33 +46,30 @@ def vision_pick_n_place_1(niyro_robot):
         # ---
         # ---
 
-        # Everything is good, so we going to pick the object
-        niyro_robot.pick_from_pose(obj_pose)
+        # Everything is good, so we pick the object
+        niyro_robot.pick(obj_pose)
 
         # Going to place
-        niyro_robot.place_from_pose(place_pose)
+        niyro_robot.place(place_pose)
         break
 
 
-def vision_pick_n_place_2(niyro_robot):
+def vision_pick_n_place_2(niyro_robot: NiryoRobot):
     # Loop
     try_without_success = 0
     while try_without_success < 5:
         # Moving to observation pose
-        niyro_robot.move_pose(*observation_pose.to_list())
+        niyro_robot.move(observation_pose)
         # Trying to pick target using camera
-        ret = niyro_robot.vision_pick(workspace_name,
-                                      height_offset=0.0,
-                                      shape=ObjectShape.ANY,
-                                      color=ObjectColor.ANY)
-        obj_found, shape_ret, color_ret = ret
+        ret = niyro_robot.vision_pick(workspace_name, height_offset=0.0, shape=ObjectShape.ANY, color=ObjectColor.ANY)
+        obj_found, _, _ = ret
         if not obj_found:
             try_without_success += 1
             continue
-        # Vision pick has succeed which means that Ned should have already catch the object !
+        # Vision pick has succeeded which means that Ned should have already caught the object !
 
-        # Everything is good, so we going to place the object
-        niyro_robot.place_from_pose(place_pose)
+        # Everything is good, so we place the object
+        niyro_robot.place(place_pose)
         break
 
 

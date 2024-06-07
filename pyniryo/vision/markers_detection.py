@@ -62,8 +62,6 @@ def extract_sub_img(img, list_corners, ratio_w_h=1.0):
          [target_w_area - 1, target_h_area - 1], [0, target_h_area - 1]],
         dtype=np.float32)
     transfo_matrix = cv2.getPerspectiveTransform(points_grid, final_pts)
-    # print transfo_matrix
-    # print np.linalg.det(transfo_matrix)
     area_im = cv2.warpPerspective(img, transfo_matrix, (target_w_area, target_h_area))
     return area_im
 

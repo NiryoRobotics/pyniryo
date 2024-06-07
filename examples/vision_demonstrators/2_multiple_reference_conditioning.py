@@ -9,10 +9,10 @@ the conditioning height.
 Once a line is completed, objects will be pack over the lower level
 """
 
-from pyniryo import *
+from pyniryo import NiryoRobot, PoseObject, ObjectColor
 
 # -- MUST Change these variables
-robot_ip_address = "10.10.10.10"  # IP address of Ned
+robot_ip_address = '<robot_ip_address>'  # IP address of the robot
 workspace_name = "workspace_1"  # Robot's Workspace Name
 
 # -- Can change these variables
@@ -20,32 +20,26 @@ grid_dimension = (3, 3)
 
 # -- Should Change these variables
 # The pose from where the image processing happen
-observation_pose = PoseObject(
-    x=0.20, y=0., z=0.3,
-    roll=0.0, pitch=1.57, yaw=0.0,
-)
+observation_pose = PoseObject(0.2, 0.0, 0.3, 3.14, -0.01, -0.01)
 
 # Center of the conditioning area
-first_conditioning_pose = PoseObject(
-    x=0.0, y=-0.25, z=0.12,
-    roll=-0., pitch=1.57, yaw=-1.57
-)
+first_conditioning_pose = PoseObject(0.0, -0.25, 0.12, 3.14, -0.01, -1.56)
 
 
 # -- MAIN PROGRAM
-def process(niryo_robot):
+def process(niryo_robot: NiryoRobot):
     try_without_success = 0
     count_dict = {
         ObjectColor.BLUE: 0,
         ObjectColor.RED: 0,
         ObjectColor.GREEN: 0,
     }
-    # Loop until too much failures
+    # Loop until too many failures
     while try_without_success < 3:
         # Moving to observation pose
-        niryo_robot.move_pose(observation_pose)
+        niryo_robot.move(observation_pose)
         # Trying to get object via Vision Pick
-        obj_found, shape, color = niryo_robot.vision_pick(workspace_name)
+        obj_found, _, color = niryo_robot.vision_pick(workspace_name)
         if not obj_found:
             try_without_success += 1
             continue
@@ -65,7 +59,7 @@ def process(niryo_robot):
         place_pose = first_conditioning_pose.copy_with_offsets(0.05 * offset_x_ind,
                                                                0.05 * offset_y_ind,
                                                                0.025 * offset_z_ind)
-        niryo_robot.place_from_pose(place_pose)
+        niryo_robot.place(place_pose)
         # Increment count
         count_dict[color] += 1
         try_without_success = 0

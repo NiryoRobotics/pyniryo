@@ -4,7 +4,7 @@ with Ned using a conveyor
 """
 
 # Imports
-from pyniryo import *
+from pyniryo import NiryoRobot, PoseObject, ToolID, PinID, PinState, ConveyorDirection
 
 # -- MUST Change these variables
 simulation_mode = True
@@ -17,32 +17,32 @@ robot_ip_address = robot_ip_address_simulation if simulation_mode else robot_ip_
 
 # -- Should Change these variables
 # The pick pose
-pick_pose = PoseObject(
-    x=0.25, y=0., z=0.14,
-    roll=-0., pitch=1.57, yaw=0.0,
-)
+pick_pose = PoseObject(0.25, 0.0, 0.14, 3.14, 0.0, 0.0)
+
 # The Place pose
-place_pose = PoseObject(
-    x=-0.01, y=-0.23, z=0.12,
-    roll=-0., pitch=1.57, yaw=-1.57)
+place_pose = PoseObject(0.01, -0.22, 0.12, 3.14, -0.01, -1.48)
 
 
-def pick_n_place_w_conveyor(niyro_robot):
+def pick_n_place_w_conveyor(niyro_robot: NiryoRobot):
     # Enable connection with conveyor
     conveyor_id = niyro_robot.set_conveyor()
     # Turn conveyor on
-    niyro_robot.control_conveyor(conveyor_id=conveyor_id, control_on=True,
-                                 speed=50, direction=ConveyorDirection.FORWARD)
+    niyro_robot.control_conveyor(conveyor_id=conveyor_id,
+                                 control_on=True,
+                                 speed=50,
+                                 direction=ConveyorDirection.FORWARD)
     # Wait for sensor to turn to low state which means it has something in front of it
-    while not niyro_robot.digital_read(gpio_sensor) == PinState.LOW:
+    while niyro_robot.digital_read(gpio_sensor) != PinState.LOW:
         niyro_robot.wait(0.1)
     # Turn conveyor off
-    niyro_robot.control_conveyor(conveyor_id=conveyor_id, control_on=False,
-                                 speed=0, direction=ConveyorDirection.FORWARD)
+    niyro_robot.control_conveyor(conveyor_id=conveyor_id,
+                                 control_on=False,
+                                 speed=0,
+                                 direction=ConveyorDirection.FORWARD)
     # Pick
-    niyro_robot.pick_from_pose(pick_pose)
+    niyro_robot.pick(pick_pose)
     # Place
-    niyro_robot.place_from_pose(place_pose)
+    niyro_robot.place(place_pose)
 
 
 # -- MAIN PROGRAM

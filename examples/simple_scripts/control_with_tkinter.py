@@ -1,4 +1,4 @@
-from pyniryo import NiryoRobot  # Niryo's Python Package
+from pyniryo import NiryoRobot, PoseObject, JointsPosition  # Niryo's Python Package
 import Tkinter as Tk
 
 simulation_mode = True
@@ -14,7 +14,8 @@ robot_ip_address = robot_ip_address_simulation if simulation_mode else robot_ip_
 
 
 class TkinterController(Tk.Tk):
-    def __init__(self, niyro_robot):
+
+    def __init__(self, niyro_robot: NiryoRobot):
         Tk.Tk.__init__(self)
         self.niyro_robot = niyro_robot
         self.niyro_robot.update_tool()
@@ -68,80 +69,80 @@ class TkinterController(Tk.Tk):
         self.mainloop()
 
     def x_plus(self):
-        self.niyro_robot.jog_pose(self.xyz_step, 0.0, 0.0, 0.0, 0.0, 0.0)
+        self.niyro_robot.jog(PoseObject(self.xyz_step, 0.0, 0.0, 2.44, -1.56, 0.71))
 
     def x_minus(self):
-        self.niyro_robot.jog_pose(-self.xyz_step, 0.0, 0.0, 0.0, 0.0, 0.0)
+        self.niyro_robot.jog(PoseObject(-self.xyz_step, 0.0, 0.0, 2.44, -1.56, 0.71))
 
     def y_plus(self):
-        self.niyro_robot.jog_pose(0.0, self.xyz_step, 0.0, 0.0, 0.0, 0.0)
+        self.niyro_robot.jog(PoseObject(0.0, self.xyz_step, 0.0, 2.44, -1.56, 0.71))
 
     def y_minus(self):
-        self.niyro_robot.jog_pose(0.0, -self.xyz_step, 0.0, 0.0, 0.0, 0.0)
+        self.niyro_robot.jog(PoseObject(0.0, -self.xyz_step, 0.0, 2.44, -1.56, 0.71))
 
     def z_plus(self):
-        self.niyro_robot.jog_pose(0.0, 0.00, self.xyz_step, 0.0, 0.0, 0.0)
+        self.niyro_robot.jog(PoseObject(0.0, 0.00, self.xyz_step, 2.44, -1.56, 0.71))
 
     def z_minus(self):
-        self.niyro_robot.jog_pose(0.0, 0.0, -self.xyz_step, 0.0, 0.0, 0.0)
+        self.niyro_robot.jog(PoseObject(0.0, 0.0, -self.xyz_step, 2.44, -1.56, 0.71))
 
     def roll_plus(self):
-        self.niyro_robot.jog_pose(0.0, 0.0, 0.0, self.rpy_step, 0.0, 0.0)
+        self.niyro_robot.jog(PoseObject(0.0, 0.0, 0.0, 2.44 + self.rpy_step, -1.56, 0.71))
 
     def roll_minus(self):
-        self.niyro_robot.jog_pose(0.0, 0.0, 0.0, -self.rpy_step, 0.0, 0.0)
+        self.niyro_robot.jog(PoseObject(0.0, 0.0, 0.0, 2.44 - self.rpy_step, -1.56, 0.71))
 
     def pitch_plus(self):
-        self.niyro_robot.jog_pose(0.0, 0.0, 0.0, 0.0, self.rpy_step, 0.0)
+        self.niyro_robot.jog(PoseObject(0.0, 0.0, 0.0, 2.44, -1.56 + self.rpy_step, 0.71))
 
     def pitch_minus(self):
-        self.niyro_robot.jog_pose(0.0, 0.0, 0.0, 0.0, -self.rpy_step, 0.0)
+        self.niyro_robot.jog(PoseObject(0.0, 0.0, 0.0, 2.44, -1.56 - self.rpy_step, 0.71))
 
     def yaw_plus(self):
-        self.niyro_robot.jog_pose(0.0, 0.00, 0.0, 0.0, 0.0, self.rpy_step)
+        self.niyro_robot.jog(PoseObject(0.0, 0.00, 0.0, 2.44, -1.56, 0.71 + self.rpy_step))
 
     def yaw_minus(self):
-        self.niyro_robot.jog_pose(0.0, 0.0, 0.0, 0.0, 0.0, -self.rpy_step)
+        self.niyro_robot.jog(PoseObject(0.0, 0.0, 0.0, 2.44, -1.56, 0.71 - self.rpy_step))
 
     def j1_plus(self):
-        self.niyro_robot.jog_joints(self.joint_step, 0.0, 0.0, 0.0, 0.0, 0.0)
+        self.niyro_robot.jog(JointsPosition(self.joint_step, 0.0, 0.0, 0.0, 0.0, 0.0))
 
     def j1_minus(self):
-        self.niyro_robot.jog_joints(-self.joint_step, 0.0, 0.0, 0.0, 0.0, 0.0)
+        self.niyro_robot.jog(JointsPosition(-self.joint_step, 0.0, 0.0, 0.0, 0.0, 0.0))
 
     def j2_plus(self):
-        self.niyro_robot.jog_joints(0.0, self.joint_step, 0.0, 0.0, 0.0, 0.0)
+        self.niyro_robot.jog(JointsPosition(0.0, self.joint_step, 0.0, 0.0, 0.0, 0.0))
 
     def j2_minus(self):
-        self.niyro_robot.jog_joints(0.0, -self.joint_step, 0.0, 0.0, 0.0, 0.0)
+        self.niyro_robot.jog(JointsPosition(0.0, -self.joint_step, 0.0, 0.0, 0.0, 0.0))
 
     def j3_plus(self):
-        self.niyro_robot.jog_joints(0.0, 0.00, self.joint_step, 0.0, 0.0, 0.0)
+        self.niyro_robot.jog(JointsPosition(0.0, 0.00, self.joint_step, 0.0, 0.0, 0.0))
 
     def j3_minus(self):
-        self.niyro_robot.jog_joints(0.0, 0.0, -self.joint_step, 0.0, 0.0, 0.0)
+        self.niyro_robot.jog(JointsPosition(0.0, 0.0, -self.joint_step, 0.0, 0.0, 0.0))
 
     def j4_plus(self):
-        self.niyro_robot.jog_joints(0.0, 0.0, 0.0, self.joint_step, 0.0, 0.0)
+        self.niyro_robot.jog(JointsPosition(0.0, 0.0, 0.0, self.joint_step, 0.0, 0.0))
 
     def j4_minus(self):
-        self.niyro_robot.jog_joints(0.0, 0.0, 0.0, -self.joint_step, 0.0, 0.0)
+        self.niyro_robot.jog(JointsPosition(0.0, 0.0, 0.0, -self.joint_step, 0.0, 0.0))
 
     def j5_plus(self):
-        self.niyro_robot.jog_joints(0.0, 0.0, 0.0, 0.0, self.joint_step, 0.0)
+        self.niyro_robot.jog(JointsPosition(0.0, 0.0, 0.0, 0.0, self.joint_step, 0.0))
 
     def j5_minus(self):
-        self.niyro_robot.jog_joints(0.0, 0.0, 0.0, 0.0, -self.joint_step, 0.0)
+        self.niyro_robot.jog(JointsPosition(0.0, 0.0, 0.0, 0.0, -self.joint_step, 0.0))
 
     def j6_plus(self):
-        self.niyro_robot.jog_joints(0.0, 0.00, 0.0, 0.0, 0.0, self.joint_step)
+        self.niyro_robot.jog(JointsPosition(0.0, 0.00, 0.0, 0.0, 0.0, self.joint_step))
 
     def j6_minus(self):
-        self.niyro_robot.jog_joints(0.0, 0.0, 0.0, 0.0, 0.0, -self.joint_step)
+        self.niyro_robot.jog(JointsPosition(0.0, 0.0, 0.0, 0.0, 0.0, -self.joint_step))
 
     def reset(self):
         self.niyro_robot.set_jog_control(False)
-        self.niyro_robot.move_joints(0.0, 0.0, 0.0, 0.0, -1.57, 0.0)
+        self.niyro_robot.move(JointsPosition(0.0, 0.0, 0.0, 0.0, -1.57, 0.0))
         self.niyro_robot.set_jog_control(True)
 
     def open_gripper(self):
@@ -155,8 +156,8 @@ class TkinterController(Tk.Tk):
         self.niyro_robot.set_jog_control(True)
 
 
-def process(niyro_robot):
-    niyro_robot.move_joints(0.0, 0.0, 0.0, 0.0, -1.57, 0.0)
+def process(niyro_robot: NiryoRobot):
+    niyro_robot.move(JointsPosition(0.0, 0.0, 0.0, 0.0, -1.57, 0.0))
     niyro_robot.set_jog_control(True)
 
     TkinterController(niyro_robot)
