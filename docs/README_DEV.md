@@ -1,45 +1,43 @@
-# Tuto Sphinx
-## Pré-requis
+# Sphinx Tutorial
+## Prerequisites
 
-1. (Vous pouvez passez cette partie si vous utilisez Docker).
+To modify the documentation, you will first need Sphinx and its extensions:
 
-    Pour modifier la doc, vous aurez tout d'abord besoin de Sphinx :
+It is advised to install sphinx in a python virtualenv
 
-    `pip install Sphinx sphinx_rtd_theme`
-
-2. Le dossier front_end est un [sous-module git](https://git-scm.com/book/fr/v2/Utilitaires-Git-Sous-modules),
-    il peux donc être nécessaire de le mettre à jour régulièrement.
-    Pour cloner / update le sous module front-end, veuillez effectuer la commande suivante:
-
-    `git submodule update --init relative_path_to/front_end`
+```
+pip install -r docs/requirements.txt
+``` 
 
 
-## Génération
-Placez vous à la racine de votre dossier sphinx
+## Commands
+Inside your sphinx directory (`cd docs`):
 
-Pour générer le html, utilisez : `make html`
+### Generate the html
+```bash
+make html
+```
 
-Le fichier à ouvrir est : **_build/html/index.html**
+### Preview the generated doc
 
-Command clean + make + open : `make clean; make html ; google-chrome _build/html/index.html`
+```bash
+x-www-browser _build/html/index.html
+```
 
+### Delete the generated files
+```bash
+make clean
+```
+
+### Live reload
+```
+sphinx-autobuild . _build/html --open-browser 
+```
+Use `--open-browser` to automatically open a browser page to the live reload server
 
 ## Modification
-Les pages qui s'affichent sont écrites en format _.rst_ et stockés dans le dossier _source_. 
-Une fois le fichier créé, il faut l'ajouter au fichier _index.rst_ pour qu'il apparaisse.
-
-## Si vous voulez recréer un dossier Sphinx
-1) Aller dans le dossier du package en question
-2) Créer un dossier sphinx, et aller dedans : `mdkir sphinx; cd sphinx`
-3) Exécuter la commande `sphinx-quickstart` et faire les bons choix !
-
-Pour pouvoir documenter des fichiers de votre dossier src, il faudra l'ajouter au path. 
-Pour cela, on peut déjà ajouter le dossier mère au PYTHONPATH via le fichier _conf.py_
-```python
-import os
-import sys
-sys.path.insert(0, os.path.abspath('..'))
-```
+The pages that are displayed are written in _.rst_ format. 
+Once the file is created, it needs to be added to the _index.rst_ file for it to appear.
 
 ## Ressources
 #### Syntaxe

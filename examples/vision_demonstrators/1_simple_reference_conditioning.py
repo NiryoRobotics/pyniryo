@@ -13,7 +13,8 @@ The objects will be conditioned in a grid of dimension grid_dimension. If the gr
 objects will be pack over the lower level
 """
 
-from pyniryo import *
+from pyniryo import NiryoRobot, PoseObject, ObjectShape, ObjectColor, vision
+import cv2
 
 # -- MUST Change these variables
 simulation_mode = True
@@ -29,23 +30,16 @@ display_stream = True  # Only used if vision on computer
 
 # -- Should Change these variables
 # The pose from where the image processing happens
-observation_pose = PoseObject(
-    x=0.17, y=0., z=0.35,
-    roll=0.0, pitch=1.57, yaw=0.0,
-)
+observation_pose = PoseObject(0.16, -0.0, 0.32, 3.14, 0.12, -0.01)
 
 # Center of the conditioning area
-center_conditioning_pose = PoseObject(
-    x=0.0, y=-0.25, z=0.12,
-    roll=-0., pitch=1.57, yaw=-1.57
-)
-
+center_conditioning_pose = PoseObject(0.0, -0.25, 0.12, 3.14, -0.01, -1.57)
 
 # -- MAIN PROGRAM
 
-def process(niryo_robot):
-    """
 
+def process(niryo_robot: NiryoRobot):
+    """
     :type niryo_robot: NiryoRobot
     :rtype: None
     """
@@ -60,21 +54,21 @@ def process(niryo_robot):
     # Loop
     while try_without_success < 5:
         # Moving to observation pose
-        niryo_robot.move_pose(observation_pose)
+        niryo_robot.move(observation_pose)
 
         if vision_process_on_robot:
             ret = niryo_robot.get_target_pose_from_cam(workspace_name,
                                                        height_offset=0.0,
                                                        shape=ObjectShape.ANY,
                                                        color=ObjectColor.ANY)
-            obj_found, obj_pose, shape, color = ret
+            obj_found, obj_pose, _, _ = ret
 
         else:  # Home made image processing
             img_compressed = niryo_robot.get_img_compressed()
-            img = uncompress_image(img_compressed)
-            img = undistort_image(img, mtx, dist)
+            img = vision.uncompress_image(img_compressed)
+            img = vision.undistort_image(img, mtx, dist)
             # extracting working area
-            im_work = extract_img_workspace(img, workspace_ratio=1.0)
+            im_work = vision.extract_img_workspace(img, workspace_ratio=1.0)
             if im_work is None:
                 print("Unable to find markers")
                 try_without_success += 1
@@ -84,41 +78,42 @@ def process(niryo_robot):
                 continue
 
             # Applying Threshold on ObjectColor
-            color_hsv_setting = ColorHSV.ANY.value
-            img_thresh = threshold_hsv(im_work, *color_hsv_setting)
+            color_hsv_setting = vision.ColorHSV.ANY.value
+            img_thresh = vision.threshold_hsv(im_work, *color_hsv_setting)
 
             if display_stream:
-                show_img("Last image saw", img, wait_ms=100)
-                show_img("Image thresh", img_thresh, wait_ms=100)
+                vision.show_img("Last image saw", img, wait_ms=100)
+                vision.show_img("Image thresh", img_thresh, wait_ms=100)
             # Getting biggest contour/blob from threshold image
-            contour = biggest_contour_finder(img_thresh)
+            contour = vision.biggest_contour_finder(img_thresh)
             if contour is None or len(contour) == 0:
                 print("No blob found")
                 obj_found = False
             else:
-                img_thresh_rgb_w_contour = draw_contours(img_thresh, [contour])
+                img_thresh_rgb_w_contour = vision.draw_contours(img_thresh, [contour])
 
                 # Getting contour/blob center and angle
-                cx, cy = get_contour_barycenter(contour)
-                img_thresh_rgb_w_contour = draw_barycenter(img_thresh_rgb_w_contour, cx, cy)
-                cx_rel, cy_rel = relative_pos_from_pixels(im_work, cx, cy)
+                cx, cy = vision.get_contour_barycenter(contour)
+                img_thresh_rgb_w_contour = vision.draw_barycenter(img_thresh_rgb_w_contour, cx, cy)
+                cx_rel, cy_rel = vision.relative_pos_from_pixels(im_work, cx, cy)
 
-                angle = get_contour_angle(contour)
-                img_thresh_rgb_w_contour = draw_angle(img_thresh_rgb_w_contour, cx, cy, angle)
+                angle = vision.get_contour_angle(contour)
+                img_thresh_rgb_w_contour = vision.draw_angle(img_thresh_rgb_w_contour, cx, cy, angle)
 
-                show_img("Image thresh", img_thresh_rgb_w_contour, wait_ms=30)
+                vision.show_img("Image thresh", img_thresh_rgb_w_contour, wait_ms=30)
 
                 # Getting object world pose from relative pose
                 obj_pose = niryo_robot.get_target_pose_from_rel(workspace_name,
                                                                 height_offset=0.0,
-                                                                x_rel=cx_rel, y_rel=cy_rel,
+                                                                x_rel=cx_rel,
+                                                                y_rel=cy_rel,
                                                                 yaw_rel=angle)
                 obj_found = True
         if not obj_found:
             try_without_success += 1
             continue
         # Everything is good, so we going to object
-        niryo_robot.pick_from_pose(obj_pose)
+        niryo_robot.pick(obj_pose)
 
         # Computing new place pose
         offset_x = count % grid_dimension[0] - grid_dimension[0] // 2
@@ -127,7 +122,7 @@ def process(niryo_robot):
         place_pose = center_conditioning_pose.copy_with_offsets(0.05 * offset_x, 0.05 * offset_y, 0.025 * offset_z)
 
         # Placing
-        niryo_robot.place_from_pose(place_pose)
+        niryo_robot.place(place_pose)
 
         try_without_success = 0
         count += 1

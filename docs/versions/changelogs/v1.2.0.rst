@@ -1,0 +1,45 @@
+New in version 1.2.0
+================================
+
+|:sparkles:| Features
+-----------------------------------------------------------
+ * New property :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.collision detected` to know if a collision occurred
+ * New method :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.clear_collision_detected` to clear the ``collision_detected`` flag
+ * New method :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.__handshake` to initiate the connection between the client and the server.
+ * New movements methods which can't take either PoseObject or JointsPosition objects:
+
+   * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.move` replace :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.move_joints`, :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.move_pose` and :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.move_linear_pose`.
+   * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.jog`, replace :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.jog_joints` and :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.jog_pose`.
+   * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.pick`, replace :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.pick_from_pose`.
+   * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.place`, replace :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.place_from_pose`.
+   * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.execute_trajectory`, replace :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.execute_trajectory_from_poses` and :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints`.
+
+ * Added an optional parameter ``obs_pose`` to :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.vision_pick`
+ * Added an optional parameter ``linear=False`` to :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.shift_pose`, replace :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.shift_linear_pose`
+ * Added an optional parameter ``linear=False`` to :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.move_relative`, replace :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.move_linear_relative`
+ * Improved :py:class:`~pyniryo.api.objects.PoseObject` class
+
+   * add a :py:class:`metadata<pyniryo.api.objects.PoseMetadata>` attribute which carries information about the pose
+   * add :py:meth:`~pyniryo.api.objects.PoseObject.__iter__`, :py:meth:`~pyniryo.api.objects.PoseObject.__getitem__` and :py:meth:`~pyniryo.api.objects.PoseObject.__len__` methods to make the class an iterator
+   * add :py:meth:`~pyniryo.api.objects.PoseObject.from_dict` and :py:meth:`~pyniryo.api.objects.PoseObject.to_dict` to easily serialize / deserialize the object
+   * add a :py:meth:`~pyniryo.api.objects.PoseObject.quaternion` function which returns the pose's rotation quaternion
+
+ * New :py:class:`~pyniryo.api.objects.JointsPosition` class. This is the class which have to be used to represent a joints position in the code
+ * Added a logging system to the library. It replace the previous logs which where simple prints
+ * Added ``verbose`` parameter to the :py:class:`~pyniryo.api.tcp_client.NiryoRobot` constructor. Use it to mute the pyniryo logs
+
+|:tools:| Improvements
+-----------------------------------------------------------
+ * Overall better documentation (docstring and sphinx build system)
+ * Replaced all the wildcard imports (:python:`from pyniryo import *`) by explicit imports (:python:`from pyniryo import NiryoRobot`)
+ * The error message when a command fail now include the command name. It allow an easier debugging process
+ * All the methods which were taking arrays of float to represent a joints position or a pose can also take a :py:class:`~pyniryo.api.objects.JointsPosition` or a :py:class:`pyniryo.api.objects.PoseObject`
+ * Added .style.yapf file
+ * Delete useless CMakeLists.txt
+
+|:beetle:| Bugfixes
+-----------------------------------------------------------
+ * Replaced deprecated use of :python:`value in EnumClass` by :python:`isinstance(value, EnumClass)`
+ * The function :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.save_last_learned_trajectory` didn't send ``name`` and ``description`` to the server
+ * The function :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.update_trajectory_infos` didn't send ``name``, ``new_name`` and ``new_description`` to the server
+ * Fix bad conditional requirement on opencv in requirements.txt

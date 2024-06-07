@@ -9,9 +9,8 @@ from pyniryo.vision.image_functions import show_img_and_check_close
 
 
 class WebcamVideoStream:
-    def __init__(self, src=0,
-                 name="WebcamVideoStream", display=False,
-                 nb_threads=None):
+
+    def __init__(self, src=0, name="WebcamVideoStream", display=False, nb_threads=None):
         self.name = name
         self.display = display
         self._frame = None
