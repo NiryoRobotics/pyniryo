@@ -27,6 +27,7 @@ New in version 1.2.0
  * New :py:class:`~pyniryo.api.objects.JointsPosition` class. This is the class which have to be used to represent a joints position in the code
  * Added a logging system to the library. It replace the previous logs which where simple prints
  * Added ``verbose`` parameter to the :py:class:`~pyniryo.api.tcp_client.NiryoRobot` constructor. Use it to mute the pyniryo logs
+ * Added support for vacuum pump v2
 
 |:tools:| Improvements
 -----------------------------------------------------------

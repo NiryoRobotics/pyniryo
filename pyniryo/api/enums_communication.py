@@ -46,6 +46,7 @@ class ToolID(Enum):
     GRIPPER_3 = 13
     ELECTROMAGNET_1 = 30
     VACUUM_PUMP_1 = 31
+    VACUUM_PUMP_2 = 32
 
 
 @unique
