@@ -18,17 +18,17 @@ Python 2.7/3.5+
 Documentation
 -----------------
 
-PyNiryo allows to write simple script in Python in order to control Ned
+PyNiryo allows to write simple script in Python in order to control Niryo's robots
 
 .. code-block:: python
 
     from pyniryo import *
 
-    ned = NiryoRobot("10.10.10.10")
+    robot = NiryoRobot("10.10.10.10")
 
-    ned.calibrate_auto()
+    robot.calibrate_auto()
 
-    ned.move_joints(0.2, -0.3, 0.1, 0.0, 0.5, -0.8)
+    robot.move(JointsPosition(0.2, -0.3, 0.1, 0.0, 0.5, -0.8))
 
 To see more examples or learn more about the available functions,
 full documentation is available at http://archive-docs.niryo.com/dev/pyniryo
