@@ -43,7 +43,7 @@ build_package:
 pages:
   stage: deploy
   script:
-    - git fetch --all > /dev/null
+    - git fetch > /dev/null
     - git checkout $CI_COMMIT_REF_NAME > /dev/null
     - scripts/build_docs_versioned.py public $CI_COMMIT_REF_NAME $(git tag)
   artifacts:
