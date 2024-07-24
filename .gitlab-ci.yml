@@ -1,8 +1,8 @@
-
 stages:
   - build
   - deploy
   - release
+
 
 default:
   image: $CI_REGISTRY_IMAGE:latest
@@ -28,6 +28,7 @@ build_docker:
     changes:
       - .docker/Dockerfile
 
+
 build_package:
   stage: build
   script:
@@ -37,6 +38,7 @@ build_package:
   artifacts:
     paths:
       - dist
+
 
 pages:
   stage: deploy
@@ -50,6 +52,7 @@ pages:
   rules:
     - if: $CI_COMMIT_BRANCH == "develop"
 
+
 upload_package:
   stage: release
   script:
@@ -61,7 +64,7 @@ upload_package:
 
 mirror_github:
   stage: release
-  dependencies: []
+  dependencies: [ ]
   variables:
     GIT_STRATEGY: clone
   script:
