@@ -1,29 +1,74 @@
-image: python:3-slim-bookworm
 
 stages:
+  - build
   - deploy
+  - release
+
+default:
+  image: $CI_REGISTRY_IMAGE:latest
+  cache:
+    paths:
+      - .cache/pip
+  before_script:
+    - scripts/setup_env.sh > /dev/null
+    - source venv/bin/activate
+
+
+build_docker:
+  stage: .pre
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [ "" ]
+  script:
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/.docker/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}:latest"
+  only:
+    changes:
+      - .docker/Dockerfile
+
+build_package:
+  stage: build
+  script:
+    - scripts/build_package.sh
+  rules:
+    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true" && '$CI_COMMIT_BRANCH == master'
+  artifacts:
+    paths:
+      - dist
 
 pages:
   stage: deploy
-  before_script:
-    - scripts/setup_env.sh --docs-only
   script:
-    - scripts/build_docs_versioned.py $CI_COMMIT_REF_NAME public
+    - git fetch --all > /dev/null
+    - git checkout $CI_COMMIT_REF_NAME > /dev/null
+    - scripts/build_docs_versioned.py public $CI_COMMIT_REF_NAME $(git tag)
   artifacts:
     paths:
       - public
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-    - if: '$CI_COMMIT_BRANCH == "develop"'
+    - if: $CI_COMMIT_BRANCH == "develop"
 
-
-package:
-  stage: deploy
-  before_script:
-    - scripts/setup_env.sh
+upload_package:
+  stage: release
   script:
-    - scripts/build_package.sh
     - scripts/upload_package.sh $PYPI_ACCOUNT $PYPI_PASSWORD
   rules:
-    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true" && '$CI_COMMIT_BRANCH == master'
+    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH == "master"
+  when: manual
 
+
+mirror_github:
+  stage: release
+  dependencies: []
+  variables:
+    GIT_STRATEGY: clone
+  script:
+    - eval $(ssh-agent)
+    - chmod 600 $GITHUB_SSH_KEY
+    - ssh-add $GITHUB_SSH_KEY
+    - git remote add github https://github.com/NiryoRobotics/pyniryo.git
+    - git push --follow-tags github $CI_COMMIT_BRANCH
+  rules:
+    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true" && '$CI_COMMIT_BRANCH == master'

@@ -1,10 +1,6 @@
 name: documentation
 
-on:
-  push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
-  workflow_dispatch:
+on: [push, pull_request, workflow_dispatch]
 
 permissions:
   contents: write
@@ -15,15 +11,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
-
       - name: Install dependencies
-        run: scripts/setup_env.sh --docs-only
-
+        run: |
+          scripts/setup_env.sh > /dev/null
+      - name: source venv
+        run: |
+          source venv/bin/activate
       - name: Sphinx build
-        run: scripts/build_docs_versioned.py ${{ github.ref_name }} public
-        
+        run: |
+          scripts/build_docs_versioned.py public master $(git tag)
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         with:
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}

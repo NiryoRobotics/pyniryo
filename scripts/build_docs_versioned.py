@@ -1,38 +1,50 @@
 #!/usr/bin/env python3
 import sys
 import subprocess
+from typing import Tuple, Set, List
 
 # The building system have changed, thus the old versions are not buildable with this system
 MIN_SUPPORTED_TAG = '1.2.0'
 
-def version(tag):
-    return tuple( int(number) for number in tag.split('.') )
 
-def filter_buildable_tags(all_tags):
-    min_version = version(MIN_SUPPORTED_TAG)
-    return {tag for tag in all_tags if version(tag) >= min_version}
+def get_version_from_tag(tag: str) -> Tuple[int, ...]:
+    return tuple(map(int, tag.lstrip('v').split('.')))
 
-def build_versioned(main_branch, dest_dir):
-    subprocess.run(['git', 'fetch', '--tags'])
-    process = subprocess.run(['git', 'fetch', '--tags', 'git', 'tags'], capture_output=True, encoding='utf-8')
 
-    buildable_tags = filter_buildable_tags(process.stdout.splitlines())
-    buildable_tags.add(main_branch)
+def filter_git_tags(tags) -> Set[str]:
+    min_version = get_version_from_tag(MIN_SUPPORTED_TAG)
+    buildable_tags = filter(lambda tag: get_version_from_tag(tag) >= min_version, tags)
+    return set(buildable_tags)
+
+
+def build_versioned(main_ref: str, tags: List[str], dest_dir: str):
+    refs_to_build = filter_git_tags(tags)
+    refs_to_build.add(main_ref)
 
     command_args = ['sphinx-versioned']
-    command_args += ['--branches', ','.join(buildable_tags)]
-    command_args += ['--main-branch', main_branch]
+    command_args += ['--branches', ','.join(refs_to_build)]
+    command_args += ['--main-branch', main_ref]
     command_args += ['--output', dest_dir]
 
-    print(' '.join(command_args))
-    subprocess.run(command_args)
+    process = subprocess.run(command_args, capture_output=True, encoding='utf-8')
+    print(process.stdout)
+    print(process.stderr)
+    for line in process.stdout.splitlines():
+        if '| CRITICAL | ' in line or '| ERROR | ' in line:
+            raise RuntimeError(process.stdout)
 
 
 def main():
-    trigger_branch = sys.argv[1]
-    dest_dir = sys.argv[2]
-    build_versioned(trigger_branch, dest_dir)
+    dest_dir = sys.argv[1]
+    main_ref = sys.argv[2]
+    tags = sys.argv[3:]
+
+    try:
+        build_versioned(main_ref, tags, dest_dir)
+    except RuntimeError:
+        return 1
+    return 0
 
 
 if __name__ == '__main__':
-    main()
+    exit(main())
