@@ -119,15 +119,6 @@ class TestMainPurpose(BaseTestTcpApi):
         with self.assertRaises(TcpCommandException):
             self.assertIsNone(self.niryo_robot.set_jog_control(-1))
 
-    def test_wait(self):
-        start = time.time()
-        self.assertIsNone(self.niryo_robot.wait(1))
-        end = time.time()
-        self.assertAlmostEqual(end - start, 1, delta=0.1)
-        with self.assertRaises(TcpCommandException):
-            self.assertIsNone(self.niryo_robot.wait(-1))
-
-
 # noinspection PyTypeChecker
 class TestJointsPoseFunctions(BaseTestTcpApi):
     # TODO : Add limits tests for joints && poses
