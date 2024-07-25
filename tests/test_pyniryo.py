@@ -29,7 +29,7 @@ tool_used = ToolID.GRIPPER_2
 
 robot_ip_address_rpi = "10.10.10.10"
 robot_ip_address_gazebo = "127.0.0.1"
-robot_ip_address = robot_ip_address_gazebo if simulation else robot_ip_address_rpi
+robot_ip_address = "192.168.1.207" #robot_ip_address_gazebo if simulation else robot_ip_address_rpi
 
 
 class BaseTestTcpApi(unittest.TestCase):
