@@ -29,7 +29,7 @@ tool_used = ToolID.GRIPPER_2
 
 robot_ip_address_rpi = "10.10.10.10"
 robot_ip_address_gazebo = "127.0.0.1"
-robot_ip_address = robot_ip_address_gazebo if simulation else robot_ip_address_rpi
+robot_ip_address = "192.168.1.207" #robot_ip_address_gazebo if simulation else robot_ip_address_rpi
 
 
 class BaseTestTcpApi(unittest.TestCase):
@@ -103,16 +103,21 @@ class TestMainPurpose(BaseTestTcpApi):
 
         self.niryo_robot.learning_mode = base_state
 
-    def test_others(self):
-        self.assertIsNone(self.niryo_robot.set_arm_max_velocity(95))
-        self.assertIsNone(self.niryo_robot.set_jog_control(False))
+    def test_set_arm_velocity(self):
+        self.assertIsNone(self.niryo_robot.set_arm_max_velocity(1))
+        self.assertIsNone(self.niryo_robot.set_arm_max_velocity(100))
         with self.assertRaises(TcpCommandException):
             self.assertIsNone(self.niryo_robot.set_arm_max_velocity(-95))
         with self.assertRaises(TcpCommandException):
             self.assertIsNone(self.niryo_robot.set_arm_max_velocity(0))
         with self.assertRaises(TcpCommandException):
-            self.niryo_robot.set_jog_control(ConveyorID.ID_1)
+            self.assertIsNone(self.niryo_robot.set_arm_max_velocity(101))
 
+    def test_set_jog_control(self):
+        self.assertIsNone(self.niryo_robot.set_jog_control(True))
+        self.assertIsNone(self.niryo_robot.set_jog_control(False))
+        with self.assertRaises(TcpCommandException):
+            self.assertIsNone(self.niryo_robot.set_jog_control(-1))
 
 # noinspection PyTypeChecker
 class TestJointsPoseFunctions(BaseTestTcpApi):
