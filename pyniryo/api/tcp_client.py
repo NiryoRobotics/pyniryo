@@ -464,6 +464,16 @@ class NiryoRobot(object):
         """
         return self.get_pose()
 
+    @property
+    def pose_v2(self):
+        """
+        Get end effector link pose.
+        x, y & z are expressed in meters / roll, pitch & yaw are expressed in radians
+
+        :type: PoseObject
+        """
+        return self.get_pose_v2()
+
     def get_pose(self):
         """
         Get end effector link pose.
@@ -486,6 +496,18 @@ class NiryoRobot(object):
         data = self.__send_n_receive(Command.GET_POSE_QUAT)
         pose_array = self.__map_list(data, float)
         return pose_array
+
+    def get_pose_v2(self):
+        """
+        Get end effector link pose.
+        x, y & z are expressed in meters / roll, pitch & yaw are expressed in radians
+
+        :rtype: PoseObject
+        """
+        data = self.__send_n_receive(Command.GET_POSE_V2)
+        pose_array = self.__map_list(data, float)
+        pose_object = PoseObject(*pose_array)
+        return pose_object
 
     @joints.setter
     def joints(self, *args):
@@ -524,6 +546,10 @@ class NiryoRobot(object):
             pose = args[0]
         else:
             pose = PoseObject(*args, metadata=PoseMetadata.v1())
+        self.move(pose)
+
+    @pose_v2.setter
+    def pose_v2(self, pose):
         self.move(pose)
 
     def move_pose(self, *args):
@@ -728,6 +754,33 @@ class NiryoRobot(object):
         else:
             pose = PoseObject(*args, metadata=PoseMetadata.v1())
 
+        data = self.__send_n_receive(Command.INVERSE_KINEMATICS, pose.to_dict())
+        joints_position = JointsPosition.from_dict(data)
+        return joints_position
+
+    def forward_kinematics_v2(self, joints_position):
+        """
+        Compute forward kinematics of a given joints configuration and give the
+        associated spatial pose
+
+        :param joints_position: Joints configuration
+        :type joints_position: JointsPosition
+        :rtype: PoseObject
+        """
+        data = self.__send_n_receive(Command.FORWARD_KINEMATICS_V2, joints_position.to_dict())
+        pose = PoseObject.from_dict(data)
+        return pose
+
+    def inverse_kinematics_v2(self, pose):
+        """
+        Compute inverse kinematics
+
+        :param pose: Robot pose
+        :type pose: PoseObject
+
+        :return: the joint position
+        :rtype: JointsPosition
+        """
         data = self.__send_n_receive(Command.INVERSE_KINEMATICS, pose.to_dict())
         joints_position = JointsPosition.from_dict(data)
         return joints_position
@@ -1286,6 +1339,9 @@ class NiryoRobot(object):
         :rtype: None
         """
         self.__send_n_receive(Command.TOOL_REBOOT)
+
+    def get_tcp(self):
+        return self.__send_n_receive(Command.GET_TCP)
 
     # - Hardware
 
