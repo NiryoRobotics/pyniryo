@@ -1,6 +1,7 @@
 import time
 import socket
 import warnings
+from typing_extensions import deprecated
 
 from enum import Enum
 
@@ -30,6 +31,11 @@ from .exceptions import (ClientNotConnectedException,
 from .objects import PoseObject, HardwareStatusObject, DigitalPinObject, AnalogPinObject, JointsPosition, PoseMetadata
 from ..utils.logging import get_logger
 from ..version import __version__
+
+
+def get_deprecation_msg(old_method, new_method):
+    return (f'`{old_method}()` is deprecated and will be deleted in future releases.'
+            f' Use `{new_method}()` instead.')
 
 
 class NiryoRobot(object):
@@ -522,6 +528,7 @@ class NiryoRobot(object):
             joints_position = JointsPosition(*joints)
         self.move(joints_position)
 
+    @deprecated(f'{get_deprecation_msg("move_joints", "move")}')
     def move_joints(self, *args):
         """
         .. deprecated:: 1.2.0
@@ -539,7 +546,7 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float]]
         :rtype: None
         """
-        warnings.warn(self.__get_deprecation_msg('move_joints', 'move'), DeprecationWarning, stacklevel=2)
+        warnings.warn(f'{get_deprecation_msg("move_joints", "move")}', DeprecationWarning, stacklevel=2)
 
         joints = self.__args_joints_to_list(*args)
         self.__send_n_receive(Command.MOVE_JOINTS, *joints)
@@ -556,6 +563,7 @@ class NiryoRobot(object):
     def pose_v2(self, pose):
         self.move(pose)
 
+    @deprecated(f'{get_deprecation_msg("move_pose", "move")}')
     def move_pose(self, *args):
         """
         .. deprecated:: 1.2.0
@@ -580,13 +588,14 @@ class NiryoRobot(object):
         :type args: Union[tuple[float], list[float], PoseObject, [tuple[float], str], [list[float], str], [PoseObject, str]]
         :rtype: None
         """
-        warnings.warn(self.__get_deprecation_msg('move_pose', 'move'), DeprecationWarning, stacklevel=2)
+        warnings.warn(f'{get_deprecation_msg("move_pose", "move")}', DeprecationWarning, stacklevel=2)
         if len(args) in [2, 7]:
             pose_list = list(self.__args_pose_to_list(*args[:-1])) + [args[-1]]
         else:
             pose_list = list(self.__args_pose_to_list(*args)) + ['']
         self.__send_n_receive(Command.MOVE_POSE, *pose_list)
 
+    @deprecated(f'{get_deprecation_msg("move_linear_pose", "move")}')
     def move_linear_pose(self, *args):
         """
         .. deprecated:: 1.2.0
@@ -600,7 +609,7 @@ class NiryoRobot(object):
         :type args: Union[tuple[float], list[float], PoseObject, [tuple[float], str], [list[float], str], [PoseObject, str]]
         :rtype: None
         """
-        warnings.warn(self.__get_deprecation_msg('move_linear_pose', 'move'), DeprecationWarning, stacklevel=2)
+        warnings.warn(f'{get_deprecation_msg("move_linear_pose", "move")}', DeprecationWarning, stacklevel=2)
 
         if len(args) in [2, 7]:
             pose_list = list(self.__args_pose_to_list(*args[:-1])) + [args[-1]]
@@ -646,6 +655,7 @@ class NiryoRobot(object):
         shift_value = self.__transform_to_type(shift_value, float)
         self.__send_n_receive(Command.SHIFT_POSE, axis, shift_value, linear)
 
+    @deprecated(f'{get_deprecation_msg("shift_linear_pose", "shift_pose")}')
     def shift_linear_pose(self, axis, shift_value):
         """
         .. deprecated:: 1.2.0
@@ -659,9 +669,10 @@ class NiryoRobot(object):
         :type shift_value: float
         :rtype: None
         """
-        warnings.warn(self.__get_deprecation_msg('shift_linear_pose', 'shift_pose'), DeprecationWarning, stacklevel=2)
+        warnings.warn(f'{get_deprecation_msg("shift_linear_pose", "shift_pose")}', DeprecationWarning, stacklevel=2)
         return self.shift_pose(axis, shift_value, linear=True)
 
+    @deprecated(f'{get_deprecation_msg("jog_joints", "jog")}')
     def jog_joints(self, *args):
         """
         .. deprecated:: 1.2.0
@@ -675,10 +686,11 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float]]
         :rtype: None
         """
-        warnings.warn(self.__get_deprecation_msg('jog_joints', 'jog'), DeprecationWarning, stacklevel=2)
+        warnings.warn(f'{get_deprecation_msg("jog_joints", "jog")}', DeprecationWarning, stacklevel=2)
         joints_offset = self.__args_joints_to_list(*args)
         self.__send_n_receive(Command.JOG_JOINTS, *joints_offset)
 
+    @deprecated(f'{get_deprecation_msg("jog_pose", "jog")}')
     def jog_pose(self, *args):
         """
         .. deprecated:: 1.2.0
@@ -693,7 +705,7 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float]]
         :rtype: None
         """
-        warnings.warn(self.__get_deprecation_msg('jog_pose', 'jog'), DeprecationWarning, stacklevel=2)
+        warnings.warn(f'{get_deprecation_msg("jog_pose", "jog")}', DeprecationWarning, stacklevel=2)
         pose_offset = self.__args_joints_to_list(*args)
         self.__send_n_receive(Command.JOG_POSE, *pose_offset)
 
@@ -795,7 +807,7 @@ class NiryoRobot(object):
         Get pose saved in from Ned's memory
 
         :param pose_name: Pose name in robot's memory
-        :type pose_name: str 
+        :type pose_name: str
         :return: Pose associated to pose_name
         :rtype: PoseObject
         """
@@ -811,7 +823,7 @@ class NiryoRobot(object):
         :type pose_name: str
         :param args: either 6 args (1 for each coordinates) or a list of 6 coordinates or a PoseObject
         :type args: Union[list[float], tuple[float], PoseObject]
-        :rtype: None 
+        :rtype: None
         """
         self.__check_type(pose_name, str)
         if len(args) == 1 and isinstance(args[0], PoseObject):
@@ -841,6 +853,7 @@ class NiryoRobot(object):
 
     # - Pick/Place
 
+    @deprecated(f'{get_deprecation_msg("pick_from_pose", "pick")}')
     def pick_from_pose(self, *args):
         """
         .. deprecated:: 1.2.0
@@ -858,10 +871,11 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float], PoseObject]
         :rtype: None
         """
-        warnings.warn(self.__get_deprecation_msg('pick_from_pose', 'pick'), DeprecationWarning, stacklevel=2)
+        warnings.warn(f'{get_deprecation_msg("pick_from_pose", "pick")}', DeprecationWarning, stacklevel=2)
         pose = self.__args_pose_to_list(*args)
         self.__send_n_receive(Command.PICK_FROM_POSE, *pose)
 
+    @deprecated(f'{get_deprecation_msg("place_from_pose", "place")}')
     def place_from_pose(self, *args):
         """
         .. deprecated:: 1.2.0
@@ -879,7 +893,7 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float], PoseObject]
         :rtype: None
         """
-        warnings.warn(self.__get_deprecation_msg('place_from_pose', 'place'), DeprecationWarning, stacklevel=2)
+        warnings.warn(f'{get_deprecation_msg("place_from_pose", "place")}', DeprecationWarning, stacklevel=2)
         pose = self.__args_pose_to_list(*args)
         self.__send_n_receive(Command.PLACE_FROM_POSE, *pose)
 
@@ -993,6 +1007,7 @@ class NiryoRobot(object):
             dict_positions.append(position_dict)
         self.__send_n_receive(Command.EXECUTE_TRAJECTORY, dict_positions, dist_smoothing)
 
+    @deprecated(f'{get_deprecation_msg("execute_trajectory_from_poses", "execute_trajectory")}')
     def execute_trajectory_from_poses(self, list_poses, dist_smoothing=0.0):
         """
         .. deprecated:: 1.2.0
@@ -1007,7 +1022,7 @@ class NiryoRobot(object):
         :rtype: None
         """
         [PoseObject(*pose) for pose in list_poses]
-        warnings.warn(self.__get_deprecation_msg('execute_trajectory_from_poses', 'execute_trajectory'),
+        warnings.warn(f'{get_deprecation_msg("execute_trajectory_from_poses", "execute_trajectory")}',
                       DeprecationWarning,
                       stacklevel=2)
         for i, pose in enumerate(list_poses):
@@ -1019,6 +1034,7 @@ class NiryoRobot(object):
 
         self.__send_n_receive(Command.EXECUTE_TRAJECTORY_FROM_POSES, list_poses, dist_smoothing)
 
+    @deprecated(f'{get_deprecation_msg("execute_trajectory_from_poses_and_joints", "execute_trajectory")}')
     def execute_trajectory_from_poses_and_joints(self, list_pose_joints, list_type=None, dist_smoothing=0.0):
         """
         .. deprecated:: 1.2.0
@@ -1044,7 +1060,7 @@ class NiryoRobot(object):
         :type dist_smoothing: float
         :rtype: None
         """
-        warnings.warn(self.__get_deprecation_msg('execute_trajectory_from_poses_and_joints', 'execute_trajectory'),
+        warnings.warn(f'{get_deprecation_msg("execute_trajectory_from_poses_and_joints", "execute_trajectory")}',
                       DeprecationWarning,
                       stacklevel=2)
         if list_type is None:
@@ -1232,7 +1248,7 @@ class NiryoRobot(object):
         :type hold_torque_percentage: int
         :param percentage_opening: Set an opening percentage Default -> None
         :type percentage_opening: int
-        :rtype: None        
+        :rtype: None
         """
         speed = self.__transform_to_type(speed, int)
         max_torque_percentage = self.__transform_to_type(max_torque_percentage, int)
@@ -1617,8 +1633,8 @@ class NiryoRobot(object):
     # - Vision
     def get_img_compressed(self):
         """
-        Get image from video stream in a compressed format. 
-        Use ``uncompress_image`` from the vision package to uncompress it 
+        Get image from video stream in a compressed format.
+        Use ``uncompress_image`` from the vision package to uncompress it
 
         :return: string containing a JPEG compressed image
         :rtype: str
@@ -1784,11 +1800,11 @@ class NiryoRobot(object):
                     obs_pose=None):
         """
         Picks the specified object from the workspace. This function has multiple phases: \n
-        | 1. detect object using the camera 
-        | 2. prepare the current tool for picking 
-        | 3. approach the object 
-        | 4. move down to the correct picking pose 
-        | 5. actuate the current tool 
+        | 1. detect object using the camera
+        | 2. prepare the current tool for picking
+        | 3. approach the object
+        | 4. move down to the correct picking pose
+        | 5. actuate the current tool
         | 6. lift the object
 
         Example::
@@ -2168,6 +2184,7 @@ class NiryoRobot(object):
 
         self.__send_n_receive(Command.MOVE_RELATIVE, offset, frame, linear)
 
+    @deprecated(f'{get_deprecation_msg("move_linear_relative", "move_relative")}')
     def move_linear_relative(self, offset, frame="world"):
         """
         .. deprecated:: 1.2.0
@@ -2186,7 +2203,7 @@ class NiryoRobot(object):
         :return: status, message
         :rtype: (int, str)
         """
-        warnings.warn(self.__get_deprecation_msg('move_linear_relative', 'move_relative'),
+        warnings.warn(f'{get_deprecation_msg("move_linear_relative", "move_relative")}',
                       DeprecationWarning,
                       stacklevel=2)
         return self.move_relative(offset, frame, linear=True)
