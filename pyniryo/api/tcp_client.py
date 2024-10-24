@@ -71,6 +71,10 @@ class NiryoRobot(object):
     def __repr__(self):
         return self.__str__()
 
+    def __get_deprecation_msg(self, old_method, new_method):
+        return (f'`{self.__class__.__name__}.{old_method}()` is deprecated and will be deleted in future releases.'
+                f' Use `{self.__class__.__name__}.{new_method}()` instead.')
+
     # -- Connection
     def connect(self, ip_address):
         """
@@ -535,7 +539,7 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float]]
         :rtype: None
         """
-        warnings.warn("You should use move with a JointsPosition object.", DeprecationWarning)
+        warnings.warn(self.__get_deprecation_msg('move_joints', 'move'), DeprecationWarning, stacklevel=2)
 
         joints = self.__args_joints_to_list(*args)
         self.__send_n_receive(Command.MOVE_JOINTS, *joints)
@@ -576,7 +580,7 @@ class NiryoRobot(object):
         :type args: Union[tuple[float], list[float], PoseObject, [tuple[float], str], [list[float], str], [PoseObject, str]]
         :rtype: None
         """
-        warnings.warn("You should use move with a PoseObject object.", DeprecationWarning, stacklevel=2)
+        warnings.warn(self.__get_deprecation_msg('move_pose', 'move'), DeprecationWarning, stacklevel=2)
         if len(args) in [2, 7]:
             pose_list = list(self.__args_pose_to_list(*args[:-1])) + [args[-1]]
         else:
@@ -596,8 +600,7 @@ class NiryoRobot(object):
         :type args: Union[tuple[float], list[float], PoseObject, [tuple[float], str], [list[float], str], [PoseObject, str]]
         :rtype: None
         """
-        warnings.warn("You should use move with a PoseObject object and move_cmd=Command.MOVE_LINEAR_POSE",
-                      DeprecationWarning)
+        warnings.warn(self.__get_deprecation_msg('move_linear_pose', 'move'), DeprecationWarning, stacklevel=2)
 
         if len(args) in [2, 7]:
             pose_list = list(self.__args_pose_to_list(*args[:-1])) + [args[-1]]
@@ -646,7 +649,7 @@ class NiryoRobot(object):
     def shift_linear_pose(self, axis, shift_value):
         """
         .. deprecated:: 1.2.0
-           You should use :func:`shift_linear` with linear=True.
+           You should use :func:`shift_pose` with linear=True.
 
         Shift robot end effector pose along one axis, with a linear trajectory
 
@@ -656,7 +659,7 @@ class NiryoRobot(object):
         :type shift_value: float
         :rtype: None
         """
-        warnings.warn("You should use shift_linear with linear=True.", DeprecationWarning)
+        warnings.warn(self.__get_deprecation_msg('shift_linear_pose', 'shift_pose'), DeprecationWarning, stacklevel=2)
         return self.shift_pose(axis, shift_value, linear=True)
 
     def jog_joints(self, *args):
@@ -672,7 +675,7 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float]]
         :rtype: None
         """
-        warnings.warn("You should use jog with a JointsPosition object.", DeprecationWarning)
+        warnings.warn(self.__get_deprecation_msg('jog_joints', 'jog'), DeprecationWarning, stacklevel=2)
         joints_offset = self.__args_joints_to_list(*args)
         self.__send_n_receive(Command.JOG_JOINTS, *joints_offset)
 
@@ -690,7 +693,7 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float]]
         :rtype: None
         """
-        warnings.warn("You should use jog with a PoseObject object.", DeprecationWarning)
+        warnings.warn(self.__get_deprecation_msg('jog_pose', 'jog'), DeprecationWarning, stacklevel=2)
         pose_offset = self.__args_joints_to_list(*args)
         self.__send_n_receive(Command.JOG_POSE, *pose_offset)
 
@@ -855,7 +858,7 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float], PoseObject]
         :rtype: None
         """
-        warnings.warn("You should use pick with a PoseObject object.", DeprecationWarning)
+        warnings.warn(self.__get_deprecation_msg('pick_from_pose', 'pick'), DeprecationWarning, stacklevel=2)
         pose = self.__args_pose_to_list(*args)
         self.__send_n_receive(Command.PICK_FROM_POSE, *pose)
 
@@ -876,7 +879,7 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float], PoseObject]
         :rtype: None
         """
-        warnings.warn("You should use place with a PoseObject object.", DeprecationWarning)
+        warnings.warn(self.__get_deprecation_msg('place_from_pose', 'place'), DeprecationWarning, stacklevel=2)
         pose = self.__args_pose_to_list(*args)
         self.__send_n_receive(Command.PLACE_FROM_POSE, *pose)
 
@@ -1003,7 +1006,10 @@ class NiryoRobot(object):
         :type dist_smoothing: float
         :rtype: None
         """
-        warnings.warn("You should use execute_trajectory with PoseObject objects.", DeprecationWarning)
+        [PoseObject(*pose) for pose in list_poses]
+        warnings.warn(self.__get_deprecation_msg('execute_trajectory_from_poses', 'execute_trajectory'),
+                      DeprecationWarning,
+                      stacklevel=2)
         for i, pose in enumerate(list_poses):
             if len(pose) != 7 and len(pose) != 6:
                 self.__raise_exception(
@@ -1038,8 +1044,9 @@ class NiryoRobot(object):
         :type dist_smoothing: float
         :rtype: None
         """
-        warnings.warn("You should use execute_trajectory with PoseObject and JointsPosition objects.",
-                      DeprecationWarning)
+        warnings.warn(self.__get_deprecation_msg('execute_trajectory_from_poses_and_joints', 'execute_trajectory'),
+                      DeprecationWarning,
+                      stacklevel=2)
         if list_type is None:
             list_type = ['pose']
         for i, pose_or_joint in enumerate(list_pose_joints):
@@ -2179,7 +2186,9 @@ class NiryoRobot(object):
         :return: status, message
         :rtype: (int, str)
         """
-        warnings.warn("You should use move_relative with linear=True.", DeprecationWarning)
+        warnings.warn(self.__get_deprecation_msg('move_linear_relative', 'move_relative'),
+                      DeprecationWarning,
+                      stacklevel=2)
         return self.move_relative(offset, frame, linear=True)
 
     # Sound
