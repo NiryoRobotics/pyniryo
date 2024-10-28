@@ -36,6 +36,10 @@ class PoseMetadata:
         self.frame = frame
         self.length_unit = length_unit
 
+    def __eq__(self, other):
+        return (self.version == other.version and self.tcp_version == other.tcp_version and self.frame == other.frame
+                and self.length_unit == other.length_unit)
+
     def to_dict(self):
         """
         :return: A dictionary representing the object.
@@ -162,8 +166,15 @@ class PoseObject:
     def __getitem__(self, value):
         return self.to_list()[value]
 
+    def __setitem__(self, key, value):
+        attr = ['x', 'y', 'z', 'roll', 'pitch', 'yaw'][key]
+        setattr(self, attr, value)
+
     def __len__(self):
         return 6
+
+    def __eq__(self, other):
+        return self.to_list() == other.to_list() and self.metadata == other.metadata
 
     def to_list(self):
         """
@@ -270,7 +281,7 @@ class JointsPosition:
     """
 
     def __init__(self, *joints, **kwargs):
-        self.__joints = joints
+        self.__joints = list(joints)
         self.metadata = kwargs.get('metadata', JointsPositionMetadata.v1())
 
     def __iter__(self):
@@ -279,8 +290,14 @@ class JointsPosition:
     def __getitem__(self, item):
         return self.__joints[item]
 
+    def __setitem__(self, key, value):
+        self.__joints[key] = value
+
     def __len__(self):
         return len(self.__joints)
+
+    def __eq__(self, other):
+        return self.__joints == other.__joints
 
     def to_list(self):
         """
@@ -294,7 +311,7 @@ class JointsPosition:
         :return: A dictionary representing the object.
         :rtype: dict
         """
-        d = {'joint_' + str(n): joint for n, joint in enumerate(self.__joints)}
+        d = {f'joint_{n}': joint for n, joint in enumerate(self.__joints)}
         d['metadata'] = self.metadata.to_dict()
         return d
 
