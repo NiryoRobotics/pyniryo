@@ -34,8 +34,8 @@ from ..version import __version__
 
 
 def get_deprecation_msg(old_method, new_method):
-    return (f'`{old_method}()` is deprecated and will be deleted in future releases.'
-            f' Use `{new_method}()` instead.')
+    return (f'`{old_method}` is deprecated and will be deleted in future releases.'
+            f' Use `{new_method}` instead.')
 
 
 class NiryoRobot(object):
@@ -552,7 +552,9 @@ class NiryoRobot(object):
         self.__send_n_receive(Command.MOVE_JOINTS, *joints)
 
     @pose.setter
+    @deprecated(f'{get_deprecation_msg("pose", "pose_v2")}')
     def pose(self, *args):
+        warnings.warn(f'{get_deprecation_msg("pose", "pose_v2")}', DeprecationWarning, stacklevel=2)
         if len(args) == 1 and isinstance(args, PoseObject):
             pose = args[0]
         else:
