@@ -22,7 +22,7 @@ def build_versioned(main_ref: str, tags: List[str], dest_dir: str):
     refs_to_build.add(main_ref)
 
     command_args = ['sphinx-versioned']
-    command_args += ['--branches', ','.join(refs_to_build)]
+    command_args += ['--branch', ','.join(refs_to_build)]
     command_args += ['--main-branch', main_ref]
     command_args += ['--output', dest_dir]
 
