@@ -20,6 +20,8 @@ build_docker:
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [ "" ]
+  # override default before_script
+  before_script: []
   script:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
