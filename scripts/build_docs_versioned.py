@@ -21,10 +21,17 @@ def build_versioned(main_ref: str, tags: List[str], dest_dir: str):
     refs_to_build = filter_git_tags(tags)
     refs_to_build.add(main_ref)
 
+    from sphinx_versioned._version import __version_tuple__ as sphinx_versioned_version
+
     command_args = ['sphinx-versioned']
-    command_args += ['--branch', ','.join(refs_to_build)]
+    if sphinx_versioned_version < (1, 4):
+        command_args += ['--branches', ','.join(refs_to_build)]
+    else:
+        command_args += ['--branch', ','.join(refs_to_build)]
     command_args += ['--main-branch', main_ref]
     command_args += ['--output', dest_dir]
+
+    import sphinx_versioned
 
     process = subprocess.run(command_args, capture_output=True, encoding='utf-8')
     print(process.stdout)
