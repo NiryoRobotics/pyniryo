@@ -1,6 +1,8 @@
 import time
 import socket
 import warnings
+from contextlib import contextmanager
+
 from typing_extensions import deprecated
 
 from enum import Enum
@@ -407,6 +409,22 @@ class NiryoRobot(object):
         self.__check_range_belonging(percentage_speed, 1, 100)
         self.__send_n_receive(Command.SET_ARM_MAX_VELOCITY, percentage_speed)
 
+    @contextmanager
+    def jog_control(self):
+        """
+        Context manager to enable jog control mode during a block of code
+
+        Example: ::
+
+            with robot.jog_control():
+                robot.jog(JointsPosition(0.1, 0.0, 0.0, 0.0, 0.0, 0.0))
+        """
+        self.set_jog_control(True)
+        try:
+            yield
+        finally:
+            self.set_jog_control(False)
+
     def set_jog_control(self, enabled):
         """
         Set jog control mode if param is True, else turn it off
@@ -493,7 +511,7 @@ class NiryoRobot(object):
         """
         data = self.__send_n_receive(Command.GET_POSE)
         pose_array = self.__map_list(data, float)
-        pose_object = PoseObject(*pose_array)
+        pose_object = PoseObject(*pose_array, metadata=PoseMetadata.v1())
         return pose_object
 
     def get_pose_quat(self):
@@ -515,8 +533,7 @@ class NiryoRobot(object):
         :rtype: PoseObject
         """
         data = self.__send_n_receive(Command.GET_POSE_V2)
-        pose_array = self.__map_list(data, float)
-        pose_object = PoseObject(*pose_array)
+        pose_object = PoseObject.from_dict(data)
         return pose_object
 
     @joints.setter
@@ -555,8 +572,10 @@ class NiryoRobot(object):
     @deprecated(f'{get_deprecation_msg("pose", "pose_v2")}')
     def pose(self, *args):
         warnings.warn(f'{get_deprecation_msg("pose", "pose_v2")}', DeprecationWarning, stacklevel=2)
-        if len(args) == 1 and isinstance(args, PoseObject):
+        if len(args) == 1 and isinstance(args[0], PoseObject):
             pose = args[0]
+        elif len(args) == 1:
+            pose = PoseObject(*args[0], metadata=PoseMetadata.v1())
         else:
             pose = PoseObject(*args, metadata=PoseMetadata.v1())
         self.move(pose)
@@ -798,7 +817,7 @@ class NiryoRobot(object):
         :return: the joint position
         :rtype: JointsPosition
         """
-        data = self.__send_n_receive(Command.INVERSE_KINEMATICS, pose.to_dict())
+        data = self.__send_n_receive(Command.INVERSE_KINEMATICS_V2, pose.to_dict())
         joints_position = JointsPosition.from_dict(data)
         return joints_position
 
@@ -972,7 +991,9 @@ class NiryoRobot(object):
         :rtype: list[Joints]
         """
         self.__check_type(trajectory_name, str)
-        return self.__send_n_receive(Command.GET_TRAJECTORY_SAVED, trajectory_name)
+        return [
+            JointsPosition.from_dict(d) for d in self.__send_n_receive(Command.GET_TRAJECTORY_SAVED, trajectory_name)
+        ]
 
     def get_saved_trajectory_list(self):
         """
@@ -1068,7 +1089,7 @@ class NiryoRobot(object):
         if list_type is None:
             list_type = ['pose']
         for i, pose_or_joint in enumerate(list_pose_joints):
-            if len(pose_or_joint) != 7 and len(pose_or_joint) != 6:
+            if not (6 <= len(pose_or_joint) <= 7):
                 self.__raise_exception(
                     "7 parameters expected in a pose [x,y,z,qx,qy,qz,qw], or 6 in a pose [x,y,z,roll,pitch,yaw], "
                     "or 6 in a joint [j1,j2,j3,j4,j5,j6]"
@@ -1084,7 +1105,7 @@ class NiryoRobot(object):
         Save trajectory in robot memory
 
         :param trajectory: list of Joints [j1, j2, j3, j4, j5, j6] as waypoints to create the trajectory
-        :type trajectory: list[list[float]]
+        :type trajectory: list[list[float] | JointsPosition | PoseObject]
         :param trajectory_name: Name you want to give to the trajectory
         :type trajectory_name: str
         :param trajectory_description: Description you want to give to the trajectory
@@ -1233,34 +1254,6 @@ class NiryoRobot(object):
         hold_torque_percentage = self.__transform_to_type(hold_torque_percentage, int)
 
         self.__send_n_receive(Command.CLOSE_GRIPPER, speed, max_torque_percentage, hold_torque_percentage)
-
-    def percentage_open_gripper(self,
-                                speed=500,
-                                max_torque_percentage=100,
-                                hold_torque_percentage=20,
-                                percentage_opening=None):
-        """
-        percentage open gripper
-
-        :param speed: Between 100 & 1000 (only for Niryo One and Ned1)
-        :type speed: int
-        :param max_torque_percentage: Opening torque percentage (only for Ned2)
-        :type max_torque_percentage: int
-        :param hold_torque_percentage: Hold torque percentage after opening (only for Ned2)
-        :type hold_torque_percentage: int
-        :param percentage_opening: Set an opening percentage Default -> None
-        :type percentage_opening: int
-        :rtype: None
-        """
-        speed = self.__transform_to_type(speed, int)
-        max_torque_percentage = self.__transform_to_type(max_torque_percentage, int)
-        hold_torque_percentage = self.__transform_to_type(hold_torque_percentage, int)
-        percentage_opening = self.__transform_to_type(percentage_opening, int)
-        self.__send_n_receive(Command.PERCENTAGE_OPEN_GRIPPER,
-                              speed,
-                              max_torque_percentage,
-                              hold_torque_percentage,
-                              percentage_opening)
 
     # - Vacuum
     def pull_air_vacuum_pump(self):
@@ -1632,6 +1625,21 @@ class NiryoRobot(object):
 
         return conveyors_list
 
+    def get_conveyors_feedback(self):
+        """
+        Get the feedback of the conveyors
+
+        :return: List of the conveyors' feedback
+        :rtype: list[ConveyorFeedback]
+        """
+        conveyors_feedback = self.__send_n_receive(Command.GET_CONVEYORS_FEEDBACK)
+        for i in range(len(conveyors_feedback)):
+            conveyors_feedback[i]['conveyor_id'] = ConveyorID[conveyors_feedback[i]['conveyor_id']]
+            conveyors_feedback[i]['direction'] = ConveyorDirection(conveyors_feedback[i]['direction'])
+            conveyors_feedback[i]['connection_state'] = eval(conveyors_feedback[i]['connection_state'])
+
+        return conveyors_feedback
+
     # - Vision
     def get_img_compressed(self):
         """
@@ -1655,7 +1663,7 @@ class NiryoRobot(object):
         :rtype: None
         """
         self.__transform_to_type(brightness_factor, float)
-        self.__check_range_belonging(brightness_factor, 0.0, np.Inf)
+        self.__check_range_belonging(brightness_factor, 0.0, np.inf)
         self.__send_n_receive(Command.SET_IMAGE_BRIGHTNESS, brightness_factor)
 
     def set_contrast(self, contrast_factor):
@@ -1668,7 +1676,7 @@ class NiryoRobot(object):
         :rtype: None
         """
         self.__transform_to_type(contrast_factor, float)
-        self.__check_range_belonging(contrast_factor, 0.0, np.Inf)
+        self.__check_range_belonging(contrast_factor, 0.0, np.inf)
         self.__send_n_receive(Command.SET_IMAGE_CONTRAST, contrast_factor)
 
     def set_saturation(self, saturation_factor):
@@ -1682,7 +1690,7 @@ class NiryoRobot(object):
         :rtype: None
         """
         self.__transform_to_type(saturation_factor, float)
-        self.__check_range_belonging(saturation_factor, 0.0, np.Inf)
+        self.__check_range_belonging(saturation_factor, 0.0, np.inf)
         self.__send_n_receive(Command.SET_IMAGE_SATURATION, saturation_factor)
 
     def get_image_parameters(self):
@@ -2162,8 +2170,11 @@ class NiryoRobot(object):
         self.__check_type(belong_to_workspace, bool)
         self.__send_n_receive(Command.DELETE_DYNAMIC_FRAME, frame_name, belong_to_workspace)
 
-    def move_relative(self, offset, frame="world", linear=False):
+    @deprecated(f'{get_deprecation_msg("move_relative", "move")}')
+    def move_relative(self, offset, frame="world"):
         """
+        .. deprecated:: 1.2.0
+           You should use :func:`move` with a frame in the pose metadata.
         Move robot end of an offset in a frame
 
         Example: ::
@@ -2174,23 +2185,22 @@ class NiryoRobot(object):
         :type offset: list[float]
         :param frame: name of local frame
         :type frame: str
-        :param linear: Whether the movement has to be linear or not
-        :type linear: bool
         :return: status, message
         :rtype: (int, str)
         """
+        warnings.warn(f'{get_deprecation_msg("move_linear", "move")}', DeprecationWarning, stacklevel=2)
         self.__check_type(frame, str)
         self.__check_type(offset, list)
         if len(offset) != 6:
             self.__raise_exception("An offset must contain 6 members: [x, y, z, roll, pitch, yaw]")
 
-        self.__send_n_receive(Command.MOVE_RELATIVE, offset, frame, linear)
+        self.__send_n_receive(Command.MOVE_RELATIVE, offset, frame)
 
     @deprecated(f'{get_deprecation_msg("move_linear_relative", "move_relative")}')
     def move_linear_relative(self, offset, frame="world"):
         """
         .. deprecated:: 1.2.0
-           You should use :func:`move_relative` with linear=True.
+           You should use :func:`move` with a frame in the pose metadata and linear=True.
 
         Move robot end of an offset by a linear movement in a frame
 
@@ -2208,7 +2218,12 @@ class NiryoRobot(object):
         warnings.warn(f'{get_deprecation_msg("move_linear_relative", "move_relative")}',
                       DeprecationWarning,
                       stacklevel=2)
-        return self.move_relative(offset, frame, linear=True)
+        self.__check_type(frame, str)
+        self.__check_type(offset, list)
+        if len(offset) != 6:
+            self.__raise_exception("An offset must contain 6 members: [x, y, z, roll, pitch, yaw]")
+
+        self.__send_n_receive(Command.MOVE_LINEAR_RELATIVE, offset, frame)
 
     # Sound
 
@@ -2308,10 +2323,8 @@ class NiryoRobot(object):
         :type led_id: int
         :param color: Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255.
         :type color: list[float]
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_SET_LED, led_id, color)
+        self.__send_n_receive(Command.LED_RING_SET_LED, led_id, color)
 
     def led_ring_solid(self, color):
         """
@@ -2323,10 +2336,8 @@ class NiryoRobot(object):
 
         :param color: Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255.
         :type color: list[float]
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_SOLID, color, True)
+        self.__send_n_receive(Command.LED_RING_SOLID, color, True)
 
     def led_ring_turn_off(self):
         """
@@ -2335,11 +2346,8 @@ class NiryoRobot(object):
         Example: ::
 
             robot.led_ring_turn_off()
-
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_TURN_OFF, True)
+        self.__send_n_receive(Command.LED_RING_TURN_OFF, True)
 
     def led_ring_flashing(self, color, period=0, iterations=0, wait=False):
         """
@@ -2364,10 +2372,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish all iterations or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_FLASH, color, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_FLASH, color, period, iterations, wait)
 
     def led_ring_alternate(self, color_list, period=0, iterations=0, wait=False):
         """
@@ -2394,10 +2400,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish all iterations or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_ALTERNATE, color_list, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_ALTERNATE, color_list, period, iterations, wait)
 
     def led_ring_chase(self, color, period=0, iterations=0, wait=False):
         """
@@ -2420,10 +2424,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish all iterations or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_CHASE, color, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_CHASE, color, period, iterations, wait)
 
     def led_ring_wipe(self, color, period=0, wait=False):
         """
@@ -2441,10 +2443,8 @@ class NiryoRobot(object):
         :type period: float
         :param wait: The service wait for the animation to finish or not to answer.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_WIPE, color, period, wait)
+        self.__send_n_receive(Command.LED_RING_WIPE, color, period, wait)
 
     def led_ring_rainbow(self, period=0, iterations=0, wait=False):
         """
@@ -2463,10 +2463,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_RAINBOW, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_RAINBOW, period, iterations, wait)
 
     def led_ring_rainbow_cycle(self, period=0, iterations=0, wait=False):
         """
@@ -2485,10 +2483,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_RAINBOW_CYCLE, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_RAINBOW_CYCLE, period, iterations, wait)
 
     def led_ring_rainbow_chase(self, period=0, iterations=0, wait=False):
         """
@@ -2507,10 +2503,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_RAINBOW_CHASE, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_RAINBOW_CHASE, period, iterations, wait)
 
     def led_ring_go_up(self, color, period=0, iterations=0, wait=False):
         """
@@ -2533,10 +2527,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_GO_UP, color, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_GO_UP, color, period, iterations, wait)
 
     def led_ring_go_up_down(self, color, period=0, iterations=0, wait=False):
         """
@@ -2559,10 +2551,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_GO_UP_DOWN, color, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_GO_UP_DOWN, color, period, iterations, wait)
 
     def led_ring_breath(self, color, period=0, iterations=0, wait=False):
         """
@@ -2584,10 +2574,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_BREATH, color, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_BREATH, color, period, iterations, wait)
 
     def led_ring_snake(self, color, period=0, iterations=0, wait=False):
         """
@@ -2608,10 +2596,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_SNAKE, color, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_SNAKE, color, period, iterations, wait)
 
     def led_ring_custom(self, led_colors):
         """
@@ -2626,7 +2612,5 @@ class NiryoRobot(object):
         :param led_colors: List of size 30 of led color in a list of size 3[R, G, B].
                 RGB channels from 0 to 255.
         :type led_colors: list[list[float]]
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_CUSTOM, led_colors)
+        self.__send_n_receive(Command.LED_RING_CUSTOM, led_colors)
