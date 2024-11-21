@@ -1,24 +1,33 @@
 import sys
-
 import os
+from datetime import date
 
 sys.path.append(os.path.abspath('../pyniryo'))
 # Kindda hack the import to import shared config file
 sys.path.append(os.path.abspath('.'))
-from front_end.config import shared_conf
 
-# -- Project information -----------------------------------------------------
+# Pdf options
 
-project = u'PyNiryo'
-copyright = shared_conf.copyright
-author = shared_conf.author
+## Header
+pdf_header_font_name = "semplicitapro"
 
-# The short X.Y version
-version = u'v1.0'
-# The full version, including alpha/beta/rc tags
-release = u'v1.0.5'
+pdf_header_font_color = 203567
 
-# -- General configuration ---------------------------------------------------
+pdf_header_font_size = 16
+
+pdf_header_spacing = 5  # In mm
+
+## Footer
+
+pdf_footer_font_name = "open-sans"
+
+pdf_footer_font_color = 333333
+
+pdf_footer_font_size = 10
+
+pdf_footer_spacing = 5  # In mm
+
+# front_end.config.base_conf ---------------------------------------------------
 
 extensions = [
     'sphinx.ext.autodoc',
@@ -28,7 +37,46 @@ extensions = [
     'sphinx.ext.githubpages',
     'sphinx.ext.extlinks',
     'sphinx.ext.todo',
+    'sphinx.ext.ifconfig',
+    'sphinx_tabs.tabs',
+    'sphinx_togglebutton'
 ]
+
+# -- General configuration ---------------------------------------------------
+
+# -- Project information -----------------------------------------------------
+
+project = u'PyNiryo'
+copyright = " ".join([
+    str(date.today().year) + ", Niryo All rights reserved.",
+    "No part of this document may be reproduced or transmitted in any form or by any",
+    "means without prior written consent of Niryo SAS"
+])
+author = u'Niryo'
+
+# The short X.Y version
+version = u'v1.0'
+# The full version, including alpha/beta/rc tags
+release = u'v1.0.5'
+
+# -- General configuration ---------------------------------------------------
+
+# code snippet which will be added to the top of every rst file
+rst_prolog = """
+.. role:: python(code)
+   :language: python
+
+"""
+
+# -- Options for HTML output -------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+
+html_theme = 'sphinx_rtd_theme'
+# html_static_path = ['_static']
+html_theme_options = {
+    'analytics_id': 'UA-85632199-1',  #  Provided by Google in your dashboard
+    "collapse_navigation": False
+}
 
 # Avoid autosection label to trigger warning on low level titles
 autosectionlabel_maxdepth = 3
@@ -50,7 +98,7 @@ for arg in sys.argv:
         language = arg.replace("language=", "")
         break
 else:
-    language = None
+    language = 'en'
 
 translation_object = {}
 translation_object["fr"] = {}
@@ -63,7 +111,6 @@ html_context = {}
 
 html_context["BASE_FOLDER_URL"] = "https://docs.niryo.com/dev/pyniryo"
 
-
 html_context["TRANSLATION"] = translation_object[language if language is not None else 'en']
 
 exclude_patterns = [u'_build', 'Thumbs.db', '.DS_Store']
@@ -72,37 +119,11 @@ pygments_style = None
 
 add_module_names = False
 
-
-# -- Options for HTML output -------------------------------------------------
-html_theme = shared_conf.html_theme
-
-templates_path = shared_conf.templates_path
-html_static_path = shared_conf.html_static_path
-
-html_logo = shared_conf.html_logo
-html_favicon = shared_conf.html_favicon
-
-html_css_files = shared_conf.html_css_files
-
-html_js_files = shared_conf.html_js_files
-
-html_theme_options = shared_conf.html_theme_options
-
-html_show_sphinx = shared_conf.html_show_sphinx
-
 # -- Options for intersphinx extension ---------------------------------------
 
 # Links
-extlinks = {
-}
+extlinks = {}
 
 # -- Internationalization --
 locale_dirs = ['locale/']  # path is example but recommended.
 gettext_compact = False  # optional.
-
-# -- Options for intersphinx extension ---------------------------------------
-
-# Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {
-    'https://docs.python.org/': None,
-}
