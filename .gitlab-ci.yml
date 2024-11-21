@@ -48,7 +48,7 @@ build_package:
 pages:
   stage: deploy
   script:
-    - git pull --tags --force
+    - git fetch --tags --force
     - git checkout origin/$CI_COMMIT_REF_NAME
     - scripts/build_docs_versioned.py public $CI_COMMIT_REF_NAME $(git tag)
   artifacts:
@@ -56,6 +56,8 @@ pages:
       - public
   rules:
     - if: $CI_COMMIT_BRANCH == "develop"
+  variables:
+    GIT_STRATEGY: "clone"
 
 
 upload_package:
