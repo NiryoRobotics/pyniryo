@@ -3,23 +3,13 @@ import sys
 import subprocess
 from typing import Tuple, Set, List
 
-# The building system have changed, thus the old versions are not buildable with this system
-MIN_SUPPORTED_TAG = '1.2.0'
-
 
 def get_version_from_tag(tag: str) -> Tuple[int, ...]:
     return tuple(map(int, tag.lstrip('v').split('.')))
 
 
-def filter_git_tags(tags) -> Set[str]:
-    min_version = get_version_from_tag(MIN_SUPPORTED_TAG)
-    buildable_tags = filter(lambda tag: get_version_from_tag(tag) >= min_version, tags)
-    return set(buildable_tags)
-
-
 def build_versioned(main_ref: str, tags: List[str], dest_dir: str):
-    refs_to_build = filter_git_tags(tags)
-    refs_to_build.add(main_ref)
+    refs_to_build = {main_ref, *tags}
 
     from sphinx_versioned._version import __version_tuple__ as sphinx_versioned_version
 
@@ -30,8 +20,6 @@ def build_versioned(main_ref: str, tags: List[str], dest_dir: str):
         command_args += ['--branch', ','.join(refs_to_build)]
     command_args += ['--main-branch', main_ref]
     command_args += ['--output', dest_dir]
-
-    import sphinx_versioned
 
     process = subprocess.run(command_args, capture_output=True, encoding='utf-8')
     print(process.stdout)
