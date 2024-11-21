@@ -48,7 +48,7 @@ build_package:
 pages:
   stage: deploy
   script:
-    - git fetch --tags --force
+    - git pull --tags --force
     - git checkout origin/$CI_COMMIT_REF_NAME
     - scripts/build_docs_versioned.py public $CI_COMMIT_REF_NAME $(git tag)
   artifacts:
