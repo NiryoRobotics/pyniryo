@@ -1,38 +1,10 @@
 import sys
 import os
+from datetime import date
 
 sys.path.append(os.path.abspath('../pyniryo'))
 # Kindda hack the import to import shared config file
 sys.path.append(os.path.abspath('.'))
-
-# front_end.config.shared_conf ---------------------------------------------------
-
-from datetime import date
-
-copyright = " ".join([
-    str(date.today().year) + ", Niryo All rights reserved.",
-    "No part of this document may be reproduced or transmitted in any form or by any",
-    "means without prior written consent of Niryo SAS"
-])
-author = u'Niryo'
-
-templates_path = ['templates/']
-html_static_path = ['static/']
-
-html_logo = html_static_path[0] + "logo.png"
-html_favicon = html_static_path[0] + "favicon32.ico"
-
-html_css_files = ['override.css']
-
-html_js_files = [
-    'app.js',
-]
-
-html_theme_options = {
-    'analytics_id': 'UA-85632199-1',  #  Provided by Google in your dashboard
-}
-
-html_show_sphinx = False
 
 # Pdf options
 
@@ -75,8 +47,12 @@ extensions = [
 # -- Project information -----------------------------------------------------
 
 project = u'PyNiryo'
-copyright = copyright
-author = author
+copyright = " ".join([
+    str(date.today().year) + ", Niryo All rights reserved.",
+    "No part of this document may be reproduced or transmitted in any form or by any",
+    "means without prior written consent of Niryo SAS"
+])
+author = u'Niryo'
 
 # The short X.Y version
 version = u'v1.1'
@@ -97,9 +73,10 @@ rst_prolog = """
 
 html_theme = 'sphinx_rtd_theme'
 # html_static_path = ['_static']
-html_theme_options = {"collapse_navigation": False}
-
-extensions = extensions
+html_theme_options = {
+    'analytics_id': 'UA-85632199-1',  #  Provided by Google in your dashboard
+    "collapse_navigation": False
+}
 
 # Avoid autosection label to trigger warning on low level titles
 autosectionlabel_maxdepth = 3
@@ -142,23 +119,6 @@ pygments_style = None
 
 add_module_names = False
 
-# -- Options for HTML output -------------------------------------------------
-html_theme = html_theme
-
-templates_path = templates_path
-html_static_path = html_static_path
-
-html_logo = html_logo
-html_favicon = html_favicon
-
-html_css_files = html_css_files
-
-html_js_files = html_js_files
-
-html_theme_options = html_theme_options
-
-html_show_sphinx = html_show_sphinx
-
 # -- Options for intersphinx extension ---------------------------------------
 
 # Links
@@ -167,10 +127,3 @@ extlinks = {}
 # -- Internationalization --
 locale_dirs = ['locale/']  # path is example but recommended.
 gettext_compact = False  # optional.
-
-# -- Options for intersphinx extension ---------------------------------------
-
-# Example configuration for intersphinx: refer to the Python standard library.
-# intersphinx_mapping = {
-#     'https://docs.python.org/': None,
-# }
