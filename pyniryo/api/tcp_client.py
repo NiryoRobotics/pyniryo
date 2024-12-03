@@ -1,30 +1,65 @@
-# - Imports
-from __future__ import print_function
-
-# Python libraries
 import time
 import socket
+import warnings
+from contextlib import contextmanager
+
+from typing_extensions import deprecated
+
+from enum import Enum
+
 import numpy as np
-import sys
 
 # Communication imports
-from .enums_communication import *
+from .enums_communication import (CalibrateMode,
+                                  Command,
+                                  ConveyorDirection,
+                                  ConveyorID,
+                                  ObjectColor,
+                                  ObjectShape,
+                                  PinID,
+                                  PinMode,
+                                  PinState,
+                                  RobotAxis,
+                                  TCP_PORT,
+                                  TCP_TIMEOUT,
+                                  ToolID)
 from .communication_functions import dict_to_packet, receive_dict, receive_dict_w_payload
 
-from .exceptions import *
-from .objects import PoseObject, HardwareStatusObject, DigitalPinObject, AnalogPinObject
+from .exceptions import (ClientNotConnectedException,
+                         HostNotReachableException,
+                         InvalidAnswerException,
+                         NiryoRobotException,
+                         TcpCommandException)
+from .objects import PoseObject, HardwareStatusObject, DigitalPinObject, AnalogPinObject, JointsPosition, PoseMetadata
+from ..utils.logging import get_logger
+from ..version import __version__
+
+
+def get_deprecation_msg(old_method, new_method):
+    return (f'`{old_method}` is deprecated and will be deleted in future releases.'
+            f' Use `{new_method}` instead.')
 
 
 class NiryoRobot(object):
-    def __init__(self, ip_address=None):
+
+    def __init__(self, ip_address=None, verbose=True):
+        """
+        :param ip_address: IP address of the robot
+        :type ip_address: str
+        :param verbose: Enable or disable the information logs
+        :type verbose: bool
+        """
         self.__ip_address = None
         self.__port = TCP_PORT
         self.__client_socket = None
 
         self.__timeout = TCP_TIMEOUT
 
-        self.__is_running = True
         self.__is_connected = False
+
+        self.__logger = get_logger(self.__class__.__name__)
+        if not verbose:
+            self.__logger.setLevel('WARNING')
 
         # If user give IP Address, try to connect directly
         if ip_address is not None:
@@ -43,6 +78,10 @@ class NiryoRobot(object):
 
     def __repr__(self):
         return self.__str__()
+
+    def __get_deprecation_msg(self, old_method, new_method):
+        return (f'`{self.__class__.__name__}.{old_method}()` is deprecated and will be deleted in future releases.'
+                f' Use `{self.__class__.__name__}.{new_method}()` instead.')
 
     # -- Connection
     def connect(self, ip_address):
@@ -64,7 +103,8 @@ class NiryoRobot(object):
         self.__is_connected = True
         self.__client_socket.settimeout(None)
         self.__ip_address = ip_address
-        print("\nConnected to server ({}) on port: {}\n".format(ip_address, self.__port))
+        self.__logger.info("Connected to server ({}) on port {}".format(ip_address, self.__port))
+        self.__handshake()
 
     def __close_socket(self):
         if self.__client_socket is not None and self.__is_connected is True:
@@ -74,7 +114,7 @@ class NiryoRobot(object):
             except socket.error:
                 pass
             self.__is_connected = False
-            print("\nDisconnected from robot\n")
+            self.__logger.info("Disconnected from robot")
 
     def close_connection(self):
         """
@@ -82,7 +122,6 @@ class NiryoRobot(object):
 
         :rtype: None
         """
-        self.__is_running = False
         self.__close_socket()
         self.__client_socket = None
 
@@ -98,7 +137,7 @@ class NiryoRobot(object):
                 packet = dict_to_packet(ret_dict)
                 self.__client_socket.send(packet)
             except socket.error as e:
-                print(e, file=sys.stderr)
+                self.__logger.error(e)
                 raise HostNotReachableException()
 
     @staticmethod
@@ -127,7 +166,7 @@ class NiryoRobot(object):
             else:
                 received_dict, payload = receive_dict_w_payload(sckt=self.__client_socket)
         except socket.error as e:
-            print(e, file=sys.stderr)
+            self.__logger.error(e)
             raise HostNotReachableException()
         if not received_dict:
             raise HostNotReachableException()
@@ -135,7 +174,7 @@ class NiryoRobot(object):
         if answer_status not in ["OK", "KO"]:
             raise InvalidAnswerException(answer_status)
         if received_dict["status"] != "OK":
-            raise NiryoRobotException("Command KO : {}".format(received_dict["message"]))
+            raise NiryoRobotException("Command {} KO : {}".format(received_dict['command'], received_dict["message"]))
         list_ret_param = received_dict["list_ret_param"]
         if len(list_ret_param) == 1:
             list_ret_param = list_ret_param[0]
@@ -156,7 +195,7 @@ class NiryoRobot(object):
         """
         Check if a value belong to an enum
         """
-        if value not in enum_:
+        if not isinstance(value, enum_):
             self.__raise_exception_expected_choice([v for v in enum_], value)
 
     def __check_list_belonging(self, value, list_):
@@ -221,8 +260,8 @@ class NiryoRobot(object):
         raise TcpCommandException("Expected type: {}.\nGiven: {}".format(expected_type, given))
 
     def __raise_exception_expected_range(self, range_min, range_max, given):
-        raise TcpCommandException(
-            "Expected the following condition: {} <= value <= {}\nGiven: {}".format(range_min, range_max, given))
+        raise TcpCommandException("Expected the following condition: {} <= value <= {}\nGiven: {}".format(
+            range_min, range_max, given))
 
     def __raise_exception(self, message):
         raise TcpCommandException("Exception message : {}".format(message))
@@ -261,9 +300,32 @@ class NiryoRobot(object):
 
         return joints
 
+    def __differentiate_robot_position(self, robot_position):
+        if isinstance(robot_position, PoseObject):
+            return 'POSE'
+        elif isinstance(robot_position, JointsPosition):
+            return 'JOINTS'
+        else:
+            self.__raise_exception_expected_type('PoseObject or JointsPosition', type(robot_position).__name__)
+
     # --- Public functions --- #
 
     # - Main purpose
+
+    def __handshake(self):
+        try:
+            server_info = self.__send_n_receive(Command.HANDSHAKE, __version__)
+        except NiryoRobotException as exception:
+            if 'Unknown command' in str(exception):
+                self.__logger.info(
+                    "This PyNiryo version is meant to be used on a more recent version of the Robot's system. "
+                    "To fully benefit from the server features it's advised to upgrade your Robot System.")
+                return
+            else:
+                raise exception from None
+        if 'message' in server_info:
+            self.__logger.info(server_info['message'])
+            self.__logger.info('To disable the MOTD, use verbose=False')
 
     def calibrate(self, calibrate_mode):
         """
@@ -347,6 +409,22 @@ class NiryoRobot(object):
         self.__check_range_belonging(percentage_speed, 1, 100)
         self.__send_n_receive(Command.SET_ARM_MAX_VELOCITY, percentage_speed)
 
+    @contextmanager
+    def jog_control(self):
+        """
+        Context manager to enable jog control mode during a block of code
+
+        Example: ::
+
+            with robot.jog_control():
+                robot.jog(JointsPosition(0.1, 0.0, 0.0, 0.0, 0.0, 0.0))
+        """
+        self.set_jog_control(True)
+        try:
+            yield
+        finally:
+            self.set_jog_control(False)
+
     def set_jog_control(self, enabled):
         """
         Set jog control mode if param is True, else turn it off
@@ -369,43 +447,71 @@ class NiryoRobot(object):
         """
         time.sleep(duration)
 
+    @property
+    def collision_detected(self):
+        """
+        True if a collision has been detected during a previous movement
+
+        :type: bool
+        """
+        return eval(self.__send_n_receive(Command.GET_COLLISION_DETECTED))
+
+    def clear_collision_detected(self):
+        """
+        Reset the internal flag ``collision_detected``
+        """
+        return self.__send_n_receive(Command.CLEAR_COLLISION_DETECTED)
+
     # - Joints/Pose
 
     @property
     def joints(self):
+        """
+        Robot's current joints position
+
+        :type: JointsPosition
+        """
         return self.get_joints()
 
     def get_joints(self):
         """
         Get joints value in radians
-        You can also use a getter ::
 
-            joints = robot.get_joints()
-            joints = robot.joints
-
-        :return: List of joints value
-        :rtype: list[float]
+        :return: Robot's current joints position
+        :rtype: JointsPosition
         """
-        return self.__send_n_receive(Command.GET_JOINTS)
+        return JointsPosition(*self.__send_n_receive(Command.GET_JOINTS))
 
     @property
     def pose(self):
+        """
+        Get end effector link pose.
+        x, y & z are expressed in meters / roll, pitch & yaw are expressed in radians
+
+        :type: PoseObject
+        """
         return self.get_pose()
+
+    @property
+    def pose_v2(self):
+        """
+        Get end effector link pose.
+        x, y & z are expressed in meters / roll, pitch & yaw are expressed in radians
+
+        :type: PoseObject
+        """
+        return self.get_pose_v2()
 
     def get_pose(self):
         """
-        Get end effector link pose as [x, y, z, roll, pitch, yaw].
+        Get end effector link pose.
         x, y & z are expressed in meters / roll, pitch & yaw are expressed in radians
-        You can also use a getter ::
-
-            pose = robot.get_pose()
-            pose = robot.pose
 
         :rtype: PoseObject
         """
         data = self.__send_n_receive(Command.GET_POSE)
         pose_array = self.__map_list(data, float)
-        pose_object = PoseObject(*pose_array)
+        pose_object = PoseObject(*pose_array, metadata=PoseMetadata.v1())
         return pose_object
 
     def get_pose_quat(self):
@@ -419,12 +525,32 @@ class NiryoRobot(object):
         pose_array = self.__map_list(data, float)
         return pose_array
 
+    def get_pose_v2(self):
+        """
+        Get end effector link pose.
+        x, y & z are expressed in meters / roll, pitch & yaw are expressed in radians
+
+        :rtype: PoseObject
+        """
+        data = self.__send_n_receive(Command.GET_POSE_V2)
+        pose_object = PoseObject.from_dict(data)
+        return pose_object
+
     @joints.setter
     def joints(self, *args):
-        self.move_joints(*args)
+        if len(args) == 1 and isinstance(args, JointsPosition):
+            joints_position = args[0]
+        else:
+            joints = self.__args_joints_to_list(*args)
+            joints_position = JointsPosition(*joints)
+        self.move(joints_position)
 
+    @deprecated(f'{get_deprecation_msg("move_joints", "move")}')
     def move_joints(self, *args):
         """
+        .. deprecated:: 1.2.0
+           You should use :func:`move` with a :class:`JointsPosition` object.
+
         Move robot joints. Joints are expressed in radians.
 
         All lines of the next example realize the same operation: ::
@@ -437,15 +563,33 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float]]
         :rtype: None
         """
+        warnings.warn(f'{get_deprecation_msg("move_joints", "move")}', DeprecationWarning, stacklevel=2)
+
         joints = self.__args_joints_to_list(*args)
         self.__send_n_receive(Command.MOVE_JOINTS, *joints)
 
     @pose.setter
+    @deprecated(f'{get_deprecation_msg("pose", "pose_v2")}')
     def pose(self, *args):
-        self.move_pose(*args)
+        warnings.warn(f'{get_deprecation_msg("pose", "pose_v2")}', DeprecationWarning, stacklevel=2)
+        if len(args) == 1 and isinstance(args[0], PoseObject):
+            pose = args[0]
+        elif len(args) == 1:
+            pose = PoseObject(*args[0], metadata=PoseMetadata.v1())
+        else:
+            pose = PoseObject(*args, metadata=PoseMetadata.v1())
+        self.move(pose)
 
+    @pose_v2.setter
+    def pose_v2(self, pose):
+        self.move(pose)
+
+    @deprecated(f'{get_deprecation_msg("move_pose", "move")}')
     def move_pose(self, *args):
         """
+        .. deprecated:: 1.2.0
+           You should use :func:`move` with a :class:`PoseObject` object.
+
         Move robot end effector pose to a (x, y, z, roll, pitch, yaw, frame_name) pose
         in a particular frame (frame_name) if defined.
         x, y & z are expressed in meters / roll, pitch & yaw are expressed in radians
@@ -460,34 +604,63 @@ class NiryoRobot(object):
             robot.move_pose([0.2, 0.1, 0.3, 0.0, 0.5, 0.0], "frame")
             robot.move_pose(PoseObject(0.2, 0.1, 0.3, 0.0, 0.5, 0.0), "frame")
 
-        :param args: either 7 args (1 for each coordinates and 1 for the name of the frame) or a list of 6 coordinates or a ``PoseObject``
+        :param args: either 7 args (1 for each coordinates and 1 for the name of the frame) or a list of 6 coordinates or a `:class:`PoseObject``
          and 1 for the frame name
         :type args: Union[tuple[float], list[float], PoseObject, [tuple[float], str], [list[float], str], [PoseObject, str]]
         :rtype: None
         """
+        warnings.warn(f'{get_deprecation_msg("move_pose", "move")}', DeprecationWarning, stacklevel=2)
         if len(args) in [2, 7]:
             pose_list = list(self.__args_pose_to_list(*args[:-1])) + [args[-1]]
         else:
             pose_list = list(self.__args_pose_to_list(*args)) + ['']
         self.__send_n_receive(Command.MOVE_POSE, *pose_list)
 
+    @deprecated(f'{get_deprecation_msg("move_linear_pose", "move")}')
     def move_linear_pose(self, *args):
         """
+        .. deprecated:: 1.2.0
+           You should use :func:`move` with a :class:`PoseObject` object and `move_cmd=Command.MOVE_LINEAR_POSE`
+
         Move robot end effector pose to a (x, y, z, roll, pitch, yaw) pose with a linear trajectory,
         in a particular frame (frame_name) if defined
 
-        :param args: either 7 args (1 for each coordinates and 1 for the name of the frame) or a list of 6 coordinates or a ``PoseObject``
+        :param args: either 7 args (1 for each coordinates and 1 for the name of the frame) or a list of 6 coordinates or a `:class:`PoseObject``
          and 1 for the frame name
         :type args: Union[tuple[float], list[float], PoseObject, [tuple[float], str], [list[float], str], [PoseObject, str]]
         :rtype: None
         """
+        warnings.warn(f'{get_deprecation_msg("move_linear_pose", "move")}', DeprecationWarning, stacklevel=2)
+
         if len(args) in [2, 7]:
             pose_list = list(self.__args_pose_to_list(*args[:-1])) + [args[-1]]
         else:
             pose_list = list(self.__args_pose_to_list(*args)) + ['']
         self.__send_n_receive(Command.MOVE_LINEAR_POSE, *pose_list)
 
-    def shift_pose(self, axis, shift_value):
+    def move(self, robot_position, linear=False):
+        """
+        Move the robot to the given position. The position can be expressed in joints or in pose coordinates.
+        Distances are expressed in meters, and angles are expressed in radians.
+        If a move pose is performed, move_cmd can be specified to move the robot according to the command
+
+        Examples ::
+
+            robot.move(PoseObject(0.2, 0.1, 0.3, 0.0, 0.5, 0.0, metadata=PoseMetadata.v2(frame="frame")))
+            robot.move(PoseObject(0.2, 0.1, 0.3, 0.0, 0.5, 0.0), linear=True)
+            robot.move(JointsPosition(0.2, 0.1, 0.3, 0.0, 0.5, 0.0))
+
+        :param robot_position: either a joints position or a pose
+        :type robot_position: Union[PoseObject, JointsPosition]
+        :param linear: do a linear move (works only with a PoseObject)
+        :type linear: bool
+        :rtype: None
+        """
+        robot_position_dict = robot_position.to_dict()
+        robot_position_dict['obj_type'] = self.__differentiate_robot_position(robot_position)
+        self.__send_n_receive(Command.MOVE, robot_position_dict, linear)
+
+    def shift_pose(self, axis, shift_value, linear=False):
         """
         Shift robot end effector pose along one axis
 
@@ -495,14 +668,20 @@ class NiryoRobot(object):
         :type axis: RobotAxis
         :param shift_value: In meter for X/Y/Z and radians for roll/pitch/yaw
         :type shift_value: float
+        :param linear: Whether the movement has to be linear or not
+        :type linear: bool
         :rtype: None
         """
         self.__check_enum_belonging(axis, RobotAxis)
         shift_value = self.__transform_to_type(shift_value, float)
-        self.__send_n_receive(Command.SHIFT_POSE, axis, shift_value)
+        self.__send_n_receive(Command.SHIFT_POSE, axis, shift_value, linear)
 
+    @deprecated(f'{get_deprecation_msg("shift_linear_pose", "shift_pose")}')
     def shift_linear_pose(self, axis, shift_value):
         """
+        .. deprecated:: 1.2.0
+           You should use :func:`shift_pose` with linear=True.
+
         Shift robot end effector pose along one axis, with a linear trajectory
 
         :param axis: Axis along which the robot is shifted
@@ -511,12 +690,15 @@ class NiryoRobot(object):
         :type shift_value: float
         :rtype: None
         """
-        self.__check_enum_belonging(axis, RobotAxis)
-        shift_value = self.__transform_to_type(shift_value, float)
-        self.__send_n_receive(Command.SHIFT_LINEAR_POSE, axis, shift_value)
+        warnings.warn(f'{get_deprecation_msg("shift_linear_pose", "shift_pose")}', DeprecationWarning, stacklevel=2)
+        return self.shift_pose(axis, shift_value, linear=True)
 
+    @deprecated(f'{get_deprecation_msg("jog_joints", "jog")}')
     def jog_joints(self, *args):
         """
+        .. deprecated:: 1.2.0
+           You should use :func:`jog` with a :class:`JointsPosition` object.
+
         Jog robot joints'.
         Jog corresponds to a shift without motion planning.
         Values are expressed in radians.
@@ -525,11 +707,16 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float]]
         :rtype: None
         """
+        warnings.warn(f'{get_deprecation_msg("jog_joints", "jog")}', DeprecationWarning, stacklevel=2)
         joints_offset = self.__args_joints_to_list(*args)
         self.__send_n_receive(Command.JOG_JOINTS, *joints_offset)
 
+    @deprecated(f'{get_deprecation_msg("jog_pose", "jog")}')
     def jog_pose(self, *args):
         """
+        .. deprecated:: 1.2.0
+           You should use :func:`jog` with a :class:`PoseObject` object.
+
         Jog robot end effector pose
         Jog corresponds to a shift without motion planning
         Arguments are [dx, dy, dz, d_roll, d_pitch, d_yaw]
@@ -539,8 +726,14 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float]]
         :rtype: None
         """
+        warnings.warn(f'{get_deprecation_msg("jog_pose", "jog")}', DeprecationWarning, stacklevel=2)
         pose_offset = self.__args_joints_to_list(*args)
         self.__send_n_receive(Command.JOG_POSE, *pose_offset)
+
+    def jog(self, robot_position):
+        robot_position_dict = robot_position.to_dict()
+        robot_position_dict['obj_type'] = self.__differentiate_robot_position(robot_position)
+        self.__send_n_receive(Command.JOG, robot_position_dict)
 
     def move_to_home_pose(self):
         """
@@ -548,7 +741,7 @@ class NiryoRobot(object):
 
         :rtype: None
         """
-        self.move_joints(0.0, 0.3, -1.3, 0.0, 0.0, 0.0)
+        self.move(JointsPosition(0.0, 0.3, -1.3, 0.0, 0.0, 0.0))
 
     def go_to_sleep(self):
         """
@@ -564,30 +757,69 @@ class NiryoRobot(object):
         Compute forward kinematics of a given joints configuration and give the
         associated spatial pose
 
-        :param args: either 6 args (1 for each joints) or a list of 6 joints
-        :type args: Union[list[float], tuple[float]]
+        :param args: either 6 args (1 for each joints) or a list of 6 joints or a JointsPosition instance
+        :type args: Union[list[float], tuple[float], JointsPosition]
         :rtype: PoseObject
         """
-        joints = self.__args_joints_to_list(*args)
-        data = self.__send_n_receive(Command.FORWARD_KINEMATICS, *joints)
+        if len(args) == 1 and isinstance(args[0], JointsPosition):
+            joints = args[0]
+        elif len(args) == 1:
+            joints = JointsPosition(*args[0])
+        else:
+            joints = JointsPosition(*args)
 
-        pose_array = self.__map_list(data, float)
-        pose_object = PoseObject(*pose_array)
-        return pose_object
+        data = self.__send_n_receive(Command.FORWARD_KINEMATICS, joints.to_dict())
+
+        pose = PoseObject.from_dict(data)
+        return pose
 
     def inverse_kinematics(self, *args):
         """
         Compute inverse kinematics
 
-        :param args: either 6 args (1 for each coordinates) or a list of 6 coordinates or a ``PoseObject``
+        :param args: either 6 args (1 for each coordinate) or a list of 6 coordinates or a `:class:`PoseObject``
         :type args: Union[tuple[float], list[float], PoseObject]
 
         :return: List of joints value
         :rtype: list[float]
         """
-        pose_list = self.__args_pose_to_list(*args)
+        if len(args) == 1 and isinstance(args[0], PoseObject):
+            pose = args[0]
+        elif len(args) == 1:
+            pose = PoseObject(*args[0], metadata=PoseMetadata.v1())
+        else:
+            pose = PoseObject(*args, metadata=PoseMetadata.v1())
 
-        return self.__send_n_receive(Command.INVERSE_KINEMATICS, *pose_list)
+        data = self.__send_n_receive(Command.INVERSE_KINEMATICS, pose.to_dict())
+        joints_position = JointsPosition.from_dict(data)
+        return joints_position
+
+    def forward_kinematics_v2(self, joints_position):
+        """
+        Compute forward kinematics of a given joints configuration and give the
+        associated spatial pose
+
+        :param joints_position: Joints configuration
+        :type joints_position: JointsPosition
+        :rtype: PoseObject
+        """
+        data = self.__send_n_receive(Command.FORWARD_KINEMATICS_V2, joints_position.to_dict())
+        pose = PoseObject.from_dict(data)
+        return pose
+
+    def inverse_kinematics_v2(self, pose):
+        """
+        Compute inverse kinematics
+
+        :param pose: Robot pose
+        :type pose: PoseObject
+
+        :return: the joint position
+        :rtype: JointsPosition
+        """
+        data = self.__send_n_receive(Command.INVERSE_KINEMATICS_V2, pose.to_dict())
+        joints_position = JointsPosition.from_dict(data)
+        return joints_position
 
     # - Saved Pose
 
@@ -596,14 +828,14 @@ class NiryoRobot(object):
         Get pose saved in from Ned's memory
 
         :param pose_name: Pose name in robot's memory
-        :type pose_name: str 
+        :type pose_name: str
         :return: Pose associated to pose_name
         :rtype: PoseObject
         """
         self.__check_type(pose_name, str)
 
         pose_list = self.__send_n_receive(Command.GET_POSE_SAVED, pose_name)
-        return PoseObject(*pose_list)
+        return PoseObject.from_dict(pose_list)
 
     def save_pose(self, pose_name, *args):
         """
@@ -612,12 +844,15 @@ class NiryoRobot(object):
         :type pose_name: str
         :param args: either 6 args (1 for each coordinates) or a list of 6 coordinates or a PoseObject
         :type args: Union[list[float], tuple[float], PoseObject]
-        :rtype: None 
+        :rtype: None
         """
         self.__check_type(pose_name, str)
-        pose_list = self.__args_pose_to_list(*args)
+        if len(args) == 1 and isinstance(args[0], PoseObject):
+            pose = args[0]
+        else:
+            pose = PoseObject(*self.__args_pose_to_list(*args), metadata=PoseMetadata.v1())
 
-        self.__send_n_receive(Command.SAVE_POSE, pose_name, *pose_list)
+        self.__send_n_receive(Command.SAVE_POSE, pose_name, pose.to_dict())
 
     def delete_pose(self, pose_name):
         """
@@ -639,8 +874,12 @@ class NiryoRobot(object):
 
     # - Pick/Place
 
+    @deprecated(f'{get_deprecation_msg("pick_from_pose", "pick")}')
     def pick_from_pose(self, *args):
         """
+        .. deprecated:: 1.2.0
+           You should use :func:`pick` with a :class:`PoseObject` object.
+
         Execute a picking from a pose.
 
         A picking is described as : \n
@@ -653,11 +892,16 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float], PoseObject]
         :rtype: None
         """
+        warnings.warn(f'{get_deprecation_msg("pick_from_pose", "pick")}', DeprecationWarning, stacklevel=2)
         pose = self.__args_pose_to_list(*args)
         self.__send_n_receive(Command.PICK_FROM_POSE, *pose)
 
+    @deprecated(f'{get_deprecation_msg("place_from_pose", "place")}')
     def place_from_pose(self, *args):
         """
+        .. deprecated:: 1.2.0
+           You should use :func:`place` with a :class:`PoseObject` object.
+
         Execute a placing from a position.
 
         A placing is described as : \n
@@ -670,8 +914,45 @@ class NiryoRobot(object):
         :type args: Union[list[float], tuple[float], PoseObject]
         :rtype: None
         """
+        warnings.warn(f'{get_deprecation_msg("place_from_pose", "place")}', DeprecationWarning, stacklevel=2)
         pose = self.__args_pose_to_list(*args)
         self.__send_n_receive(Command.PLACE_FROM_POSE, *pose)
+
+    def pick(self, pick_position):
+        """
+        Execute a picking from a position.
+
+        A picking is described as : \n
+        | * going over the object
+        | * going down until height = z
+        | * grasping with tool
+        | * going back over the object
+
+        :param pick_position: a pick position, can be either a Pose or a JointsPosition object
+        :type pick_position: Union[JointsPosition, PoseObject]
+        :rtype: None
+        """
+        obj_dict = pick_position.to_dict()
+        obj_dict['obj_type'] = self.__differentiate_robot_position(pick_position)
+        self.__send_n_receive(Command.PICK, obj_dict)
+
+    def place(self, place_position):
+        """
+        Execute a placing from a position.
+
+        A placing is described as : \n
+        | * going over the place
+        | * going down until height = z
+        | * releasing the object with tool
+        | * going back over the place
+
+        :param place_position: a place position, can be either a Pose or a JointsPosition object
+        :type place_position: Union[JointsPosition, PoseObject]
+        :rtype: None
+        """
+        obj_dict = place_position.to_dict()
+        obj_dict['obj_type'] = self.__differentiate_robot_position(place_position)
+        self.__send_n_receive(Command.PLACE, obj_dict)
 
     def pick_and_place(self, pick_pose, place_pos, dist_smoothing=0.0):
         """
@@ -685,10 +966,20 @@ class NiryoRobot(object):
         :type dist_smoothing: float
         :rtype: None
         """
-        pick_pose_list = self.__args_pose_to_list(pick_pose)
-        place_pos_list = self.__args_pose_to_list(place_pos)
+        if not isinstance(pick_pose, PoseObject) and not isinstance(pick_pose, JointsPosition):
+            pick_pose_list = self.__args_pose_to_list(pick_pose)
+            pick_pose = PoseObject(*pick_pose_list, metadata=PoseMetadata.v1())
+        if not isinstance(place_pos, PoseObject) and not isinstance(place_pos, JointsPosition):
+            place_pos_list = self.__args_pose_to_list(place_pos)
+            place_pos = PoseObject(*place_pos_list, metadata=PoseMetadata.v1())
 
-        self.__send_n_receive(Command.PICK_AND_PLACE, pick_pose_list, place_pos_list, dist_smoothing)
+        pick_pose_dict = pick_pose.to_dict()
+        pick_pose_dict['obj_type'] = self.__differentiate_robot_position(pick_pose)
+
+        place_pose_dict = place_pos.to_dict()
+        place_pose_dict['obj_type'] = self.__differentiate_robot_position(place_pos)
+
+        self.__send_n_receive(Command.PICK_AND_PLACE, pick_pose_dict, place_pose_dict, dist_smoothing)
 
     # - Trajectories
     def get_trajectory_saved(self, trajectory_name):
@@ -700,7 +991,9 @@ class NiryoRobot(object):
         :rtype: list[Joints]
         """
         self.__check_type(trajectory_name, str)
-        return self.__send_n_receive(Command.GET_TRAJECTORY_SAVED, trajectory_name)
+        return [
+            JointsPosition.from_dict(d) for d in self.__send_n_receive(Command.GET_TRAJECTORY_SAVED, trajectory_name)
+        ]
 
     def get_saved_trajectory_list(self):
         """
@@ -720,8 +1013,29 @@ class NiryoRobot(object):
         self.__check_type(trajectory_name, str)
         self.__send_n_receive(Command.EXECUTE_REGISTERED_TRAJECTORY, trajectory_name)
 
+    def execute_trajectory(self, robot_positions, dist_smoothing=0.0):
+        """
+        Execute trajectory from list of poses and / or joints
+
+        :param robot_positions: List of poses or joints
+        :type robot_positions: list[Union[JointsPosition, PoseObject]]
+        :param dist_smoothing: Distance from waypoints before smoothing trajectory
+        :type dist_smoothing: float
+        :rtype: None
+        """
+        dict_positions = []
+        for robot_position in robot_positions:
+            position_dict = robot_position.to_dict()
+            position_dict['obj_type'] = self.__differentiate_robot_position(robot_position)
+            dict_positions.append(position_dict)
+        self.__send_n_receive(Command.EXECUTE_TRAJECTORY, dict_positions, dist_smoothing)
+
+    @deprecated(f'{get_deprecation_msg("execute_trajectory_from_poses", "execute_trajectory")}')
     def execute_trajectory_from_poses(self, list_poses, dist_smoothing=0.0):
         """
+        .. deprecated:: 1.2.0
+           You should use :func:`execute_trajectory` with :class:`PoseObject` objects.
+
         Execute trajectory from list of poses
 
         :param list_poses: List of [x,y,z,qx,qy,qz,qw] or list of [x,y,z,roll,pitch,yaw]
@@ -730,6 +1044,10 @@ class NiryoRobot(object):
         :type dist_smoothing: float
         :rtype: None
         """
+        [PoseObject(*pose) for pose in list_poses]
+        warnings.warn(f'{get_deprecation_msg("execute_trajectory_from_poses", "execute_trajectory")}',
+                      DeprecationWarning,
+                      stacklevel=2)
         for i, pose in enumerate(list_poses):
             if len(pose) != 7 and len(pose) != 6:
                 self.__raise_exception(
@@ -739,8 +1057,12 @@ class NiryoRobot(object):
 
         self.__send_n_receive(Command.EXECUTE_TRAJECTORY_FROM_POSES, list_poses, dist_smoothing)
 
+    @deprecated(f'{get_deprecation_msg("execute_trajectory_from_poses_and_joints", "execute_trajectory")}')
     def execute_trajectory_from_poses_and_joints(self, list_pose_joints, list_type=None, dist_smoothing=0.0):
         """
+        .. deprecated:: 1.2.0
+           You should use :func:`execute_trajectory` with :class:`PoseObject` and :class:`JointsPosition` objects.
+
         Execute trajectory from list of poses and joints
 
         Example: ::
@@ -761,16 +1083,21 @@ class NiryoRobot(object):
         :type dist_smoothing: float
         :rtype: None
         """
+        warnings.warn(f'{get_deprecation_msg("execute_trajectory_from_poses_and_joints", "execute_trajectory")}',
+                      DeprecationWarning,
+                      stacklevel=2)
         if list_type is None:
             list_type = ['pose']
         for i, pose_or_joint in enumerate(list_pose_joints):
-            if len(pose_or_joint) != 7 and len(pose_or_joint) != 6:
+            if not (6 <= len(pose_or_joint) <= 7):
                 self.__raise_exception(
                     "7 parameters expected in a pose [x,y,z,qx,qy,qz,qw], or 6 in a pose [x,y,z,roll,pitch,yaw], "
                     "or 6 in a joint [j1,j2,j3,j4,j5,j6]"
                     "{} parameters given".format(len(pose_or_joint)))
             list_pose_joints[i] = self.__map_list(pose_or_joint, float)
-        self.__send_n_receive(Command.EXECUTE_TRAJECTORY_FROM_POSES_AND_JOINTS, list_pose_joints, list_type,
+        self.__send_n_receive(Command.EXECUTE_TRAJECTORY_FROM_POSES_AND_JOINTS,
+                              list_pose_joints,
+                              list_type,
                               dist_smoothing)
 
     def save_trajectory(self, trajectory, trajectory_name, trajectory_description):
@@ -778,7 +1105,7 @@ class NiryoRobot(object):
         Save trajectory in robot memory
 
         :param trajectory: list of Joints [j1, j2, j3, j4, j5, j6] as waypoints to create the trajectory
-        :type trajectory: list[list[float]]
+        :type trajectory: list[list[float] | JointsPosition | PoseObject]
         :param trajectory_name: Name you want to give to the trajectory
         :type trajectory_name: str
         :param trajectory_description: Description you want to give to the trajectory
@@ -788,15 +1115,14 @@ class NiryoRobot(object):
         self.__check_type(trajectory_name, str)
         self.__check_type(trajectory_description, str)
         self.__check_type(trajectory, list)
+        dict_joints = []
         for joints in trajectory:
-            self.__check_type(joints, list)
-            length = len(joints)
-            if length != 6:
-                self.__raise_exception(
-                    "Expect 6 joint values per waypoint [j1,j2,j3,j4,j5,j6], but {} parameters given: {} ".format(
-                        length, joints))
+            if isinstance(joints, JointsPosition):
+                dict_joints.append(joints.to_dict())
+            else:
+                dict_joints.append(JointsPosition(*joints).to_dict())
 
-        self.__send_n_receive(Command.SAVE_TRAJECTORY, trajectory, trajectory_name, trajectory_description)
+        self.__send_n_receive(Command.SAVE_TRAJECTORY, dict_joints, trajectory_name, trajectory_description)
 
     def save_last_learned_trajectory(self, name, description):
         """
@@ -808,7 +1134,7 @@ class NiryoRobot(object):
         """
         self.__check_type(name, str)
         self.__check_type(description, str)
-        self.__send_n_receive(Command.SAVE_LAST_LEARNED_TRAJECTORY)
+        self.__send_n_receive(Command.SAVE_LAST_LEARNED_TRAJECTORY, name, description)
 
     def update_trajectory_infos(self, name, new_name, new_description):
         """"
@@ -825,7 +1151,7 @@ class NiryoRobot(object):
         self.__check_type(name, str)
         self.__check_type(new_name, str)
         self.__check_type(new_description, str)
-        self.__send_n_receive(Command.UPDATE_TRAJECTORY_INFOS)
+        self.__send_n_receive(Command.UPDATE_TRAJECTORY_INFOS, name, new_name, new_description)
 
     def delete_trajectory(self, trajectory_name):
         """
@@ -841,7 +1167,6 @@ class NiryoRobot(object):
         """
         Delete trajectory from robot's memory
 
-        :type trajectory_name: str
         :rtype: None
         """
         self.__send_n_receive(Command.CLEAN_TRAJECTORY_MEMORY)
@@ -1033,6 +1358,9 @@ class NiryoRobot(object):
         """
         self.__send_n_receive(Command.TOOL_REBOOT)
 
+    def get_tcp(self):
+        return self.__send_n_receive(Command.GET_TCP)
+
     # - Hardware
 
     def set_pin_mode(self, pin_id, pin_mode):
@@ -1195,10 +1523,17 @@ class NiryoRobot(object):
         voltages = self.__map_list(data[9], float)
         hardware_errors = data[10]
 
-        hardware_status = HardwareStatusObject(rpi_temperature, hardware_version, connection_up, error_message,
-                                               calibration_needed, calibration_in_progress,
-                                               motor_names, motor_types,
-                                               temperatures, voltages, hardware_errors)
+        hardware_status = HardwareStatusObject(rpi_temperature,
+                                               hardware_version,
+                                               connection_up,
+                                               error_message,
+                                               calibration_needed,
+                                               calibration_in_progress,
+                                               motor_names,
+                                               motor_types,
+                                               temperatures,
+                                               voltages,
+                                               hardware_errors)
         return hardware_status
 
     # - Conveyor
@@ -1219,10 +1554,10 @@ class NiryoRobot(object):
 
         connected_conveyors_id = self.get_connected_conveyors_id()
         if not connected_conveyors_id:
-            print("No conveyor connected !", file=sys.stderr)
+            self.__logger.error("No conveyor connected !")
             return ConveyorID.NONE
         else:
-            print("No new conveyor detected, returning last connected conveyor", file=sys.stderr)
+            self.__logger.error("No new conveyor detected, returning last connected conveyor")
             return connected_conveyors_id[-1]
 
     def unset_conveyor(self, conveyor_id):
@@ -1290,11 +1625,26 @@ class NiryoRobot(object):
 
         return conveyors_list
 
+    def get_conveyors_feedback(self):
+        """
+        Get the feedback of the conveyors
+
+        :return: List of the conveyors' feedback
+        :rtype: list[ConveyorFeedback]
+        """
+        conveyors_feedback = self.__send_n_receive(Command.GET_CONVEYORS_FEEDBACK)
+        for i in range(len(conveyors_feedback)):
+            conveyors_feedback[i]['conveyor_id'] = ConveyorID[conveyors_feedback[i]['conveyor_id']]
+            conveyors_feedback[i]['direction'] = ConveyorDirection(conveyors_feedback[i]['direction'])
+            conveyors_feedback[i]['connection_state'] = eval(conveyors_feedback[i]['connection_state'])
+
+        return conveyors_feedback
+
     # - Vision
     def get_img_compressed(self):
         """
-        Get image from video stream in a compressed format. 
-        Use ``uncompress_image`` from the vision package to uncompress it 
+        Get image from video stream in a compressed format.
+        Use ``uncompress_image`` from the vision package to uncompress it
 
         :return: string containing a JPEG compressed image
         :rtype: str
@@ -1313,7 +1663,7 @@ class NiryoRobot(object):
         :rtype: None
         """
         self.__transform_to_type(brightness_factor, float)
-        self.__check_range_belonging(brightness_factor, 0.0, np.Inf)
+        self.__check_range_belonging(brightness_factor, 0.0, np.inf)
         self.__send_n_receive(Command.SET_IMAGE_BRIGHTNESS, brightness_factor)
 
     def set_contrast(self, contrast_factor):
@@ -1326,7 +1676,7 @@ class NiryoRobot(object):
         :rtype: None
         """
         self.__transform_to_type(contrast_factor, float)
-        self.__check_range_belonging(contrast_factor, 0.0, np.Inf)
+        self.__check_range_belonging(contrast_factor, 0.0, np.inf)
         self.__send_n_receive(Command.SET_IMAGE_CONTRAST, contrast_factor)
 
     def set_saturation(self, saturation_factor):
@@ -1340,7 +1690,7 @@ class NiryoRobot(object):
         :rtype: None
         """
         self.__transform_to_type(saturation_factor, float)
-        self.__check_range_belonging(saturation_factor, 0.0, np.Inf)
+        self.__check_range_belonging(saturation_factor, 0.0, np.inf)
         self.__send_n_receive(Command.SET_IMAGE_SATURATION, saturation_factor)
 
     def get_image_parameters(self):
@@ -1390,7 +1740,11 @@ class NiryoRobot(object):
 
         height_offset, x_rel, y_rel, yaw_rel = self.__map_list([height_offset, x_rel, y_rel, yaw_rel], float)
         pose_array = self.__send_n_receive(Command.GET_TARGET_POSE_FROM_REL,
-                                           workspace_name, height_offset, x_rel, y_rel, yaw_rel)
+                                           workspace_name,
+                                           height_offset,
+                                           x_rel,
+                                           y_rel,
+                                           yaw_rel)
         pose_object = PoseObject(*pose_array)
         return pose_object
 
@@ -1416,7 +1770,10 @@ class NiryoRobot(object):
         self.__check_enum_belonging(color, ObjectColor)
 
         data_array = self.__send_n_receive(Command.GET_TARGET_POSE_FROM_CAM,
-                                           workspace_name, height_offset, shape, color)
+                                           workspace_name,
+                                           height_offset,
+                                           shape,
+                                           color)
         obj_found = eval(data_array[0])
         if obj_found:
             pose_object = PoseObject(*data_array[1])
@@ -1428,13 +1785,13 @@ class NiryoRobot(object):
             color_ret = 'ANY'
         return obj_found, pose_object, ObjectShape[shape_ret], ObjectColor[color_ret]
 
-    def __move_with_vision(self, command, workspace_name, height_offset, shape, color):
+    def __move_with_vision(self, command, workspace_name, height_offset, shape, color, **kwargs):
         self.__check_type(workspace_name, str)
         height_offset = self.__transform_to_type(height_offset, float)
         self.__check_enum_belonging(shape, ObjectShape)
         self.__check_enum_belonging(color, ObjectColor)
 
-        data_array = self.__send_n_receive(command, workspace_name, height_offset, shape, color)
+        data_array = self.__send_n_receive(command, workspace_name, height_offset, shape, color, **kwargs)
 
         obj_found = eval(data_array[0])
         if obj_found is True:
@@ -1445,14 +1802,19 @@ class NiryoRobot(object):
             color_ret = 'ANY'
         return obj_found, ObjectShape[shape_ret], ObjectColor[color_ret]
 
-    def vision_pick(self, workspace_name, height_offset=0.0, shape=ObjectShape.ANY, color=ObjectColor.ANY):
+    def vision_pick(self,
+                    workspace_name,
+                    height_offset=0.0,
+                    shape=ObjectShape.ANY,
+                    color=ObjectColor.ANY,
+                    obs_pose=None):
         """
         Picks the specified object from the workspace. This function has multiple phases: \n
-        | 1. detect object using the camera 
-        | 2. prepare the current tool for picking 
-        | 3. approach the object 
-        | 4. move down to the correct picking pose 
-        | 5. actuate the current tool 
+        | 1. detect object using the camera
+        | 2. prepare the current tool for picking
+        | 3. approach the object
+        | 4. move down to the correct picking pose
+        | 5. actuate the current tool
         | 6. lift the object
 
         Example::
@@ -1473,10 +1835,17 @@ class NiryoRobot(object):
         :type shape: ObjectShape
         :param color: color of the target
         :type color: ObjectColor
+        :param obs_pose: An optional observation pose
+        :type obs_pose: PoseObject
         :return: object_found, object_shape, object_color
         :rtype: (bool, ObjectShape, ObjectColor)
         """
-        return self.__move_with_vision(Command.VISION_PICK, workspace_name, height_offset, shape, color)
+        return self.__move_with_vision(Command.VISION_PICK,
+                                       workspace_name,
+                                       height_offset,
+                                       shape,
+                                       color,
+                                       obs_pose=obs_pose)
 
     def move_to_object(self, workspace_name, height_offset, shape, color):
         """
@@ -1505,8 +1874,8 @@ class NiryoRobot(object):
         :type shape: ObjectShape
         :param color: color of the target
         :type color: ObjectColor
-        :return: object_found, object_pose, object_shape, object_color
-        :rtype: (bool, PoseObject, str, str)
+        :return: object_found, object_rel_pose, object_shape, object_color
+        :rtype: (bool, list, str, str)
         """
         self.__check_type(workspace_name, str)
         self.__check_enum_belonging(shape, ObjectShape)
@@ -1547,7 +1916,7 @@ class NiryoRobot(object):
 
         Poses should be either a list [x, y, z, roll, pitch, yaw] or a PoseObject
 
-        :param workspace_name: workspace name, maximum lenght 30 char.
+        :param workspace_name: workspace name, maximum length 30 char.
         :type workspace_name: str
         :param pose_origin:
         :type pose_origin: Union[list[float], PoseObject]
@@ -1564,8 +1933,11 @@ class NiryoRobot(object):
 
         param_list = [workspace_name]
         for pose in (pose_origin, pose_2, pose_3, pose_4):
-            pose_list = self.__args_pose_to_list(pose)
-            param_list.append(pose_list)
+            if isinstance(pose, PoseObject):
+                param_list.append(pose.to_dict())
+            else:
+                pose_list = self.__args_pose_to_list(pose)
+                param_list.append(pose_list)
         self.__send_n_receive(Command.SAVE_WORKSPACE_FROM_POSES, *param_list)
 
     def save_workspace_from_points(self, workspace_name, point_origin, point_2, point_3, point_4):
@@ -1573,7 +1945,7 @@ class NiryoRobot(object):
         Save workspace by giving the points of worskpace's 4 corners. Points are written as [x, y, z]
         Corners should be in the good order.
 
-        :param workspace_name: workspace name, maximum lenght 30 char.
+        :param workspace_name: workspace name, maximum length 30 char.
         :type workspace_name: str
         :param point_origin:
         :type point_origin: list[float]
@@ -1659,7 +2031,12 @@ class NiryoRobot(object):
         self.__check_type(frame_name, str)
         return self.__send_n_receive(Command.GET_SAVED_DYNAMIC_FRAME, frame_name)
 
-    def save_dynamic_frame_from_poses(self, frame_name, description, pose_origin, pose_x, pose_y,
+    def save_dynamic_frame_from_poses(self,
+                                      frame_name,
+                                      description,
+                                      pose_origin,
+                                      pose_x,
+                                      pose_y,
                                       belong_to_workspace=False):
         """
         Create a dynamic frame with 3 poses (origin, x, y)
@@ -1696,12 +2073,20 @@ class NiryoRobot(object):
 
         param_list = [frame_name, description]
         for pose in (pose_origin, pose_x, pose_y):
-            pose_list = self.__args_pose_to_list(pose)
-            param_list.append(pose_list)
+            if isinstance(pose, PoseObject):
+                param_list.append(pose.to_dict())
+            else:
+                pose_list = self.__args_pose_to_list(pose)
+                param_list.append(pose_list)
         param_list.append(belong_to_workspace)
         self.__send_n_receive(Command.SAVE_DYNAMIC_FRAME_FROM_POSES, *param_list)
 
-    def save_dynamic_frame_from_points(self, frame_name, description, point_origin, point_x, point_y,
+    def save_dynamic_frame_from_points(self,
+                                       frame_name,
+                                       description,
+                                       point_origin,
+                                       point_x,
+                                       point_y,
                                        belong_to_workspace=False):
         """
         Create a dynamic frame with 3 points (origin, x, y)
@@ -1783,11 +2168,14 @@ class NiryoRobot(object):
         """
         self.__check_type(frame_name, str)
         self.__check_type(belong_to_workspace, bool)
-        self.__send_n_receive(Command.DELETE_DYNAMIC_FRAME, *[frame_name, belong_to_workspace])
+        self.__send_n_receive(Command.DELETE_DYNAMIC_FRAME, frame_name, belong_to_workspace)
 
+    @deprecated(f'{get_deprecation_msg("move_relative", "move")}')
     def move_relative(self, offset, frame="world"):
         """
-        Move robot end of a offset in a frame
+        .. deprecated:: 1.2.0
+           You should use :func:`move` with a frame in the pose metadata.
+        Move robot end of an offset in a frame
 
         Example: ::
 
@@ -1800,17 +2188,21 @@ class NiryoRobot(object):
         :return: status, message
         :rtype: (int, str)
         """
+        warnings.warn(f'{get_deprecation_msg("move_linear", "move")}', DeprecationWarning, stacklevel=2)
         self.__check_type(frame, str)
         self.__check_type(offset, list)
         if len(offset) != 6:
             self.__raise_exception("An offset must contain 6 members: [x, y, z, roll, pitch, yaw]")
 
-        param_list = [offset, frame]
-        self.__send_n_receive(Command.MOVE_RELATIVE, *param_list)
+        self.__send_n_receive(Command.MOVE_RELATIVE, offset, frame)
 
+    @deprecated(f'{get_deprecation_msg("move_linear_relative", "move_relative")}')
     def move_linear_relative(self, offset, frame="world"):
         """
-        Move robot end of a offset by a linear movement in a frame
+        .. deprecated:: 1.2.0
+           You should use :func:`move` with a frame in the pose metadata and linear=True.
+
+        Move robot end of an offset by a linear movement in a frame
 
         Example: ::
 
@@ -1823,13 +2215,15 @@ class NiryoRobot(object):
         :return: status, message
         :rtype: (int, str)
         """
+        warnings.warn(f'{get_deprecation_msg("move_linear_relative", "move_relative")}',
+                      DeprecationWarning,
+                      stacklevel=2)
         self.__check_type(frame, str)
         self.__check_type(offset, list)
         if len(offset) != 6:
             self.__raise_exception("An offset must contain 6 members: [x, y, z, roll, pitch, yaw]")
 
-        param_list = [offset, frame]
-        self.__send_n_receive(Command.MOVE_LINEAR_RELATIVE, *param_list)
+        self.__send_n_receive(Command.MOVE_LINEAR_RELATIVE, offset, frame)
 
     # Sound
 
@@ -1929,10 +2323,8 @@ class NiryoRobot(object):
         :type led_id: int
         :param color: Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255.
         :type color: list[float]
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_SET_LED, led_id, color)
+        self.__send_n_receive(Command.LED_RING_SET_LED, led_id, color)
 
     def led_ring_solid(self, color):
         """
@@ -1944,10 +2336,8 @@ class NiryoRobot(object):
 
         :param color: Led color in a list of size 3[R, G, B]. RGB channels from 0 to 255.
         :type color: list[float]
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_SOLID, color, True)
+        self.__send_n_receive(Command.LED_RING_SOLID, color, True)
 
     def led_ring_turn_off(self):
         """
@@ -1956,11 +2346,8 @@ class NiryoRobot(object):
         Example: ::
 
             robot.led_ring_turn_off()
-
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_TURN_OFF, True)
+        self.__send_n_receive(Command.LED_RING_TURN_OFF, True)
 
     def led_ring_flashing(self, color, period=0, iterations=0, wait=False):
         """
@@ -1985,10 +2372,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish all iterations or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_FLASH, color, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_FLASH, color, period, iterations, wait)
 
     def led_ring_alternate(self, color_list, period=0, iterations=0, wait=False):
         """
@@ -2015,10 +2400,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish all iterations or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_ALTERNATE, color_list, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_ALTERNATE, color_list, period, iterations, wait)
 
     def led_ring_chase(self, color, period=0, iterations=0, wait=False):
         """
@@ -2041,10 +2424,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish all iterations or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_CHASE, color, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_CHASE, color, period, iterations, wait)
 
     def led_ring_wipe(self, color, period=0, wait=False):
         """
@@ -2062,10 +2443,8 @@ class NiryoRobot(object):
         :type period: float
         :param wait: The service wait for the animation to finish or not to answer.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_WIPE, color, period, wait)
+        self.__send_n_receive(Command.LED_RING_WIPE, color, period, wait)
 
     def led_ring_rainbow(self, period=0, iterations=0, wait=False):
         """
@@ -2084,10 +2463,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_RAINBOW, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_RAINBOW, period, iterations, wait)
 
     def led_ring_rainbow_cycle(self, period=0, iterations=0, wait=False):
         """
@@ -2106,10 +2483,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_RAINBOW_CYCLE, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_RAINBOW_CYCLE, period, iterations, wait)
 
     def led_ring_rainbow_chase(self, period=0, iterations=0, wait=False):
         """
@@ -2128,10 +2503,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_RAINBOW_CHASE, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_RAINBOW_CHASE, period, iterations, wait)
 
     def led_ring_go_up(self, color, period=0, iterations=0, wait=False):
         """
@@ -2154,10 +2527,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_GO_UP, color, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_GO_UP, color, period, iterations, wait)
 
     def led_ring_go_up_down(self, color, period=0, iterations=0, wait=False):
         """
@@ -2180,10 +2551,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_GO_UP_DOWN, color, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_GO_UP_DOWN, color, period, iterations, wait)
 
     def led_ring_breath(self, color, period=0, iterations=0, wait=False):
         """
@@ -2205,10 +2574,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_BREATH, color, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_BREATH, color, period, iterations, wait)
 
     def led_ring_snake(self, color, period=0, iterations=0, wait=False):
         """
@@ -2229,10 +2596,8 @@ class NiryoRobot(object):
         :param wait: The service wait for the animation to finish or not to answer. If iterations
                 is 0, the service answers immediately.
         :type wait: bool
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_SNAKE, color, period, iterations, wait)
+        self.__send_n_receive(Command.LED_RING_SNAKE, color, period, iterations, wait)
 
     def led_ring_custom(self, led_colors):
         """
@@ -2247,7 +2612,5 @@ class NiryoRobot(object):
         :param led_colors: List of size 30 of led color in a list of size 3[R, G, B].
                 RGB channels from 0 to 255.
         :type led_colors: list[list[float]]
-        :return: status, message
-        :rtype: (int, str)
         """
-        return self.__send_n_receive(Command.LED_RING_CUSTOM, led_colors)
+        self.__send_n_receive(Command.LED_RING_CUSTOM, led_colors)

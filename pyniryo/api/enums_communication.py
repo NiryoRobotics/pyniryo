@@ -46,6 +46,7 @@ class ToolID(Enum):
     GRIPPER_3 = 13
     ELECTROMAGNET_1 = 30
     VACUUM_PUMP_1 = 31
+    VACUUM_PUMP_2 = 32
 
 
 @unique
@@ -150,6 +151,9 @@ class Command(Enum):
     GET_LEARNING_MODE = 2
     SET_ARM_MAX_VELOCITY = 3
     SET_JOG_CONTROL = 4
+    GET_COLLISION_DETECTED = 5
+    CLEAR_COLLISION_DETECTED = 6
+    HANDSHAKE = 7
 
     # - Move
     # Pose
@@ -157,6 +161,7 @@ class Command(Enum):
     GET_JOINTS = 10
     GET_POSE = 11
     GET_POSE_QUAT = 12
+    GET_POSE_V2 = 13
 
     MOVE_JOINTS = 20
     MOVE_POSE = 21
@@ -171,6 +176,12 @@ class Command(Enum):
     FORWARD_KINEMATICS = 27
     INVERSE_KINEMATICS = 28
 
+    MOVE = 29
+    JOG = 30
+
+    FORWARD_KINEMATICS_V2 = 31
+    INVERSE_KINEMATICS_V2 = 32
+
     # Saved Pose
     GET_POSE_SAVED = 50
     SAVE_POSE = 51
@@ -182,8 +193,10 @@ class Command(Enum):
     PICK_FROM_POSE = 60
     PLACE_FROM_POSE = 61
     PICK_AND_PLACE = 62
+    PICK = 63
+    PLACE = 64
 
-   # Trajectories
+    # Trajectories
     GET_TRAJECTORY_SAVED = 80
     GET_SAVED_TRAJECTORY_LIST = 81
     EXECUTE_REGISTERED_TRAJECTORY = 82
@@ -194,6 +207,7 @@ class Command(Enum):
     UPDATE_TRAJECTORY_INFOS = 87
     DELETE_TRAJECTORY = 88
     CLEAN_TRAJECTORY_MEMORY = 89
+    EXECUTE_TRAJECTORY = 90
 
     # Dynamic frames
     GET_SAVED_DYNAMIC_FRAME_LIST = 95
@@ -221,6 +235,7 @@ class Command(Enum):
     SET_TCP = 141
     RESET_TCP = 142
     TOOL_REBOOT = 145
+    GET_TCP = 146
 
     # - Hardware
     SET_PIN_MODE = 150
@@ -238,6 +253,7 @@ class Command(Enum):
     UNSET_CONVEYOR = 181
     CONTROL_CONVEYOR = 182
     GET_CONNECTED_CONVEYORS_ID = 183
+    GET_CONVEYORS_FEEDBACK = 184
 
     # - Vision
     GET_IMAGE_COMPRESSED = 200
@@ -287,3 +303,13 @@ class Command(Enum):
     LED_RING_SNAKE = 262
     LED_RING_CUSTOM = 263
     LED_RING_SET_LED = 264
+
+
+class TcpVersion(Enum):
+    LEGACY = 0
+    DH_CONVENTION = 1
+
+
+class LengthUnit(Enum):
+    METERS = 0
+    MILLIMETERS = 1

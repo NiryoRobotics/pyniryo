@@ -3,8 +3,7 @@ This script allows to capture Ned's video streaming and to make some image proce
 """
 
 # Imports
-from pyniryo.api import *
-import pyniryo.vision as vision
+from pyniryo import NiryoRobot, vision, PoseObject
 
 simulation_mode = True
 # Set robot address
@@ -13,36 +12,33 @@ robot_ip_address_simulation = "127.0.0.1"
 robot_ip_address = robot_ip_address_simulation if simulation_mode else robot_ip_address_rpi
 
 # Set Observation Pose. It's where the robot will be placed for streaming
-observation_pose = PoseObject(
-    x=0.2, y=0.0, z=0.34,
-    roll=0, pitch=1.57, yaw=-0.2,
-)
+observation_pose = PoseObject(0.2, 0.0, 0.34, 3.14, -0.01, -0.2)
 
 
-def video_stream(niyro_robot):
+def video_stream(niyro_robot: NiryoRobot):
     # Getting calibration param
     mtx, dist = niyro_robot.get_camera_intrinsics()
     # Moving to observation pose
-    niyro_robot.move_pose(*observation_pose.to_list())
+    niyro_robot.move(observation_pose)
 
     while "User do not press Escape neither Q":
         # Getting image
         img_compressed = niyro_robot.get_img_compressed()
-        # Uncompressing image
+        # Uncompressed image
         img_raw = vision.uncompress_image(img_compressed)
-        # Undistorting
-        img_undistort = vision.undistort_image(img_raw, mtx, dist)
+        # Undistorted
+        img_undistorted = vision.undistort_image(img_raw, mtx, dist)
         # Trying to find markers
-        workspace_found, res_img_markers = vision.debug_markers(img_undistort)
+        workspace_found, res_img_markers = vision.debug_markers(img_undistorted)
         # Trying to extract workspace if possible
         if workspace_found:
-            img_workspace = vision.extract_img_workspace(img_undistort, workspace_ratio=1.0)
+            img_workspace = vision.extract_img_workspace(img_undistorted, workspace_ratio=1.0)
         else:
             img_workspace = None
 
         # - Display
         # Concatenating raw image and undistorted image
-        concat_ims = vision.concat_imgs((img_raw, img_undistort))
+        concat_ims = vision.concat_imgs((img_raw, img_undistorted))
         # Concatenating extracted workspace with markers annotation
         if img_workspace is not None:
             resized_img_workspace = vision.resize_img(img_workspace, height=res_img_markers.shape[0])
@@ -66,4 +62,3 @@ if __name__ == '__main__':
     video_stream(robot)
     # Releasing connection
     robot.close_connection()
-

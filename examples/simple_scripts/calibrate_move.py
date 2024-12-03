@@ -2,7 +2,7 @@
 This script shows few functions you can use with PyNiryo
 """
 
-from pyniryo import *
+from pyniryo import NiryoRobot, CalibrateMode, RobotAxis, PoseObject, JointsPosition
 
 simulation_mode = True
 
@@ -23,13 +23,13 @@ initial_joints = niryo_robot.get_joints()
 print("Initial joints :\n" + str(initial_joints))
 
 # Move Pose
-niryo_robot.move_pose(0.2, 0.0, 0.25, 0.0, 0.0, 0.0)
+niryo_robot.move(PoseObject(0.2, -0.0, 0.25, 2.44, -1.56, 0.71))
 
 # Shift pose
 niryo_robot.shift_pose(RobotAxis.Y, 0.15)
 
 # Going back to initial jointss
-niryo_robot.move_joints(initial_joints)
+niryo_robot.move(JointsPosition(initial_joints))
 
 niryo_robot.set_learning_mode(True)
 

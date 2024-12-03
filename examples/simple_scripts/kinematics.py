@@ -2,7 +2,7 @@
 This script shows how to use kinematics with PyNiryo
 """
 
-from pyniryo import NiryoRobot
+from pyniryo import NiryoRobot, JointsPosition
 
 simulation_mode = True
 robot_ip_address_rpi = "10.10.10.10"
@@ -20,12 +20,12 @@ niyro_robot.calibrate_auto()
 initial_pose = niyro_robot.get_pose()
 
 # Calculating pose with FK and moving to this pose
-pose_target = niyro_robot.forward_kinematics(0.2, 0.0, -0.4, 0.0, 0.0, 0.0)
-niyro_robot.move_pose(pose_target)
+pose_target = niyro_robot.forward_kinematics(JointsPosition(0.2, 0.0, -0.4, 0.0, 0.0, 0.0))
+niyro_robot.move(pose_target)
 
 # Calculating joints via IK and moving to these joints
 joints_target = niyro_robot.inverse_kinematics(initial_pose)
-niyro_robot.move_joints(*joints_target)
+niyro_robot.move(joints_target)
 
 # Leaving
 niyro_robot.set_learning_mode(True)

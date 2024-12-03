@@ -1,9 +1,9 @@
 [metadata]
 name = 'pyniryo'
-version = '1.1.2'
+version = '1.2.0'
 description = ''
 author = 'Niryo'
-author_email = 'v.pitre@niryo.com'
+author_email = 'j.mottier@niryo.com'
 license = 'MIT/Apache-2.0'
 url = 'https://github.com/NiryoRobotics/pyniryo'
 

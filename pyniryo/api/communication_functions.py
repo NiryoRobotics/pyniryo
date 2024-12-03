@@ -75,8 +75,6 @@ def data_to_dict(data):
     """
     if data is None:
         return None
-    # if type(data) == bytes:
-    #     data = data.decode()
     return ast.literal_eval(data)
 
 

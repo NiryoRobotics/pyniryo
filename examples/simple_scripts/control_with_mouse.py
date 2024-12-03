@@ -1,4 +1,4 @@
-from pyniryo import NiryoRobot  # Niryo's Python Package
+from pyniryo import NiryoRobot, JointsPosition, PoseObject  # Niryo's Python Package
 import time
 from pynput.mouse import Button, Listener, Controller  # Package to get mouse inputs
 
@@ -27,10 +27,8 @@ class MyMouseListener:
 
         self.mouse = Controller()
 
-        self.listener = Listener(
-            on_move=self.on_move,
-            on_click=self.on_click,
-            on_scroll=self.on_scroll).start()
+        self.listener = Listener(on_move=self.on_move, on_click=self.on_click, on_scroll=self.on_scroll)
+        self.listener.start()
 
     def __del__(self):
         self.listener.stop()
@@ -79,9 +77,9 @@ class MyMouseListener:
         return ''
 
 
-def process(niyro_robot):
+def process(niyro_robot: NiryoRobot):
     mouse_listener = MyMouseListener()
-    niyro_robot.move_joints(0.0, 0.0, 0.0, 0.0, -1.57, 0.0)
+    niyro_robot.move(JointsPosition(0.0, 0.0, 0.0, 0.0, -1.57, 0.0))
     niyro_robot.set_jog_control(True)
     while not mouse_listener.clicked:
         init = time.time()
@@ -89,10 +87,10 @@ def process(niyro_robot):
         mouse_dy = mouse_listener.get_y_diff()
         mouse_dz = mouse_listener.get_z_diff()
         mouse_listener.reset()
-        robot_dx = - float(mouse_dy) * 1e-4
-        robot_dy = - float(mouse_dx) * 1e-4
+        robot_dx = -float(mouse_dy) * 1e-4
+        robot_dy = -float(mouse_dx) * 1e-4
         robot_dz = float(mouse_dz) * 5e-3
-        niyro_robot.jog_pose(robot_dx, robot_dy, robot_dz, 0.0, 0.0, 0.0)
+        niyro_robot.jog(PoseObject(robot_dx, robot_dy, robot_dz, 2.44, -1.56, 0.71))
 
         time.sleep(max(0., 0.10 - (time.time() - init)))
 

@@ -8,3 +8,5 @@ plugins:
     enabled: true
 exclude_patterns:
   - docs
+  - "**/*.jpg"
+  - "CMakeLists.txt"

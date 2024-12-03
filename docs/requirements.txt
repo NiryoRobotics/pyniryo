@@ -1,0 +1,10 @@
+sphinx
+sphinx-rtd-theme
+sphinx-autobuild
+sphinx-copybutton
+sphinxemoji
+sphinx-versioned-docs
+
+# Used by older versions of the documentation
+sphinx-tabs
+sphinx-togglebutton

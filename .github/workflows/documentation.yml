@@ -1,0 +1,30 @@
+name: documentation
+
+on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: write
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - name: Install dependencies
+        run: |
+          scripts/setup_env.sh > /dev/null
+      - name: source venv
+        run: |
+          source venv/bin/activate
+      - name: Sphinx build
+        run: |
+          scripts/build_docs_versioned.py public master $(git tag)
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: public
+          force_orphan: true

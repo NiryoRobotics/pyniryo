@@ -1,101 +1,59 @@
-import sys
-
-import os
-
-sys.path.append(os.path.abspath('../pyniryo'))
-# Kindda hack the import to import shared config file
-sys.path.append(os.path.abspath('.'))
-from front_end.config import shared_conf
-from front_end.config import base_conf
-
+# Configuration file for the Sphinx documentation builder.
+#
+# For the full list of built-in configuration values, see the documentation:
+# https://www.sphinx-doc.org/en/master/usage/configuration.html
+import re
 # -- Project information -----------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+import sys
+from pathlib import Path
 
-project = u'PyNiryo'
-copyright = shared_conf.copyright
-author = shared_conf.author
+module_directory = Path(__file__).parent.parent.absolute()
+sys.path.append(str(module_directory))
 
-# The short X.Y version
-version = u'v1.1'
-# The full version, including alpha/beta/rc tags
-release = u'v1.1.2'
+project = 'PyNiryo'
+copyright = '2024, Niryo'
+author = 'Niryo'
+
+file_content = module_directory.joinpath('pyniryo/version.py').read_text()
+release = re.match(r'__version__ = ["\']((\d+\.?){3})', file_content)[1]
 
 # -- General configuration ---------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = base_conf.extensions
+extensions = ['sphinx.ext.autodoc', 'sphinx_copybutton', 'sphinxemoji.sphinxemoji']
 
-# Avoid autosection label to trigger warning on low level titles
-autosectionlabel_maxdepth = 3
-# Avoid clash between same label in different document
-autosectionlabel_prefix_document = True
+templates_path = ['_templates']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-# Todo_extension
-todo_include_todos = True
-todo_emit_warnings = True
+language = 'en'
 
-# Documentation infos
-source_suffix = '.rst'
-master_doc = 'index'
-
-for arg in sys.argv:
-    if not arg.startswith("language="):
-        continue
-    else:
-        language = arg.replace("language=", "")
-        break
-else:
-    language = None
-
-translation_object = {}
-translation_object["fr"] = {}
-translation_object["fr"]["PROJECT_NAME"] = "PyNiryo"
-
-translation_object["en"] = {}
-translation_object["en"]["PROJECT_NAME"] = "PyNiryo"
-
-html_context = {}
-
-html_context["BASE_FOLDER_URL"] = "https://docs.niryo.com/dev/pyniryo"
-
-
-html_context["TRANSLATION"] = translation_object[language if language is not None else 'en']
-
-exclude_patterns = [u'_build', 'Thumbs.db', '.DS_Store']
-
-pygments_style = None
-
-add_module_names = False
-
+# code snippet which will be added to the top of every rst file
+rst_prolog = """
+.. role:: python(code)
+   :language: python
+   
+"""
 
 # -- Options for HTML output -------------------------------------------------
-html_theme = shared_conf.html_theme
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-templates_path = shared_conf.templates_path
-html_static_path = shared_conf.html_static_path
+html_theme = 'sphinx_rtd_theme'
+# html_static_path = ['_static']
+html_theme_options = {"collapse_navigation": False}
 
-html_logo = shared_conf.html_logo
-html_favicon = shared_conf.html_favicon
+# -- AutoDoc configuration ---------------------------------------------------
 
-html_css_files = shared_conf.html_css_files
-
-html_js_files = shared_conf.html_js_files
-
-html_theme_options = shared_conf.html_theme_options
-
-html_show_sphinx = shared_conf.html_show_sphinx
-
-# -- Options for intersphinx extension ---------------------------------------
-
-# Links
-extlinks = {
+# use the __init__ docstring instead of the class docstring for the class documentation
+autoclass_content = 'init'
+autodoc_default_flags = {
+    'members': True,  # generate the doc recursively
+    'undoc-members': True,  # also generate the doc for the undocumented members
+    'member-order': 'bysource',  # display the members ordered by source (default: alphabetically)
 }
 
-# -- Internationalization --
-locale_dirs = ['locale/']  # path is example but recommended.
-gettext_compact = False  # optional.
+# display the typehints in the function signature and the docstring
+autodoc_typehints = 'both'
 
-# -- Options for intersphinx extension ---------------------------------------
-
-# Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {
-    'https://docs.python.org/': None,
-}
+# mock the numpy import, this avoid having to install it for building the doc
+autodoc_mock_imports = ["numpy", "cv2"]
