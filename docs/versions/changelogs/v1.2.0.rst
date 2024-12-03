@@ -37,6 +37,12 @@ New in version 1.2.0
  * All the methods which were taking arrays of float to represent a joints position or a pose can also take a :py:class:`~pyniryo.api.objects.JointsPosition` or a :py:class:`pyniryo.api.objects.PoseObject`
  * Added .style.yapf file
  * Delete useless CMakeLists.txt
+ * Added a context manager for the robot jog control
+ * Added new functions:
+   * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.get_conveyors_feedback`
+ * Deprecate :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.move_relative`
+ * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.inverse_kinematics` returns a pose v1 and :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.inverse_kinematics_v2` returns a pose v2
+ * Revamped unit tests. They are now more readable and more efficient, and more independent from each other
 
 |:beetle:| Bugfixes
 -----------------------------------------------------------
@@ -44,3 +50,7 @@ New in version 1.2.0
  * The function :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.save_last_learned_trajectory` didn't send ``name`` and ``description`` to the server
  * The function :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.update_trajectory_infos` didn't send ``name``, ``new_name`` and ``new_description`` to the server
  * Fix bad conditional requirement on opencv in requirements.txt
+ * Deleted inexistant function percentage_open_gripper
+ * Fixed :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.set_brightness`, :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.set_contrast` and :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.set_saturation` which were using a deprecated numpy attribute
+ * Fixed the led ring functions which were returning an empty list instead of None
+ * get_trajectory_saved now returns a list of JointPosition
