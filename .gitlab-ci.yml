@@ -1,6 +1,5 @@
 stages:
   - build
-  - deploy
   - release
 
 
@@ -32,21 +31,8 @@ build_docker:
       - .docker/Dockerfile
 
 
-build_package:
-  stage: build
-  script:
-    - python3 -m pip install --upgrade build
-    - python3 -m build
-
-  rules:
-    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true" && '$CI_COMMIT_BRANCH == master'
-  artifacts:
-    paths:
-      - dist
-
-
 pages:
-  stage: deploy
+  stage: build
   script:
     - git fetch --tags --force
     - git checkout $CI_COMMIT_REF_NAME
@@ -60,13 +46,26 @@ pages:
     GIT_STRATEGY: "clone"
 
 
+build_package:
+  stage: build
+  script:
+    - python3 -m pip install --upgrade build
+    - python3 -m build
+
+  rules:
+    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true" && '$CI_COMMIT_BRANCH == master'
+  artifacts:
+    paths:
+      - dist
+
+
 upload_package:
   stage: release
   script:
     - pip install --upgrade twine
     - twine upload -u $PYPI_ACCOUNT -p $PYPI_PASSWORD --repository-url $PYPI_PROJECT_NAME dist/*
   rules:
-    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH == "master"
+    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true" && '$CI_COMMIT_BRANCH == master'
   when: manual
   variables:
     PYPI_PROJECT_NAME: https://upload.pypi.org/legacy/
