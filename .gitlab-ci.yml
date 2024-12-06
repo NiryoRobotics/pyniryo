@@ -80,6 +80,8 @@ mirror_github:
     - eval $(ssh-agent)
     - chmod 600 $GITHUB_SSH_KEY
     - ssh-add $GITHUB_SSH_KEY
+    - mkdir -p ~/.ssh
+    - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
     - git remote add github git@github.com:NiryoRobotics/pyniryo.git
     - git push -f --tags github HEAD:$CI_COMMIT_REF_NAME
 
