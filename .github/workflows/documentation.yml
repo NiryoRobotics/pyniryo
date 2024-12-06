@@ -13,10 +13,9 @@ jobs:
       - uses: actions/setup-python@v3
       - name: Install dependencies
         run: |
-          scripts/setup_env.sh > /dev/null
-      - name: source venv
-        run: |
+          python3 -m venv venv
           source venv/bin/activate
+          pip install -r requirements.txt -r docs/requirements.txt
       - name: Sphinx build
         run: |
           scripts/build_docs_versioned.py public master $(git tag)
