@@ -1,0 +1,36 @@
+September release - New features batch
+===========================================================
+
+Features
+-----------------------------------------------------------
+
+- New TCP functions available
+
+    set_tcp
+
+    enable_tcp
+
+    reset_tcp 
+
+- New movement functions available
+
+    move linear pose
+
+    linear pose
+
+    jog pose shift
+
+    jog joints shift
+
+    shift linear pose
+
+    execute trajectory from pose
+
+
+- New camera settings functions available
+
+    set_brightness
+
+    set_contrast
+
+    set_saturation
