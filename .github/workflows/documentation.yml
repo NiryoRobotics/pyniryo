@@ -18,10 +18,11 @@ jobs:
           pip install -r requirements.txt -r docs/requirements.txt
       - name: Sphinx build
         run: |
+          source venv/bin/activate
           scripts/build_docs_versioned.py public master $(git tag)
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        # if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         with:
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
