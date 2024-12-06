@@ -83,7 +83,7 @@ mirror_github:
     - mkdir -p ~/.ssh
     - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
     - git remote add github git@github.com:NiryoRobotics/pyniryo.git
-    - git push -f --tags github HEAD:master
+    - git push -f --tags github
 
   rules:
     - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"
