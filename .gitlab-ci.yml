@@ -69,9 +69,6 @@ upload_package:
   when: manual
   variables:
     PYPI_UPLOAD_URL: https://upload.pypi.org/legacy/
-  id_tokens:
-    PYPI_TOKEN:
-      aud: https://pypi.org/project/pyniryo/
 
 
 mirror_github:
