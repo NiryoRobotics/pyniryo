@@ -66,28 +66,26 @@ upload_package:
     - twine upload -u __token__ -p $PYPI_TOKEN --repository-url $PYPI_UPLOAD_URL dist/*
   rules:
     - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"
-  when: manual
   variables:
     PYPI_UPLOAD_URL: https://upload.pypi.org/legacy/
-  id_tokens:
-    PYPI_TOKEN:
-      aud: https://pypi.org/project/pyniryo/
 
 
 mirror_github:
   stage: release
-  dependencies: [ ]
+  dependencies: []
   variables:
-    GIT_STRATEGY: clone
+    GIT_STRATEGY: none
     GITHUB_REPOSITORY: git@github.com:NiryoRobotics/pyniryo.git
+  before_script: []
   script:
     - eval $(ssh-agent)
     - chmod 600 $GITHUB_SSH_KEY
     - ssh-add $GITHUB_SSH_KEY
     - mkdir -p ~/.ssh
     - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-    - git remote add github $GITHUB_REPOSITORY
-    - git push -f --tags github
-
+    - git clone --bare $CI_REPOSITORY_URL
+    - cd $CI_PROJECT_NAME.git
+    - git push $GITHUB_REPOSITORY master --tags -f
+  cache: []
   rules:
     - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"
