@@ -51,7 +51,6 @@ build_package:
   script:
     - python3 -m pip install --upgrade build
     - python3 -m build
-
   rules:
     - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"
   artifacts:
@@ -69,9 +68,6 @@ upload_package:
   when: manual
   variables:
     PYPI_UPLOAD_URL: https://upload.pypi.org/legacy/
-  id_tokens:
-    PYPI_TOKEN:
-      aud: https://pypi.org/project/pyniryo/
 
 
 mirror_github:
