@@ -1,3 +1,0 @@
--r python2.txt
-Sphinx
-sphinx_rtd_theme
