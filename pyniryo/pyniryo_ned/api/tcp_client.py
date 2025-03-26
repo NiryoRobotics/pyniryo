@@ -32,7 +32,7 @@ from .exceptions import (ClientNotConnectedException,
                          TcpCommandException)
 from .objects import PoseObject, HardwareStatusObject, DigitalPinObject, AnalogPinObject, JointsPosition, PoseMetadata
 from ..utils.logging import get_logger
-from ..version import __version__
+from ...version import __version__
 
 
 def get_deprecation_msg(old_method, new_method):
