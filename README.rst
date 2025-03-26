@@ -31,7 +31,7 @@ PyNiryo allows to write simple script in Python in order to control Niryo's robo
     robot.move(JointsPosition(0.2, -0.3, 0.1, 0.0, 0.5, -0.8))
 
 To see more examples or learn more about the available functions,
-full documentation is available at http://archive-docs.niryo.com/dev/pyniryo
+full documentation is available `here <https://niryorobotics.github.io/pyniryo>`_.
 
 
 License
