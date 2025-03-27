@@ -6,3 +6,7 @@ typing-extensions
 
 # nate requirements
 paho-mqtt
+requests
+types-requests
+pydantic
+pydantic[email]

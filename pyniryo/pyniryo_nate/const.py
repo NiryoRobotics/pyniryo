@@ -1,2 +1,4 @@
 HTTP_PORT = 8080
 MQTT_PORT = 1883
+
+API_PREFIX = '/api'
