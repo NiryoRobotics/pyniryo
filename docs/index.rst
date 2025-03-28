@@ -44,6 +44,7 @@
 
    api/ned/api
    api/ned/vision
+   api/nate/api
 
 
 Indices and tables
