@@ -3,7 +3,7 @@ Examples: Movement
 
 This document shows how to control Ned in order to make Move Joints & Move Pose.
 
-If you want to see more, you can look at :py:meth:`joints and poses functions<pyniryo.api.tcp_client.NiryoRobot.get_joints>`
+If you want to see more, you can look at :py:meth:`joints and poses functions<pyniryo.ned.api.tcp_client.NiryoRobot.get_joints>`
 
 .. important::
     In the following sections, you are supposed to be already connected to a calibrated robot.

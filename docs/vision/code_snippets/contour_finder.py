@@ -1,12 +1,12 @@
-from pyniryo.vision import (threshold_hsv,
-                            ColorHSV,
-                            morphological_transformations,
-                            MorphoType,
-                            KernelType,
-                            biggest_contours_finder,
-                            draw_contours,
-                            show_img,
-                            show_img_and_wait_close)
+from pyniryo.ned.vision import (threshold_hsv,
+                                ColorHSV,
+                                morphological_transformations,
+                                MorphoType,
+                                KernelType,
+                                biggest_contours_finder,
+                                draw_contours,
+                                show_img,
+                                show_img_and_wait_close)
 
 img_threshold = threshold_hsv(img_test, *ColorHSV.ANY.value)
 img_threshold = morphological_transformations(img_threshold,

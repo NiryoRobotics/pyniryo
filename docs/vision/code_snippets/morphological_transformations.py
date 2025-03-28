@@ -1,10 +1,10 @@
-from pyniryo.vision import (threshold_hsv,
-                            ColorHSV,
-                            morphological_transformations,
-                            MorphoType,
-                            KernelType,
-                            show_img,
-                            show_img_and_wait_close)
+from pyniryo.ned.vision import (threshold_hsv,
+                                ColorHSV,
+                                morphological_transformations,
+                                MorphoType,
+                                KernelType,
+                                show_img,
+                                show_img_and_wait_close)
 
 img_threshold = threshold_hsv(img_test, *ColorHSV.ANY.value)
 

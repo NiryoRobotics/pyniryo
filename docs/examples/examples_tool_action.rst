@@ -3,7 +3,7 @@ Examples: Tool action
 
 This page shows how to control Ned's tools.
 
-If you want to see more, you can look at :py:meth:`tools functions<pyniryo.api.tcp_client.NiryoRobot.tool>`
+If you want to see more, you can look at :py:meth:`tools functions<pyniryo.ned.api.tcp_client.NiryoRobot.tool>`
 
 .. important::
     In this section, you are already supposed to be connected to a calibrated robot.
@@ -113,7 +113,7 @@ This operation can be proceed as follows:
 #. Going back to step 5's pose.
 
 
-There are plenty of ways to perform a pick and place with PyNiryo. Methods will
+There are plenty of ways to perform a pick and place with pyniryo.ned. Methods will
 be presented from the lowest to highest level.
 
 Code Baseline
@@ -167,5 +167,5 @@ the :meth:`~.api.tcp_client.NiryoRobot.pick_and_place` function!
    :pyobject: pick_n_place_version_3
 
 
-.. |tool_id| replace:: :class:`pyniryo.api.enums_communication.ToolID`
-.. |pose_object| replace:: :class:`~pyniryo.api.objects.PoseObject`
+.. |tool_id| replace:: :class:`pyniryo.ned.api.enums_communication.ToolID`
+.. |pose_object| replace:: :class:`~pyniryo.ned.api.objects.PoseObject`
