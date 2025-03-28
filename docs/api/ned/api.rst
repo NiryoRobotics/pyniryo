@@ -1,11 +1,11 @@
-PyNiryo API Documentation
+PyNiryo Ned API Documentation
 =====================================
 
 
 TCP client
 ------------------------------------
 
-.. automodule:: pyniryo.api.tcp_client
+.. automodule:: pyniryo.ned.api.tcp_client
    :members:
    :undoc-members:
    :member-order: bysource
@@ -13,7 +13,7 @@ TCP client
 Exceptions
 ------------------------------------
 
-.. automodule:: pyniryo.api.exceptions
+.. automodule:: pyniryo.ned.api.exceptions
    :members:
    :undoc-members:
 
@@ -21,7 +21,7 @@ Exceptions
 Enums
 ------------------------------------
 
-.. automodule:: pyniryo.api.enums_communication
+.. automodule:: pyniryo.ned.api.enums_communication
     :members:
     :undoc-members:
     :exclude-members: Command
@@ -29,7 +29,7 @@ Enums
 Python object classes
 ------------------------------------
 
-.. automodule:: pyniryo.api.objects
+.. automodule:: pyniryo.ned.api.objects
     :members:
     :undoc-members:
     :exclude-members: JointsPositionMetadata

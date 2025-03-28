@@ -6,6 +6,16 @@ from ..models import Token, Login
 
 
 class Auth(BaseAPIComponent):
+    """
+    Authentication component for the API.
+    """
 
     def login(self, email: str, password: str, expires_at: Optional[datetime] = None) -> Token:
+        """
+        Log in to the API.
+        :param email: The email of the user.
+        :param password: The password of the user.
+        :param expires_at: The expiration date of the token.
+        :return: The token generated for this login session.
+        """
         return self._http_client.post('/login', Login(email=email, password=password, expires_at=expires_at), Token)

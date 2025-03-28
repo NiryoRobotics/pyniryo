@@ -1,4 +1,4 @@
-from pyniryo.vision import threshold_hsv, ColorHSV, show_img, show_img_and_wait_close
+from pyniryo.ned.vision import threshold_hsv, ColorHSV, show_img, show_img_and_wait_close
 
 img_threshold_red = threshold_hsv(img_test, *ColorHSV.RED.value)
 

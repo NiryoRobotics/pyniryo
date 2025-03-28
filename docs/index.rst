@@ -42,8 +42,8 @@
    :caption: API Documentation
    :maxdepth: 1
 
-   api/api
-   api/vision
+   api/ned/api
+   api/ned/vision
 
 
 Indices and tables

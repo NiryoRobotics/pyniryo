@@ -1,5 +1,5 @@
 from pyniryo import NiryoRobot, PoseObject
-from pyniryo.vision import uncompress_image, undistort_image, concat_imgs, show_img
+from pyniryo.ned.vision import uncompress_image, undistort_image, concat_imgs, show_img
 
 observation_pose = PoseObject(0.18, -0.01, 0.35, 3.14, -0.0, -0.24)
 

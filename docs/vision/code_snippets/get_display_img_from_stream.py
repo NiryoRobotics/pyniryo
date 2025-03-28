@@ -1,5 +1,5 @@
 from pyniryo import NiryoRobot
-from pyniryo.vision import uncompress_image, show_img_and_wait_close
+from pyniryo.ned.vision import uncompress_image, show_img_and_wait_close
 
 # Connecting to robot
 robot = NiryoRobot('<robot_ip_address>')

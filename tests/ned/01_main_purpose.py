@@ -2,7 +2,7 @@ import os
 import unittest
 
 from pyniryo import CalibrateMode, TcpCommandException, PinID, ConveyorID, NiryoRobot
-from pyniryo.api.exceptions import ClientNotConnectedException
+from pyniryo.ned.api.exceptions import ClientNotConnectedException
 
 from src.base_test import BaseTestTcpApi
 

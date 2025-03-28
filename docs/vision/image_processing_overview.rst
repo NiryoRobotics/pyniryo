@@ -21,17 +21,17 @@ Get & display image from stream
 Ned can share its video stream through TCP. As sending raw images will
 lead to heavy packets which can saturate the network, it sends compressed images.
 You access it through the robot's function:
-:meth:`~pyniryo.api.tcp_client.NiryoRobot.get_img_compressed`.
+:meth:`~pyniryo.ned.api.tcp_client.NiryoRobot.get_img_compressed`.
 Once your image is received, you firstly need to uncompress via
-:meth:`~pyniryo.vision.image_functions.uncompress_image` and you can then display
-it with :meth:`~pyniryo.vision.image_functions.show_img_and_wait_close`.
+:meth:`~pyniryo.ned.vision.image_functions.uncompress_image` and you can then display
+it with :meth:`~pyniryo.ned.vision.image_functions.show_img_and_wait_close`.
 
 .. literalinclude:: code_snippets/get_display_img_from_stream.py
    :linenos:
 
 
 .. note::
-    :meth:`~pyniryo.vision.image_functions.show_img_and_wait_close` will wait for the user
+    :meth:`~pyniryo.ned.vision.image_functions.show_img_and_wait_close` will wait for the user
     to press either *Q* or *Esc* key, before closing the window.
 
 Undistort and display video stream
@@ -43,13 +43,13 @@ As Ned's camera is passing raw images to the robot, these
 images are distorted due to the camera lens. In order to undistort them,
 we need to use Ned's camera intrinsics.
 
-To undistort the raw image, we use :meth:`~pyniryo.vision.image_functions.undistort_image`
+To undistort the raw image, we use :meth:`~pyniryo.ned.vision.image_functions.undistort_image`
 which needs to be called with the parameters given by Ned through
-:meth:`~pyniryo.api.tcp_client.NiryoRobot.get_camera_intrinsics`.
+:meth:`~pyniryo.ned.api.tcp_client.NiryoRobot.get_camera_intrinsics`.
 
 Once, we have both raw & undistorted images, we can concatenate them in order
-to display them in once with :meth:`~pyniryo.vision.image_functions.concat_imgs`.
-Finally, we display the image :meth:`~pyniryo.vision.image_functions.show_img`.
+to display them in once with :meth:`~pyniryo.ned.vision.image_functions.concat_imgs`.
+Finally, we display the image :meth:`~pyniryo.ned.vision.image_functions.show_img`.
 
 
 .. literalinclude:: code_snippets/undistort_and_display.py
@@ -73,7 +73,7 @@ In order to illustrate functions, we are going to use the following image.
 .. attention::
     In this section it is supposed that:
 
-    * You have imported ``pyniryo.vision``
+    * You have imported ``pyniryo.ned.vision``
     * The variable ``img`` is containing the image on which image processing is applied
 
 
@@ -83,10 +83,10 @@ Color thresholding
 
 Color thresholding is very useful in order to detect object with an uniform color.
 The implemented function to realize this operation is
-:meth:`~pyniryo.vision.image_functions.threshold_hsv`.
+:meth:`~pyniryo.ned.vision.image_functions.threshold_hsv`.
 
 
-The following code is using parameters from :class:`~pyniryo.vision.enums.ColorHSV` enum
+The following code is using parameters from :class:`~pyniryo.ned.vision.enums.ColorHSV` enum
 in order to threshold Red features & *hand made* parameters to extract Blue:
 
 .. literalinclude:: code_snippets/color_thresholding.py
@@ -122,8 +122,8 @@ also comes into play.
 Learn more on `Wikipedia page <https://en.wikipedia.org/wiki/Mathematical_morphology>`_.
 
 The implemented function to realize these operations is
-:meth:`~pyniryo.vision.image_functions.morphological_transformations`.
-It uses :class:`~pyniryo.vision.enums.MorphoType` and :class:`~pyniryo.vision.enums.KernelType`
+:meth:`~pyniryo.ned.vision.image_functions.morphological_transformations`.
+It uses :class:`~pyniryo.ned.vision.enums.MorphoType` and :class:`~pyniryo.ned.vision.enums.KernelType`
 to determine which operation should be applied on the image.
 
 The code shows how to do a Closing & an Erosion:
@@ -158,7 +158,7 @@ object detection and recognition. See more on
 `OpenCV Documentation <https://docs.opencv.org/3.4/d3/d05/tutorial_py_table_of_contents_contours.html>`_.
 
 The implemented function to realize these operations is
-:meth:`~pyniryo.vision.image_functions.biggest_contours_finder` which takes a
+:meth:`~pyniryo.ned.vision.image_functions.biggest_contours_finder` which takes a
 Black & White image, and extracts the biggest (in term of area) contours from it.
 
 The code to extract and draw the 3 biggest contours from an image is
@@ -184,8 +184,8 @@ In order to catch an object, we need to find a pose from where the
 end effector can grasp the object. The following method
 uses contours which have been found in the previous section and finds their
 barycenter and orientation via the functions
-:meth:`~pyniryo.vision.image_functions.get_contour_barycenter` &
-:meth:`~pyniryo.vision.image_functions.get_contour_angle`.
+:meth:`~pyniryo.ned.vision.image_functions.get_contour_barycenter` &
+:meth:`~pyniryo.ned.vision.image_functions.get_contour_angle`.
 
 
 .. literalinclude:: code_snippets/find_object_center_position.py
@@ -212,7 +212,7 @@ Markers extraction
 ^^^^^^^^^^^^^^^^^^^^^^
 As image processing happens in a workspace, it is important to extract
 the workspace beforehand! To do so, you can use the function
-:meth:`~pyniryo.vision.image_functions.extract_img_workspace`.
+:meth:`~pyniryo.ned.vision.image_functions.extract_img_workspace`.
 
 .. literalinclude:: code_snippets/markers_extraction.py
    :linenos:
@@ -232,8 +232,8 @@ the workspace beforehand! To do so, you can use the function
 Debug mode
 ^^^^^^^^^^^^^
 If Ned's functions are failing, you can use Debug functions which are
-:meth:`~pyniryo.vision.image_functions.debug_threshold_color` &
-:meth:`~pyniryo.vision.image_functions.debug_markers` in order to display what
+:meth:`~pyniryo.ned.vision.image_functions.debug_threshold_color` &
+:meth:`~pyniryo.ned.vision.image_functions.debug_markers` in order to display what
 the robot sees.
 
 You can use the functions as follow:
@@ -281,7 +281,7 @@ Vision pick via your image processing pipeline
 
 You may want to send coordinate to Ned in order to pick
 the object of your choice! To do that, use the function
-:meth:`~pyniryo.api.tcp_client.NiryoRobot.get_target_pose_from_rel` which
+:meth:`~pyniryo.ned.api.tcp_client.NiryoRobot.get_target_pose_from_rel` which
 converts a relative pose in the workspace into a pose in the robot's world!
 
 .. literalinclude:: code_snippets/vision_pick.py

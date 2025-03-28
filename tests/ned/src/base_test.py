@@ -4,7 +4,7 @@ import numpy as np
 from uuid import uuid4
 
 from pyniryo import NiryoRobot, PoseObject, PoseMetadata, JointsPosition
-from pyniryo.api.exceptions import ClientNotConnectedException
+from pyniryo.ned.api.exceptions import ClientNotConnectedException
 
 
 class BaseTestTcpApi(unittest.TestCase):
