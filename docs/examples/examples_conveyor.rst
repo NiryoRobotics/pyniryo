@@ -3,7 +3,7 @@ Examples : Conveyor Belt
 
 This document shows how to use Ned's Conveyor Belt.
 
-If you want to see more about Ned's Conveyor Belt functions, you can look at the :py:meth:`conveyor functions<pyniryo.api.tcp_client.NiryoRobot.set_conveyor>`
+If you want to see more about Ned's Conveyor Belt functions, you can look at the :py:meth:`conveyor functions<pyniryo.ned.api.tcp_client.NiryoRobot.set_conveyor>`
 
 .. danger::
     If you are using the real robot, make sure the environment around it is clear.

@@ -1,4 +1,4 @@
-from .pyniryo_ned.api import *
-from .pyniryo_ned.vision import *
+from .ned.api import *
+from .ned.vision import *
 
-from .pyniryo_nate.client import Nate
+from .nate.client import Nate

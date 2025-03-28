@@ -5,7 +5,7 @@ from threading import Lock, Thread
 
 import cv2
 import time
-from pyniryo.vision.image_functions import show_img_and_check_close
+from pyniryo.ned.vision.image_functions import show_img_and_check_close
 
 
 class WebcamVideoStream:
