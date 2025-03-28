@@ -1,7 +1,8 @@
 import os
 from typing import Optional
 
-from .http_client import HttpClient
+from .http import HttpClient
+from .mqtt import MqttClient
 from .const import HTTP_PORT, MQTT_PORT, API_PREFIX
 from .components.auth import Auth
 
@@ -18,13 +19,12 @@ class Nate:
         :param auth_token: The authentication token to use. If it is a file path, the content of the file will be used.
         """
         self.__http_client: HttpClient = HttpClient(hostname, HTTP_PORT, prefix=API_PREFIX)
+        self.__mqtt_client: MqttClient = MqttClient(hostname, MQTT_PORT)
 
         if auth_token is not None:
             if os.path.exists(auth_token):
                 auth_token = open(auth_token).read()
             self.__http_client.set_header('Authorization', f'Bearer {auth_token}')
-
-        self.__mqtt_client = ...
 
         self.__auth: Optional[Auth] = None
 

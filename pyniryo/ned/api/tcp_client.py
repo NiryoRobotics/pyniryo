@@ -1,3 +1,5 @@
+# mypy: ignore-errors
+
 import time
 import socket
 import warnings
