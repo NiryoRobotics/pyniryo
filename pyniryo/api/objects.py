@@ -5,7 +5,7 @@ import re
 
 import numpy as np
 
-from .enums_communication import TcpVersion, LengthUnit
+from .enums_communication import LengthUnit
 
 
 class PoseMetadata:
@@ -15,42 +15,28 @@ class PoseMetadata:
     :ivar version: The version of the metadata. Each new version adds more attributes.
                    (use :func:`v1` or :func:`v2` to quickly create a default metadata instance)
     :type version: int
-    :ivar tcp_version: Represents the version of the robot's TCP orientation. The orientation of the TCP changed in
-                       v5.5.0 of the robot system in order to respect the Denavit-Hartenberg convention.
-                       The poses created before the change must have the TcpVersion to LEGACY.
-                       All the new poses starting the 5.5.0 must use the DH_CONVENTION.
-                       Default: :const:`TcpVersion.DH_CONVENTION`
-    :type tcp_version: TcpVersion
     :ivar frame: Name of the frame if the pose is relative to a frame other than the world.
     :type frame: str
     :ivar length_unit: The length unit of the position (x, y, z). Default: :const:`LengthUnit.METERS`
     :type length_unit: LengthUnit
     """
-    __DEFAULT_TCP_VERSION = TcpVersion.DH_CONVENTION
     __DEFAULT_LENGTH_UNIT = LengthUnit.METERS
     __DEFAULT_FRAME = ''
 
-    def __init__(self, version, tcp_version, frame=__DEFAULT_FRAME, length_unit=__DEFAULT_LENGTH_UNIT):
+    def __init__(self, version, frame=__DEFAULT_FRAME, length_unit=__DEFAULT_LENGTH_UNIT):
         self.version = version
-        self.tcp_version = tcp_version
         self.frame = frame
         self.length_unit = length_unit
 
     def __eq__(self, other):
-        return (self.version == other.version and self.tcp_version == other.tcp_version and self.frame == other.frame
-                and self.length_unit == other.length_unit)
+        return self.version == other.version and self.frame == other.frame and self.length_unit == other.length_unit
 
     def to_dict(self):
         """
         :return: A dictionary representing the object.
         :rtype: dict
         """
-        return {
-            'version': self.version,
-            'tcp_version': self.tcp_version.name,
-            'frame': self.frame,
-            'length_unit': self.length_unit.name
-        }
+        return {'version': self.version, 'frame': self.frame, 'length_unit': self.length_unit.name}
 
     @classmethod
     def from_dict(cls, d):
@@ -64,7 +50,7 @@ class PoseMetadata:
         if d['version'] == 1:
             return cls.v1()
         elif d['version'] == 2:
-            return cls.v2(TcpVersion[d['tcp_version']], d['frame'], LengthUnit[d['length_unit']])
+            return cls.v2(d['frame'], LengthUnit[d['length_unit']])
 
     @classmethod
     def v1(cls, frame=__DEFAULT_FRAME):
@@ -73,20 +59,18 @@ class PoseMetadata:
         :param frame: The frame of the pose to create.
         :type frame: str
         """
-        return cls(1, TcpVersion.LEGACY, frame=frame)
+        return cls(1, frame=frame)
 
     @classmethod
-    def v2(cls, tcp_version=__DEFAULT_TCP_VERSION, frame=__DEFAULT_FRAME, length_unit=__DEFAULT_LENGTH_UNIT):
+    def v2(cls, frame=__DEFAULT_FRAME, length_unit=__DEFAULT_LENGTH_UNIT):
         """
         Quickly creates a new PoseMetadata instance initialized as a V2 pose.
 
-        :param tcp_version: The version of the robot's TCP orientation. Default:
-        :type tcp_version: TcpVersion
         :param frame: The frame of the pose to create. Default:
         :type frame: str
         :param length_unit: The length unit of the position (x, y, z). Default:
         """
-        return cls(2, tcp_version=tcp_version, frame=frame, length_unit=length_unit)
+        return cls(2, frame=frame, length_unit=length_unit)
 
 
 class PoseObject:

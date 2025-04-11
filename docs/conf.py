@@ -55,5 +55,5 @@ autodoc_default_flags = {
 # display the typehints in the function signature and the docstring
 autodoc_typehints = 'both'
 
-# mock the numpy import, this avoid having to install it for building the doc
-autodoc_mock_imports = ["numpy", "cv2"]
+# mock the import, this avoid having to install it for building the doc
+autodoc_mock_imports = ["cv2"]

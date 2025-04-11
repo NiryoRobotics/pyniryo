@@ -28,7 +28,6 @@ Versions compatibility
 
 .. warning::
    Starting PyNiryo 1.2.0, the positions are no longer arrays of float but classes instead. The primary goal of this is to allow us have a better control on the robot positions.
-   For example, now that the robot URDF has changed to the Denavit-Hartenberg convention, it's crucial for the robot to know what version of the pose is given to him.
    Since we are able to differenciate poses from joints, the api becomes more easy to use as you can use the functions without worrying about the type of pose you're using.
    Therefore, the functions such as move_joints or move_pose are no longer needed and are replaced by generic functions such as move.
 

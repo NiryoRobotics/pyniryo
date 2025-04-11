@@ -38,11 +38,6 @@ the package installer for Python.
 Installation with pip
 -------------------------------
 
-You need to install Numpy package beforehand: ::
-
-    pip install numpy
-
-
 To install Ned's Python package via ``pip``, simply execute::
 
     pip install pyniryo
