@@ -5,4 +5,4 @@ New in version 1.3.0
 -----------------------------------------------------------
 * Removed all the TCPv2 related code from the library.
 
-  The TCPv2 was designed to comply with the Denavit-Hartenberg convention, but the robot URDF has changed to comply with the Denavit-Hartenberg convention, while still maintening compatibility with the previous URDF. But as we realised that the TCPv2 was not used and was adding unnecessary complexity, we decided to remove it from the library.
+  The TCPv2 was designed to comply with the Z-forward convention, while still maintaining compatibility with the convention we used before. But as we realised that the TCPv2 was not used and was adding unnecessary complexity, we decided to remove it from the library.
