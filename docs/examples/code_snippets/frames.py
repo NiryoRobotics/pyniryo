@@ -28,13 +28,13 @@ if __name__ == '__main__':
     robot.close_gripper(gripper_speed)
 
     # Move in frame
-    robot.move_relative([0, 0, 0.1, 0, 0, 0], "dynamic_frame", linear=True)
+    robot.move_relative([0, 0, 0.1, 0, 0, 0], "dynamic_frame")
     robot.move_relative([0.1, 0, 0, 0, 0, 0], "dynamic_frame")
-    robot.move_relative([0, 0, -0.1, 0, 0, 0], "dynamic_frame", linear=True)
+    robot.move_relative([0, 0, -0.1, 0, 0, 0], "dynamic_frame")
 
     # Place
     robot.open_gripper(gripper_speed)
-    robot.move_relative([0, 0, 0.1, 0, 0, 0], "dynamic_frame", linear=True)
+    robot.move_relative([0, 0, 0.1, 0, 0, 0], "dynamic_frame")
 
     # Home
     robot.move(JointsPosition(0, 0.5, -1.25, 0, 0, 0))

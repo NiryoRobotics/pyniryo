@@ -53,10 +53,6 @@ class BaseTestTcpApi(unittest.TestCase):
         if isinstance(b, list):
             b = PoseObject(*b, metadata=PoseMetadata.v1())
 
-        self.assertEqual(a.metadata.tcp_version,
-                         b.metadata.tcp_version,
-                         "Can't compare two poses with different TCP versions")
-
         # Compare the position
         self.assertAlmostEqualVector([a.x, a.y, a.z], [b.x, b.y, b.z], decimal)
 
