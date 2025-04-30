@@ -4,31 +4,14 @@ stages:
 
 
 default:
-  image: $CI_REGISTRY_IMAGE:latest
+  image: $CI_REGISTRY/robot/common/development-tools/development-tools:latest
   cache:
     paths:
       - .cache/pip
   before_script:
-    - python3 -m venv venv
+    - virtualenv venv
     - source venv/bin/activate
     - pip install -r requirements.txt -r docs/requirements.txt
-
-
-build_docker:
-  stage: .pre
-  image:
-    name: gcr.io/kaniko-project/executor:v1.9.0-debug
-    entrypoint: [ "" ]
-  # override default before_script
-  before_script: []
-  script:
-    - /kaniko/executor
-      --context "${CI_PROJECT_DIR}"
-      --dockerfile "${CI_PROJECT_DIR}/.docker/Dockerfile"
-      --destination "${CI_REGISTRY_IMAGE}:latest"
-  only:
-    changes:
-      - .docker/Dockerfile
 
 
 pages:
