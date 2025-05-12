@@ -3,8 +3,8 @@ from datetime import datetime
 
 from .base_api_component import BaseAPIComponent
 from ..models import Token, Login, UserLoggedIn
-from ..models.paths_gen import Login
-from ..mqtt import MQTTMessage, get_level_from_wildcard
+from .._internal import paths_gen
+from .._internal.mqtt import MQTTMessage, get_level_from_wildcard
 
 UserLoggedInCallback = Callable[[str, UserLoggedIn], None]
 
@@ -22,7 +22,9 @@ class Auth(BaseAPIComponent):
         :param expires_at: The expiration date of the token.
         :return: The token generated for this login session.
         """
-        return self._http_client.post(Login.LOGIN, Login(email=email, password=password, expires_at=expires_at), Token)
+        return self._http_client.post(paths_gen.Login.LOGIN,
+                                      Login(email=email, password=password, expires_at=expires_at),
+                                      Token)
 
     def on_user_logged_in(self, callback: UserLoggedInCallback) -> None:
         """

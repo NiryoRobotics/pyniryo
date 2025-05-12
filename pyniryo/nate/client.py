@@ -1,10 +1,12 @@
 import os
-from typing import Optional
+from typing import Optional, Type, cast
 
-from .http import HttpClient
-from .mqtt import MqttClient
-from .const import HTTP_PORT, MQTT_PORT, API_PREFIX
+from .components.base_api_component import BaseAPIComponent
 from .components.auth import Auth
+from .components.users import Users
+from pyniryo.nate._internal.http import HttpClient
+from pyniryo.nate._internal.mqtt import MqttClient
+from pyniryo.nate._internal.const import HTTP_PORT, MQTT_PORT, API_PREFIX
 
 
 class Nate:
@@ -26,7 +28,18 @@ class Nate:
                 auth_token = open(auth_token).read()
             self.__http_client.set_header('Authorization', f'Bearer {auth_token}')
 
-        self.__auth: Optional[Auth] = None
+        # Components are instantiated on demand in order to only create the ones that are used.
+        self.__components = {}
+
+    def __get_component(self, cls: Type[BaseAPIComponent]) -> BaseAPIComponent:
+        """
+        Get a component by name.
+        :param cls: The class of the component to get.
+        :return: The component.
+        """
+        if cls.__name__ not in self.__components:
+            self.__components[cls.__name__] = cls(self.__http_client, self.__mqtt_client)
+        return self.__components[cls.__name__]
 
     @property
     def auth(self) -> Auth:
@@ -34,6 +47,12 @@ class Nate:
         Get the authentication component.
         :return: The authentication component.
         """
-        if self.__auth is None:
-            self.__auth = Auth(self.__http_client, self.__mqtt_client)
-        return self.__auth
+        return cast(Auth, self.__get_component(Auth))
+
+    @property
+    def users(self) -> Users:
+        """
+        Get the users component.
+        :return: The users component.
+        """
+        return cast(Users, self.__get_component(Users))
