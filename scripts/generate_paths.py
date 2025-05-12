@@ -15,7 +15,7 @@ template_code = """\
 from enum import StrEnum
 
 {% for group_name, group in groups.items() %}
-class {{ group_name }}(StrEnum):
+class {{ group_name }}Paths(StrEnum):
     {%- for name, value in group.items() %}
     {{ name }} = '{{ value }}'
     {%- endfor %}
