@@ -5,7 +5,7 @@
 from enum import StrEnum
 
 
-class Robot(StrEnum):
+class RobotPaths(StrEnum):
     TCP_POSE = '/robot/tcp-pose'
     JOINTS = '/robot/joints'
     TASKS_PICK_AND_PLACE = '/robot/tasks/pick-and-place'
@@ -16,21 +16,18 @@ class Robot(StrEnum):
     DESCRIPTION_CAPABILITIES = '/robot/description/capabilities'
     PARAMETERS = '/robot/parameters'
 
-
-class Logs(StrEnum):
+class LogsPaths(StrEnum):
     LOGS = '/logs'
     LOG = '/logs/{service_id}'
     LEVEL = '/logs/level'
     LOG_LEVEL = '/logs/{service_id}/level'
 
-
-class Tools(StrEnum):
+class ToolsPaths(StrEnum):
     TOOLS = '/tools'
     TOOL = '/tools/{tool_id}'
     TOOL_TASKS_STATE = '/tools/{tool_id}/tasks/state'
 
-
-class Io(StrEnum):
+class IoPaths(StrEnum):
     DIGITAL_INPUTS = '/io/digital-inputs'
     DIGITAL_INPUT = '/io/digital-inputs/{di_id}'
     DIGITAL_OUTPUTS = '/io/digital-outputs'
@@ -40,8 +37,7 @@ class Io(StrEnum):
     ANALOG_OUTPUTS = '/io/analog-outputs'
     ANALOG_OUTPUT = '/io/analog-outputs/{ao_id}'
 
-
-class Programs(StrEnum):
+class ProgramsPaths(StrEnum):
     PROGRAMS = '/programs'
     PROGRAM = '/programs/{program_id}'
     PROGRAM_EXECUTIONS = '/programs/{program_id}/executions'
@@ -49,16 +45,13 @@ class Programs(StrEnum):
     PROGRAM_STATUS = '/programs/{program_id}/status'
     TASKS_DIAGNOSTIC = '/programs/tasks/diagnostic'
 
-
-class System(StrEnum):
+class SystemPaths(StrEnum):
     VERSIONS = '/system/versions'
 
-
-class Login(StrEnum):
+class LoginPaths(StrEnum):
     LOGIN = '/login'
 
-
-class Users(StrEnum):
+class UsersPaths(StrEnum):
     USERS = '/users'
     USER = '/users/{user_id}'
     USER_TOKENS = '/users/{user_id}/tokens'
