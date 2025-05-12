@@ -1,9 +1,11 @@
-from typing import Optional, Any
+from typing import Optional, Type, TypeVar
 
 import requests
 from pydantic import BaseModel
 
-from .exceptions import ServerException, ClientException
+from pyniryo.nate.exceptions import ServerException, ClientException
+
+T = TypeVar("T", bound=Optional[BaseModel])
 
 
 class HttpClient:
@@ -34,7 +36,8 @@ class HttpClient:
         """
         self.__headers[key] = value
 
-    def __resolve_status_code(self, response: requests.Response) -> None:
+    @staticmethod
+    def __resolve_status_code(response: requests.Response) -> None:
         """
         Resolve the status code of the response and raise an exception if needed.
         :param response: The response to resolve.
@@ -52,41 +55,55 @@ class HttpClient:
         """
         return f"http://{self.__hostname}:{self.__port}{self.__prefix}{path}"
 
-    def __request(self, method: str, path: str, data: Optional[BaseModel] = None, ResponseModel: type = dict) -> Any:
+    def __request(self, method: str, path: str, data: Optional[BaseModel] = None, response_model: Type[T] = None) -> T:
         """
         Make a request to the API.
         :param method: The method of the request.
         :param path: The path of the request.
         :param data: The data to send with the request.
-        :param ResponseModel: The model to use to parse the response.
+        :param response_model: The model to use to parse the response.
         :return: The response of the request.
-        :rtype: ResponseModel
+        :rtype: response_model
         """
         dict_data = None if data is None else data.model_dump()
         response = requests.request(method, self.__url(path), json=dict_data, headers=self.__headers)
         self.__resolve_status_code(response)
 
-        if ResponseModel is None:
-            return response.json()
-        return ResponseModel(**response.json())
+        if response_model is None:
+            return None
+        elif issubclass(response_model, BaseModel):
+            return response_model.model_validate(response.json())
+        else:
+            raise TypeError(f'Invalid type {response_model.__name__} for response model. ')
 
-    def get(self, path: str, ResponseModel: type) -> Any:
+    def get(self, path: str, response_model: Type[T]) -> T:
         """
         Make a GET request to the API.
         :param path: The path of the request.
-        :param ResponseModel: The model to use to parse the response.
+        :param response_model: The model to use to parse the response.
         :return: The response of the request.
-        :rtype: ResponseModel
+        :rtype: response_model
         """
-        return self.__request('GET', path, data=None, ResponseModel=ResponseModel)
+        return self.__request('GET', path, data=None, response_model=response_model)
 
-    def post(self, path: str, data: BaseModel, ResponseModel: type) -> Any:
+    def post(self, path: str, data: BaseModel, response_model: Type[T]) -> T:
         """
         Make a POST request to the API.
         :param path: The path of the request.
         :param data: The data to send with the request.
-        :param ResponseModel: The model to use to parse the response.
+        :param response_model: The model to use to parse the response.
         :return: The response of the request.
-        :rtype: ResponseModel
+        :rtype: response_model
         """
-        return self.__request('POST', path, data, ResponseModel)
+        return self.__request('POST', path, data, response_model)
+
+    def delete(self, path: str, data: Optional[BaseModel], response_model: Type[T]) -> T:
+        """
+        Make a DELETE request to the API.
+        :param path: The path of the request.
+        :param data: The data to send with the request.
+        :param response_model: The model to use to parse the response.
+        :return: The response of the request.
+        :rtype: response_model
+        """
+        return self.__request('DELETE', path, data, response_model)
