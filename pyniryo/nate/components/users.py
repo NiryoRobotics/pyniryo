@@ -67,4 +67,5 @@ class Users(BaseAPIComponent):
         return self._http_client.patch(
             paths_gen.Users.USER_PASSWORD.format(user_id=user_id),
             transport_models.UpdatePassword(old_password=old_password, new_password=new_password),
+            None,
         )
