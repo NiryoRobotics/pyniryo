@@ -1,10 +1,14 @@
-class PyNiryoException(Exception):
+class PyNiryoError(Exception):
     pass
 
 
-class ClientException(PyNiryoException):
+class ClientError(PyNiryoError):
     pass
 
 
-class ServerException(PyNiryoException):
+class ServerError(PyNiryoError):
+    pass
+
+
+class DataValidationError(PyNiryoError):
     pass
