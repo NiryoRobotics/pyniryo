@@ -65,16 +65,16 @@ class HttpClient:
         :return: The response of the request.
         :rtype: response_model
         """
+        if not issubclass(response_model, BaseModel):
+            raise TypeError(f'Invalid type {response_model.__name__} for response model. ')
+
         dict_data = None if data is None else data.model_dump()
         response = requests.request(method, self.__url(path), json=dict_data, headers=self.__headers)
         self.__resolve_status_code(response)
 
         if response_model is None:
             return None
-        elif issubclass(response_model, BaseModel):
-            return response_model.model_validate(response.json())
-        else:
-            raise TypeError(f'Invalid type {response_model.__name__} for response model. ')
+        return response_model.model_validate(response.json())
 
     def get(self, path: str, response_model: Type[T]) -> T:
         """
