@@ -1,9 +1,9 @@
 from typing import Optional, Type, TypeVar
 
 import requests
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
-from pyniryo.nate.exceptions import ServerError, ClientError
+from ..exceptions import get_msg_from_errors, ServerError, ClientError, InternalError
 
 T = TypeVar("T", bound=Optional[BaseModel])
 
@@ -65,7 +65,7 @@ class HttpClient:
         :return: The response of the request.
         :rtype: response_model
         """
-        if not issubclass(response_model, BaseModel):
+        if response_model is not None and not issubclass(response_model, BaseModel):
             raise TypeError(f'Invalid type {response_model.__name__} for response model. ')
 
         dict_data = None if data is None else data.model_dump()
@@ -74,7 +74,11 @@ class HttpClient:
 
         if response_model is None:
             return None
-        return response_model.model_validate(response.json())
+
+        try:
+            return response_model.model_validate(response.json())
+        except ValidationError as e:
+            raise InternalError(get_msg_from_errors(e.errors())) from e
 
     def get(self, path: str, response_model: Type[T]) -> T:
         """

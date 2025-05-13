@@ -4,9 +4,9 @@ from typing import Optional, Type, cast
 from .components.base_api_component import BaseAPIComponent
 from .components.auth import Auth
 from .components.users import Users
-from pyniryo.nate._internal.http import HttpClient
-from pyniryo.nate._internal.mqtt import MqttClient
-from pyniryo.nate._internal.const import HTTP_PORT, MQTT_PORT, API_PREFIX
+from ._internal.http import HttpClient
+from ._internal.mqtt import MqttClient
+from ._internal.const import HTTP_PORT, MQTT_PORT, API_PREFIX
 
 
 class Nate:
