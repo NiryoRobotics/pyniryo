@@ -107,3 +107,14 @@ class HttpClient:
         :rtype: response_model
         """
         return self.__request('DELETE', path, data, response_model)
+
+    def patch(self, path: str, data: Optional[BaseModel], response_model: Type[T]) -> T:
+        """
+        Make a PATCH request to the API.
+        :param path: The path of the request.
+        :param data: The data to send with the request.
+        :param response_model: The model to use to parse the response.
+        :return: The response of the request.
+        :rtype: response_model
+        """
+        return self.__request('PATCH', path, data, response_model)
