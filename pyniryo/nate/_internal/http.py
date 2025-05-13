@@ -3,7 +3,7 @@ from typing import Optional, Type, TypeVar
 import requests
 from pydantic import BaseModel
 
-from pyniryo.nate.exceptions import ServerException, ClientException
+from pyniryo.nate.exceptions import ServerError, ClientError
 
 T = TypeVar("T", bound=Optional[BaseModel])
 
@@ -43,9 +43,9 @@ class HttpClient:
         :param response: The response to resolve.
         """
         if response.status_code >= 500:
-            raise ServerException(response.status_code, response.text)
+            raise ServerError(response.status_code, response.text)
         elif response.status_code >= 400:
-            raise ClientException(response.status_code, response.text)
+            raise ClientError(response.status_code, response.text)
 
     def __url(self, path: str) -> str:
         """
@@ -97,7 +97,7 @@ class HttpClient:
         """
         return self.__request('POST', path, data, response_model)
 
-    def delete(self, path: str, data: Optional[BaseModel], response_model: Type[T]) -> T:
+    def delete(self, path: str) -> None:
         """
         Make a DELETE request to the API.
         :param path: The path of the request.
@@ -106,7 +106,7 @@ class HttpClient:
         :return: The response of the request.
         :rtype: response_model
         """
-        return self.__request('DELETE', path, data, response_model)
+        return self.__request('DELETE', path)
 
     def patch(self, path: str, data: Optional[BaseModel], response_model: Type[T]) -> T:
         """

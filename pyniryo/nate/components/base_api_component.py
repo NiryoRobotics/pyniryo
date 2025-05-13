@@ -1,7 +1,7 @@
 from abc import ABC
 
-from pyniryo.nate._internal.http import HttpClient
-from pyniryo.nate._internal.mqtt import MqttClient
+from .._internal.http import HttpClient
+from .._internal.mqtt import MqttClient
 
 
 class BaseAPIComponent(ABC):
