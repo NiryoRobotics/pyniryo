@@ -1,7 +1,7 @@
 from abc import ABC
 
-from ..http import HttpClient
-from ..mqtt import MqttClient
+from .._internal.http import HttpClient
+from .._internal.mqtt import MqttClient
 
 
 class BaseAPIComponent(ABC):
