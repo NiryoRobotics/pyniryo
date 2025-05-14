@@ -50,7 +50,8 @@ def get_level_from_wildcard(subscribed_topic: str, received_topic: str, wildcard
     Example:
     get_level_from_wildcard('a/+/topic', 'a/fabulous/topic') -> 'fabulous'
     """
-    tmp = received_topic
-    for x in subscribed_topic.split(wildcard):
-        tmp = tmp.replace(x, '')
-    return tmp
+    levels = []
+    for s_level, r_level in zip(subscribed_topic.split('/'), received_topic.split('/'), strict=True):
+        if s_level == wildcard:
+            levels.append(r_level)
+    return levels
