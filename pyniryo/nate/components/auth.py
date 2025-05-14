@@ -33,7 +33,7 @@ class Auth(BaseAPIComponent):
         topic = f'users/{user_id or "+"}/logged-in'
 
         def callback_wrapper(_, __, message: mqtt.MQTTMessage):
-            user_id = mqtt.get_level_from_wildcard(topic, message.topic)
+            user_id = mqtt.get_level_from_wildcard(topic, message.topic)[0]
             user_logged_in = transport_models.UserLoggedIn.model_validate_json(message.payload)
             callback(user_id, user_logged_in)
 
