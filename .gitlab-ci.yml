@@ -6,7 +6,7 @@ default:
   before_script:
     - virtualenv venv
     - source venv/bin/activate
-    - pip install -r requirements.txt -r docs/requirements.txt -r tests/requirements.txt -e .
+    - pip install -e .[dev]
 
 tests:
   stage: test
