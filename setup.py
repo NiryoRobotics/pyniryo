@@ -9,8 +9,8 @@ root_path = Path(__file__).parent
 VERSION = re.match(r'__version__ = ["\']((\d+\.?){3})', root_path.joinpath('pyniryo/version.py').read_text())[1]
 README = root_path.joinpath('README.rst').read_text()
 REQUIRES = root_path.joinpath('requirements.txt').read_text().splitlines()
-DOC_REQUIRES = root_path.joinpath('requirements-docs.txt').read_text().splitlines()
-TESTS_REQUIRES = root_path.joinpath('requirements-tests.txt').read_text().splitlines()
+DOC_REQUIRES = root_path.joinpath('docs/requirements.txt').read_text().splitlines()
+TESTS_REQUIRES = root_path.joinpath('tests/requirements.txt').read_text().splitlines()
 
 kwargs = {
     'name':
