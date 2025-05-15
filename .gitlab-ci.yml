@@ -24,7 +24,7 @@ pages:
     paths:
       - public
   rules:
-    - if: $CI_COMMIT_BRANCH == "master" || $C$CI_COMMIT_BRANCH == "master-nate"
+    - if: $CI_COMMIT_BRANCH =~ "master-.*"
   variables:
     GIT_STRATEGY: "clone"
 
