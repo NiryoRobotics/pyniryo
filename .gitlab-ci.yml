@@ -1,8 +1,3 @@
-stages:
-  - build
-  - release
-
-
 default:
   image: $CI_REGISTRY/robot/common/development-tools/development-tools:latest
   cache:
@@ -12,6 +7,11 @@ default:
     - virtualenv venv
     - source venv/bin/activate
     - pip install -r requirements.txt -r docs/requirements.txt
+
+tests:
+  stage: test
+  script:
+    - pytest tests/nate
 
 
 pages:
@@ -24,7 +24,7 @@ pages:
     paths:
       - public
   rules:
-    - if: $CI_COMMIT_BRANCH == "master"
+    - if: $CI_COMMIT_BRANCH == "master" || $C$CI_COMMIT_BRANCH == "master-nate"
   variables:
     GIT_STRATEGY: "clone"
 
@@ -42,7 +42,7 @@ build_package:
 
 
 upload_package:
-  stage: release
+  stage: deploy
   script:
     - pip install --upgrade twine
     - twine upload -u __token__ -p $PYPI_TOKEN --repository-url $PYPI_UPLOAD_URL dist/*
@@ -53,7 +53,7 @@ upload_package:
 
 
 mirror_github:
-  stage: release
+  stage: deploy
   dependencies: []
   variables:
     GIT_STRATEGY: none
