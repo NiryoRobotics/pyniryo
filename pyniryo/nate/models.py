@@ -95,3 +95,21 @@ class Token(BaseDataClass):
             },
             transport_models.Token,
         )
+
+
+@dataclass
+class UserEvent(BaseDataClass):
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.UserEvent) -> Self:
+        return cls()
+
+    def to_transport_model(self) -> transport_models.UserEvent:
+        return utils.new_transport_model(
+            {},
+            transport_models.UserLoggedIn,
+        )
+
+
+UserLoggedIn = UserEvent
+UserLoggedOut = UserEvent

@@ -66,7 +66,7 @@ class HttpClient:
         :rtype: response_model
         """
         if response_model is not None and not issubclass(response_model, BaseModel):
-            raise TypeError(f'Invalid type {response_model.__name__} for response model. ')
+            raise TypeError(f'Invalid type {response_model.__name__} for response model.')
 
         dict_data = None if data is None else data.model_dump()
         response = requests.request(method, self.__url(path), json=dict_data, headers=self.__headers)

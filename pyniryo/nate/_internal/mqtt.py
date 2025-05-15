@@ -1,11 +1,16 @@
 from base64 import b64encode
-from typing import Callable, Any
+from typing import Callable, TypeVar, Optional, Type
 from uuid import uuid4
 
-from paho.mqtt.client import Client, MQTTv5, MQTTMessage as PahoMQTTMessage
+from paho.mqtt.client import Client, MQTTv5, MQTTMessage
+from pydantic import BaseModel, ValidationError
 
-# This is a type alias to prevent paho imports in the rest of the code.
-MQTTMessage = PahoMQTTMessage
+from ..exceptions import InternalError, get_msg_from_errors, ClientError
+
+T = TypeVar("T", bound=Optional[BaseModel])
+
+SINGLE_LEVEL_WILDCARD = '+'
+MULTI_LEVEL_WILDCARD = '#'
 
 
 class MqttClient:
@@ -28,14 +33,30 @@ class MqttClient:
         self.__mqtt_client.loop_stop()
         self.__mqtt_client.disconnect()
 
-    def subscribe(self, topic: str, callback: Callable[[Client, Any, PahoMQTTMessage], None]) -> None:
+    def subscribe(self, topic: str, callback: Callable[[str, T], None], payload_model: Type[T] = None) -> None:
         """
         Subscribe to a topic.
         :param topic: The topic to subscribe to.
         :param callback: The callback to call when a message is received.
-        callback: The callback to call when a message is received.
+        :param payload_model: The model to use for the payload. If None, no model is used.
         """
-        self.__mqtt_client.message_callback_add(topic, callback)
+        if payload_model is not None and not issubclass(payload_model, BaseModel):
+            raise TypeError(f'Invalid type {payload_model.__name__} for response model.')
+
+        def callback_wrapper(_, __, message: MQTTMessage):
+            if payload_model is None:
+                model = None
+            else:
+                try:
+                    model = payload_model.model_validate(message.payload)
+                except ValidationError as e:
+                    raise InternalError(get_msg_from_errors(e.errors())) from e
+            try:
+                callback(str(message.payload), model)
+            except Exception as e:
+                raise ClientError(f'Error in callback for topic {message.payload}: {e}') from e
+
+        self.__mqtt_client.message_callback_add(topic, callback_wrapper)
         self.__mqtt_client.subscribe(topic)
 
 
