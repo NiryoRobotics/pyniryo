@@ -22,14 +22,14 @@ class TestHttpClient(unittest.TestCase):
         mock_response.text = text
         return mock_response
 
-    @patch("requests.request")
+    @patch("requests.request", autospec=True)
     def test_get_request_success(self, mock_request):
         mock_request.return_value = self.mock_response(200, {"message": "Success"})
 
         response = self.client.get("/test", ResponseModel)
         self.assertEqual(response.message, "Success")
 
-    @patch("requests.request")
+    @patch("requests.request", autospec=True)
     def test_post_request_success(self, mock_request):
         mock_request.return_value = self.mock_response(201, {"message": "Created"})
 
@@ -37,35 +37,35 @@ class TestHttpClient(unittest.TestCase):
         response = self.client.post("/test", data, ResponseModel)
         self.assertEqual(response.message, "Created")
 
-    @patch("requests.request")
+    @patch("requests.request", autospec=True)
     def test_delete_request_success(self, mock_request):
         mock_request.return_value = self.mock_response(204)
 
         response = self.client.delete("/test")
         self.assertIsNone(response)
 
-    @patch("requests.request")
+    @patch("requests.request", autospec=True)
     def test_server_error(self, mock_request):
         mock_request.return_value = self.mock_response(500, text="Internal Server Error")
 
         with self.assertRaises(ServerError):
             self.client.get("/test", ResponseModel)
 
-    @patch("requests.request")
+    @patch("requests.request", autospec=True)
     def test_client_error(self, mock_request):
         mock_request.return_value = self.mock_response(404, text="Not Found")
 
         with self.assertRaises(ClientError):
             self.client.get("/test", ResponseModel)
 
-    @patch("requests.request")
+    @patch("requests.request", autospec=True)
     def test_model_validation_error(self, mock_request):
         mock_request.return_value = self.mock_response(200, {"message": 123})
 
         with self.assertRaises(InternalError):
             self.client.get("/test", ResponseModel)
 
-    @patch("requests.request")
+    @patch("requests.request", autospec=True)
     def test_internal_error_on_invalid_json(self, mock_request):
         mock_request.return_value = self.mock_response(200, "Invalid JSON")
 
