@@ -1,26 +1,26 @@
 # coding=utf-8
 import re
-from io import open
+from pathlib import Path
+
 from setuptools import find_packages, setup
 
-with open('pyniryo/version.py', 'r', encoding='utf-8') as f:
-    version = re.match(r'__version__ = ["\']((\d+\.?){3})', f.read())[1]
+root_path = Path(__file__).parent
 
-with open('README.rst', 'r', encoding='utf-8') as f:
-    readme = f.read()
-
-with open('requirements.txt', 'r') as f:
-    REQUIRES = [str(line.replace("\n", "")) for line in f.readlines()]
+VERSION = re.match(r'__version__ = ["\']((\d+\.?){3})', root_path.joinpath('pyniryo/version.py').read_text())[1]
+README = root_path.joinpath('README.rst').read_text()
+REQUIRES = root_path.joinpath('requirements.txt').read_text().splitlines()
+DOC_REQUIRES = root_path.joinpath('requirements-docs.txt').read_text().splitlines()
+TESTS_REQUIRES = root_path.joinpath('requirements-tests.txt').read_text().splitlines()
 
 kwargs = {
     'name':
     'pyniryo',
     'version':
-    version,
+    VERSION,
     'description':
     'Package to control Niryo Robot "Ned" through TCP',
     'long_description':
-    readme,
+    README,
     'author':
     'Niryo',
     'author_email':
@@ -57,9 +57,15 @@ kwargs = {
         'Topic :: Scientific/Engineering :: Image Recognition',
         'Topic :: Scientific/Engineering :: Human Machine Interfaces',
     ],
-    'tests_require': ['coverage', 'pytest'],
+    'tests_require':
+    TESTS_REQUIRES,
     'packages':
     find_packages(exclude=('tests', 'tests.*')),
+    'extras_require': {
+        'docs': DOC_REQUIRES,
+        'tests': TESTS_REQUIRES,
+        'dev': DOC_REQUIRES + TESTS_REQUIRES,
+    }
 }
 
 setup(**kwargs)
