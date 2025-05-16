@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 from datetime import datetime
 from uuid import UUID
-from typing import Self
 
 from pydantic import BaseModel
 
 from ._internal import transport_models, utils
+from ._internal.compat.typing import Self
 
 
 @dataclass
