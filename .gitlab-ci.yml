@@ -11,7 +11,7 @@ default:
 tests:
   stage: test
   script:
-    - pytest tests/nate
+    - tox
 
 
 pages:

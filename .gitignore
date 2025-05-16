@@ -24,3 +24,5 @@ _build/
 docs_build/
 generated_pdfs/
 public/
+
+.tox/
