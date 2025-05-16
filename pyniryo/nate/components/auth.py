@@ -17,6 +17,7 @@ class Auth(BaseAPIComponent):
     def login(self, email: str, password: str, expires_at: Optional[datetime] = None) -> models.Token:
         """
         Log in to the API.
+
         :param email: The email of the user.
         :param password: The password of the user.
         :param expires_at: The expiration date of the token.
@@ -36,6 +37,7 @@ class Auth(BaseAPIComponent):
     def on_user_logged_in(self, callback: UserLoggedInCallback, user_id: str = None) -> None:
         """
         Set the callback to call when a user logs in.
+
         :param callback: The callback to call. The callback must take the user ID and the payload as parameters.
         :param user_id: The user ID to listen to. If not specified, listen to all users.
         """
@@ -50,6 +52,7 @@ class Auth(BaseAPIComponent):
     def on_user_logged_out(self, callback: UserLoggedOutCallback, user_id: str = None) -> None:
         """
         Set the callback to call when a user logs out.
+
         :param callback: The callback to call. The callback must take the user ID and the payload as parameters.
         :param user_id: The user ID to listen to. If not specified, listen to all users.
         """
