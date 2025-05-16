@@ -2,7 +2,7 @@
 # This file is generated from an OpenAPI specification.
 # Any changes made directly to this file will be lost.
 
-from enum import StrEnum
+from .compat.enum import StrEnum
 
 
 class Robot(StrEnum):

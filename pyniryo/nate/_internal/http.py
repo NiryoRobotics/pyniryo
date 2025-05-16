@@ -1,4 +1,4 @@
-from typing import Optional, Type, TypeVar
+from .compat.typing import Optional, Type, TypeVar
 
 import requests
 from pydantic import BaseModel, ValidationError

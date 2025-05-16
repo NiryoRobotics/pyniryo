@@ -1,5 +1,5 @@
 from base64 import b64encode
-from typing import Callable, TypeVar, Optional, Type
+from .compat.typing import Callable, TypeVar, Optional, Type
 from uuid import uuid4
 
 from paho.mqtt.client import Client, MQTTv5, MQTTMessage
