@@ -10,7 +10,28 @@ Nate
    :undoc-members:
    :member-order: bysource
 
-.. automodule:: pyniryo.nate.components.auth
+Components
+------------------------------------
+
+.. autoclass:: pyniryo.nate.components.BaseAPIComponent
+   :members:
+   :undoc-members:
+   :member-order: bysource
+
+.. autoclass:: pyniryo.nate.components.Auth
+   :members:
+   :undoc-members:
+   :member-order: bysource
+
+.. autoclass:: pyniryo.nate.components.Users
+   :members:
+   :undoc-members:
+   :member-order: bysource
+
+Exceptions
+------------------------------------
+
+.. automodule:: pyniryo.nate.exceptions
    :members:
    :undoc-members:
    :member-order: bysource

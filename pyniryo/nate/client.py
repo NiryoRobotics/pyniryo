@@ -1,8 +1,6 @@
 import os
 
-from .components.base_api_component import BaseAPIComponent
-from .components.auth import Auth
-from .components.users import Users
+from .components import Auth, Users, BaseAPIComponent
 from ._internal.compat.typing import Optional, Type, cast
 from ._internal.http import HttpClient
 from ._internal.mqtt import MqttClient
@@ -10,14 +8,13 @@ from ._internal.const import HTTP_PORT, MQTT_PORT, API_PREFIX
 
 
 class Nate:
-    """
-    Base client for the Nate API.
-    """
 
     def __init__(self, hostname: str, auth_token: Optional[str] = None):
         """
-        Initialize a client.
+        Initialize a client to communicate with the Nate API.
+        
         :param hostname: The hostname of the Nate API. It can be an IP address or a domain name.
+        :type hostname: str
         :param auth_token: The authentication token to use. If it is a file path, the content of the file will be used.
         """
         self.__http_client: HttpClient = HttpClient(hostname, HTTP_PORT, prefix=API_PREFIX)
@@ -34,6 +31,7 @@ class Nate:
     def __get_component(self, cls: Type[BaseAPIComponent]) -> BaseAPIComponent:
         """
         Get a component by name.
+
         :param cls: The class of the component to get.
         :return: The component.
         """
@@ -45,6 +43,7 @@ class Nate:
     def auth(self) -> Auth:
         """
         Get the authentication component.
+
         :return: The authentication component.
         """
         return cast(Auth, self.__get_component(Auth))
@@ -53,6 +52,7 @@ class Nate:
     def users(self) -> Users:
         """
         Get the users component.
+
         :return: The users component.
         """
         return cast(Users, self.__get_component(Users))
