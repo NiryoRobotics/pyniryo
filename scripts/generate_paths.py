@@ -4,6 +4,7 @@ import argparse
 import re
 from pathlib import Path
 
+# openapi3-parser
 from openapi_parser import parse
 from jinja2 import Template
 
@@ -12,7 +13,7 @@ template_code = """\
 # This file is generated from an OpenAPI specification.
 # Any changes made directly to this file will be lost.
 
-from enum import StrEnum
+from .compat.enum import StrEnum
 
 {% for group_name, group in groups.items() %}
 class {{ group_name }}(StrEnum):
