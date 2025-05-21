@@ -2175,10 +2175,10 @@ class NiryoRobot(object):
         """
         .. deprecated:: 1.2.0
            You should use :func:`move` with a frame in the pose metadata.
+
         Move robot end of an offset in a frame
 
         Example: ::
-
             robot.move_relative([0.05, 0.05, 0.05, 0.3, 0, 0], frame="default_frame")
 
         :param offset: list which contains offset of x, y, z, roll, pitch, yaw
