@@ -2061,8 +2061,7 @@ class NiryoRobot(object):
         :type pose_y: list[float] [x, y, z, roll, pitch, yaw]
         :param belong_to_workspace: indicate if the frame belong to a workspace
         :type belong_to_workspace: boolean
-        :return: status, message
-        :rtype: (int, str)
+        :return: None
         """
         self.__check_type(frame_name, str)
         self.__check_type(description, str)
@@ -2111,8 +2110,7 @@ class NiryoRobot(object):
         :type point_y: list[float] [x, y, z]
         :param belong_to_workspace: indicate if the frame belong to a workspace
         :type belong_to_workspace: boolean
-        :return: status, message
-        :rtype: (int, str)
+        :return: None
         """
         self.__check_type(frame_name, str)
         self.__check_type(description, str)
@@ -2141,8 +2139,7 @@ class NiryoRobot(object):
         :type new_frame_name: str
         :param new_description: new description of the frame
         :type new_description: str
-        :return: status, message
-        :rtype: (int, str)
+        :return: None
         """
         self.__check_type(frame_name, str)
         self.__check_type(new_frame_name, str)
@@ -2163,8 +2160,7 @@ class NiryoRobot(object):
         :type frame_name: str
         :param belong_to_workspace: indicate if the frame belong to a workspace
         :type belong_to_workspace: boolean
-        :return: status, message
-        :rtype: (int, str)
+        :return: None
         """
         self.__check_type(frame_name, str)
         self.__check_type(belong_to_workspace, bool)
@@ -2185,8 +2181,7 @@ class NiryoRobot(object):
         :type offset: list[float]
         :param frame: name of local frame
         :type frame: str
-        :return: status, message
-        :rtype: (int, str)
+        :return: None
         """
         warnings.warn(f'{get_deprecation_msg("move_linear", "move")}', DeprecationWarning, stacklevel=2)
         self.__check_type(frame, str)
@@ -2212,8 +2207,7 @@ class NiryoRobot(object):
         :type offset: list[float]
         :param frame: name of local frame
         :type frame: str
-        :return: status, message
-        :rtype: (int, str)
+        :return: None
         """
         warnings.warn(f'{get_deprecation_msg("move_linear_relative", "move_relative")}',
                       DeprecationWarning,
