@@ -1628,6 +1628,11 @@ class NiryoRobot(object):
     def get_conveyors_feedback(self):
         """
         Get the feedback of the conveyors
+        - conveyor id
+        - direction
+        - connection state
+        - running
+        - speed
 
         :return: List of the conveyors' feedback
         :rtype: list[ConveyorFeedback]
@@ -1637,6 +1642,8 @@ class NiryoRobot(object):
             conveyors_feedback[i]['conveyor_id'] = ConveyorID[conveyors_feedback[i]['conveyor_id']]
             conveyors_feedback[i]['direction'] = ConveyorDirection(conveyors_feedback[i]['direction'])
             conveyors_feedback[i]['connection_state'] = eval(conveyors_feedback[i]['connection_state'])
+            conveyors_feedback[i]['running'] = eval(conveyors_feedback[i]['running'])
+            conveyors_feedback[i]['speed'] = eval(conveyors_feedback[i]['speed'])
 
         return conveyors_feedback
 
