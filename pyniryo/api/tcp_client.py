@@ -1628,6 +1628,11 @@ class NiryoRobot(object):
     def get_conveyors_feedback(self):
         """
         Get the feedback of the conveyors
+        - conveyor id
+        - direction
+        - connection state
+        - running
+        - speed
 
         :return: List of the conveyors' feedback
         :rtype: list[ConveyorFeedback]
