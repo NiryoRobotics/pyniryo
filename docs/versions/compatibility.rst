@@ -10,8 +10,8 @@ Versions compatibility
    *  -  PyNiryo version
       -  Robot system version
       -  Robot
-   *  -  <= 1.0.5
-      -  <= 3.2.0
+   *  -  ≤1.0.5
+      -  ≤3.2.0
       -  ``Ned``
    *  -  1.1.0
       -  4.0.0
@@ -20,10 +20,10 @@ Versions compatibility
       -  4.0.1
       -  ``Niryo One``, ``Ned``, ``Ned2``
    *  -  1.1.2
-      -  >=4.1.1
+      -  ≥4.1.1
       -  ``Niryo One``, ``Ned``, ``Ned2``
-   *  - 1.2.0
-      - >= 5.5.0
+   *  - ≥1.2.0
+      - ≥5.5.0
       - ``Ned2``
 
 .. warning::
