@@ -24,7 +24,7 @@ Versions compatibility
       -  ``Niryo One``, ``Ned``, ``Ned2``
    *  - ≥1.2.0
       - ≥5.5.0
-      - ``Ned2``
+      - ``Ned2``, ``Ned3Pro``
 
 .. warning::
    Starting PyNiryo 1.2.0, the positions are no longer arrays of float but classes instead. The primary goal of this is to allow us have a better control on the robot positions.
