@@ -7,11 +7,12 @@ from paho.mqtt.client import Client, MQTTv5
 from pydantic import BaseModel, ValidationError
 
 from ..exceptions import InternalError, get_msg_from_errors
-from .compat.typing import Callable, TypeVar, Type
+from typing import Callable, TypeVar, Type
 
 logger = logging.getLogger(__name__)
 
 T = TypeVar("T", bound=(BaseModel | None))
+Callback = Callable[[str, T], None]
 
 SINGLE_LEVEL_WILDCARD = '+'
 MULTI_LEVEL_WILDCARD = '#'
@@ -29,21 +30,29 @@ class MqttClient:
         self.__port = port
         self.__client_id = f'pyniryo-{b64encode(uuid4().bytes).decode()}'
 
-        self.__subscribers: Dict[str, Tuple[Type[T], List[Callable[[str, T], None]]]] = {}
+        self.__subscribers: Dict[str, Tuple[Type[T], List[Callback]]] = {}
 
         self.__mqtt_client = Client(client_id=self.__client_id, userdata=None, protocol=MQTTv5)
         self.__mqtt_client.on_message = self.__on_message
         self.__mqtt_client.connect(self.__hostname, self.__port)
         self.__mqtt_client.loop_start()
 
-    def __del__(self):
+    def disconnect(self):
         """
-        Disconnect the MQTT client when the object is deleted.
+        Disconnect the MQTT client.
         """
         self.__mqtt_client.loop_stop()
         self.__mqtt_client.disconnect()
 
-    def subscribe(self, topic: str, callback: Callable[[str, T], None], payload_model: Type[T] = None) -> None:
+    def __del__(self):
+        try:
+            self.__mqtt_client
+        except AttributeError:
+            return
+        if self.__mqtt_client.is_connected():
+            self.disconnect()
+
+    def subscribe(self, topic: str, callback: Callback, payload_model: Type[T] = None) -> None:
         """
         Subscribe to a topic.
         :param topic: The topic to subscribe to.
@@ -59,7 +68,7 @@ class MqttClient:
 
         self.__subscribers[topic][1].append(callback)
 
-    def unsubscribe(self, callback: Callable[Any, Any]) -> None:
+    def unsubscribe(self, callback: Callable) -> None:
         """
         Unsubscribe a callback from a topic.
         :param callback: The callback to unsubscribe from.

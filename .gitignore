@@ -1,7 +1,7 @@
 *.log
 *.pyc
 .cache/
-.coverage
+.coverage.*
 .idea/
 .vscode/
 *.egg-info/

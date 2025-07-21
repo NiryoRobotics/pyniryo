@@ -1,7 +1,7 @@
 import os
+from typing import Type, cast
 
 from .components import Auth, Users, Motion, BaseAPIComponent
-from ._internal.compat.typing import Type, cast
 from ._internal.http import HttpClient
 from ._internal.mqtt import MqttClient
 from ._internal.const import HTTP_PORT, MQTT_PORT, API_PREFIX

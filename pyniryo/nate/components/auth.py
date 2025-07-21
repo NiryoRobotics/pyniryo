@@ -1,8 +1,8 @@
 from datetime import datetime
+from typing import Callable
 
 from .base_api_component import BaseAPIComponent
 from .._internal import paths_gen, transport_models, mqtt, utils, topics
-from .._internal.compat.typing import Callable
 from .. import models
 
 UserLoggedInCallback = Callable[[str, models.UserLoggedIn], None]

@@ -10,3 +10,4 @@ requests
 types-requests
 pydantic
 pydantic[email]
+strenum

@@ -1,13 +1,12 @@
 from collections.abc import MutableSequence
 from dataclasses import dataclass
 from datetime import datetime
-from enum import StrEnum
+from strenum import StrEnum
 from uuid import UUID
 
 from pydantic import BaseModel
 
 from ._internal import transport_models, utils
-from ._internal.compat.typing import Self
 
 
 @dataclass
@@ -48,7 +47,7 @@ class Role(BaseDataClass):
     name: str
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Role) -> Self:
+    def from_transport_model(cls, model: transport_models.Role) -> 'Role':
         return cls(
             id=model.id,
             name=model.name,
@@ -72,7 +71,7 @@ class User(BaseDataClass):
     role: Role
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.User):
+    def from_transport_model(cls, model: transport_models.User) -> 'User':
         return cls(
             id=str(model.id),
             email=str(model.email),
@@ -100,7 +99,7 @@ class Token(BaseDataClass):
     token: str
 
     @classmethod
-    def from_transport_model(cls, model: BaseModel):
+    def from_transport_model(cls, model: BaseModel) -> 'Token':
         return cls(
             id=model.id,
             expires_at=model.expires_at,
@@ -124,7 +123,7 @@ class Token(BaseDataClass):
 class UserEvent(BaseDataClass):
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.UserEvent) -> Self:
+    def from_transport_model(cls, model: transport_models.UserEvent) -> 'UserEvent':
         return cls()
 
     def to_transport_model(self) -> transport_models.UserEvent:
@@ -147,7 +146,7 @@ class Joints(BaseSequenceDataClass):
         self.root = list(joints)
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Joints) -> Self:
+    def from_transport_model(cls, model: transport_models.Joints) -> 'Joints':
         return cls(*model.root)
 
     def to_transport_model(self) -> transport_models.Joints:
@@ -189,7 +188,7 @@ class MoveFeedback(BaseDataClass):
     message: str
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.MoveFeedback) -> Self:
+    def from_transport_model(cls, model: transport_models.MoveFeedback) -> 'MoveFeedback':
         return cls(
             state=MoveState(model.state),
             message=model.message,
