@@ -1,5 +1,4 @@
 import logging
-import time
 
 from pyniryo.nate.client import Nate
 from pyniryo.nate.models import Joints
@@ -18,8 +17,7 @@ def main():
         Joints(1, 0, 0, 0, 0, 0),
     ]
     for j in joints:
-        n.motion.move(j).wait()
-        time.sleep(2)
+        n.motion.move(j, desired_time=0.5).wait()
 
 
 if __name__ == '__main__':
