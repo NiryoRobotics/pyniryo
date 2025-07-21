@@ -1,6 +1,7 @@
 from typing import Callable, List
 from uuid import UUID, uuid4
 import time
+import datetime
 
 from pyniryo.nate.components import BaseAPIComponent
 from .. import models
@@ -93,18 +94,21 @@ class Motion(BaseAPIComponent):
 
         self._mqtt_client.subscribe(topics.Robot.JOINTS, internal_callback, transport_models.Joints)
 
-    def move(self, target: models.MoveTarget) -> MoveCommand:
+    def move(self, target: models.MoveTarget, desired_time: float | None = None) -> MoveCommand:
         """
         Move the robot to the specified joint positions.
 
         :param target: The target to reach
+        :param desired_time: The desired time to reach the target, in seconds. If not specified, the robot will move as fast as possible.
         """
         if isinstance(target, models.Joints):
             command_id = uuid4()
             move_command = MoveCommand(self._mqtt_client, command_id)
             self._http_client.post(
                 paths_gen.Robot.JOINTS,
-                transport_models.MoveJoints(command_id=command_id, joints=target.to_transport_model()),
+                transport_models.MoveJoints(command_id=command_id,
+                                            joints=target.to_transport_model(),
+                                            desired_time=desired_time),
                 transport_models.MoveResponse)
             return move_command
         else:
