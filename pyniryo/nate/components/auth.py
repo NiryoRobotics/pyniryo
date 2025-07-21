@@ -1,8 +1,8 @@
 from datetime import datetime
 
 from .base_api_component import BaseAPIComponent
-from .._internal import paths_gen, transport_models, mqtt, utils
-from .._internal.compat.typing import Optional, Callable
+from .._internal import paths_gen, transport_models, mqtt, utils, topics
+from .._internal.compat.typing import Callable
 from .. import models
 
 UserLoggedInCallback = Callable[[str, models.UserLoggedIn], None]
@@ -14,7 +14,7 @@ class Auth(BaseAPIComponent):
     Authentication component for the API.
     """
 
-    def login(self, email: str, password: str, expires_at: Optional[datetime] = None) -> models.Token:
+    def login(self, email: str, password: str, expires_at: datetime | None = None) -> models.Token:
         """
         Log in to the API.
 
@@ -41,7 +41,7 @@ class Auth(BaseAPIComponent):
         :param callback: The callback to call. The callback must take the user ID and the payload as parameters.
         :param user_id: The user ID to listen to. If not specified, listen to all users.
         """
-        topic = f'users/{user_id or mqtt.SINGLE_LEVEL_WILDCARD}/logged-in'
+        topic = topics.Auth.USER_LOGGED_IN.format(user_id=user_id or mqtt.SINGLE_LEVEL_WILDCARD)
 
         def callback_wrapper(received_topic: str, user_logged_in: transport_models.UserLoggedIn):
             user_id = mqtt.get_level_from_wildcard(topic, received_topic)[0]

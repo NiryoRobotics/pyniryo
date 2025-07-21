@@ -1,7 +1,7 @@
 import os
 
-from .components import Auth, Users, BaseAPIComponent
-from ._internal.compat.typing import Optional, Type, cast
+from .components import Auth, Users, Motion, BaseAPIComponent
+from ._internal.compat.typing import Type, cast
 from ._internal.http import HttpClient
 from ._internal.mqtt import MqttClient
 from ._internal.const import HTTP_PORT, MQTT_PORT, API_PREFIX
@@ -9,7 +9,7 @@ from ._internal.const import HTTP_PORT, MQTT_PORT, API_PREFIX
 
 class Nate:
 
-    def __init__(self, hostname: str, auth_token: Optional[str] = None):
+    def __init__(self, hostname: str, auth_token: str | None = None):
         """
         Initialize a client to communicate with the Nate API.
         
@@ -30,7 +30,7 @@ class Nate:
 
     def __get_component(self, cls: Type[BaseAPIComponent]) -> BaseAPIComponent:
         """
-        Get a component by name.
+        Get a component by name. The components are lazy-loaded, meaning they are created only when first accessed.
 
         :param cls: The class of the component to get.
         :return: The component.
@@ -56,3 +56,12 @@ class Nate:
         :return: The users component.
         """
         return cast(Users, self.__get_component(Users))
+
+    @property
+    def motion(self) -> Motion:
+        """
+        Get the motion component.
+
+        :return: The motion component.
+        """
+        return cast(Motion, self.__get_component(Motion))

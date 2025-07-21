@@ -1,11 +1,11 @@
-from .compat.typing import Optional, Type, TypeVar
+from .compat.typing import Type, TypeVar
 
 import requests
 from pydantic import BaseModel, ValidationError
 
 from ..exceptions import get_msg_from_errors, ServerError, ClientError, InternalError
 
-T = TypeVar("T", bound=Optional[BaseModel])
+T = TypeVar("T", bound=(BaseModel | None))
 
 
 class HttpClient:
@@ -13,7 +13,7 @@ class HttpClient:
     A simple HTTP client wrapped around the requests library to suit the API behaviours.
     """
 
-    def __init__(self, hostname: str, port: int, prefix: str = '', headers: Optional[dict[str, str]] = None):
+    def __init__(self, hostname: str, port: int, prefix: str = '', headers: dict[str, str] | None = None):
         """
         Initialize the HTTP client.
         :param hostname: The hostname of the API.
@@ -55,7 +55,7 @@ class HttpClient:
         """
         return f"http://{self.__hostname}:{self.__port}{self.__prefix}{path}"
 
-    def __request(self, method: str, path: str, data: Optional[BaseModel] = None, response_model: Type[T] = None) -> T:
+    def __request(self, method: str, path: str, data: BaseModel | None = None, response_model: Type[T] = None) -> T:
         """
         Make a request to the API.
         :param method: The method of the request.
@@ -68,7 +68,7 @@ class HttpClient:
         if response_model is not None and not issubclass(response_model, BaseModel):
             raise TypeError(f'Invalid type {response_model.__name__} for response model.')
 
-        dict_data = None if data is None else data.model_dump()
+        dict_data = None if data is None else data.model_dump(mode='json')
         response = requests.request(method, self.__url(path), json=dict_data, headers=self.__headers)
         self.__resolve_status_code(response)
 
@@ -112,7 +112,7 @@ class HttpClient:
         """
         return self.__request('DELETE', path)
 
-    def patch(self, path: str, data: Optional[BaseModel], response_model: Type[T]) -> T:
+    def patch(self, path: str, data: BaseModel | None, response_model: Type[T]) -> T:
         """
         Make a PATCH request to the API.
         :param path: The path of the request.
