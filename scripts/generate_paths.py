@@ -13,7 +13,7 @@ template_code = """\
 # This file is generated from an OpenAPI specification.
 # Any changes made directly to this file will be lost.
 
-from .compat.enum import StrEnum
+from strenum import StrEnum
 
 {% for group_name, group in groups.items() %}
 class {{ group_name }}(StrEnum):
@@ -50,16 +50,10 @@ def get_args():
     """
     Get the arguments from the command line.
     """
-    default_input = Path('./openapi.yaml')
     default_output = Path('./paths_gen.py')
     parser = argparse.ArgumentParser(description='Generate Python Enums from OpenAPI paths.',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-i',
-                        '--input',
-                        required=True,
-                        type=Path,
-                        help='Input OpenAPI file path.',
-                        default=default_input)
+    parser.add_argument('input', type=Path, help='Input OpenAPI file path.')
     parser.add_argument('-o',
                         '--output',
                         required=True,
@@ -78,7 +72,9 @@ if __name__ == '__main__':
     grouped_paths = {}
     for path in paths:
         # As there is a leading slash in the path, the first element will be ''
-        path_parts = path.split('/')[1:]
+        path_parts = path.split('/')
+        if path_parts[0] == '':
+            path_parts = path_parts[1:]
         group_name, path_name = enum_name(path_parts)
         if group_name not in grouped_paths:
             grouped_paths[group_name] = {}

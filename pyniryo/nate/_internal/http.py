@@ -1,6 +1,5 @@
-from .compat.typing import Type, TypeVar
-
 import requests
+from typing import Type, TypeVar
 from pydantic import BaseModel, ValidationError
 
 from ..exceptions import get_msg_from_errors, ServerError, ClientError, InternalError
