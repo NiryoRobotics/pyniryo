@@ -18,6 +18,24 @@ class InternalError(PyNiryoError):
     pass
 
 
+class GenerateTrajectoryError(PyNiryoError):
+    """
+    Exception raised when an error occurs during trajectory generation.
+    """
+
+
+class LoadTrajectoryError(PyNiryoError):
+    """
+    Exception raised when an error occurs during trajectory loading.
+    """
+
+
+class ExecuteTrajectoryError(PyNiryoError):
+    """
+    Exception raised when an error occurs during trajectory execution.
+    """
+
+
 def get_msg_from_errors(errors: list[dict]) -> str:
     """
     Get the error message from pydantic errors list.

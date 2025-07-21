@@ -16,19 +16,16 @@ class Robot(StrEnum):
     DESCRIPTION_CAPABILITIES = '/robot/description/capabilities'
     PARAMETERS = '/robot/parameters'
 
-
 class Logs(StrEnum):
     LOGS = '/logs'
     LOG = '/logs/{service_id}'
     LEVEL = '/logs/level'
     LOG_LEVEL = '/logs/{service_id}/level'
 
-
 class Tools(StrEnum):
     TOOLS = '/tools'
     TOOL = '/tools/{tool_id}'
     TOOL_TASKS_STATE = '/tools/{tool_id}/tasks/state'
-
 
 class Io(StrEnum):
     DIGITAL_INPUTS = '/io/digital-inputs'
@@ -40,7 +37,6 @@ class Io(StrEnum):
     ANALOG_OUTPUTS = '/io/analog-outputs'
     ANALOG_OUTPUT = '/io/analog-outputs/{ao_id}'
 
-
 class Programs(StrEnum):
     PROGRAMS = '/programs'
     PROGRAM = '/programs/{program_id}'
@@ -49,14 +45,11 @@ class Programs(StrEnum):
     PROGRAM_STATUS = '/programs/{program_id}/status'
     TASKS_DIAGNOSTIC = '/programs/tasks/diagnostic'
 
-
 class System(StrEnum):
     VERSIONS = '/system/versions'
 
-
 class Login(StrEnum):
     LOGIN = '/login'
-
 
 class Users(StrEnum):
     USERS = '/users'
