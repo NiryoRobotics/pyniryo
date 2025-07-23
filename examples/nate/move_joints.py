@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    n = Nate('127.0.0.1')
+    n = Nate()
     joints = [
         Joints(0, -1, 1, 2, 0, 0),
         Joints(0, 0, 0, 0, 0, 0),

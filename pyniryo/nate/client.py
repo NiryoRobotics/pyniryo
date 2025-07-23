@@ -9,14 +9,17 @@ from ._internal.const import HTTP_PORT, MQTT_PORT, API_PREFIX
 
 class Nate:
 
-    def __init__(self, hostname: str, auth_token: str | None = None):
+    def __init__(self, hostname: str | None = None, auth_token: str | None = None):
         """
         Initialize a client to communicate with the Nate API.
         
         :param hostname: The hostname of the Nate API. It can be an IP address or a domain name.
+        If None, retrieve it from the environment variable NATE_HOSTNAME. If the environment variable is not set, use localhost.
         :type hostname: str
         :param auth_token: The authentication token to use. If it is a file path, the content of the file will be used.
         """
+        hostname = hostname or os.getenv('NATE_HOSTNAME') or 'localhost'
+
         self.__http_client: HttpClient = HttpClient(hostname, HTTP_PORT, prefix=API_PREFIX)
         self.__mqtt_client: MqttClient = MqttClient(hostname, MQTT_PORT)
 
