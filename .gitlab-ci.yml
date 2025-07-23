@@ -43,6 +43,56 @@ build_package:
       - dist
 
 
+docker-build:
+  image: $DIND_BUILDER_IMAGE
+  stage: deploy
+  services:
+    - docker:dind
+  inherit: []
+  tags:
+    - aws
+    - arm
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - >
+      export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s"
+      $(aws sts assume-role --role-arn arn:aws:iam::$ACCOUNT_ID:role/infra@app_runner_jobs --role-session-name "ImageBuild"
+      --duration-seconds 3600
+      --query 'Credentials.[AccessKeyId,SecretAccessKey,SessionToken]'
+      --output text))
+    - env
+    - aws ecr get-login-password | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.eu-west-3.amazonaws.com
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+  script:
+    - export DOCKER_HOST=tcp://docker:2375
+    - docker run --privileged --rm tonistiigi/binfmt --install all
+    - docker buildx create --use --name builder --driver docker-container
+    - docker buildx inspect --bootstrap
+    - docker buildx build
+        --provenance=false
+        --platform linux/amd64,linux/arm64
+        --build-arg PYTHON_VERSION=${PYTHON_VERSION}
+        -f .docker/Dockerfile
+        -t "${ACCOUNT_ID}.dkr.ecr.eu-west-3.amazonaws.com/$CI_PROJECT_PATH:${PYTHON_VERSION}-slim"
+        -t $CI_REGISTRY_IMAGE:${PYTHON_VERSION}-slim
+        --push .
+  parallel:
+    matrix:
+      - PYTHON_VERSION: [3.10, 3.11, 3.12]
+  variables:
+    AWS_REGION: eu-west-3
+    DIND_BUILDER_IMAGE: 016571999676.dkr.ecr.eu-west-3.amazonaws.com/app/ci/docker/docker
+    DOCKER_TLS_CERTDIR: ""
+  rules:
+    - if: '$CI_COMMIT_BRANCH == master-nate && $CI_COMMIT_TAG == null'
+      variables:
+        ACCOUNT_ID: "374724054640"
+    - if: '$CI_COMMIT_TAG'
+      variables:
+        ACCOUNT_ID: "458204441573"
+
+
+
 upload_package:
   stage: deploy
   script:

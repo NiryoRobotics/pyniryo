@@ -29,8 +29,6 @@ kwargs = {
     'Niryo',
     'maintainer_email':
     'admin.it@niryo.com',
-    'install_requires':
-    REQUIRES,
     'include_package_data':
     True,
     'url':
@@ -45,22 +43,20 @@ kwargs = {
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Natural Language :: English',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
         'Topic :: Scientific/Engineering :: Image Recognition',
         'Topic :: Scientific/Engineering :: Human Machine Interfaces',
     ],
-    'tests_require':
-    TESTS_REQUIRES,
     'packages':
     find_packages(exclude=('tests', 'tests.*')),
+    'install_requires':
+    REQUIRES,
+    'tests_require':
+    TESTS_REQUIRES,
     'extras_require': {
         'docs': DOC_REQUIRES,
         'tests': TESTS_REQUIRES,
