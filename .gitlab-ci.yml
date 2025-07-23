@@ -79,7 +79,7 @@ docker-build:
         --push .
   parallel:
     matrix:
-      - PYTHON_VERSION: [3.10, 3.11, 3.12]
+      - PYTHON_VERSION: [ "3.10", "3.11", "3.12" ]
   variables:
     AWS_REGION: eu-west-3
     DIND_BUILDER_IMAGE: 016571999676.dkr.ecr.eu-west-3.amazonaws.com/app/ci/docker/docker
