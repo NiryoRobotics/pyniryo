@@ -4,9 +4,9 @@ from pyniryo import NiryoRobot, ToolID, PoseObject
 robot_ip_address = '<robot_ip_address>'  # Robot address
 
 # The pick pose
-pick_pose = PoseObject(0.25, 0.0, 0.15, 3.14, -0.02, 0.0)
+pick_pose = PoseObject(0.25, 0.0, 0.15, 0.0, 1.560, 0.0)
 # The Place pose
-place_pose = PoseObject(0.03, -0.25, 0.1, 3.14, 0.0, -1.43)
+place_pose = PoseObject(0.03, -0.25, 0.1, 0.0, 1.56, -1.56)
 
 
 def pick_n_place(robot):

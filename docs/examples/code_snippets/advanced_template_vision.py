@@ -9,10 +9,10 @@ robot_ip_address_local = "127.0.0.1"
 robot_ip_address = robot_ip_address_local if local_mode else robot_ip_address
 
 # The pose from where the image processing happens
-observation_pose = PoseObject(0.18, 0.0, 0.34, 3.14, 0.01, -0.2)
+observation_pose = PoseObject(0.18, 0.0, 0.34, 0.0, 1.56, 0.0)
 
 # Center of the conditioning area
-place_pose = PoseObject(0.0, -0.23, 0.13, 3.14, -0.02, -1.56)
+place_pose = PoseObject(0.0, -0.23, 0.13, 0.0, 1.56, -1.56)
 
 
 def process(robot: NiryoRobot):

@@ -6,9 +6,9 @@ workspace_name = "workspace_1"  # Robot's Workspace Name
 robot_ip_address = '<robot_ip_address>'
 
 # The pose from where the image processing happens
-observation_pose = PoseObject(0.16, 0.0, 0.35, 3.14, 0.0, 0.0)
+observation_pose = PoseObject(0.18, 0.0, 0.34, 0.0, 1.56, 0.0)
 # Place pose
-place_pose = PoseObject(0.01, -0.2, 0.12, 3.14, -0.01, -1.5)
+place_pose = PoseObject(0.03, -0.25, 0.1, 0.0, 1.56, -1.56)
 
 # - Initialization
 

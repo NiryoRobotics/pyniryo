@@ -6,9 +6,9 @@ sensor_pin_id = PinID.GPIO_1A
 catch_nb = 5
 
 # The pick pose
-pick_pose = PoseObject(0.25, -0.01, 0.15, 3.14, -0.01, -0.06)
+pick_pose = PoseObject(0.25, -0.01, 0.15, 0.0, 1.56, 0.0)
 # The Place pose
-place_pose = PoseObject(0.02, -0.25, 0.1, 3.14, -0.01, -1.47)
+place_pose = PoseObject(0.02, -0.25, 0.1, 0.0, 1.56, -1.56)
 
 # -- MAIN PROGRAM
 
