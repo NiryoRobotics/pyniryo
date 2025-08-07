@@ -1,12 +1,15 @@
 from collections.abc import MutableSequence
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Type
+
 from strenum import StrEnum
 from uuid import UUID
 
 from pydantic import BaseModel
 
 from ._internal import transport_models, utils
+from .exceptions import PyNiryoError, GenerateTrajectoryError, LoadTrajectoryError, ExecuteTrajectoryError
 
 
 @dataclass
@@ -180,6 +183,19 @@ class MoveState(StrEnum):
 
     def is_final(self) -> bool:
         return self == MoveState.DONE or self.is_error()
+
+    def get_exception(self) -> Type[PyNiryoError]:
+        if not self.is_error():
+            raise ValueError(f"MoveState {self} does not represent an error state.")
+        match self:
+            case self.ERR_GEN_TRAJ:
+                return GenerateTrajectoryError
+            case self.ERR_LOAD_TRAJ:
+                return LoadTrajectoryError
+            case self.ERR_EXEC_TRAJ:
+                return ExecuteTrajectoryError
+            case _:
+                raise ValueError(f"MoveState {self} does not have an associated exception.")
 
 
 @dataclass

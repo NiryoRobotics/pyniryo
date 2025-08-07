@@ -1,12 +1,14 @@
+import logging
 from typing import Callable, List
 from uuid import UUID, uuid4
 import time
-import datetime
 
 from pyniryo.nate.components import BaseAPIComponent
 from .. import models
 from .._internal import transport_models, paths_gen, topics
 from .._internal.mqtt import MqttClient
+
+logger = logging.getLogger(__name__)
 
 JointsCallback = Callable[[models.Joints], None]
 
@@ -67,8 +69,8 @@ class MoveCommand:
                 raise TimeoutError(f'Move command {self.__command_id} timed out after {timeout} seconds.')
             time.sleep(0.1)
         if self.state.is_error():
-            raise RuntimeError(f'Move command {self.__command_id} failed with error: {self.__feedbacks[-1].message}')
-        print(f'Move command {self.__command_id} completed with state: {self.state}')
+            raise self.state.get_exception()(
+                f'Move command {self.__command_id} failed with error: {self.__feedbacks[-1].message}')
 
 
 class Motion(BaseAPIComponent):
