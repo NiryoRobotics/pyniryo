@@ -1,21 +1,3 @@
-stages:
-  - build
-  - release
-
-
-default:
-  image: $CI_REGISTRY/robot/ned/development-tools/development-tools:latest
-  tags:
-    - amd
-  cache:
-    paths:
-      - .cache/pip
-  before_script:
-    - virtualenv venv
-    - source venv/bin/activate
-    - pip install -r requirements.txt -r docs/requirements.txt
-
-
 pages:
   stage: build
   script:
