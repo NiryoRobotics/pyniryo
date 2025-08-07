@@ -5,6 +5,8 @@ stages:
 
 default:
   image: $CI_REGISTRY/robot/common/development-tools/development-tools:latest
+  tags:
+    - amd
   cache:
     paths:
       - .cache/pip
