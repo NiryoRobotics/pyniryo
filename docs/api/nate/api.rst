@@ -28,6 +28,11 @@ Components
    :undoc-members:
    :member-order: bysource
 
+.. autoclass:: pyniryo.nate.components.Motion
+   :members:
+   :undoc-members:
+   :member-order: bysource
+
 Exceptions
 ------------------------------------
 
