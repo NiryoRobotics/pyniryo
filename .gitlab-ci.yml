@@ -1,21 +1,3 @@
-stages:
-  - build
-  - release
-
-
-default:
-  image: $CI_REGISTRY/robot/ned/development-tools/development-tools:latest
-  tags:
-    - amd
-  cache:
-    paths:
-      - .cache/pip
-  before_script:
-    - virtualenv venv
-    - source venv/bin/activate
-    - pip install -r requirements.txt -r docs/requirements.txt
-
-
 pages:
   stage: build
   script:
@@ -29,47 +11,3 @@ pages:
     - if: $CI_COMMIT_BRANCH == "master"
   variables:
     GIT_STRATEGY: "clone"
-
-
-build_package:
-  stage: build
-  script:
-    - python3 -m pip install --upgrade build
-    - python3 -m build
-  rules:
-    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"
-  artifacts:
-    paths:
-      - dist
-
-
-upload_package:
-  stage: release
-  script:
-    - pip install --upgrade twine
-    - twine upload -u __token__ -p $PYPI_TOKEN --repository-url $PYPI_UPLOAD_URL dist/*
-  rules:
-    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"
-  variables:
-    PYPI_UPLOAD_URL: https://upload.pypi.org/legacy/
-
-
-mirror_github:
-  stage: release
-  dependencies: []
-  variables:
-    GIT_STRATEGY: none
-    GITHUB_REPOSITORY: git@github.com:NiryoRobotics/pyniryo.git
-  before_script: []
-  script:
-    - eval $(ssh-agent)
-    - chmod 600 $GITHUB_SSH_KEY
-    - ssh-add $GITHUB_SSH_KEY
-    - mkdir -p ~/.ssh
-    - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
-    - git clone --bare $CI_REPOSITORY_URL
-    - cd $CI_PROJECT_NAME.git
-    - git push $GITHUB_REPOSITORY master --tags -f
-  cache: []
-  rules:
-    - if: $CI_COMMIT_TAG && $CI_COMMIT_REF_PROTECTED == "true"
