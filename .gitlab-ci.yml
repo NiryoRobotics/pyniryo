@@ -18,7 +18,7 @@ default:
   before_script:
     - virtualenv venv
     - source venv/bin/activate
-    - pip install -e .[test]
+    - pip install -e .[tests]
 
 .build_job:
   stage: build
