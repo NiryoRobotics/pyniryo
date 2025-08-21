@@ -3,4 +3,6 @@ FROM python:${PYTHON_VERSION}-slim
 
 COPY dist/*.tar.gz /tmp/
 
-RUN pip install --no-cache-dir /tmp/*.tar.gz
+RUN pip install --no-cache-dir /tmp/*.tar.gz \
+    && pip install --no-cache-dir opencv-python-headless \
+    && rm /tmp/*.tar.gz \
