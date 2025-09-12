@@ -52,7 +52,7 @@ class HttpClient:
         :param path: The path of the request.
         :return: The URL of the request.
         """
-        return f"http://{self.__hostname}:{self.__port}{self.__prefix}{path}"
+        return f"https://{self.__hostname}:{self.__port}{self.__prefix}{path}"
 
     def __request(self, method: str, path: str, data: BaseModel | None = None, response_model: Type[T] = None) -> T:
         """
