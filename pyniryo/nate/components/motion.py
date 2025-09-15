@@ -111,7 +111,7 @@ class Motion(BaseAPIComponent):
                 transport_models.MoveJoints(command_id=command_id,
                                             joints=target.to_transport_model(),
                                             desired_time=desired_time),
-                transport_models.MoveResponse)
+                transport_models.FeedbackResponse)
             return move_command
         else:
             valid_types = ', '.join(f'{m.__module__}.{m.__qualname__}' for m in models.MoveTarget.__args__)
