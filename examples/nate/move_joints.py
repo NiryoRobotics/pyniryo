@@ -4,10 +4,6 @@ from pyniryo.nate.client import Nate
 from pyniryo.nate.exceptions import PyNiryoError
 from pyniryo.nate.models import Joints
 
-from .log_utils import get_logger
-
-logger = get_logger(__name__)
-
 
 def pick_and_place(nate: Nate, desired_time: float = None):
     """
@@ -41,9 +37,9 @@ def basic_poses(nate: Nate):
         try:
             cmd = nate.motion.move(j, desired_time=0.5)
             cmd.wait()
-            logger.info(f"Move command {cmd.command_id} completed with state: {cmd.state}")
+            print(f"Move command {cmd.command_id} completed with state: {cmd.state}")
         except PyNiryoError as e:
-            logger.error(f"Error moving joints {j}: {e}")
+            print(f"Error moving joints {j}: {e}")
             time.sleep(0.5)
 
 
