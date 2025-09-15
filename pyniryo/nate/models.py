@@ -68,7 +68,7 @@ class Role(BaseDataClass):
 
 @dataclass
 class User(BaseDataClass):
-    id: str
+    id: UUID
     email: str
     name: str
     role: Role
@@ -76,7 +76,7 @@ class User(BaseDataClass):
     @classmethod
     def from_transport_model(cls, model: transport_models.User) -> 'User':
         return cls(
-            id=str(model.id),
+            id=UUID(int=model.id),
             email=str(model.email),
             name=model.name,
             role=Role.from_transport_model(model.role),
@@ -85,7 +85,7 @@ class User(BaseDataClass):
     def to_transport_model(self) -> transport_models.User:
         return utils.new_transport_model(
             {
-                "id": self.id,
+                "id": self.id.int,
                 "email": self.email,
                 "name": self.name,
                 "role": self.role.to_transport_model(),

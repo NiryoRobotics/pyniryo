@@ -31,8 +31,9 @@ class TestAuth(BaseTestComponent):
         token = self.auth.login('mail@mail.com', 'password', expire_date)
         self.http_client.post.assert_called_once()
         endpoint, login_model, response_model = self.http_client.post.call_args[0]
-        self.assertEqual(endpoint, paths_gen.Login.LOGIN)
-        self.assertEqual(login_model.email, 'mail@mail.com')
+        self.assertEqual(endpoint, paths_gen.Auth.LOGIN)
+        self.assertIsInstance(login_model, transport_models.Login)
+        self.assertEqual(login_model.login, 'mail@mail.com')
         self.assertEqual(login_model.password, 'password')
         self.assertEqual(login_model.expires_at, expire_date)
         self.assertEqual(response_model, transport_models.Token)

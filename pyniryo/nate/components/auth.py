@@ -24,10 +24,10 @@ class Auth(BaseAPIComponent):
         :return: The token generated for this login session.
         """
         token = self._http_client.post(
-            paths_gen.Login.LOGIN,
+            paths_gen.Auth.LOGIN,
             utils.new_transport_model(
                 {
-                    'email': email, 'password': password, 'expires_at': expires_at
+                    'login': email, 'password': password, 'expires_at': expires_at
                 },
                 transport_models.Login,
             ),
