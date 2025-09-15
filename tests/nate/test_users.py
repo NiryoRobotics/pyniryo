@@ -8,7 +8,7 @@ from pyniryo.nate.components.users import Users
 from .base import BaseTestComponent
 
 base_user = models.User(
-    id=str(uuid4()),
+    id=uuid4(),
     name='Marneus Calgar',
     email='marneus.calgar@ultramar.terra',
     role=models.Role(id=0, name='Chapter Master'),
