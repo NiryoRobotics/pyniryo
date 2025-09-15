@@ -22,7 +22,7 @@ def pick_and_place(nate: Nate, desired_time: float = None):
             try:
                 nate.motion.move(joint, desired_time=desired_time).wait()
             except PyNiryoError as e:
-                logger.error(f"Error during pick and place operation: {e}")
+                print(f"Error during pick and place operation: {e}")
 
 
 def basic_poses(nate: Nate):
