@@ -12,7 +12,12 @@ class HttpClient:
     A simple HTTP client wrapped around the requests library to suit the API behaviours.
     """
 
-    def __init__(self, hostname: str, port: int, prefix: str = '', headers: dict[str, str] | None = None):
+    def __init__(self,
+                 hostname: str,
+                 port: int,
+                 prefix: str = '',
+                 headers: dict[str, str] | None = None,
+                 insecure: bool = False):
         """
         Initialize the HTTP client.
         :param hostname: The hostname of the API.
@@ -26,6 +31,7 @@ class HttpClient:
         self.__port = port
         self.__prefix = prefix
         self.__headers = headers
+        self.__insecure = insecure
 
     def set_header(self, key: str, value: str):
         """
@@ -68,7 +74,11 @@ class HttpClient:
             raise TypeError(f'Invalid type {response_model.__name__} for response model.')
 
         dict_data = None if data is None else data.model_dump(mode='json')
-        response = requests.request(method, self.__url(path), json=dict_data, headers=self.__headers)
+        response = requests.request(method,
+                                    self.__url(path),
+                                    json=dict_data,
+                                    headers=self.__headers,
+                                    verify=not self.__insecure)
         self.__resolve_status_code(response)
 
         if response_model is None:

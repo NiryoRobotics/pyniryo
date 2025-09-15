@@ -9,7 +9,7 @@ from ._internal.const import HTTP_PORT, MQTT_PORT, API_PREFIX
 
 class Nate:
 
-    def __init__(self, hostname: str | None = None, auth_token: str | None = None):
+    def __init__(self, hostname: str | None = None, auth_token: str | None = None, insecure=False):
         """
         Initialize a client to communicate with the Nate API.
         
@@ -19,9 +19,12 @@ class Nate:
         :param auth_token: The authentication token to use. If it is a file path, the content of the file will be used.
         """
         hostname = hostname or os.getenv('NATE_HOSTNAME') or 'localhost'
+        http_port = os.getenv('NATE_HTTP_PORT') or HTTP_PORT
+        mqtt_port = os.getenv('NATE_MQTT_PORT') or MQTT_PORT
+        insecure = os.getenv('NATE_INSECURE') is not None
 
-        self.__http_client: HttpClient = HttpClient(hostname, HTTP_PORT, prefix=API_PREFIX)
-        self.__mqtt_client: MqttClient = MqttClient(hostname, MQTT_PORT)
+        self.__http_client: HttpClient = HttpClient(hostname, http_port, prefix=API_PREFIX, insecure=insecure)
+        self.__mqtt_client: MqttClient = MqttClient(hostname, mqtt_port)
 
         if auth_token is not None:
             if os.path.exists(auth_token):
