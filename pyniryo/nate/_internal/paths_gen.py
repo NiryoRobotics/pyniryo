@@ -40,6 +40,7 @@ class Io(StrEnum):
 class Programs(StrEnum):
     PROGRAMS = '/programs'
     PROGRAM = '/programs/{program_id}'
+    PROGRAM_FILE = '/programs/{program_id}/file'
     PROGRAM_EXECUTIONS = '/programs/{program_id}/executions'
     PROGRAM_EXECUTION = '/programs/{program_id}/executions/{execution_id}'
     PROGRAM_STATUS = '/programs/{program_id}/status'
@@ -48,8 +49,8 @@ class Programs(StrEnum):
 class System(StrEnum):
     VERSIONS = '/system/versions'
 
-class Login(StrEnum):
-    LOGIN = '/login'
+class Auth(StrEnum):
+    LOGIN = '/auth/login'
 
 class Users(StrEnum):
     USERS = '/users'
