@@ -24,16 +24,34 @@ class {{ group_name }}(StrEnum):
 """
 
 
+def normalize_class_name(name: str) -> str:
+    """
+    Normalize a string to be a valid Python class name.
+    """
+    name = re.sub(r'\W|^(?=\d)', '_', name)
+    return ''.join(part.capitalize() for part in name.split('_'))
+
+
+def normalize_enum_name(name: str) -> str:
+    """
+    Normalize a string to be a valid Python enum name.
+    """
+    name = re.sub(r'\W|^(?=\d)', '_', name)
+    return name.upper()
+
+
 def enum_name(path_parts: list):
     """
     Generate a name for the enum based on the group name and endpoint.
     """
     group_name = path_parts[0].capitalize()
     if len(path_parts) == 1:
-        return group_name, group_name.upper()
+        return normalize_class_name(group_name), normalize_enum_name(group_name)
 
     name_parts = []
+    # Start at 1 because 0 is the group name
     for ix, part in enumerate(path_parts[1:], start=1):
+        # If the format is /things/{thing_id}, name the enum THING
         if part.startswith('{'):
             if len(name_parts) == 0:
                 name_parts.append(group_name)
@@ -43,7 +61,7 @@ def enum_name(path_parts: list):
 
     name = '_'.join(name_parts).upper()
     name = re.sub(r'\W|^(?=\d)', '_', name)
-    return group_name, name
+    return normalize_class_name(group_name), normalize_enum_name(name)
 
 
 def get_args():
@@ -63,7 +81,7 @@ def get_args():
     return parser.parse_args()
 
 
-if __name__ == '__main__':
+def main():
     args = get_args()
 
     specification = parse(str(args.input))
@@ -84,3 +102,7 @@ if __name__ == '__main__':
     rendered_code = template.render(script_name=Path(__file__).name, groups=grouped_paths)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(rendered_code)
+
+
+if __name__ == '__main__':
+    main()

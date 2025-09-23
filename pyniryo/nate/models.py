@@ -8,7 +8,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from ._internal import transport_models, utils
+from ._internal import transport_models
 from .exceptions import PyNiryoError, GenerateTrajectoryError, LoadTrajectoryError, ExecuteTrajectoryError
 
 
@@ -57,13 +57,7 @@ class Role(BaseDataClass):
         )
 
     def to_transport_model(self) -> transport_models.Role:
-        return utils.new_transport_model(
-            {
-                "id": self.id,
-                "name": self.name,
-            },
-            transport_models.Role,
-        )
+        return transport_models.Role(id=self.id, name=self.name)
 
 
 @dataclass
@@ -83,15 +77,10 @@ class User(BaseDataClass):
         )
 
     def to_transport_model(self) -> transport_models.User:
-        return utils.new_transport_model(
-            {
-                "id": self.id.int,
-                "email": self.email,
-                "name": self.name,
-                "role": self.role.to_transport_model(),
-            },
-            transport_models.User,
-        )
+        return transport_models.User(id=self.id.int,
+                                     email=self.email,
+                                     name=self.name,
+                                     role=self.role.to_transport_model())
 
 
 @dataclass
@@ -111,15 +100,10 @@ class Token(BaseDataClass):
         )
 
     def to_transport_model(self) -> transport_models.Token:
-        return utils.new_transport_model(
-            {
-                "id": self.id,
-                "expires_at": self.expires_at,
-                "created_at": self.created_at,
-                "token": self.token,
-            },
-            transport_models.Token,
-        )
+        return transport_models.Token(id=self.id,
+                                      expires_at=self.expires_at,
+                                      created_at=self.created_at,
+                                      token=self.token)
 
 
 @dataclass
@@ -130,10 +114,7 @@ class UserEvent(BaseDataClass):
         return cls()
 
     def to_transport_model(self) -> transport_models.UserEvent:
-        return utils.new_transport_model(
-            {},
-            transport_models.UserLoggedIn,
-        )
+        return transport_models.UserLoggedIn()
 
 
 UserLoggedIn = UserEvent
@@ -153,10 +134,7 @@ class Joints(BaseSequenceDataClass):
         return cls(*model.root)
 
     def to_transport_model(self) -> transport_models.Joints:
-        return utils.new_transport_model(
-            {"root": self.root},
-            transport_models.Joints,
-        )
+        return transport_models.Joints(root=self.root)
 
 
 @dataclass
@@ -211,10 +189,4 @@ class MoveFeedback(BaseDataClass):
         )
 
     def to_transport_model(self) -> transport_models.MoveFeedback:
-        return utils.new_transport_model(
-            {
-                "state": self.state.value,
-                "message": self.message,
-            },
-            transport_models.MoveFeedback,
-        )
+        return transport_models.MoveFeedback(state=self.state.value, message=self.message)

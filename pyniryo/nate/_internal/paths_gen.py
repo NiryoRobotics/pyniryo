@@ -5,8 +5,11 @@
 from strenum import StrEnum
 
 
+class Device(StrEnum):
+    ID = '/device/id'
+
 class Robot(StrEnum):
-    TCP_POSE = '/robot/tcp-pose'
+    TCP_POSE = '/robot/tcp/pose'
     JOINTS = '/robot/joints'
     TASKS_PICK_AND_PLACE = '/robot/tasks/pick-and-place'
     MOTOR_STATUS = '/robot/motors/{motor_id}/status'

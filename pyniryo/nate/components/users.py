@@ -3,7 +3,7 @@ from uuid import UUID
 
 from .base_api_component import BaseAPIComponent
 
-from .._internal import paths_gen, transport_models, utils
+from .._internal import paths_gen, transport_models
 from .. import models
 
 
@@ -32,11 +32,8 @@ class Users(BaseAPIComponent):
         """
         user = self._http_client.post(
             paths_gen.Users.USERS,
-            utils.new_transport_model(
-                {
-                    'email': email, 'name': name, 'role_id': role_id, 'password': password
-                },
-                transport_models.NewUser,
+            transport_models.NewUser(
+                    email=email, name=name, role_id=role_id, password=password
             ),
             transport_models.User,
         )
