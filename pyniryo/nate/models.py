@@ -230,3 +230,32 @@ class MoveFeedback(BaseDataClass):
 
     def to_transport_model(self) -> transport_models.MoveFeedback:
         return transport_models.MoveFeedback(state=self.state.value, message=self.message)
+
+
+class ProgramType(StrEnum):
+    python3_9 = 'python3.9'
+    python3_10 = 'python3.10'
+    python3_11 = 'python3.11'
+    python3_12 = 'python3.12'
+
+
+@dataclass
+class Program(BaseDataClass):
+    id: UUID
+    name: str
+    type: ProgramType
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.Program) -> 'Program':
+        return cls(
+            id=UUID(model.id),
+            name=model.name,
+            type=ProgramType(model.type),
+        )
+
+    def to_transport_model(self) -> transport_models.Program:
+        return transport_models.Program(
+            id=str(self.id),
+            name=self.name,
+            type=transport_models.Type(self.type.value),
+        )
