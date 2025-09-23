@@ -107,8 +107,6 @@ class HttpClient:
         """
         Make a DELETE request to the API.
         :param path: The path of the request.
-        :param data: The data to send with the request.
-        :param response_model: The model to use to parse the response.
         :return: The response of the request.
         :rtype: response_model
         """

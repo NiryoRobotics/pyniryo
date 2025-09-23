@@ -73,7 +73,7 @@ class MoveCommand:
                 f'Move command {self.__command_id} failed with error: {self.__feedbacks[-1].message}')
 
 
-class Motion(BaseAPIComponent):
+class Robot(BaseAPIComponent):
 
     def get_joints(self) -> models.Joints:
         """
@@ -96,23 +96,37 @@ class Motion(BaseAPIComponent):
 
         self._mqtt_client.subscribe(topics.Robot.JOINTS, internal_callback, transport_models.Joints)
 
-    def move(self, target: models.MoveTarget, desired_time: float | None = None) -> MoveCommand:
+    def move(self,
+             target: models.MoveTarget,
+             desired_time: float | None = None,
+             frame_id: str = None,
+             reference_frame: str = None) -> MoveCommand:
         """
         Move the robot to the specified joint positions.
 
         :param target: The target to reach
         :param desired_time: The desired time to reach the target, in seconds. If not specified, the robot will move as fast as possible.
+        :param frame_id: Move linear only. The frame ID to use for the target.
+        :param reference_frame: The reference frame to use for the movement. If not specified, the robot's base frame will be used.
         """
+        command_id = uuid4()
+        move_command = MoveCommand(self._mqtt_client, command_id)
+
         if isinstance(target, models.Joints):
-            command_id = uuid4()
-            move_command = MoveCommand(self._mqtt_client, command_id)
-            self._http_client.post(
-                paths_gen.Robot.JOINTS,
-                transport_models.MoveJoints(command_id=command_id,
-                                            joints=target.to_transport_model(),
-                                            desired_time=desired_time),
-                transport_models.FeedbackResponse)
-            return move_command
+            uri = paths_gen.Robot.JOINTS
+            data = transport_models.MoveJoints(command_id=command_id,
+                                               joints=target.to_transport_model(),
+                                               desired_time=desired_time)
+        elif isinstance(target, models.Pose):
+            if frame_id is None or frame_id == '':
+                raise ValueError("frame_id must be specified when moving to a Pose target")
+            uri = paths_gen.Robot.FRAME_POSE.format(frame_id=frame_id)
+            data = transport_models.MoveFrame(command_id=command_id,
+                                              pose=target.to_transport_model(),
+                                              reference_frame=reference_frame)
         else:
             valid_types = ', '.join(f'{m.__module__}.{m.__qualname__}' for m in models.MoveTarget.__args__)
             raise TypeError(f'Invalid type {target.__class__.__name__} for target. Expected on of {valid_types}')
+
+        self._http_client.post(uri, data, transport_models.FeedbackResponse)
+        return move_command
