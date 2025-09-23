@@ -13,7 +13,7 @@ class ResponseModel(BaseModel):
 class TestHttpClient(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.client = HttpClient("localhost", 8000)
+        self.client = HttpClient("localhost", 8000, '<token>')
 
     def mock_response(self, status_code: int, json_data=None, text=""):
         mock_response = Mock()
