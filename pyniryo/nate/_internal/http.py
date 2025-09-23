@@ -1,6 +1,9 @@
+import warnings
+
 import requests
 from typing import Type, TypeVar
 from pydantic import BaseModel, ValidationError
+from urllib3.exceptions import InsecureRequestWarning
 
 from ..exceptions import get_msg_from_errors, ServerError, ClientError, InternalError
 
@@ -12,34 +15,24 @@ class HttpClient:
     A simple HTTP client wrapped around the requests library to suit the API behaviours.
     """
 
-    def __init__(self,
-                 hostname: str,
-                 port: int,
-                 prefix: str = '',
-                 headers: dict[str, str] | None = None,
-                 insecure: bool = False):
+    def __init__(self, hostname: str, port: int, token: str, prefix: str = '', insecure: bool = False):
         """
         Initialize the HTTP client.
         :param hostname: The hostname of the API.
         :param port: The port of the API.
         :param prefix: The prefix of the API.
-        :param headers: The headers to use for the requests.
         """
-        if headers is None:
-            headers = {}
         self.__hostname = hostname
         self.__port = port
         self.__prefix = prefix
-        self.__headers = headers
+        self.__headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {token}',
+        }
         self.__insecure = insecure
 
-    def set_header(self, key: str, value: str):
-        """
-        Set a header for the requests.
-        :param key: The key of the header.
-        :param value: The value of the header.
-        """
-        self.__headers[key] = value
+        if self.__insecure:
+            warnings.filterwarnings('ignore', category=InsecureRequestWarning)
 
     @staticmethod
     def __resolve_status_code(response: requests.Response) -> None:

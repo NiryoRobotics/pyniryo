@@ -1,4 +1,8 @@
-HTTP_PORT = 8443
-MQTT_PORT = 1883
+DEFAULT_HTTP_PORT = 8443
+DEFAULT_MQTT_PORT = 1883
 
-API_PREFIX = '/api'
+HTTP_PREFIX = '/api'
+
+
+def MQTT_PREFIX(device_id: str) -> str:
+    return 'device/{device_id}'.format(device_id=device_id)

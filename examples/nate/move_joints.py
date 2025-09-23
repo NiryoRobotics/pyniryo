@@ -1,8 +1,13 @@
 import time
+import logging
 
 from pyniryo.nate.client import Nate
 from pyniryo.nate.exceptions import PyNiryoError
 from pyniryo.nate.models import Joints
+
+logging.basicConfig(
+    level=logging.INFO,  # or DEBUG
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 
 
 def pick_and_place(nate: Nate, desired_time: float = None):
@@ -45,10 +50,10 @@ def basic_poses(nate: Nate):
 
 def main():
     n = Nate()
-    n.motion.move(Joints(0, 0, 0), desired_time=4).wait()
+    n.motion.move(Joints(1, 0, 0, 0, 0, 0), desired_time=4).wait()
     input("Press any key to continue...")
     # while True:
-    pick_and_place(n)
+    # pick_and_place(n)
 
 
 if __name__ == '__main__':

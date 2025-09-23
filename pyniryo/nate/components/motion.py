@@ -29,7 +29,7 @@ class MoveCommand:
         self.__feedbacks.append(models.MoveFeedback.from_transport_model(payload))
 
         if self.state.is_final():
-            self.__mqtt_client.unsubscribe(self.topic)
+            self.__mqtt_client.unsubscribe(self.__move_feedback_callback)
 
     @property
     def state(self) -> models.MoveState:

@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Callable
 
 from .base_api_component import BaseAPIComponent
-from .._internal import paths_gen, transport_models, mqtt, utils, topics
+from .._internal import paths_gen, transport_models, mqtt, topics
 from .. import models
 
 UserLoggedInCallback = Callable[[str, models.UserLoggedIn], None]
@@ -23,15 +23,9 @@ class Auth(BaseAPIComponent):
         :param expires_at: The expiration date of the token.
         :return: The token generated for this login session.
         """
-        token = self._http_client.post(
-            paths_gen.Auth.LOGIN,
-            utils.new_transport_model(
-                {
-                    'login': email, 'password': password, 'expires_at': expires_at
-                },
-                transport_models.Login,
-            ),
-            transport_models.Token)
+        token = self._http_client.post(paths_gen.Auth.LOGIN,
+                                       transport_models.Login(login=email, password=password, expires_at=expires_at),
+                                       transport_models.Token)
         return models.Token.from_transport_model(token)
 
     def on_user_logged_in(self, callback: UserLoggedInCallback, user_id: str = None) -> None:

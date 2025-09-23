@@ -20,7 +20,7 @@ MULTI_LEVEL_WILDCARD = '#'
 
 class MqttClient:
 
-    def __init__(self, hostname: str, port: int):
+    def __init__(self, hostname: str, port: int, token: str, prefix: str = ''):
         """
         Initialize the MQTT client.
         :param hostname: The hostname of the MQTT broker.
@@ -29,10 +29,12 @@ class MqttClient:
         self.__hostname = hostname
         self.__port = port
         self.__client_id = f'pyniryo-{b64encode(uuid4().bytes).decode()}'
+        self.__prefix = prefix
 
         self.__subscribers: Dict[str, Tuple[Type[T], List[Callback]]] = {}
 
         self.__mqtt_client = Client(client_id=self.__client_id, userdata=None, protocol=MQTTv5)
+        self.__mqtt_client.username_pw_set(username='token', password=token)
         self.__mqtt_client.on_message = self.__on_message
         self.__mqtt_client.connect(self.__hostname, self.__port)
         self.__mqtt_client.loop_start()
@@ -62,11 +64,19 @@ class MqttClient:
         if payload_model is not None and not issubclass(payload_model, BaseModel):
             raise TypeError(f'Invalid type {payload_model.__name__} for response model.')
 
-        if topic not in self.__subscribers:
+        if self.__prefix != '':
+            topic = f'{self.__prefix}/{topic}'
+
+        new_subscriber = topic not in self.__subscribers
+
+        if new_subscriber:
             self.__subscribers[topic] = (payload_model, [])
-            self.__mqtt_client.subscribe(topic)
 
         self.__subscribers[topic][1].append(callback)
+
+        # subscribe at the end to ensure the callback is registered before receiving messages
+        if new_subscriber:
+            self.__mqtt_client.subscribe(topic)
 
     def unsubscribe(self, callback: Callable) -> None:
         """
@@ -83,6 +93,7 @@ class MqttClient:
     def __on_message(self, _client, _userdata, message):
         if message.topic not in self.__subscribers:
             logger.warning(f'No subscribers for topic {message.topic}. Message ignored: {message.payload}')
+            return
 
         payload_model, callbacks = self.__subscribers[message.topic]
         try:
