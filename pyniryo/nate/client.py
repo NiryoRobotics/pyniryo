@@ -2,7 +2,7 @@ import logging
 import os
 from typing import Type, cast
 
-from .components import Auth, Users, Motion, BaseAPIComponent, Device
+from .components import Auth, Users, Robot, BaseAPIComponent, Device
 from ._internal import paths_gen, transport_models
 from ._internal.http import HttpClient
 from ._internal.mqtt import MqttClient
@@ -61,49 +61,7 @@ class Nate:
         self.__http_client: HttpClient = HttpClient(hostname, http_port, token, prefix=HTTP_PREFIX, insecure=insecure)
         self.__mqtt_client: MqttClient = MqttClient(hostname, mqtt_port, token, prefix=MQTT_PREFIX(device_id))
 
-    def __get_component(self, cls: Type[BaseAPIComponent]) -> BaseAPIComponent:
-        """
-        Get a component by name. The components are lazy-loaded, meaning they are created only when first accessed.
-
-        :param cls: The class of the component to get.
-        :return: The component.
-        """
-        if cls.__name__ not in self.__components:
-            self.__components[cls.__name__] = cls(self.__http_client, self.__mqtt_client)
-        return self.__components[cls.__name__]
-
-    @property
-    def auth(self) -> Auth:
-        """
-        Get the authentication component.
-
-        :return: The authentication component.
-        """
-        return cast(Auth, self.__get_component(Auth))
-
-    @property
-    def users(self) -> Users:
-        """
-        Get the users component.
-
-        :return: The users component.
-        """
-        return cast(Users, self.__get_component(Users))
-
-    @property
-    def motion(self) -> Motion:
-        """
-        Get the motion component.
-
-        :return: The motion component.
-        """
-        return cast(Motion, self.__get_component(Motion))
-
-    @property
-    def device(self) -> Device:
-        """
-        Get the device component.
-
-        :return: The device component.
-        """
-        return cast(Device, self.__get_component(Device))
+        self.auth = Auth(self.__http_client, self.__mqtt_client)
+        self.users = Users(self.__http_client, self.__mqtt_client)
+        self.robot = Robot(self.__http_client, self.__mqtt_client)
+        self.device = Device(self.__http_client, self.__mqtt_client)

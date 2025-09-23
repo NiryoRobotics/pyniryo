@@ -1,3 +1,4 @@
+import math
 from collections.abc import MutableSequence
 from dataclasses import dataclass
 from datetime import datetime
@@ -26,7 +27,7 @@ class BaseDataClass:
 @dataclass
 class BaseSequenceDataClass(BaseDataClass, MutableSequence):
 
-    root: MutableSequence
+    root: MutableSequence[float]
 
     def insert(self, index, value):
         self.root.insert(index, value)
@@ -138,8 +139,47 @@ class Joints(BaseSequenceDataClass):
 
 
 @dataclass
-class Pose(BaseSequenceDataClass):
-    ...
+class Pose(BaseDataClass):
+    x: float
+    y: float
+    z: float
+    rx: float
+    ry: float
+    rz: float
+    rw: float
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.Pose) -> 'Pose':
+        return cls(
+            x=model.position.x,
+            y=model.position.y,
+            z=model.position.z,
+            rx=model.orientation.x,
+            ry=model.orientation.y,
+            rz=model.orientation.z,
+            rw=model.orientation.w,
+        )
+
+    def to_transport_model(self) -> transport_models.Pose:
+        return transport_models.Pose(
+            position=transport_models.Point(x=self.x, y=self.y, z=self.z),
+            orientation=transport_models.Quaternion(x=self.rx, y=self.ry, z=self.rz, w=self.rw),
+        )
+
+    @classmethod
+    def with_rpy(cls, x, y, z, roll, pitch, yaw) -> 'Pose':
+        cy = math.cos(yaw * 0.5)
+        sy = math.sin(yaw * 0.5)
+        cp = math.cos(pitch * 0.5)
+        sp = math.sin(pitch * 0.5)
+        cr = math.cos(roll * 0.5)
+        sr = math.sin(roll * 0.5)
+        rw = cr * cp * cy + sr * sp * sy
+        rx = sr * cp * cy - cr * sp * sy
+        ry = cr * sp * cy + sr * cp * sy
+        rz = cr * cp * sy - sr * sp * cy
+
+        return cls(x, y, z, rx, ry, rz, rw)
 
 
 MoveTarget = Pose | Joints
