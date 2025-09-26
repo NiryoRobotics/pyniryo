@@ -15,9 +15,9 @@ JointsCallback = Callable[[models.Joints], None]
 
 class MoveCommand:
 
-    def __init__(self, mqtt_client: MqttClient, command_id: UUID):
+    def __init__(self, mqtt_client: MqttClient, command_id: str):
         self.__mqtt_client: MqttClient = mqtt_client
-        self.__command_id: UUID = command_id
+        self.__command_id: str = command_id
 
         self.__mqtt_client.subscribe(self.topic, self.__move_feedback_callback, transport_models.MoveFeedback)
         self.__feedbacks: List[models.MoveFeedback] = [models.MoveFeedback(state=models.MoveState.UNKNOWN, message="")]
@@ -110,7 +110,7 @@ class Robot(BaseAPIComponent):
         :param reference_frame: The reference frame to use for the movement. If not specified, the robot's base frame will be used.
         """
         command_id = uuid4()
-        move_command = MoveCommand(self._mqtt_client, command_id)
+        move_command = MoveCommand(self._mqtt_client, str(command_id))
 
         if isinstance(target, models.Joints):
             uri = paths_gen.Robot.JOINTS
