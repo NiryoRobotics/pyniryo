@@ -1,4 +1,5 @@
 import math
+import re
 from collections.abc import MutableSequence
 from dataclasses import dataclass
 from datetime import datetime
@@ -63,7 +64,7 @@ class Role(BaseDataClass):
 
 @dataclass
 class User(BaseDataClass):
-    id: UUID
+    id: str
     email: str
     name: str
     role: Role
@@ -71,14 +72,14 @@ class User(BaseDataClass):
     @classmethod
     def from_transport_model(cls, model: transport_models.User) -> 'User':
         return cls(
-            id=UUID(int=model.id),
+            id=str(model.id),
             email=str(model.email),
             name=model.name,
             role=Role.from_transport_model(model.role),
         )
 
     def to_transport_model(self) -> transport_models.User:
-        return transport_models.User(id=self.id.int,
+        return transport_models.User(id=UUID(self.id),
                                      email=self.email,
                                      name=self.name,
                                      role=self.role.to_transport_model())
@@ -233,29 +234,144 @@ class MoveFeedback(BaseDataClass):
 
 
 class ProgramType(StrEnum):
-    python3_9 = 'python3.9'
-    python3_10 = 'python3.10'
-    python3_11 = 'python3.11'
-    python3_12 = 'python3.12'
+    PYTHON39 = 'python3.9'
+    PYTHON310 = 'python3.10'
+    PYTHON311 = 'python3.11'
+    PYTHON312 = 'python3.12'
+
+    def __key(self):
+        pattern = r'^([a-z]+)([\d\.?]+)$'
+        match = re.match(pattern, self)
+        if not match:
+            raise ValueError(f"Invalid ProgramType format: {self}")
+        return match.group(1), tuple(int(v) for v in match.group(2).split('.'))
+
+    def __lt__(self, other):
+        if not isinstance(other, ProgramType):
+            return NotImplemented
+        return self.__key() < other.__key()
+
+    @classmethod
+    def python(cls) -> 'ProgramType':
+        """
+        Get the latest supported Python version.
+        :return: The latest supported Python version.
+        """
+        return max(e for e in cls if e.__key()[0] == 'python')
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.Type) -> 'ProgramType':
+        return cls(model.value)
+
+    def to_transport_model(self) -> transport_models.Type:
+        return transport_models.Type(str(self))
 
 
 @dataclass
 class Program(BaseDataClass):
-    id: UUID
+    id: str
     name: str
     type: ProgramType
 
     @classmethod
     def from_transport_model(cls, model: transport_models.Program) -> 'Program':
         return cls(
-            id=UUID(model.id),
+            id=str(model.id),
             name=model.name,
-            type=ProgramType(model.type),
+            type=ProgramType.from_transport_model(model.type),
         )
 
     def to_transport_model(self) -> transport_models.Program:
         return transport_models.Program(
-            id=str(self.id),
+            id=UUID(self.id),
             name=self.name,
             type=transport_models.Type(self.type.value),
         )
+
+
+@dataclass
+class ProgramExecutionContext(BaseDataClass):
+    environment: dict[str, str]
+    arguments: list[str]
+    program_id: str
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.ProgramExecutionContext) -> 'ProgramExecutionContext':
+        return cls(
+            program_id=str(model.programId),
+            environment=model.environment or {},
+            arguments=model.arguments or [],
+        )
+
+    def to_transport_model(self) -> transport_models.ProgramExecutionContext:
+        return transport_models.ProgramExecutionContext(
+            programId=UUID(self.program_id),
+            environment=self.environment,
+            arguments=self.arguments,
+        )
+
+
+@dataclass
+class ProgramExecution(BaseDataClass):
+    id: str
+    context: ProgramExecutionContext
+    startedAt: datetime
+    finishedAt: datetime
+    output: str
+    exitCode: int
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.ProgramExecution) -> 'ProgramExecution':
+        return cls(
+            id=str(model.id),
+            context=ProgramExecutionContext.from_transport_model(model.context),
+            startedAt=model.startedAt,
+            finishedAt=model.finishedAt,
+            output=model.output,
+            exitCode=model.exitCode,
+        )
+
+    def to_transport_model(self) -> transport_models.ProgramExecution:
+        return transport_models.ProgramExecution(id=UUID(self.id),
+                                                 context=self.context.to_transport_model(),
+                                                 startedAt=self.startedAt,
+                                                 finishedAt=self.finishedAt,
+                                                 output=self.output,
+                                                 exitCode=self.exitCode)
+
+
+@dataclass
+class ExecutionOutput:
+    output: str
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.ProgramExecutionOutput) -> 'ExecutionOutput':
+        return cls(output=model.output)
+
+    def to_transport_model(self) -> transport_models.ProgramExecutionOutput:
+        return transport_models.ProgramExecutionOutput(output=self.output)
+
+
+class ExecutionStatusStatus(StrEnum):
+    RUNNING = 'running'
+    COMPLETED = 'completed'
+    FAILED = 'failed'
+    PAUSED = 'paused'
+
+    def is_error(self) -> bool:
+        return self == ExecutionStatusStatus.FAILED
+
+    def is_final(self) -> bool:
+        return self == ExecutionStatusStatus.COMPLETED or self.is_error()
+
+
+@dataclass
+class ExecutionStatus:
+    status: ExecutionStatusStatus
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.ProgramExecutionStatus) -> 'ExecutionStatus':
+        return cls(status=ExecutionStatusStatus(model.status))
+
+    def to_transport_model(self) -> transport_models.ProgramExecutionStatus:
+        return transport_models.ProgramExecutionStatus(status=self.status)

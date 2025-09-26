@@ -1,7 +1,7 @@
 import warnings
 
 import requests
-from typing import Type, TypeVar
+from typing import Type, TypeVar, IO
 from pydantic import BaseModel, ValidationError
 from urllib3.exceptions import InsecureRequestWarning
 
@@ -26,7 +26,6 @@ class HttpClient:
         self.__port = port
         self.__prefix = prefix
         self.__headers = {
-            'Content-Type': 'application/json',
             'Authorization': f'Bearer {token}',
         }
         self.__insecure = insecure
@@ -53,12 +52,17 @@ class HttpClient:
         """
         return f"https://{self.__hostname}:{self.__port}{self.__prefix}{path}"
 
-    def __request(self, method: str, path: str, data: BaseModel | None = None, response_model: Type[T] = None) -> T:
+    def __request(self,
+                  method: str,
+                  path: str,
+                  json: BaseModel | None = None,
+                  response_model: Type[T] = None,
+                  files: dict[str, IO[bytes]] = None) -> T:
         """
         Make a request to the API.
         :param method: The method of the request.
         :param path: The path of the request.
-        :param data: The data to send with the request.
+        :param json: The data to send as serialized json with the request. If files is not None, this will be sent as form data.
         :param response_model: The model to use to parse the response.
         :return: The response of the request.
         :rtype: response_model
@@ -66,10 +70,12 @@ class HttpClient:
         if response_model is not None and not issubclass(response_model, BaseModel):
             raise TypeError(f'Invalid type {response_model.__name__} for response model.')
 
-        dict_data = None if data is None else data.model_dump(mode='json')
+        dict_json = None if json is None else json.model_dump(mode='json')
         response = requests.request(method,
                                     self.__url(path),
-                                    json=dict_data,
+                                    json=dict_json if files is None else None,
+                                    data=dict_json if files is not None else None,
+                                    files=files,
                                     headers=self.__headers,
                                     verify=not self.__insecure)
         self.__resolve_status_code(response)
@@ -90,18 +96,19 @@ class HttpClient:
         :return: The response of the request.
         :rtype: response_model
         """
-        return self.__request('GET', path, data=None, response_model=response_model)
+        return self.__request('GET', path, response_model=response_model)
 
-    def post(self, path: str, data: BaseModel, response_model: Type[T]) -> T:
+    def post(self, path: str, data: BaseModel, response_model: Type[T], files: dict[str, IO[bytes]] = None) -> T:
         """
         Make a POST request to the API.
         :param path: The path of the request.
         :param data: The data to send with the request.
         :param response_model: The model to use to parse the response.
+        :param files: Optional files to send with the request.
         :return: The response of the request.
         :rtype: response_model
         """
-        return self.__request('POST', path, data, response_model)
+        return self.__request('POST', path, data, response_model, files)
 
     def delete(self, path: str) -> None:
         """
@@ -112,13 +119,32 @@ class HttpClient:
         """
         return self.__request('DELETE', path)
 
-    def patch(self, path: str, data: BaseModel | None, response_model: Type[T]) -> T:
+    def patch(self,
+              path: str,
+              data: BaseModel | None,
+              response_model: Type[T],
+              files: dict[str, IO[bytes]] = None) -> T:
         """
         Make a PATCH request to the API.
         :param path: The path of the request.
         :param data: The data to send with the request.
         :param response_model: The model to use to parse the response.
+        :param files: Optional files to send with the request.
         :return: The response of the request.
         :rtype: response_model
         """
-        return self.__request('PATCH', path, data, response_model)
+        return self.__request('PATCH', path, data, response_model, files)
+
+    def download(self, path: str, dst: IO[bytes]) -> None:
+        """
+        Download a file from the API.
+        :param path: The path of the file to download.
+        :param dst: A file-like object to write the content to.
+        :return: The content of the file, as a BytesIO object.
+        """
+        with requests.get(self.__url(path), headers=self.__headers, verify=not self.__insecure,
+                          stream=True) as response:
+            self.__resolve_status_code(response)
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:  # filter out keep-alive chunks
+                    dst.write(chunk)
