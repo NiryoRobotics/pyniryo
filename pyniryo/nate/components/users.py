@@ -32,14 +32,12 @@ class Users(BaseAPIComponent):
         """
         user = self._http_client.post(
             paths_gen.Users.USERS,
-            transport_models.NewUser(
-                    email=email, name=name, role_id=role_id, password=password
-            ),
+            transport_models.NewUser(email=email, name=name, role_id=role_id, password=password),
             transport_models.User,
         )
         return models.User.from_transport_model(user)
 
-    def get(self, user_id: UUID | str) -> models.User:
+    def get(self, user_id: str) -> models.User:
         """
         Get a user by its ID.
 
@@ -52,7 +50,7 @@ class Users(BaseAPIComponent):
         )
         return models.User.from_transport_model(user)
 
-    def delete(self, user_id: UUID | str) -> None:
+    def delete(self, user_id: str) -> None:
         """
         Delete a user by its ID.
 
@@ -77,7 +75,7 @@ class Users(BaseAPIComponent):
         )
         return models.User.from_transport_model(user)
 
-    def get_tokens(self, user_id: UUID | str) -> list[models.Token]:
+    def get_tokens(self, user_id: str) -> list[models.Token]:
         """
         Get all the tokens of a user.
 
@@ -90,7 +88,7 @@ class Users(BaseAPIComponent):
         )
         return [models.Token.from_transport_model(token) for token in tokens.root]
 
-    def create_token(self, user_id: UUID | str, expires_at: datetime) -> models.Token:
+    def create_token(self, user_id: str, expires_at: datetime) -> models.Token:
         """
         Create a new token for a user.
 
@@ -105,7 +103,7 @@ class Users(BaseAPIComponent):
         )
         return models.Token.from_transport_model(token)
 
-    def update_password(self, user_id: UUID | str, old_password: str, new_password: str) -> None:
+    def update_password(self, user_id: str, old_password: str, new_password: str) -> None:
         """
         Update the password of a user.
 
