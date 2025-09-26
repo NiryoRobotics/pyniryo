@@ -1,5 +1,5 @@
 from pydantic import BaseModel, RootModel
-from .models_gen import User, Token, Program
+from .models_gen import User, Token, Program, ProgramExecution
 
 
 class UserEvent(BaseModel):
@@ -19,3 +19,12 @@ class MoveFeedback(BaseModel):
 
 
 ProgramList = RootModel[list[Program]]
+ProgramExecutionList = RootModel[list[ProgramExecution]]
+
+
+class ProgramExecutionStatus(BaseModel):
+    status: str
+
+
+class ProgramExecutionOutput(BaseModel):
+    output: str

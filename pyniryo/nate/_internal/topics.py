@@ -8,3 +8,8 @@ class Auth(StrEnum):
 class Robot(StrEnum):
     JOINTS = 'robot/joints'
     MOVE_FEEDBACK = 'robot/{cmd_id}/move-feedback'
+
+
+class ProgramsExecution(StrEnum):
+    OUTPUT = 'programs/{program_id}/executions/{execution_id}/output'
+    STATUS = 'programs/{program_id}/executions/{execution_id}/status'

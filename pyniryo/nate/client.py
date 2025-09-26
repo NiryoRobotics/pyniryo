@@ -1,8 +1,7 @@
 import logging
 import os
-from typing import Type, cast
 
-from .components import Auth, Users, Robot, BaseAPIComponent, Device
+from .components import Auth, Users, Robot, Device, Programs
 from ._internal import paths_gen, transport_models
 from ._internal.http import HttpClient
 from ._internal.mqtt import MqttClient
@@ -29,6 +28,7 @@ class Nate:
         token = token or os.getenv('NATE_TOKEN')
         login = login or (os.getenv('NATE_USERNAME'), os.getenv('NATE_PASSWORD'))
 
+        # Advanced options, not exposed in the constructor.
         http_port = os.getenv('NATE_HTTP_PORT') or DEFAULT_HTTP_PORT
         mqtt_port = os.getenv('NATE_MQTT_PORT') or DEFAULT_MQTT_PORT
         insecure = os.getenv('NATE_INSECURE') is not None
@@ -41,7 +41,7 @@ class Nate:
 
         # Token
         if token is None:
-            if len(login) != 2:
+            if len(login) != 2 or None in login:
                 raise ValueError("authentication with username and password requires both username and password")
             username, password = login
             response = http_client.post(
@@ -55,9 +55,6 @@ class Nate:
         resp = http_client.get(paths_gen.Device.ID, transport_models.DeviceID)
         device_id = resp.device_id
 
-        # Components are instantiated on demand in order to only create the ones that are used.
-        self.__components = {}
-
         self.__http_client: HttpClient = HttpClient(hostname, http_port, token, prefix=HTTP_PREFIX, insecure=insecure)
         self.__mqtt_client: MqttClient = MqttClient(hostname, mqtt_port, token, prefix=MQTT_PREFIX(device_id))
 
@@ -65,3 +62,4 @@ class Nate:
         self.users = Users(self.__http_client, self.__mqtt_client)
         self.robot = Robot(self.__http_client, self.__mqtt_client)
         self.device = Device(self.__http_client, self.__mqtt_client)
+        self.programs = Programs(self.__http_client, self.__mqtt_client)
