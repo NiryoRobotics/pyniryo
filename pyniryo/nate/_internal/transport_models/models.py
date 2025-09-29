@@ -28,3 +28,4 @@ class ProgramExecutionStatus(BaseModel):
 
 class ProgramExecutionOutput(BaseModel):
     output: str
+    eof: bool

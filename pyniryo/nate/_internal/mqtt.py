@@ -66,7 +66,6 @@ class MqttClient:
 
         if self.__prefix != '':
             topic = f'{self.__prefix}/{topic}'
-
         new_subscriber = topic not in self.__subscribers
 
         if new_subscriber:
@@ -76,7 +75,7 @@ class MqttClient:
 
         # subscribe at the end to ensure the callback is registered before receiving messages
         if new_subscriber:
-            self.__mqtt_client.subscribe(topic)
+            self.__mqtt_client.subscribe(topic, qos=2)
 
     def unsubscribe(self, callback: Callable) -> None:
         """
