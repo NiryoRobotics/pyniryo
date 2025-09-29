@@ -37,14 +37,14 @@ class TestMqttClient(unittest.TestCase):
         mock_client.return_value = get_paho_mock()
         client = MqttClient("localhost", 1883, '<token>')
         client.subscribe("test/topic", self.__callback)
-        mock_client.return_value.subscribe.assert_called_once_with("test/topic")
+        mock_client.return_value.subscribe.assert_called_once_with("test/topic", 2)
 
     @patch(CLIENT_PATH_PATH)
     def test_multi_subscribe(self, mock_client):
         mock_client.return_value = get_paho_mock()
         client = MqttClient("localhost", 1883, '<token>')
         client.subscribe("test/topic", self.__callback)
-        mock_client.return_value.subscribe.assert_called_once_with("test/topic")
+        mock_client.return_value.subscribe.assert_called_once_with("test/topic", 2)
 
         mock_client.return_value.subscribe.reset_mock()
         client.subscribe("test/topic", self.__callback)
