@@ -1,6 +1,8 @@
 import logging
 import os
+import sys
 import time
+from io import TextIOWrapper
 from typing import IO, BinaryIO
 from uuid import uuid4, UUID
 
@@ -16,14 +18,18 @@ logger = logging.getLogger(__name__)
 
 class ExecutionCommand:
 
-    def __init__(self, mqtt_client: MqttClient, program_id: str, execution_id: str):
+    def __init__(self, mqtt_client: MqttClient, program_id: str, execution_id: str, stdout: str | TextIOWrapper):
         self.__mqtt_client: MqttClient = mqtt_client
         self.__program_id: str = program_id
         self.__execution_id: str = execution_id
 
-        r_fd, w_fd = os.pipe()
-        self._output_reader = os.fdopen(r_fd, "rb", buffering=0)
-        self._output_writer = os.fdopen(w_fd, "wb", buffering=0)
+        self.__stdout = stdout
+        self.__should_close_stdout = False
+
+        if isinstance(stdout, str):
+            self.__stdout = open(stdout, 'w', buffering=1)  # line buffered
+            self.__should_close_stdout = True
+
         self.__mqtt_client.subscribe(self.output_topic, self.__output_callback, transport_models.ProgramExecutionOutput)
 
         self.__status: list[models.ExecutionStatus] = [models.ExecutionStatus(status=ExecutionStatusStatus.RUNNING)]
@@ -33,28 +39,22 @@ class ExecutionCommand:
         """
         Internal callback to handle output messages.
         """
-        logger.info(f"Received output: {payload.output}")
-        self._output_writer.write(payload.output.encode('utf-8'))
-        self._output_writer.flush()
+        if payload.eof:
+            self.__mqtt_client.unsubscribe(self.__output_callback)
+            if self.__should_close_stdout:
+                self.__stdout.close()
+            return
+
+        self.__stdout.write(payload.output + '\n')
+        self.__stdout.flush()
 
     def __status_callback(self, _topic: str, payload: transport_models.ProgramExecutionStatus) -> None:
         """
         Internal callback to handle execution state messages.
         """
         self.__status.append(models.ExecutionStatus.from_transport_model(payload))
-
         if self.status.is_final():
             self.__mqtt_client.unsubscribe(self.__status_callback)
-            self.__mqtt_client.unsubscribe(self.__output_callback)
-
-    @property
-    def output(self) -> BinaryIO:
-        """
-        Get the output of the execution.
-
-        :return: The output of the execution.
-        """
-        return self._output_reader
 
     @property
     def status(self) -> models.ExecutionStatusStatus:
@@ -210,17 +210,21 @@ class Programs(BaseAPIComponent):
     def execute(self,
                 program_id: str,
                 environment: dict[str, str] = None,
-                arguments: list[str] = None) -> ExecutionCommand:
+                arguments: list[str] = None,
+                stdout: str | TextIOWrapper = os.devnull) -> ExecutionCommand:
         """
         Execute a program.
 
         :param program_id: The ID of the program.
         :param environment: Optional dictionary of environment variables to pass to the program.
         :param arguments: Optional list of command line arguments to pass to the program.
+        :param stdout: Destination for the program output. It can be a file-like object or a file path.
+                       If a file path, the output is written to the file.  If a file-like object, the output is written
+                       to the object. Default is os.devnull: the output is discarded
         :return: The created program execution.
         """
         execution_id = uuid4()
-        execution_command = ExecutionCommand(self._mqtt_client, program_id, str(execution_id))
+        execution_command = ExecutionCommand(self._mqtt_client, program_id, str(execution_id), stdout)
 
         self._http_client.post(
             paths_gen.Programs.PROGRAM_EXECUTIONS.format(program_id=program_id),
