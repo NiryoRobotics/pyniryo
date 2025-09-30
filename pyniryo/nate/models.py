@@ -246,18 +246,13 @@ class ProgramType(StrEnum):
             raise ValueError(f"Invalid ProgramType format: {self}")
         return match.group(1), tuple(int(v) for v in match.group(2).split('.'))
 
-    def __lt__(self, other):
-        if not isinstance(other, ProgramType):
-            return NotImplemented
-        return self.__key() < other.__key()
-
     @classmethod
     def python(cls) -> 'ProgramType':
         """
         Get the latest supported Python version.
         :return: The latest supported Python version.
         """
-        return max(e for e in cls if e.__key()[0] == 'python')
+        return max((e for e in cls if e.__key()[0] == 'python'), key=lambda e: e.__key())
 
     @classmethod
     def from_transport_model(cls, model: transport_models.Type) -> 'ProgramType':
