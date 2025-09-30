@@ -293,19 +293,16 @@ class Program(BaseDataClass):
 class ProgramExecutionContext(BaseDataClass):
     environment: dict[str, str]
     arguments: list[str]
-    program_id: str
 
     @classmethod
     def from_transport_model(cls, model: transport_models.ProgramExecutionContext) -> 'ProgramExecutionContext':
         return cls(
-            program_id=str(model.programId),
             environment=model.environment or {},
             arguments=model.arguments or [],
         )
 
     def to_transport_model(self) -> transport_models.ProgramExecutionContext:
         return transport_models.ProgramExecutionContext(
-            programId=UUID(self.program_id),
             environment=self.environment,
             arguments=self.arguments,
         )
@@ -314,6 +311,7 @@ class ProgramExecutionContext(BaseDataClass):
 @dataclass
 class ProgramExecution(BaseDataClass):
     id: str
+    program_id: str
     context: ProgramExecutionContext
     startedAt: datetime
     finishedAt: datetime
@@ -324,6 +322,7 @@ class ProgramExecution(BaseDataClass):
     def from_transport_model(cls, model: transport_models.ProgramExecution) -> 'ProgramExecution':
         return cls(
             id=str(model.id),
+            program_id=str(model.programId),
             context=ProgramExecutionContext.from_transport_model(model.context),
             startedAt=model.startedAt,
             finishedAt=model.finishedAt,
@@ -333,6 +332,7 @@ class ProgramExecution(BaseDataClass):
 
     def to_transport_model(self) -> transport_models.ProgramExecution:
         return transport_models.ProgramExecution(id=UUID(self.id),
+                                                 programId=UUID(self.program_id),
                                                  context=self.context.to_transport_model(),
                                                  startedAt=self.startedAt,
                                                  finishedAt=self.finishedAt,
