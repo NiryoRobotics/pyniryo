@@ -1,9 +1,8 @@
 import logging
 import os
-import sys
 import time
 from io import TextIOWrapper
-from typing import IO, BinaryIO
+from typing import IO, Callable
 from uuid import uuid4, UUID
 
 from .base_api_component import BaseAPIComponent
@@ -17,17 +16,27 @@ logger = logging.getLogger(__name__)
 
 
 class ExecutionCommand:
+    """
+    Represents a program execution command. Monitors the output and status during the execution.
+    """
 
-    def __init__(self, mqtt_client: MqttClient, program_id: str, execution_id: str, stdout: str | TextIOWrapper):
+    def __init__(self,
+                 mqtt_client: MqttClient,
+                 program_id: str,
+                 execution_id: str,
+                 stdout: str | TextIOWrapper,
+                 get_execution: Callable[[], models.ProgramExecution]):
         self.__mqtt_client: MqttClient = mqtt_client
-        self.__program_id: str = program_id
-        self.__execution_id: str = execution_id
+        self.program_id: str = program_id
+        self.execution_id: str = execution_id
+        self.execution: models.ProgramExecution | None = None
+        self.__get_execution: Callable[[], models.ProgramExecution] = get_execution
 
         self.__stdout = stdout
         self.__should_close_stdout = False
 
         if isinstance(stdout, str):
-            self.__stdout = open(stdout, 'w', buffering=1)  # line buffered
+            self.__stdout = open(stdout, 'w', buffering=1)
             self.__should_close_stdout = True
 
         self.__mqtt_client.subscribe(self.output_topic, self.__output_callback, transport_models.ProgramExecutionOutput)
@@ -55,6 +64,11 @@ class ExecutionCommand:
         self.__status.append(models.ExecutionStatus.from_transport_model(payload))
         if self.status.is_final():
             self.__mqtt_client.unsubscribe(self.__status_callback)
+        try:
+            self.execution = self.__get_execution()
+        except Exception as e:
+            logger.error(e)
+            raise PyNiryoError(f'Error while fetching execution {self.execution_id}') from e
 
     @property
     def status(self) -> models.ExecutionStatusStatus:
@@ -66,31 +80,13 @@ class ExecutionCommand:
         return self.__status[-1].status
 
     @property
-    def program_id(self) -> str:
-        """
-        Get the program ID of the execution.
-
-        :return: The program ID.
-        """
-        return self.__program_id
-
-    @property
-    def execution_id(self) -> str:
-        """
-        Get the execution ID of the execution.
-
-        :return: The execution ID.
-        """
-        return self.__execution_id
-
-    @property
     def output_topic(self) -> str:
         """
         Get the output topic of the execution.
 
         :return: The output topic of the execution.
         """
-        return topics.ProgramsExecution.OUTPUT.format(program_id=self.__program_id, execution_id=self.__execution_id)
+        return topics.ProgramsExecution.OUTPUT.format(program_id=self.program_id, execution_id=self.execution_id)
 
     @property
     def status_topic(self) -> str:
@@ -99,7 +95,7 @@ class ExecutionCommand:
 
         :return: The status topic of the execution.
         """
-        return topics.ProgramsExecution.STATUS.format(program_id=self.__program_id, execution_id=self.__execution_id)
+        return topics.ProgramsExecution.STATUS.format(program_id=self.program_id, execution_id=self.execution_id)
 
     def wait(self, timeout: float = -1) -> None:
         """
@@ -109,11 +105,11 @@ class ExecutionCommand:
         start = time.monotonic()
         while not self.status.is_final():
             if start + timeout > time.monotonic():
-                raise TimeoutError(f'Execution {self.__execution_id} timed out after {timeout} seconds.')
+                raise TimeoutError(f'Execution {self.execution_id} timed out after {timeout} seconds.')
             time.sleep(0.1)
         # TODO: more detailed errors
         if self.status.is_error():
-            raise PyNiryoError(f'Execution {self.__execution_id} failed')
+            raise PyNiryoError(f'Execution {self.execution_id} failed')
 
 
 class Programs(BaseAPIComponent):
@@ -207,6 +203,20 @@ class Programs(BaseAPIComponent):
         )
         return [models.ProgramExecution.from_transport_model(execution) for execution in executions.root]
 
+    def get_execution(self, program_id: str, execution_id: str) -> models.ProgramExecution:
+        """
+        Get a program execution by its ID.
+
+        :param program_id: The ID of the program.
+        :param execution_id: The ID of the program execution.
+        :return: The corresponding program execution.
+        """
+        execution = self._http_client.get(
+            paths_gen.Programs.PROGRAM_EXECUTION.format(program_id=program_id, execution_id=execution_id),
+            transport_models.ProgramExecution,
+        )
+        return models.ProgramExecution.from_transport_model(execution)
+
     def execute(self,
                 program_id: str,
                 environment: dict[str, str] = None,
@@ -223,14 +233,17 @@ class Programs(BaseAPIComponent):
                        to the object. Default is os.devnull: the output is discarded
         :return: The created program execution.
         """
-        execution_id = uuid4()
-        execution_command = ExecutionCommand(self._mqtt_client, program_id, str(execution_id), stdout)
+        execution_id = str(uuid4())
+        execution_command = ExecutionCommand(self._mqtt_client,
+                                             program_id,
+                                             execution_id,
+                                             stdout,
+                                             lambda: self.get_execution(program_id, execution_id))
 
         self._http_client.post(
             paths_gen.Programs.PROGRAM_EXECUTIONS.format(program_id=program_id),
-            transport_models.ExecuteProgram(execution_id=execution_id,
-                                            context=transport_models.ProgramExecutionContext(programId=UUID(program_id),
-                                                                                             environment=environment,
+            transport_models.ExecuteProgram(execution_id=UUID(execution_id),
+                                            context=transport_models.ProgramExecutionContext(environment=environment,
                                                                                              arguments=arguments)),
             transport_models.FeedbackResponse,
         )

@@ -1,5 +1,5 @@
 from base64 import b64encode
-from typing import List, Dict, Tuple, Any
+from typing import List, Dict, Tuple
 from uuid import uuid4
 import logging
 
