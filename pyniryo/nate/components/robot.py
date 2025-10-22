@@ -1,6 +1,6 @@
 import logging
 from typing import Callable, List
-from uuid import UUID, uuid4
+from uuid import uuid4
 import time
 
 from pyniryo.nate.components import BaseAPIComponent
@@ -130,3 +130,12 @@ class Robot(BaseAPIComponent):
 
         self._http_client.post(uri, data, transport_models.FeedbackResponse)
         return move_command
+
+    def get_all_frame_ids(self) -> List[str]:
+        """
+        Get all frames defined in the robot.
+
+        :return: A list of Frame objects.
+        """
+        frames = self._http_client.get(paths_gen.Robot.FRAMES, transport_models.FrameIdList)
+        return frames.root
