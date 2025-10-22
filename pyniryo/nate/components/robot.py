@@ -65,7 +65,7 @@ class MoveCommand:
         """
         start = time.monotonic()
         while not self.state.is_final():
-            if start + timeout > time.monotonic():
+            if start + timeout < time.monotonic():
                 raise TimeoutError(f'Move command {self.__command_id} timed out after {timeout} seconds.')
             time.sleep(0.1)
         if self.state.is_error():
