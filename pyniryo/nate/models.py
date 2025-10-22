@@ -186,9 +186,27 @@ class Pose(BaseDataClass):
 MoveTarget = Pose | Joints
 
 
+class Planner(StrEnum):
+    RRT_CONNECT = "RRTConnect"
+    RRT_STAR = "RRT*"
+    PRM = "PRM*"
+    PTP = "PTP"
+    LIN = "LIN"
+    CIRC = "CIRC"
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.Planner) -> 'Planner':
+        return cls(model.value)
+
+    def to_transport_model(self) -> transport_models.Planner:
+        return transport_models.Planner(self.value)
+
+
 class MoveState(StrEnum):
     UNKNOWN = "unknown"
     IDLE = "idle"
+    PREPARING = "preparing"
+    ERR_PREPARING = "error_preparing"
     GEN_TRAJ = "generating_trajectory"
     ERR_GEN_TRAJ = "error_generating_trajectory"
     LOAD_TRAJ = "loading_trajectory"
