@@ -29,3 +29,6 @@ class ProgramExecutionStatus(BaseModel):
 class ProgramExecutionOutput(BaseModel):
     output: str
     eof: bool
+
+
+FrameIdList = RootModel[list[str]]
