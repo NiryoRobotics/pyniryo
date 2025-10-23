@@ -11,6 +11,7 @@ class Device(StrEnum):
 class Robot(StrEnum):
     FRAMES = '/robot/frames'
     FRAME_POSE = '/robot/frames/{frame_id}/pose'
+    WAYPOINTS = '/robot/waypoints'
     JOINTS = '/robot/joints'
 
 class Programs(StrEnum):

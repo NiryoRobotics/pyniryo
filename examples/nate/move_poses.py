@@ -13,8 +13,10 @@ logger = logging.getLogger("pyniryo.nate.move_poses")
 
 def basic_poses(nate: Nate):
     poses = [
-        Pose(0.2, 1, 0.5, -0.707, -0.707, 0, 0),
-        Pose.with_rpy(0.2, 1, 0.3, -math.pi, 0, math.pi / 2),
+        Pose.with_rpy(0.3, 0.4, 0.3, -math.pi, 0, math.pi / 2),
+        Pose(0.3, 0.4, 0.5, -0.707, -0.707, 0, 0),
+        Pose(0.3, -0.4, 0.5, -0.707, -0.707, 0, 0),
+        Pose.with_rpy(0.3, -0.4, 0.3, -math.pi, 0, math.pi / 2),
     ]
 
     for p in poses:
