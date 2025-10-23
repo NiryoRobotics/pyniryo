@@ -65,7 +65,7 @@ class MoveCommand:
         """
         start = time.monotonic()
         while not self.state.is_final():
-            if start + timeout < time.monotonic():
+            if timeout > 0 and start + timeout < time.monotonic():
                 raise TimeoutError(f'Move command {self.__command_id} timed out after {timeout} seconds.')
             time.sleep(0.1)
         if self.state.is_error():
@@ -122,16 +122,18 @@ class Robot(BaseAPIComponent):
         elif isinstance(target, models.Pose):
             if frame_id is None or frame_id == '':
                 raise ValueError("frame_id must be specified when moving to a Pose target")
-            planner = planner or models.Planner.LIN
-
             uri = paths_gen.Robot.FRAME_POSE.format(frame_id=frame_id)
             data = transport_models.MoveFrame(command_id=command_id,
                                               pose=target.to_transport_model(),
                                               reference_frame=reference_frame,
                                               planner=planner)
+        elif isinstance(target, list) and all(isinstance(w, models.Waypoint) for w in target):
+            uri = paths_gen.Robot.WAYPOINTS
+            data = transport_models.MoveWaypoints(command_id=command_id,
+                                                  waypoints=[w.to_transport_model() for w in target])
         else:
             valid_types = ', '.join(f'{m.__module__}.{m.__qualname__}' for m in models.MoveTarget.__args__)
-            raise TypeError(f'Invalid type {target.__class__.__name__} for target. Expected on of {valid_types}')
+            raise TypeError(f'Invalid type {target.__class__.__name__} for target. Expected one of {valid_types}')
 
         self._http_client.post(uri, data, transport_models.FeedbackResponse)
         return move_command

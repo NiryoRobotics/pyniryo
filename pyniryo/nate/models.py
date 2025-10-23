@@ -3,8 +3,9 @@ import re
 from collections.abc import MutableSequence
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Type
+from typing import Type, Optional
 
+from pydantic.v1.errors import cls_kwargs
 from strenum import StrEnum
 from uuid import UUID
 
@@ -183,9 +184,6 @@ class Pose(BaseDataClass):
         return cls(x, y, z, rx, ry, rz, rw)
 
 
-MoveTarget = Pose | Joints
-
-
 class Planner(StrEnum):
     RRT_CONNECT = "RRTConnect"
     RRT_STAR = "RRT*"
@@ -200,6 +198,35 @@ class Planner(StrEnum):
 
     def to_transport_model(self) -> transport_models.Planner:
         return transport_models.Planner(self.value)
+
+
+@dataclass
+class Waypoint:
+    joints: Optional[Joints] = None
+    pose: Optional[Pose] = None
+    frame_id: Optional[str] = None
+    reference_frame: Optional[str] = None
+    planner: Optional[Planner] = None
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.Waypoint) -> 'Waypoint':
+        return cls(joints=Joints.from_transport_model(model.joints),
+                   pose=Pose.from_transport_model(model.pose),
+                   frame_id=model.frame_id,
+                   reference_frame=model.reference_frame,
+                   planner=Planner.from_transport_model(model.planner))
+
+    def to_transport_model(self) -> transport_models.Waypoint:
+        return transport_models.Waypoint(
+            joints=self.joints.to_transport_model() if self.joints is not None else None,
+            pose=self.pose.to_transport_model() if self.pose is not None else None,
+            frame_id=self.frame_id,
+            reference_frame=self.reference_frame,
+            planner=self.planner.to_transport_model() if self.planner is not None else None,
+        )
+
+
+MoveTarget = Pose | Joints | Waypoint | list[Waypoint]
 
 
 class MoveState(StrEnum):

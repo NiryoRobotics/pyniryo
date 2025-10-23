@@ -19,10 +19,10 @@ def pick_and_place(nate: Nate, desired_time: float = None):
     """
     while True:
         for joint in [
-                Joints(1, -1.5, -1.3),
-                Joints(1, -0.5, 0),
-                Joints(-1, -0.5, 0),
-                Joints(1, -0.5, 0),
+                Joints(1, -1.5, -1.3, 0, 0, 0),
+                Joints(1, -0.5, 0, 0, 0, 0),
+                Joints(-1, -0.5, 0, 0, 0, 0),
+                Joints(1, -0.5, 0, 0, 0, 0),
         ]:
             try:
                 nate.robot.move(joint, desired_time=desired_time).wait()
@@ -32,10 +32,10 @@ def pick_and_place(nate: Nate, desired_time: float = None):
 
 def basic_poses(nate: Nate):
     joints = [
-        Joints(0, -1, 1),
-        Joints(0, 0, 0),
-        Joints(1, -1, 1),
-        Joints(1, 0, 0),
+        Joints(0, -1, 1, 0, 0, 0),
+        Joints(0, 0, 0, 0, 0, 0),
+        Joints(1, -1, 1, 0, 0, 0),
+        Joints(1, 0, 0, 0, 0, 0),
     ]
 
     for j in joints:
