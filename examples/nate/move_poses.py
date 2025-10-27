@@ -20,7 +20,7 @@ def basic_poses(nate: Nate):
     ]
 
     for p in poses:
-        cmd = nate.robot.move(p, frame_id='tool0')
+        cmd = nate.robot.move(p, frame_id='tool0', planner='LIN')
         cmd.wait()
         logger.info(f"Move command {cmd.command_id} completed with state: {cmd.state}")
 
