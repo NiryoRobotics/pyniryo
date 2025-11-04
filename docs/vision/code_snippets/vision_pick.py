@@ -34,10 +34,7 @@ def process(niryo_robot):
     obj_pose = None
     try_without_success = 0
     count = 0
-    if not vision_process_on_robot:
-        mtx, dist = niryo_robot.get_camera_intrinsics()
-    else:
-        mtx = dist = None
+
     # Loop
     while try_without_success < 5:
         # Moving to observation pose
@@ -53,7 +50,6 @@ def process(niryo_robot):
         else:  # Home made image processing
             img_compressed = niryo_robot.get_img_compressed()
             img = vision.uncompress_image(img_compressed)
-            img = vision.undistort_image(img, mtx, dist)
             # extracting working area
             im_work = vision.extract_img_workspace(img, workspace_ratio=1.0)
             if im_work is None:

@@ -10,7 +10,7 @@ its functions are detailed in :ref:`Functions documentation <vision-api>`.
 | You can import it using :python:`from pyniryo import vision`.
 
 .. note::
-    You can also import only the methods you want: :python:`from pyniryo import uncompress_image, undistort_image`.
+    You can also import only the methods you want: :python:`from pyniryo import uncompress_image`.
 
 Play with Robot video stream
 -------------------------------------
