@@ -141,7 +141,8 @@ class PoseObject:
                           self.z + z_offset,
                           self.roll + roll_offset,
                           self.pitch + pitch_offset,
-                          self.yaw + yaw_offset)
+                          self.yaw + yaw_offset,
+                          self.metadata)
 
     def __iter__(self):
         for attr in self.to_list():
