@@ -6,7 +6,7 @@ robot = NiryoRobot('<robot_ip_address>')
 robot.calibrate_auto()
 
 # Moving to observation pose
-observation_pose = PoseObject(0.2, 0.0, 0.3, 3.14, -0.01, -0.01)
+observation_pose = PoseObject(0.2, 0.0, 0.3, 0.0, 1.56, 0.0)
 robot.move(observation_pose)
 
 while "User do not press Escape neither Q":

@@ -16,7 +16,7 @@ display_stream = True  # Only used if vision on computer
 
 # -- Should Change these variables
 # The pose from where the image processing happens
-observation_pose = PoseObject(0.17, -0.0, 0.35, -3.14, -0.0, -0.02)
+observation_pose = PoseObject(0.17, -0.0, 0.35,  0.0, 1.56, 0.0)
 
 # Center of the conditioning area
 center_conditioning_pose = PoseObject(0.01, -0.25, 0.13, 3.14, -0.01, -1.52)
