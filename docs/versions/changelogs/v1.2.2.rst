@@ -1,0 +1,6 @@
+New in version 1.2.1
+================================
+
+|:beetle:| Bugfixes
+-----------------------------------------------------------
+* PoseObect.copy_with_offsets() also copies orginal pose' metadata
