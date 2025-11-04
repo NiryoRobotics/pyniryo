@@ -2,7 +2,7 @@ import logging
 import math
 
 from pyniryo.nate.client import Nate
-from pyniryo.nate.models import Pose
+from pyniryo.nate.models import Pose, Planner
 
 logging.basicConfig(
     level=logging.INFO,  # or DEBUG
@@ -20,7 +20,7 @@ def basic_poses(nate: Nate):
     ]
 
     for p in poses:
-        cmd = nate.robot.move(p, frame_id='tool0', planner='LIN')
+        cmd = nate.robot.move(p, frame_id='tool0', planner=Planner.LIN)
         cmd.wait()
         logger.info(f"Move command {cmd.command_id} completed with state: {cmd.state}")
 
