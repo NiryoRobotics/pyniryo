@@ -2,17 +2,19 @@
 #
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
-import re
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+
+import re
 import sys
+from datetime import date
 from pathlib import Path
 
 module_directory = Path(__file__).parent.parent.absolute()
 sys.path.append(str(module_directory))
 
 project = 'PyNiryo'
-copyright = '2024, Niryo'
+copyright = f'{date.today().year}, Niryo'
 author = 'Niryo'
 
 file_content = module_directory.joinpath('pyniryo/version.py').read_text()
