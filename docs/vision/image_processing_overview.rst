@@ -36,6 +36,10 @@ it with :meth:`~pyniryo.vision.image_functions.show_img_and_wait_close`.
 
 Undistort and display video stream
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+    Since the version 5.8.0 of the robot, you don't need to undistort the image beforehand.
+
 In this section, we are going to display the raw video stream & the
 undistorted video stream.
 

@@ -16,20 +16,16 @@ __all__ = [
     "draw_angle",
     "extract_img_workspace",
     "relative_pos_from_pixels",
-
     "show_img_and_check_close",
     "show_img",
     "show_img_and_wait_close",
-
     "compress_image",
     "uncompress_image",
     "add_annotation_to_image",
     "undistort_image",
     "resize_img",
     "concat_imgs",
-
     "extract_img_from_ros_msg",
-
     "debug_threshold_color",
     "debug_markers",
 ]
@@ -72,7 +68,9 @@ def threshold_hsv(img, list_min_hsv, list_max_hsv, reverse_hue=False, use_s_prim
         return cv2.addWeighted(low_red_im, 1.0, high_red_im, 1.0, 0)
 
 
-def morphological_transformations(im_thresh, morpho_type=MorphoType.CLOSE, kernel_shape=(5, 5),
+def morphological_transformations(im_thresh,
+                                  morpho_type=MorphoType.CLOSE,
+                                  kernel_shape=(5, 5),
                                   kernel_type=KernelType.ELLIPSE):
     """
     Take black & white image and apply morphological transformation
@@ -234,8 +232,11 @@ def draw_barycenter(img, cx, cy, color=(255, 0, 255), marker_size=10, thickness=
     else:
         img_bgr = img.copy()
 
-    cv2.drawMarker(img_bgr, (cx, cy), markerType=cv2.MARKER_DIAMOND,
-                   markerSize=marker_size, thickness=thickness, color=color)
+    cv2.drawMarker(img_bgr, (cx, cy),
+                   markerType=cv2.MARKER_DIAMOND,
+                   markerSize=marker_size,
+                   thickness=thickness,
+                   color=color)
     return img_bgr
 
 
@@ -265,7 +266,7 @@ def draw_angle(img, cx, cy, angle, color=(0, 0, 255), arrow_length=30, thickness
     else:
         img_bgr = img.copy()
 
-    x2, y2 = cx+int(arrow_length * math.cos(angle)), cy+int(arrow_length * math.sin(angle))
+    x2, y2 = cx + int(arrow_length * math.cos(angle)), cy + int(arrow_length * math.sin(angle))
     cv2.arrowedLine(img_bgr, (cx, cy), (x2, y2), color, thickness=thickness)
     return img_bgr
 
@@ -408,26 +409,22 @@ def add_annotation_to_image(img, text, write_on_top=True):
                                                           thickness=thickness_used)
     text_true_height = text_height + baseline
     if write_on_top:
-        cv2.rectangle(img, (0, 0),
-                      (int(text_width * 1.1), int(text_true_height * 1.35)),
-                      WHITE, cv2.FILLED)
-        cv2.putText(img, text,
-                    (int(text_width * 0.05), int(text_true_height * 1.2 - baseline)),
-                    font, font_scale_used, ORANGE, thickness_used)
+        cv2.rectangle(img, (0, 0), (int(text_width * 1.1), int(text_true_height * 1.35)), WHITE, cv2.FILLED)
+        cv2.putText(img,
+                    text, (int(text_width * 0.05), int(text_true_height * 1.2 - baseline)),
+                    font,
+                    font_scale_used,
+                    ORANGE,
+                    thickness_used)
     else:
-        cv2.rectangle(img,
-                      (int(text_width * 1.1), h_im - int(text_true_height * 1.35)),
-                      (0, h_im),
-                      WHITE, cv2.FILLED)
-        cv2.putText(img, text,
-                    (int(text_width * 0.05), h_im - baseline),
-                    font, font_scale_used, ORANGE, thickness_used)
+        cv2.rectangle(img, (int(text_width * 1.1), h_im - int(text_true_height * 1.35)), (0, h_im), WHITE, cv2.FILLED)
+        cv2.putText(img, text, (int(text_width * 0.05), h_im - baseline), font, font_scale_used, ORANGE, thickness_used)
     return img
 
 
 def undistort_image(img, mtx, dist):
     """
-    Use camera intrinsics to undistort raw image
+    Use camera intrinsics to undistort raw image. Not needed anymore since robot version 5.8.0
 
     :param img: Raw Image
     :type img: numpy.array
@@ -499,6 +496,7 @@ def concat_imgs(tuple_imgs, axis=1):
 
 # ROS
 
+
 def extract_img_from_ros_msg(ros_msg):
     """
     Take a ROS CompressedImage message and return the image uncompressed
@@ -516,6 +514,7 @@ def extract_img_from_ros_msg(ros_msg):
 
 
 # DEBUG
+
 
 def debug_threshold_color(img, color_hsv):
     """
