@@ -42,12 +42,17 @@ def get_deprecation_msg(old_method, new_method):
 
 class NiryoRobot(object):
 
-    def __init__(self, ip_address=None, verbose=True):
+    def __init__(self, ip_address=None, verbose=True, logger=None):
         """
+        Note that when passing a custom logger you're responsible for the logging
+        configuration (Handlers registering).
+
         :param ip_address: IP address of the robot
         :type ip_address: str
         :param verbose: Enable or disable the information logs
         :type verbose: bool
+        :param logger: A custom logger for the NiryoRobot's instance
+        :type logger: logging.Logger
         """
         self.__ip_address = None
         self.__port = TCP_PORT
@@ -57,7 +62,10 @@ class NiryoRobot(object):
 
         self.__is_connected = False
 
-        self.__logger = get_logger(self.__class__.__name__)
+        if logger is None:
+            self.__logger = get_logger(self.__class__.__name__)
+        else:
+            self.__logger = logger
         if not verbose:
             self.__logger.setLevel('WARNING')
 
