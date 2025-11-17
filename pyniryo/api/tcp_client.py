@@ -1565,7 +1565,7 @@ class NiryoRobot(object):
             self.__logger.error("No conveyor connected !")
             return ConveyorID.NONE
         else:
-            self.__logger.error("No new conveyor detected, returning last connected conveyor")
+            self.__logger.warning("No new conveyor detected, returning last connected conveyor")
             return connected_conveyors_id[-1]
 
     def unset_conveyor(self, conveyor_id):
