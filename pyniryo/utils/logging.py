@@ -2,7 +2,7 @@ import logging
 
 
 def get_logger(name):
-    logger = logging.getLogger(f'pyniryo.{name}')
+    logger = logging.getLogger('pyniryo').getChild(name)
     if logger.hasHandlers():
         logger.handlers.clear()
     logger.setLevel(logging.INFO)
