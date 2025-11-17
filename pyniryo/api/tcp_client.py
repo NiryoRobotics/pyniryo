@@ -67,7 +67,7 @@ class NiryoRobot(object):
         else:
             self.__logger = logger
         if not verbose:
-            self.__logger.setLevel('WARNING')
+            self.__logger.setLevel(logging.WARNING)
 
         # If user give IP Address, try to connect directly
         if ip_address is not None:
