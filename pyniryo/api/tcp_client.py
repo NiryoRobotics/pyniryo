@@ -44,14 +44,11 @@ class NiryoRobot(object):
 
     def __init__(self, ip_address=None, verbose=True, logger=None):
         """
-        Note that when passing a custom logger you're responsible for the logging
-        configuration (Handlers registering).
-
         :param ip_address: IP address of the robot
         :type ip_address: str
         :param verbose: Enable or disable the information logs
         :type verbose: bool
-        :param logger: A custom logger for the NiryoRobot's instance
+        :param logger: A custom logger for the NiryoRobot's instance. Note that you're responsible for the logging configuration (Handlers registering).
         :type logger: logging.Logger
         """
         self.__ip_address = None
