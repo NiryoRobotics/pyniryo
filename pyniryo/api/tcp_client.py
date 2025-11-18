@@ -42,12 +42,14 @@ def get_deprecation_msg(old_method, new_method):
 
 class NiryoRobot(object):
 
-    def __init__(self, ip_address=None, verbose=True):
+    def __init__(self, ip_address=None, verbose=True, logger=None):
         """
         :param ip_address: IP address of the robot
         :type ip_address: str
         :param verbose: Enable or disable the information logs
         :type verbose: bool
+        :param logger: A custom logger for the NiryoRobot's instance. Note that you're responsible for the logging configuration (Handlers registering).
+        :type logger: logging.Logger
         """
         self.__ip_address = None
         self.__port = TCP_PORT
@@ -57,9 +59,12 @@ class NiryoRobot(object):
 
         self.__is_connected = False
 
-        self.__logger = get_logger(self.__class__.__name__)
+        if logger is None:
+            self.__logger = get_logger(self.__class__.__name__)
+        else:
+            self.__logger = logger
         if not verbose:
-            self.__logger.setLevel('WARNING')
+            self.__logger.setLevel(logging.WARNING)
 
         # If user give IP Address, try to connect directly
         if ip_address is not None:
@@ -1557,7 +1562,7 @@ class NiryoRobot(object):
             self.__logger.error("No conveyor connected !")
             return ConveyorID.NONE
         else:
-            self.__logger.error("No new conveyor detected, returning last connected conveyor")
+            self.__logger.warning("No new conveyor detected, returning last connected conveyor")
             return connected_conveyors_id[-1]
 
     def unset_conveyor(self, conveyor_id):
