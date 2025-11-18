@@ -4,7 +4,7 @@ import cv2
 
 from pyniryo import ObjectShape, ObjectColor, TcpCommandException, PoseObject, JointsPosition
 
-from src.base_test import BaseTestTcpApi, BaseTestWithWorkspace
+from .src.base_test import BaseTestTcpApi, BaseTestWithWorkspace
 
 
 class Test01Camera(BaseTestTcpApi):

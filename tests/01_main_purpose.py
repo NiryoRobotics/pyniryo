@@ -1,10 +1,11 @@
 import os
 import unittest
+from sys import version_info
 
 from pyniryo import CalibrateMode, TcpCommandException, PinID, ConveyorID, NiryoRobot
 from pyniryo.api.exceptions import ClientNotConnectedException
 
-from src.base_test import BaseTestTcpApi
+from .src.base_test import BaseTestTcpApi
 
 
 class Test01Connection(unittest.TestCase):
@@ -32,17 +33,19 @@ class Test01Connection(unittest.TestCase):
 
     def test_030_connect_wrong_ip(self):
         with self.assertRaises(ClientNotConnectedException):
-            self.niryo_robot.connect('0.0.0.0')
+            self.niryo_robot.connect('255.255.255.255')
 
-    def test_040_connect_no_verbose(self):
-        robot_ip_address = os.environ.get('ROBOT_IP_ADDRESS', '127.0.0.1')
-        self.niryo_robot = NiryoRobot(verbose=False)
-        with self.assertNoLogs():
-            self.niryo_robot.connect(robot_ip_address)
+    if version_info >= (3, 10):
 
-    def test_050_close_connection_no_verbose(self):
-        with self.assertNoLogs():
-            self.niryo_robot.close_connection()
+        def test_040_connect_no_verbose(self):
+            robot_ip_address = os.environ.get('ROBOT_IP_ADDRESS', '127.0.0.1')
+            self.niryo_robot = NiryoRobot(verbose=False)
+            with self.assertNoLogs():
+                self.niryo_robot.connect(robot_ip_address)
+
+        def test_050_close_connection_no_verbose(self):
+            with self.assertNoLogs():
+                self.niryo_robot.close_connection()
 
 
 class Test02Calibration(BaseTestTcpApi):

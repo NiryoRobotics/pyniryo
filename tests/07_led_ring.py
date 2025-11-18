@@ -1,7 +1,7 @@
 import time
 from contextlib import contextmanager
 
-from src.base_test import BaseTestTcpApi
+from .src.base_test import BaseTestTcpApi
 
 
 class TestLedRing(BaseTestTcpApi):

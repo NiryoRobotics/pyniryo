@@ -2,7 +2,7 @@ import time
 
 from pyniryo import TcpCommandException, NiryoRobotException
 
-from src.base_test import BaseTestTcpApi
+from .src.base_test import BaseTestTcpApi
 
 
 class TestSound(BaseTestTcpApi):

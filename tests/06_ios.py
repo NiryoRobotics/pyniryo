@@ -1,6 +1,6 @@
 from pyniryo import NiryoRobot, DigitalPinObject, PinID, PinMode, PinState, AnalogPinObject
 
-from src.base_test import BaseTestTcpApi
+from .src.base_test import BaseTestTcpApi
 
 
 class TestIOs(BaseTestTcpApi):

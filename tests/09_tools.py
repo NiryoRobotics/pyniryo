@@ -1,5 +1,5 @@
 from pyniryo import PinID
-from src.base_test import BaseTestTcpApi
+from .src.base_test import BaseTestTcpApi
 
 
 class Test01Tool(BaseTestTcpApi):

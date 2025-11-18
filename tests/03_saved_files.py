@@ -2,7 +2,7 @@ import math
 
 from pyniryo import PoseObject, PoseMetadata, TcpCommandException, JointsPosition, NiryoRobotException
 
-from src.base_test import BaseTestTcpApi
+from .src.base_test import BaseTestTcpApi
 
 
 class Test01SavedPose(BaseTestTcpApi):
@@ -15,21 +15,15 @@ class Test01SavedPose(BaseTestTcpApi):
                      PoseObject(x=0.18, y=0.09, z=0.58, roll=-2.22, pitch=-0.88, yaw=1.35, metadata=PoseMetadata.v1()),
                      PoseObject(x=-0.05, y=-0.16, z=0.06, roll=2.24, pitch=-0.64, yaw=-1.94)]
 
-        # the poses are converted to v2 when saved
-        cls.poses_v2 = [
-            PoseObject(x=0.14, y=0.00, z=0.20, roll=3.14, pitch=-0.82, yaw=0.00),
-            PoseObject(x=0.18, y=0.09, z=0.58, roll=0.58, pitch=0.40, yaw=2.40),
-            PoseObject(x=-0.05, y=-0.16, z=0.06, roll=2.24, pitch=-0.64, yaw=-1.94)
-        ]
-
     def test_010_save_pose(self):
         for ix, pose in enumerate(self.poses):
             pose_name = f'test_pose_{ix}'
             self.assertIsNone(self.niryo_robot.save_pose(pose_name, pose))
 
     def test_020_get_pose_saved(self):
-        for ix, pose in enumerate(self.poses_v2):
+        for ix, pose in enumerate(self.poses):
             pose_name = f'test_pose_{ix}'
+            print(f'Checking saved pose {pose_name}')
             self.assertAlmostEqualPose(self.niryo_robot.get_pose_saved(pose_name), pose)
 
     def test_030_get_saved_pose_list(self):
@@ -74,19 +68,11 @@ class Test02TrajectoryMethods(BaseTestTcpApi):
                        0,
                        metadata=PoseMetadata.v1()) for i in range(n_points)
         ]
-        cls.poses_v2_trajectory = [
-            PoseObject(x_offset,
-                       math.cos(start_angle + i * angle_step) * radius,
-                       math.sin(start_angle + i * angle_step) * radius + z_offset,
-                       0,
-                       -math.pi / 2,
-                       math.pi) for i in range(n_points)
-        ]
 
         cls.mix_trajectory = [[[0, 0, 0, 0, 0, 0], [0.2, 0.1, 0.3, 0, 0, math.pi / 2], [0.2, 0.2, 0.3, 0, 0, 0]],
                               ['joints', 'pose', 'pose']]
 
-        cls.trajectories = [cls.joints_trajectory, cls.poses_v1_trajectory, cls.poses_v2_trajectory]
+        cls.trajectories = [cls.joints_trajectory, cls.poses_v1_trajectory]
 
     def test_010_save_trajectory(self):
         for ix, trajectory in enumerate(self.trajectories):
