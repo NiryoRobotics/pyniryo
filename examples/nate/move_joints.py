@@ -25,7 +25,7 @@ def pick_and_place(nate: Nate, desired_time: float = None):
                 Joints(1, -0.5, 0, 0, 0, 0),
         ]:
             try:
-                nate.robot.move(joint, desired_time=desired_time).wait()
+                nate.robot.move(joint).wait()
             except PyNiryoError as e:
                 print(f"Error during pick and place operation: {e}")
 
@@ -40,7 +40,7 @@ def basic_poses(nate: Nate):
 
     for j in joints:
         try:
-            cmd = nate.robot.move(j, desired_time=0.5)
+            cmd = nate.robot.move(j)
             cmd.wait()
             print(f"Move command {cmd.command_id} completed with state: {cmd.state}")
         except PyNiryoError as e:
@@ -50,7 +50,7 @@ def basic_poses(nate: Nate):
 
 def main():
     n = Nate()
-    n.robot.move(Joints(0, 0, 0, 0, 0, 0), desired_time=4).wait()
+    n.robot.move(Joints(0, 0, 0, 0, 0, 0)).wait()
     input("Press any key to continue...")
     pick_and_place(n)
 
