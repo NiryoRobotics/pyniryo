@@ -66,7 +66,7 @@ def process(niryo_robot: NiryoRobot):
         else:  # Home made image processing
             img_compressed = niryo_robot.get_img_compressed()
             img = vision.uncompress_image(img_compressed)
-            img = vision.undistort_image(img, mtx, dist)
+            img = vision.undistort_image(img, mtx, dist) # on Ned2, needed only for versions < v5.8.3-b62
             # extracting working area
             im_work = vision.extract_img_workspace(img, workspace_ratio=1.0)
             if im_work is None:

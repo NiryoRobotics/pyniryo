@@ -429,6 +429,8 @@ def undistort_image(img, mtx, dist):
     """
     Use camera intrinsics to undistort raw image
 
+    NOTE: On Ned2 since v5.8.3-b62, undistortion is done on robot's side before being sent.
+
     :param img: Raw Image
     :type img: numpy.array
     :param mtx: Camera Intrinsics matrix

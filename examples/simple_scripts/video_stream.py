@@ -26,7 +26,7 @@ def video_stream(niyro_robot: NiryoRobot):
         img_compressed = niyro_robot.get_img_compressed()
         # Uncompressed image
         img_raw = vision.uncompress_image(img_compressed)
-        # Undistorted
+        # Undistorted  (on Ned2, needed only for versions < v5.8.3-b62)
         img_undistorted = vision.undistort_image(img_raw, mtx, dist)
         # Trying to find markers
         workspace_found, res_img_markers = vision.debug_markers(img_undistorted)

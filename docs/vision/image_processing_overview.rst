@@ -47,6 +47,10 @@ To undistort the raw image, we use :meth:`~pyniryo.vision.image_functions.undist
 which needs to be called with the parameters given by Ned through
 :meth:`~pyniryo.api.tcp_client.NiryoRobot.get_camera_intrinsics`.
 
+.. note::
+    On Ned2 since v5.8.3-b62, undistortion is done on robot's side before being sent.
+    This step is then not needed anymore if your robot's version is >= v5.8.3-b62
+
 Once, we have both raw & undistorted images, we can concatenate them in order
 to display them in once with :meth:`~pyniryo.vision.image_functions.concat_imgs`.
 Finally, we display the image :meth:`~pyniryo.vision.image_functions.show_img`.

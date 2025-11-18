@@ -16,7 +16,7 @@ while "User do not press Escape neither Q":
     img_compressed = robot.get_img_compressed()
     # Uncompressing image
     img_raw = vision.uncompress_image(img_compressed)
-    # Undistorting
+    # Undistorting (on Ned2, needed only for versions < v5.8.3-b62)
     img_undistort = vision.undistort_image(img_raw, mtx, dist)
     # Trying to find markers
     workspace_found, res_img_markers = vision.debug_markers(img_undistort)
