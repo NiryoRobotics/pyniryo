@@ -5,7 +5,7 @@ import time
 
 from pyniryo.nate.components import BaseAPIComponent
 from .. import models
-from .._internal import transport_models, paths_gen, topics
+from .._internal import transport_models, paths_gen, topics_gen
 from .._internal.mqtt import MqttClient
 
 logger = logging.getLogger(__name__)
@@ -56,7 +56,7 @@ class MoveCommand:
 
         :return: The topic of the move command.
         """
-        return topics.Robot.MOVE_FEEDBACK.format(cmd_id=self.__command_id)
+        return topics_gen.Robot.ROBOT_MOVE_FEEDBACK.format(cmd_id=self.__command_id)
 
     def wait(self, timeout: float = -1) -> None:
         """
@@ -94,7 +94,7 @@ class Robot(BaseAPIComponent):
         def internal_callback(_, joints: transport_models.Joints) -> None:
             callback(models.Joints.from_transport_model(joints))
 
-        self._mqtt_client.subscribe(topics.Robot.JOINTS, internal_callback, transport_models.Joints)
+        self._mqtt_client.subscribe(topics_gen.Robot.JOINTS, internal_callback, transport_models.Joints)
 
     def move(self,
              target: models.MoveTarget,

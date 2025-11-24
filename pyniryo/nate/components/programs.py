@@ -6,7 +6,7 @@ from typing import IO, Callable
 from uuid import uuid4, UUID
 
 from .base_api_component import BaseAPIComponent
-from .._internal import paths_gen, transport_models, topics
+from .._internal import paths_gen, transport_models, topics_gen
 from .. import models
 from .._internal.mqtt import MqttClient
 from ..exceptions import PyNiryoError
@@ -86,7 +86,8 @@ class ExecutionCommand:
 
         :return: The output topic of the execution.
         """
-        return topics.ProgramsExecution.OUTPUT.format(program_id=self.program_id, execution_id=self.execution_id)
+        return topics_gen.Programs.PROGRAM_EXECUTION_OUTPUT.format(program_id=self.program_id,
+                                                                   execution_id=self.execution_id)
 
     @property
     def status_topic(self) -> str:
@@ -95,7 +96,8 @@ class ExecutionCommand:
 
         :return: The status topic of the execution.
         """
-        return topics.ProgramsExecution.STATUS.format(program_id=self.program_id, execution_id=self.execution_id)
+        return topics_gen.Programs.PROGRAM_EXECUTION_STATUS.format(program_id=self.program_id,
+                                                                   execution_id=self.execution_id)
 
     def wait(self, timeout: float = -1) -> None:
         """

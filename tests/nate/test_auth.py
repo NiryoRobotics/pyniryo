@@ -53,8 +53,8 @@ class TestAuth(BaseTestComponent):
         self.assertEqual(self.mqtt_client.subscribe.call_args[0][0], topic)
 
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
-        internal_callback(topic, transport_models.UserLoggedIn())
-        user_callback.assert_called_once_with(user_id, models.UserLoggedIn())
+        internal_callback(topic, transport_models.UserEvent())
+        user_callback.assert_called_once_with(user_id, models.UserEvent())
 
     @patch('pyniryo.nate._internal.mqtt.get_level_from_wildcard')
     def test_on_user_logged_in_any_user(self, mock_get_level):
@@ -73,8 +73,8 @@ class TestAuth(BaseTestComponent):
             self.auth.on_user_logged_in(user_callback, user_id)
 
             internal_callback = self.mqtt_client.subscribe.call_args[0][1]
-            internal_callback(f'users/{user_id}/logged-in', transport_models.UserLoggedIn())
-            expected_calls.append(call(user_id, models.UserLoggedIn()))
+            internal_callback(f'users/{user_id}/logged-in', transport_models.UserEvent())
+            expected_calls.append(call(user_id, models.UserEvent()))
 
         user_callback.assert_has_calls(expected_calls)
 
@@ -92,8 +92,8 @@ class TestAuth(BaseTestComponent):
         self.assertEqual(self.mqtt_client.subscribe.call_args[0][0], topic)
 
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
-        internal_callback(topic, transport_models.UserLoggedOut())
-        user_callback.assert_called_once_with(user_id, models.UserLoggedOut())
+        internal_callback(topic, transport_models.UserEvent())
+        user_callback.assert_called_once_with(user_id, models.UserEvent())
 
     @patch('pyniryo.nate._internal.mqtt.get_level_from_wildcard')
     def test_on_user_logged_out_any_user(self, mock_get_level):
@@ -112,7 +112,7 @@ class TestAuth(BaseTestComponent):
             self.auth.on_user_logged_out(user_callback, user_id)
 
             internal_callback = self.mqtt_client.subscribe.call_args[0][1]
-            internal_callback(f'users/{user_id}/logged-out', transport_models.UserLoggedOut())
-            expected_calls.append(call(user_id, models.UserLoggedOut()))
+            internal_callback(f'users/{user_id}/logged-out', transport_models.UserEvent())
+            expected_calls.append(call(user_id, models.UserEvent()))
 
         user_callback.assert_has_calls(expected_calls)

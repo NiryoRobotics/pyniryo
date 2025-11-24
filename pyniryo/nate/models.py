@@ -5,11 +5,8 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Type, Optional
 
-from pydantic.v1.errors import cls_kwargs
 from strenum import StrEnum
 from uuid import UUID
-
-from pydantic import BaseModel
 
 from ._internal import transport_models
 from .exceptions import PyNiryoError, GenerateTrajectoryError, LoadTrajectoryError, ExecuteTrajectoryError
@@ -94,7 +91,7 @@ class Token(BaseDataClass):
     token: str
 
     @classmethod
-    def from_transport_model(cls, model: BaseModel) -> 'Token':
+    def from_transport_model(cls, model: transport_models.Token) -> 'Token':
         return cls(
             id=model.id,
             expires_at=model.expires_at,
@@ -117,11 +114,7 @@ class UserEvent(BaseDataClass):
         return cls()
 
     def to_transport_model(self) -> transport_models.UserEvent:
-        return transport_models.UserLoggedIn()
-
-
-UserLoggedIn = UserEvent
-UserLoggedOut = UserEvent
+        return transport_models.UserEvent()
 
 
 @dataclass
