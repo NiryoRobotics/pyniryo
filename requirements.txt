@@ -11,6 +11,4 @@ types-requests
 pydantic
 pydantic[email]
 strenum
-openapi3-parser
-pyyaml
-tox
+
