@@ -266,6 +266,14 @@ class NiryoRobot(object):
         else:
             self.__raise_exception("Expected data to be either 'True' or 'False'")
 
+    def __list_to_tuple(self, list_):
+        """
+        Recursively convert lists to tuples.
+        """
+        if not isinstance(list_, list):
+            return list_
+        return tuple(self.__list_to_tuple(item) for item in list_)
+
     # Error Handlers
     def __raise_exception_expected_choice(self, expected_choice, given):
         raise TcpCommandException("Expected one of the following: {}.\nGiven: {}".format(expected_choice, given))
@@ -1200,6 +1208,14 @@ class NiryoRobot(object):
         tool_id = self.__send_n_receive(Command.GET_CURRENT_TOOL_ID)
         return ToolID[tool_id]
 
+    def get_current_tool_position(self):
+        """
+        Get the tool current position
+        :return: the tool position, in steps.
+        :rtype: int
+        """
+        return self.__send_n_receive(Command.GET_CURRENT_TOOL_POSITION)
+
     def update_tool(self):
         """
         Update equipped tool
@@ -1268,6 +1284,44 @@ class NiryoRobot(object):
         hold_torque_percentage = self.__transform_to_type(hold_torque_percentage, int)
 
         self.__send_n_receive(Command.CLOSE_GRIPPER, speed, max_torque_percentage, hold_torque_percentage)
+
+    def control_gripper(self, position, speed, max_torque, hold_torque):
+        """
+        Low level function to control the gripper.
+
+        :param position: Position of the gripper (in motor steps).
+        :type position: int
+        :param speed: Ned/One only. Moving speed (unit is 0.111 rpm)
+        :type speed: int
+        :param max_torque: Ned2 only. Maximum torque to apply while moving gripper (in mA).
+        A negative value will apply the force in the opposite direction.
+        :type max_torque: int
+        :param hold_torque: Ned2 only. Torque to apply once the gripper has stopped moving (in mA).
+        A negative value will apply the force in the opposite direction.
+        :type hold_torque: int
+        """
+        position = self.__transform_to_type(position, int)
+        speed = self.__transform_to_type(speed, int)
+        max_torque = self.__transform_to_type(max_torque, int)
+        hold_torque = self.__transform_to_type(hold_torque, int)
+
+        self.__send_n_receive(Command.CONTROL_GRIPPER, position, speed, max_torque, hold_torque)
+
+    def get_gripper_specs(self, tool_id=None):
+        """
+        Get the gripper position and torque limits. Positions are in steps, and torque limits are in mA.
+
+        :param tool_id: Tool ID. If None, use the current tool id.
+        :type tool_id: int | ToolID | None
+        :return: gripper position limits (close, open), gripper torque limits (close, open)
+        :rtype: ((int, int), (int, int))
+        """
+        if tool_id is None:
+            tool_id = ToolID.NONE
+        elif isinstance(tool_id, int):
+            tool_id = ToolID(tool_id)
+        specs = self.__send_n_receive(Command.GET_GRIPPER_SPECS, tool_id)
+        return self.__list_to_tuple(specs)
 
     # - Vacuum
     def pull_air_vacuum_pump(self):
