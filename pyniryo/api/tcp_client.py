@@ -1255,9 +1255,9 @@ class NiryoRobot(object):
 
         :param speed: Between 100 & 1000 (only for Niryo One and Ned1)
         :type speed: int
-        :param max_torque_percentage: Closing torque percentage (only for Ned2)
+        :param max_torque_percentage: Closing torque percentage (only for Ned2/3Pro)
         :type max_torque_percentage: int
-        :param hold_torque_percentage: Hold torque percentage after closing (only for Ned2)
+        :param hold_torque_percentage: Hold torque percentage after closing (only for Ned2/3Pro)
         :type hold_torque_percentage: int
         :rtype: None
         """
@@ -1273,9 +1273,9 @@ class NiryoRobot(object):
 
         :param speed: Between 100 & 1000 (only for Niryo One and Ned1)
         :type speed: int
-        :param max_torque_percentage: Opening torque percentage (only for Ned2)
+        :param max_torque_percentage: Opening torque percentage (only for Ned2/3Pro)
         :type max_torque_percentage: int
-        :param hold_torque_percentage: Hold torque percentage after opening (only for Ned2)
+        :param hold_torque_percentage: Hold torque percentage after opening (only for Ned2/3Pro)
         :type hold_torque_percentage: int
         :rtype: None
         """
@@ -1293,10 +1293,10 @@ class NiryoRobot(object):
         :type position: int
         :param speed: Ned/One only. Moving speed (unit is 0.111 rpm)
         :type speed: int
-        :param max_torque: Ned2 only. Maximum torque to apply while moving gripper (in mA).
+        :param max_torque: Ned2/3Pro only. Maximum torque to apply while moving gripper (in mA).
         A negative value will apply the force in the opposite direction.
         :type max_torque: int
-        :param hold_torque: Ned2 only. Torque to apply once the gripper has stopped moving (in mA).
+        :param hold_torque: Ned2/3Pro only. Torque to apply once the gripper has stopped moving (in mA).
         A negative value will apply the force in the opposite direction.
         :type hold_torque: int
         """
@@ -1558,7 +1558,7 @@ class NiryoRobot(object):
 
     def get_custom_button_state(self):
         """
-        Get the Ned2's custom button state
+        Get the Ned2/3Pro's custom button state
 
         :return: True if pressed, False else
         :rtype: bool
