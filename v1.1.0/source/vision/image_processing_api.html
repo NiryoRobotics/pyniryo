@@ -1,0 +1,1134 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Functions documentation &mdash; PyNiryo v1.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../_static/_rst_properties.css?v=754ff73a" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=0737924e"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Overview &amp; examples" href="image_processing_overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyNiryo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../setup/installation.html#installation-with-pip">Installation with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/installation.html#uninstall">Uninstall</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/ip_address.html">Find your Robot’s IP address</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#hotspot-mode">Hotspot mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#simulation-or-directly-on-the-robot">Simulation or directly on the robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#direct-ethernet-connection">Direct ethernet connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#computer-and-robot-connected-on-the-same-router">Computer and robot connected on the same router</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#make-ip-permanent">Make IP permanent</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/verify_setup.html">Verify your Setup and Get Started</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_basics.html">Examples: Basics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_basics.html#your-first-move-joint">Your first move joint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_basics.html#code-details-first-move-j">Code Details - First Move J</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_basics.html#your-first-pick-and-place">Your first pick and place</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_basics.html#code-details-first-pick-and-place">Code Details - First Pick And Place</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_basics.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_movement.html">Examples: Movement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_movement.html#joints">Joints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#move-joints">Move Joints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#get-joints">Get Joints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_movement.html#pose">Pose</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#move-pose">Move Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#get-pose">Get Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#how-to-use-the-poseobject">How to use the PoseObject</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_tool_action.html">Examples: Tool action</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_tool_action.html#tool-control">Tool control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#equip-tool">Equip Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#grasping">Grasping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#releasing">Releasing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_tool_action.html#pick-place-with-tools">Pick &amp; Place with tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#code-baseline">Code Baseline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#first-solution-the-heaviest">First Solution: the heaviest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#second-solution-use-of-poseobject">Second Solution: Use of PoseObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#third-solution-pick-from-pose-place-from-pose-functions">Third Solution: Pick from pose &amp; Place from pose functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#fourth-solution-all-in-one">Fourth Solution: All in one</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_conveyor.html">Examples: Conveyor Belt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_conveyor.html#simple-conveyor-control">Simple Conveyor control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_conveyor.html#advanced-conveyor-belt-control">Advanced Conveyor Belt control</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_vision.html">Examples: Vision</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#needed-piece-of-code">Needed piece of code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#simple-vision-pick-place">Simple Vision Pick &amp; Place</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_vision.html#code-details-simple-vision-pick-and-place">Code Details - Simple Vision Pick and Place</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#first-conditioning-via-vision">First conditioning via Vision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_vision.html#code-details-first-conditioning-via-vision">Code Details - First Conditioning via Vision</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#multi-reference-conditioning">Multi Reference Conditioning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_vision.html#code-details-multi-reference-conditioning">Code Details - Multi Reference Conditioning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#sorting-pick-with-conveyor">Sorting Pick with Conveyor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_vision.html#code-details-sort-picking">Code Details - Sort Picking</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/code_templates.html">Code templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/code_templates.html#the-short-template">The short template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/code_templates.html#advanced-template">Advanced template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/code_templates.html#advanced-template-for-conveyor-belt">Advanced template for Conveyor Belt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/code_templates.html#advanced-template-for-vision">Advanced template for Vision</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_doc/api.html">PyNiryo API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#command-functions">Command functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#tcp-connection">TCP Connection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.connect"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.connect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.close_connection"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.close_connection()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#main-purpose-functions">Main purpose functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.calibrate"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.calibrate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.calibrate_auto"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.calibrate_auto()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.need_calibration"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.need_calibration()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_learning_mode"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_learning_mode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_learning_mode"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_learning_mode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_arm_max_velocity"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_arm_max_velocity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_jog_control"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_jog_control()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.wait"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.wait()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#joints-pose">Joints &amp; Pose</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_joints"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_joints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_pose_quat"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_pose_quat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.move_joints"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.move_joints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.move_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.move_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.move_linear_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.move_linear_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.shift_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.shift_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.shift_linear_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.shift_linear_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.jog_joints"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.jog_joints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.jog_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.jog_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.move_to_home_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.move_to_home_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.go_to_sleep"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.go_to_sleep()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.forward_kinematics"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.forward_kinematics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.inverse_kinematics"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.inverse_kinematics()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#saved-poses">Saved Poses</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_pose_saved"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_pose_saved()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.save_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.save_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.delete_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.delete_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_saved_pose_list"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_saved_pose_list()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#pick-place">Pick &amp; Place</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.pick_from_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.pick_from_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.place_from_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.place_from_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.pick_and_place"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.pick_and_place()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#trajectories">Trajectories</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_trajectory_saved"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_trajectory_saved()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.execute_trajectory_from_poses"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.execute_trajectory_from_poses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.execute_trajectory_from_poses_and_joints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.save_trajectory"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.save_trajectory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.delete_trajectory"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.delete_trajectory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_saved_trajectory_list"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_saved_trajectory_list()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#tools">Tools</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_current_tool_id"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_current_tool_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.update_tool"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.update_tool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.grasp_with_tool"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.grasp_with_tool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.release_with_tool"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.release_with_tool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.open_gripper"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.open_gripper()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.close_gripper"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.close_gripper()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.pull_air_vacuum_pump"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.pull_air_vacuum_pump()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.push_air_vacuum_pump"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.push_air_vacuum_pump()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.setup_electromagnet"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.setup_electromagnet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.activate_electromagnet"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.activate_electromagnet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.deactivate_electromagnet"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.deactivate_electromagnet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.enable_tcp"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.enable_tcp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_tcp"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_tcp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.reset_tcp"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.reset_tcp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.tool_reboot"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.tool_reboot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#hardware">Hardware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_pin_mode"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_pin_mode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.digital_write"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.digital_write()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.digital_read"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.digital_read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_hardware_status"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_hardware_status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_digital_io_state"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_digital_io_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_analog_io_state"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_analog_io_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.analog_write"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.analog_write()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.analog_read"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.analog_read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_custom_button_state"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_custom_button_state()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#conveyor">Conveyor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_conveyor"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_conveyor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.unset_conveyor"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.unset_conveyor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.run_conveyor"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.run_conveyor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.stop_conveyor"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.stop_conveyor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.control_conveyor"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.control_conveyor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_connected_conveyors_id"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_connected_conveyors_id()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#vision">Vision</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_img_compressed"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_img_compressed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_brightness"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_brightness()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_contrast"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_contrast()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_saturation"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_saturation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_image_parameters"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_image_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_target_pose_from_rel"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_target_pose_from_rel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_target_pose_from_cam"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_target_pose_from_cam()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.vision_pick"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.vision_pick()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.move_to_object"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.move_to_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.detect_object"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.detect_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_camera_intrinsics"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_camera_intrinsics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.save_workspace_from_robot_poses"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.save_workspace_from_robot_poses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.save_workspace_from_points"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.save_workspace_from_points()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.delete_workspace"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.delete_workspace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_workspace_ratio"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_workspace_ratio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_workspace_list"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_workspace_list()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#led-ring">Led Ring</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_led_color"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_led_color()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_solid"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_solid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_turn_off"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_turn_off()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_flashing"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_flashing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_alternate"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_alternate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_chase"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_chase()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_wipe"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_wipe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_rainbow"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_rainbow()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_rainbow_cycle"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_rainbow_cycle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_rainbow_chase"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_rainbow_chase()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_go_up"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_go_up()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_go_up_down"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_go_up_down()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_breath"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_breath()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_snake"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_snake()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.led_ring_custom"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.led_ring_custom()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#sound">Sound</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_sounds"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_sounds()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.play_sound"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.play_sound()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_volume"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_volume()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.stop_sound"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.stop_sound()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_sound_duration"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_sound_duration()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.say"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.say()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#enums">Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#python-object-classes">Python object classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject"><code class="docutils literal notranslate"><span class="pre">PoseObject</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject.copy_with_offsets"><code class="docutils literal notranslate"><span class="pre">PoseObject.copy_with_offsets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject.to_list"><code class="docutils literal notranslate"><span class="pre">PoseObject.to_list()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.HardwareStatusObject"><code class="docutils literal notranslate"><span class="pre">HardwareStatusObject</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.DigitalPinObject"><code class="docutils literal notranslate"><span class="pre">DigitalPinObject</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.AnalogPinObject"><code class="docutils literal notranslate"><span class="pre">AnalogPinObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Image Processing</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="image_processing_overview.html">Overview &amp; examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="image_processing_overview.html#play-with-robot-video-stream">Play with Robot video stream</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_overview.html#get-display-image-from-stream">Get &amp; display image from stream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_overview.html#undistort-and-display-video-stream">Undistort and display video stream</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="image_processing_overview.html#pure-image-processing-functions">Pure image processing functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_overview.html#color-thresholding">Color thresholding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_overview.html#morphological-transformations">Morphological transformations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_overview.html#contours-finder">Contours finder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_overview.html#find-object-center-position">Find object center position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_overview.html#markers-extraction">Markers extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_overview.html#debug-mode">Debug mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="image_processing_overview.html#do-your-own-image-processing">Do your own image processing!</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_overview.html#display-video-stream-with-extracted-workspace">Display video stream with extracted workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_overview.html#vision-pick-via-your-image-processing-pipeline">Vision pick via your image processing pipeline</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Functions documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pure-image-processing">Pure image processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.threshold_hsv"><code class="docutils literal notranslate"><span class="pre">image_functions.threshold_hsv()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.debug_threshold_color"><code class="docutils literal notranslate"><span class="pre">image_functions.debug_threshold_color()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.morphological_transformations"><code class="docutils literal notranslate"><span class="pre">image_functions.morphological_transformations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.get_contour_barycenter"><code class="docutils literal notranslate"><span class="pre">image_functions.get_contour_barycenter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.get_contour_angle"><code class="docutils literal notranslate"><span class="pre">image_functions.get_contour_angle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.biggest_contour_finder"><code class="docutils literal notranslate"><span class="pre">image_functions.biggest_contour_finder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.biggest_contours_finder"><code class="docutils literal notranslate"><span class="pre">image_functions.biggest_contours_finder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.draw_contours"><code class="docutils literal notranslate"><span class="pre">image_functions.draw_contours()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.draw_barycenter"><code class="docutils literal notranslate"><span class="pre">image_functions.draw_barycenter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.draw_angle"><code class="docutils literal notranslate"><span class="pre">image_functions.draw_angle()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#workspaces-wise">Workspaces wise</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.extract_img_workspace"><code class="docutils literal notranslate"><span class="pre">image_functions.extract_img_workspace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.debug_markers"><code class="docutils literal notranslate"><span class="pre">image_functions.debug_markers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.relative_pos_from_pixels"><code class="docutils literal notranslate"><span class="pre">image_functions.relative_pos_from_pixels()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#show">Show</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.show_img_and_check_close"><code class="docutils literal notranslate"><span class="pre">image_functions.show_img_and_check_close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.show_img"><code class="docutils literal notranslate"><span class="pre">image_functions.show_img()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.show_img_and_wait_close"><code class="docutils literal notranslate"><span class="pre">image_functions.show_img_and_wait_close()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#image-editing">Image Editing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.compress_image"><code class="docutils literal notranslate"><span class="pre">image_functions.compress_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.uncompress_image"><code class="docutils literal notranslate"><span class="pre">image_functions.uncompress_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.add_annotation_to_image"><code class="docutils literal notranslate"><span class="pre">image_functions.add_annotation_to_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.undistort_image"><code class="docutils literal notranslate"><span class="pre">image_functions.undistort_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.resize_img"><code class="docutils literal notranslate"><span class="pre">image_functions.resize_img()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.image_functions.concat_imgs"><code class="docutils literal notranslate"><span class="pre">image_functions.concat_imgs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#enums-image-processing">Enums Image Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vision.enums.ColorHSV"><code class="docutils literal notranslate"><span class="pre">ColorHSV</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.ColorHSV.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorHSV.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.ColorHSV.RED"><code class="docutils literal notranslate"><span class="pre">ColorHSV.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.ColorHSV.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorHSV.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.ColorHSV.ANY"><code class="docutils literal notranslate"><span class="pre">ColorHSV.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.enums.ColorHSVPrime"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.ColorHSVPrime.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.ColorHSVPrime.RED"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.ColorHSVPrime.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.ColorHSVPrime.ANY"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.enums.ObjectType"><code class="docutils literal notranslate"><span class="pre">ObjectType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.ObjectType.SQUARE"><code class="docutils literal notranslate"><span class="pre">ObjectType.SQUARE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.ObjectType.TRIANGLE"><code class="docutils literal notranslate"><span class="pre">ObjectType.TRIANGLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.ObjectType.CIRCLE"><code class="docutils literal notranslate"><span class="pre">ObjectType.CIRCLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.ObjectType.ANY"><code class="docutils literal notranslate"><span class="pre">ObjectType.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.enums.MorphoType"><code class="docutils literal notranslate"><span class="pre">MorphoType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.MorphoType.ERODE"><code class="docutils literal notranslate"><span class="pre">MorphoType.ERODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.MorphoType.DILATE"><code class="docutils literal notranslate"><span class="pre">MorphoType.DILATE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.MorphoType.OPEN"><code class="docutils literal notranslate"><span class="pre">MorphoType.OPEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.MorphoType.CLOSE"><code class="docutils literal notranslate"><span class="pre">MorphoType.CLOSE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#vision.enums.KernelType"><code class="docutils literal notranslate"><span class="pre">KernelType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.KernelType.RECT"><code class="docutils literal notranslate"><span class="pre">KernelType.RECT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.KernelType.ELLIPSE"><code class="docutils literal notranslate"><span class="pre">KernelType.ELLIPSE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vision.enums.KernelType.CROSS"><code class="docutils literal notranslate"><span class="pre">KernelType.CROSS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyNiryo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Functions documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/source/vision/image_processing_api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="functions-documentation">
+<h1>Functions documentation<a class="headerlink" href="#functions-documentation" title="Link to this heading"></a></h1>
+<p>This file presents the different functions and <a class="reference internal" href="#enums-image-processing"><span class="std std-ref">Enums Image Processing</span></a> available for image processing.</p>
+<p>These functions are divided in subsections:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#pure-image-processing"><span class="std std-ref">Pure image processing</span></a> are used to deal with the thresholding,
+contours detection, ..</p></li>
+<li><p><a class="reference internal" href="#workspaces-wise"><span class="std std-ref">Workspaces wise</span></a> section contains functions to extract workspace
+and deal with the relative position in the workspace</p></li>
+<li><p>The section <a class="reference internal" href="#show"><span class="std std-ref">Show</span></a> allows to display images</p></li>
+<li><p><a class="reference internal" href="#image-editing"><span class="std std-ref">Image Editing</span></a> contains lot of function which can compress images,
+add text to image, …</p></li>
+</ul>
+<section id="pure-image-processing">
+<h2>Pure image processing<a class="headerlink" href="#pure-image-processing" title="Link to this heading"></a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.threshold_hsv">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">threshold_hsv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_min_hsv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_max_hsv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse_hue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_s_prime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.threshold_hsv" title="Link to this definition"></a></dt>
+<dd><p>Take BGR image (OpenCV imread result) and return thresholded image
+according to values on HSV (Hue, Saturation, Value)
+Pixel will worth 1 if a pixel has a value between min_v and max_v for all channels</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – image BGR if rgb_space = False</p></li>
+<li><p><strong>list_min_hsv</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – list corresponding to [min_value_H,min_value_S,min_value_V]</p></li>
+<li><p><strong>list_max_hsv</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – list corresponding to [max_value_H,max_value_S,max_value_V]</p></li>
+<li><p><strong>use_s_prime</strong> (<em>bool</em>) – True if you want to use S channel as S’ = S x V else classic</p></li>
+<li><p><strong>reverse_hue</strong> (<em>bool</em>) – Useful for Red color cause it is at both extremum</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>threshold image</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.debug_threshold_color">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">debug_threshold_color</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color_hsv</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.debug_threshold_color" title="Link to this definition"></a></dt>
+<dd><p>Return masked image to see the effect of color threshold</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – OpenCV image</p></li>
+<li><p><strong>color_hsv</strong> (<a class="reference internal" href="#vision.enums.ColorHSV" title="vision.enums.ColorHSV"><em>ColorHSV</em></a>) – Color used for debug</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Masked image</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.morphological_transformations">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">morphological_transformations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">morpho_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">MorphoType.CLOSE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(5,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">KernelType.ELLIPSE</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.morphological_transformations" title="Link to this definition"></a></dt>
+<dd><p>Take black &amp; white image and apply morphological transformation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>im_thresh</strong> (<em>numpy.array</em>) – Black &amp; White Image</p></li>
+<li><p><strong>morpho_type</strong> (<a class="reference internal" href="#vision.enums.MorphoType" title="vision.enums.MorphoType"><em>MorphoType</em></a>) – CLOSE/OPEN/ERODE/DILATE =&gt; See on OpenCV/Google if you do not know these words</p></li>
+<li><p><strong>kernel_shape</strong> (<em>tuple</em><em>[</em><em>float</em><em>]</em>) – tuple corresponding to the size of the kernel</p></li>
+<li><p><strong>kernel_type</strong> (<a class="reference internal" href="#vision.enums.KernelType" title="vision.enums.KernelType"><em>KernelType</em></a>) – RECT/ELLIPSE/CROSS =&gt; see on OpenCV</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>image after processing</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.get_contour_barycenter">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">get_contour_barycenter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.get_contour_barycenter" title="Link to this definition"></a></dt>
+<dd><p>Return barycenter of an OpenCV Contour</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>contour</strong> (<em>OpenCV Contour</em>)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Barycenter X, Barycenter Y</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.get_contour_angle">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">get_contour_angle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.get_contour_angle" title="Link to this definition"></a></dt>
+<dd><p>Return orientation of a contour according to the smallest side
+in order to be well oriented for gripper</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>contour</strong> (<em>OpenCV Contour</em>) – contour</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Angle in radians</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.biggest_contour_finder">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">biggest_contour_finder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.biggest_contour_finder" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.biggest_contours_finder">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">biggest_contours_finder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nb_contours_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.biggest_contours_finder" title="Link to this definition"></a></dt>
+<dd><p>Function to find the biggest contour in an binary image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – Binary Image</p></li>
+<li><p><strong>nb_contours_max</strong> (<em>int</em>) – maximal number of contours which will be returned</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>biggest contours found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[OpenCV Contour]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.draw_contours">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">draw_contours</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contours</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.draw_contours" title="Link to this definition"></a></dt>
+<dd><p>Draw a list of contour on an image and return the drawing image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – Image</p></li>
+<li><p><strong>contours</strong> (<em>list</em><em>[</em><em>OpenCV Contour</em><em>]</em>) – contours list</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Image with drawing</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.draw_barycenter">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">draw_barycenter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(255,</span> <span class="pre">0,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.draw_barycenter" title="Link to this definition"></a></dt>
+<dd><p>Draw a barycenter marker on an image and return the drawing image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – Image</p></li>
+<li><p><strong>cx</strong> (<em>int</em>) – Barycenter X</p></li>
+<li><p><strong>cy</strong> (<em>int</em>) – Barycenter Y</p></li>
+<li><p><strong>color</strong> (<em>list</em><em>[</em><em>uint8</em><em>, </em><em>utin8</em><em>, </em><em>uint8</em><em>]</em>) – (R, G, B) colors of the marker</p></li>
+<li><p><strong>marker_size</strong> (<em>int</em>) – size of the marker</p></li>
+<li><p><strong>thickness</strong> (<em>int</em>) – thickness of the marker</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Image with drawing</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.draw_angle">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">draw_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrow_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thickness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.draw_angle" title="Link to this definition"></a></dt>
+<dd><p>Draw an arrow that represents the orientation of an object on an image and return the drawing image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – Image</p></li>
+<li><p><strong>cx</strong> (<em>int</em>) – Barycenter X</p></li>
+<li><p><strong>cy</strong> (<em>int</em>) – Barycenter Y</p></li>
+<li><p><strong>angle</strong> – angle to display</p></li>
+<li><p><strong>color</strong> (<em>list</em><em>[</em><em>uint8</em><em>, </em><em>utin8</em><em>, </em><em>uint8</em><em>]</em>) – (R, G, B) colors of the marker</p></li>
+<li><p><strong>arrow_length</strong> (<em>int</em>) – length of the arrow marker</p></li>
+<li><p><strong>thickness</strong> (<em>int</em>) – thickness of the arrow marker</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Image with drawing</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="workspaces-wise">
+<h2>Workspaces wise<a class="headerlink" href="#workspaces-wise" title="Link to this heading"></a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.extract_img_workspace">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">extract_img_workspace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workspace_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.extract_img_workspace" title="Link to this definition"></a></dt>
+<dd><p>Extract working area from an image thanks to 4 Niryo’s markers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – OpenCV image which contain 4 Niryo’s markers</p></li>
+<li><p><strong>workspace_ratio</strong> (<em>float</em>) – Ratio between the width and the height of the area represented by the markers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>extracted and warped working area image</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.debug_markers">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">debug_markers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">workspace_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.debug_markers" title="Link to this definition"></a></dt>
+<dd><p>Display detected markers on an image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – OpenCV image which contain Niryo’s markers</p></li>
+<li><p><strong>workspace_ratio</strong> (<em>float</em>) – Ratio between the width and the height of the area represented by the markers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(status, annotated image)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.relative_pos_from_pixels">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">relative_pos_from_pixels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_pixels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pixels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.relative_pos_from_pixels" title="Link to this definition"></a></dt>
+<dd><p>Transform a pixels position to a relative position</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – Image where the object is detected</p></li>
+<li><p><strong>x_pixels</strong> (<em>int</em>) – coordinate X</p></li>
+<li><p><strong>y_pixels</strong> (<em>int</em>) – coordinate Y</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>X relative, Y relative</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="show">
+<h2>Show<a class="headerlink" href="#show" title="Link to this heading"></a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.show_img_and_check_close">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">show_img_and_check_close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.show_img_and_check_close" title="Link to this definition"></a></dt>
+<dd><p>Display an image and check whether the user want to close</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>window_name</strong> (<em>str</em>) – window’s name</p></li>
+<li><p><strong>img</strong> (<em>numpy.array</em>) – Image</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>boolean indicating if the user wanted to leave</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.show_img">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">show_img</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_ms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.show_img" title="Link to this definition"></a></dt>
+<dd><p>Display an image during a certain time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>window_name</strong> (<em>str</em>) – window’s name</p></li>
+<li><p><strong>img</strong> (<em>numpy.array</em>) – Image</p></li>
+<li><p><strong>wait_ms</strong> (<em>int</em>) – Wait time in milliseconds</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>value of the key pressed during the display</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.show_img_and_wait_close">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">show_img_and_wait_close</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.show_img_and_wait_close" title="Link to this definition"></a></dt>
+<dd><p>Display an image and wait that the user close it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>window_name</strong> (<em>str</em>) – window’s name</p></li>
+<li><p><strong>img</strong> (<em>numpy.array</em>) – Image</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="image-editing">
+<h2>Image Editing<a class="headerlink" href="#image-editing" title="Link to this heading"></a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.compress_image">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">compress_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.compress_image" title="Link to this definition"></a></dt>
+<dd><p>Compress OpenCV image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – OpenCV Image</p></li>
+<li><p><strong>quality</strong> (<em>int</em>) – integer between 1 - 100. The higher it is, the less information will be lost,
+but the heavier the compressed image will be</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>status &amp; string representing compressed image</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool, str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.uncompress_image">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">uncompress_image</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.uncompress_image" title="Link to this definition"></a></dt>
+<dd><p>Take a compressed img and return an OpenCV image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>compressed_image</strong> (<em>str</em>) – compressed image</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>OpenCV image</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.add_annotation_to_image">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">add_annotation_to_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_on_top</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.add_annotation_to_image" title="Link to this definition"></a></dt>
+<dd><p>Add Annotation to an image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – Image</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – text string</p></li>
+<li><p><strong>write_on_top</strong> (<em>bool</em>) – if you write the text on top</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>img with text written on it</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.undistort_image">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">undistort_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.undistort_image" title="Link to this definition"></a></dt>
+<dd><p>Use camera intrinsics to undistort raw image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – Raw Image</p></li>
+<li><p><strong>mtx</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>float</em><em>]</em><em>]</em>) – Camera Intrinsics matrix</p></li>
+<li><p><strong>dist</strong> (<em>list</em><em>[</em><em>list</em><em>[</em><em>float</em><em>]</em><em>]</em>) – Distortion Coefficient</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Undistorted image</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.resize_img">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">resize_img</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.resize_img" title="Link to this definition"></a></dt>
+<dd><p>Resize an image. The user should precise only width or height if he wants to keep image’s ratio</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> (<em>numpy.array</em>) – OpenCV Image</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – Target Width</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – Target Height</p></li>
+<li><p><strong>inter</strong> (<em>long</em>) – OpenCV interpolation flag</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>resized image</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vision.image_functions.concat_imgs">
+<span class="sig-prename descclassname"><span class="pre">image_functions.</span></span><span class="sig-name descname"><span class="pre">concat_imgs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#vision.image_functions.concat_imgs" title="Link to this definition"></a></dt>
+<dd><p>Concat multiple images along 1 axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tuple_imgs</strong> (<em>tuple</em><em>[</em><em>numpy.array</em><em>]</em>) – tuple of images</p></li>
+<li><p><strong>axis</strong> (<em>int</em>) – 0 means vertically and 1 means horizontally</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Concat image</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="enums-image-processing">
+<h2>Enums Image Processing<a class="headerlink" href="#enums-image-processing" title="Link to this heading"></a></h2>
+<p>Enums are used to pass specific parameters to functions.</p>
+<p>List of enums:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#vision.enums.ColorHSV" title="vision.enums.ColorHSV"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColorHSV</span></code></a></p></li>
+<li><p><a class="reference internal" href="#vision.enums.ColorHSVPrime" title="vision.enums.ColorHSVPrime"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColorHSVPrime</span></code></a></p></li>
+<li><p><a class="reference internal" href="#vision.enums.ObjectType" title="vision.enums.ObjectType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectType</span></code></a></p></li>
+<li><p><a class="reference internal" href="#vision.enums.MorphoType" title="vision.enums.MorphoType"><code class="xref py py-class docutils literal notranslate"><span class="pre">MorphoType</span></code></a></p></li>
+<li><p><a class="reference internal" href="#vision.enums.KernelType" title="vision.enums.KernelType"><code class="xref py py-class docutils literal notranslate"><span class="pre">KernelType</span></code></a></p></li>
+</ul>
+<dl class="py class" id="module-vision.enums">
+<dt class="sig sig-object py" id="vision.enums.ColorHSV">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ColorHSV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vision/enums.html#ColorHSV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vision.enums.ColorHSV" title="Link to this definition"></a></dt>
+<dd><p>MIN HSV, MAX HSV, Invert Hue (bool)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.ColorHSV.BLUE">
+<span class="sig-name descname"><span class="pre">BLUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">([90,</span> <span class="pre">50,</span> <span class="pre">85],</span> <span class="pre">[125,</span> <span class="pre">255,</span> <span class="pre">255],</span> <span class="pre">False)</span></em><a class="headerlink" href="#vision.enums.ColorHSV.BLUE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.ColorHSV.RED">
+<span class="sig-name descname"><span class="pre">RED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">([15,</span> <span class="pre">80,</span> <span class="pre">75],</span> <span class="pre">[170,</span> <span class="pre">255,</span> <span class="pre">255],</span> <span class="pre">True)</span></em><a class="headerlink" href="#vision.enums.ColorHSV.RED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.ColorHSV.GREEN">
+<span class="sig-name descname"><span class="pre">GREEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">([40,</span> <span class="pre">60,</span> <span class="pre">75],</span> <span class="pre">[85,</span> <span class="pre">255,</span> <span class="pre">255],</span> <span class="pre">False)</span></em><a class="headerlink" href="#vision.enums.ColorHSV.GREEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.ColorHSV.ANY">
+<span class="sig-name descname"><span class="pre">ANY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">([0,</span> <span class="pre">50,</span> <span class="pre">100],</span> <span class="pre">[179,</span> <span class="pre">255,</span> <span class="pre">255],</span> <span class="pre">False)</span></em><a class="headerlink" href="#vision.enums.ColorHSV.ANY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="vision.enums.ColorHSVPrime">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ColorHSVPrime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vision/enums.html#ColorHSVPrime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vision.enums.ColorHSVPrime" title="Link to this definition"></a></dt>
+<dd><p>MIN HSV, MAX HSV, Invert Hue (bool)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.ColorHSVPrime.BLUE">
+<span class="sig-name descname"><span class="pre">BLUE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">([90,</span> <span class="pre">70,</span> <span class="pre">100],</span> <span class="pre">[115,</span> <span class="pre">255,</span> <span class="pre">255],</span> <span class="pre">False)</span></em><a class="headerlink" href="#vision.enums.ColorHSVPrime.BLUE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.ColorHSVPrime.RED">
+<span class="sig-name descname"><span class="pre">RED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">([15,</span> <span class="pre">70,</span> <span class="pre">100],</span> <span class="pre">[170,</span> <span class="pre">255,</span> <span class="pre">255],</span> <span class="pre">True)</span></em><a class="headerlink" href="#vision.enums.ColorHSVPrime.RED" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.ColorHSVPrime.GREEN">
+<span class="sig-name descname"><span class="pre">GREEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">([40,</span> <span class="pre">70,</span> <span class="pre">100],</span> <span class="pre">[85,</span> <span class="pre">255,</span> <span class="pre">255],</span> <span class="pre">False)</span></em><a class="headerlink" href="#vision.enums.ColorHSVPrime.GREEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.ColorHSVPrime.ANY">
+<span class="sig-name descname"><span class="pre">ANY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">([0,</span> <span class="pre">70,</span> <span class="pre">140],</span> <span class="pre">[179,</span> <span class="pre">255,</span> <span class="pre">255],</span> <span class="pre">False)</span></em><a class="headerlink" href="#vision.enums.ColorHSVPrime.ANY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="vision.enums.ObjectType">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ObjectType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vision/enums.html#ObjectType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vision.enums.ObjectType" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.ObjectType.SQUARE">
+<span class="sig-name descname"><span class="pre">SQUARE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#vision.enums.ObjectType.SQUARE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.ObjectType.TRIANGLE">
+<span class="sig-name descname"><span class="pre">TRIANGLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#vision.enums.ObjectType.TRIANGLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.ObjectType.CIRCLE">
+<span class="sig-name descname"><span class="pre">CIRCLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-1</span></em><a class="headerlink" href="#vision.enums.ObjectType.CIRCLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.ObjectType.ANY">
+<span class="sig-name descname"><span class="pre">ANY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#vision.enums.ObjectType.ANY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="vision.enums.MorphoType">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MorphoType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vision/enums.html#MorphoType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vision.enums.MorphoType" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.MorphoType.ERODE">
+<span class="sig-name descname"><span class="pre">ERODE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#vision.enums.MorphoType.ERODE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.MorphoType.DILATE">
+<span class="sig-name descname"><span class="pre">DILATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#vision.enums.MorphoType.DILATE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.MorphoType.OPEN">
+<span class="sig-name descname"><span class="pre">OPEN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#vision.enums.MorphoType.OPEN" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.MorphoType.CLOSE">
+<span class="sig-name descname"><span class="pre">CLOSE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#vision.enums.MorphoType.CLOSE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="vision.enums.KernelType">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">KernelType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/vision/enums.html#KernelType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vision.enums.KernelType" title="Link to this definition"></a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.KernelType.RECT">
+<span class="sig-name descname"><span class="pre">RECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#vision.enums.KernelType.RECT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.KernelType.ELLIPSE">
+<span class="sig-name descname"><span class="pre">ELLIPSE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#vision.enums.KernelType.ELLIPSE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="vision.enums.KernelType.CROSS">
+<span class="sig-name descname"><span class="pre">CROSS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#vision.enums.KernelType.CROSS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="image_processing_overview.html" class="btn btn-neutral float-left" title="Overview &amp; examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Niryo All rights reserved. No part of this document may be reproduced or transmitted in any form or by any means without prior written consent of Niryo SAS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="injected">
+  <div class="rst-versions " data-toggle="rst-versions" role="note"
+    aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;&nbsp;Other versions&nbsp;&nbsp;</span>
+      v: v1.1.0
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Tags</dt>
+        <dd class="">
+          <a href="../../../v1.2.1-1/index.html">v1.2.1-1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.2/index.html">v1.2.2</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.2/index.html">v1.1.2</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.0.5/index.html">v1.0.5</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.0/index.html">v1.2.0</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.0.4/index.html">v1.0.4</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.3/index.html">v1.2.3</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.0.3/index.html">v1.0.3</a>
+        </dd>
+        <dd class="rtd-current-item">
+          <a href="../../../v1.1.0/index.html">v1.1.0</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.0-1/index.html">v1.2.0-1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.1/index.html">v1.1.1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.1/index.html">v1.2.1</a>
+        </dd>
+      </dl>
+      <dl>
+        <dt>Search</dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="../../
+              ../v1.1.0/index.html/../search.html" method="get">
+              <input type="text" name="q" aria-label="Search docs" placeholder="Search docs">
+            </form>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85632199-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-85632199-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

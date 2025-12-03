@@ -1,0 +1,971 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vision.image_functions &mdash; PyNiryo v1.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../_static/_rst_properties.css?v=754ff73a" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8a93c2b0"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyNiryo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/setup/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/setup/installation.html#installation-with-pip">Installation with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/setup/installation.html#uninstall">Uninstall</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/setup/ip_address.html">Find your Robot’s IP address</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/setup/ip_address.html#hotspot-mode">Hotspot mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/setup/ip_address.html#simulation-or-directly-on-the-robot">Simulation or directly on the robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/setup/ip_address.html#direct-ethernet-connection">Direct ethernet connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/setup/ip_address.html#computer-and-robot-connected-on-the-same-router">Computer and robot connected on the same router</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/setup/ip_address.html#make-ip-permanent">Make IP permanent</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/setup/ip_address.html#step-1">Step 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/setup/ip_address.html#step-2">Step 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/setup/ip_address.html#step-3">Step 3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/setup/verify_setup.html">Verify your Setup and Get Started</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/examples/examples_basics.html">Examples: Basics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_basics.html#your-first-move-joint">Your first move joint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_basics.html#code-details-first-move-j">Code Details - First Move J</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_basics.html#your-first-pick-and-place">Your first pick and place</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_basics.html#code-details-first-pick-and-place">Code Details - First Pick And Place</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_basics.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/examples/examples_movement.html">Examples: Movement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_movement.html#joints">Joints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_movement.html#move-joints">Move Joints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_movement.html#get-joints">Get Joints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_movement.html#pose">Pose</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_movement.html#move-pose">Move Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_movement.html#get-pose">Get Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_movement.html#how-to-use-the-poseobject">How to use the PoseObject</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/examples/examples_tool_action.html">Examples: Tool action</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_tool_action.html#tool-control">Tool control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_tool_action.html#equip-tool">Equip Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_tool_action.html#grasping">Grasping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_tool_action.html#releasing">Releasing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_tool_action.html#pick-place-with-tools">Pick &amp; Place with tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_tool_action.html#code-baseline">Code Baseline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_tool_action.html#first-solution-the-heaviest">First Solution: the heaviest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_tool_action.html#second-solution-use-of-poseobject">Second Solution: Use of PoseObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_tool_action.html#third-solution-pick-from-pose-place-from-pose-functions">Third Solution: Pick from pose &amp; Place from pose functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_tool_action.html#fourth-solution-all-in-one">Fourth Solution: All in one</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/examples/examples_conveyor.html">Examples: Conveyor Belt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_conveyor.html#simple-conveyor-control">Simple Conveyor control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_conveyor.html#advanced-conveyor-belt-control">Advanced Conveyor Belt control</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/examples/examples_vision.html">Examples: Vision</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_vision.html#needed-piece-of-code">Needed piece of code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_vision.html#simple-vision-pick-place">Simple Vision Pick &amp; Place</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_vision.html#code-details-simple-vision-pick-and-place">Code Details - Simple Vision Pick and Place</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_vision.html#first-conditioning-via-vision">First conditioning via Vision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_vision.html#code-details-first-conditioning-via-vision">Code Details - First Conditioning via Vision</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_vision.html#multi-reference-conditioning">Multi Reference Conditioning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_vision.html#code-details-multi-reference-conditioning">Code Details - Multi Reference Conditioning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/examples_vision.html#sorting-pick-with-conveyor">Sorting Pick with Conveyor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/examples/examples_vision.html#code-details-sort-picking">Code Details - Sort Picking</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/examples/code_templates.html">Code templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/code_templates.html#the-short-template">The short template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/code_templates.html#advanced-template">Advanced template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/code_templates.html#advanced-template-for-conveyor-belt">Advanced template for Conveyor Belt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/examples/code_templates.html#advanced-template-for-vision">Advanced template for Vision</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/api_doc/api.html">PyNiryo API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api_doc/api.html#command-functions">Command functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api_doc/api.html#tcp-connection">TCP Connection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api_doc/api.html#main-purpose-functions">Main purpose functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api_doc/api.html#joints-pose">Joints &amp; Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api_doc/api.html#saved-poses">Saved Poses</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api_doc/api.html#pick-place">Pick &amp; Place</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api_doc/api.html#trajectories">Trajectories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api_doc/api.html#tools">Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api_doc/api.html#hardware">Hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api_doc/api.html#conveyor">Conveyor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/api_doc/api.html#vision">Vision</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api_doc/api.html#enums">Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/api_doc/api.html#python-object-classes">Python object classes</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Image Processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/vision/image_processing_overview.html">Overview &amp; examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/vision/image_processing_overview.html#play-with-robot-video-stream">Play with Robot video stream</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_overview.html#get-display-image-from-stream">Get &amp; display image from stream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_overview.html#undistort-and-display-video-stream">Undistort and display video stream</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/vision/image_processing_overview.html#pure-image-processing-functions">Pure image processing functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_overview.html#color-thresholding">Color thresholding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_overview.html#morphological-transformations">Morphological transformations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_overview.html#contours-finder">Contours finder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_overview.html#find-object-center-position">Find object center position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_overview.html#markers-extraction">Markers extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_overview.html#debug-mode">Debug mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/vision/image_processing_overview.html#do-your-own-image-processing">Do your own image processing!</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_overview.html#display-video-stream-with-extracted-workspace">Display video stream with extracted workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_overview.html#vision-pick-via-your-image-processing-pipeline">Vision pick via your image processing pipeline</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../source/vision/image_processing_api.html">Functions documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../source/vision/image_processing_api.html#pure-image-processing">Pure image processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/vision/image_processing_api.html#workspaces-wise">Workspaces wise</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/vision/image_processing_api.html#show">Show</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/vision/image_processing_api.html#image-editing">Image Editing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source/vision/image_processing_api.html#enums-image-processing">Enums Image Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ColorHSV"><code class="docutils literal notranslate"><span class="pre">ColorHSV</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ColorHSV.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorHSV.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ColorHSV.RED"><code class="docutils literal notranslate"><span class="pre">ColorHSV.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ColorHSV.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorHSV.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ColorHSV.ANY"><code class="docutils literal notranslate"><span class="pre">ColorHSV.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ColorHSVPrime"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ColorHSVPrime.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ColorHSVPrime.RED"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ColorHSVPrime.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ColorHSVPrime.ANY"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ObjectType"><code class="docutils literal notranslate"><span class="pre">ObjectType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ObjectType.SQUARE"><code class="docutils literal notranslate"><span class="pre">ObjectType.SQUARE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ObjectType.TRIANGLE"><code class="docutils literal notranslate"><span class="pre">ObjectType.TRIANGLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ObjectType.CIRCLE"><code class="docutils literal notranslate"><span class="pre">ObjectType.CIRCLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.ObjectType.ANY"><code class="docutils literal notranslate"><span class="pre">ObjectType.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.MorphoType"><code class="docutils literal notranslate"><span class="pre">MorphoType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.MorphoType.ERODE"><code class="docutils literal notranslate"><span class="pre">MorphoType.ERODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.MorphoType.DILATE"><code class="docutils literal notranslate"><span class="pre">MorphoType.DILATE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.MorphoType.OPEN"><code class="docutils literal notranslate"><span class="pre">MorphoType.OPEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.MorphoType.CLOSE"><code class="docutils literal notranslate"><span class="pre">MorphoType.CLOSE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.KernelType"><code class="docutils literal notranslate"><span class="pre">KernelType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.KernelType.RECT"><code class="docutils literal notranslate"><span class="pre">KernelType.RECT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.KernelType.ELLIPSE"><code class="docutils literal notranslate"><span class="pre">KernelType.ELLIPSE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../source/vision/image_processing_api.html#vision.enums.KernelType.CROSS"><code class="docutils literal notranslate"><span class="pre">KernelType.CROSS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyNiryo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">vision.image_functions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for vision.image_functions</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.enums</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.markers_detection</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_img_markers</span><span class="p">,</span> <span class="n">draw_markers</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;threshold_hsv&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;morphological_transformations&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_contour_barycenter&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;get_contour_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;biggest_contour_finder&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;biggest_contours_finder&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;draw_contours&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;draw_barycenter&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;draw_angle&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;extract_img_workspace&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;relative_pos_from_pixels&quot;</span><span class="p">,</span>
+
+    <span class="s2">&quot;show_img_and_check_close&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;show_img&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;show_img_and_wait_close&quot;</span><span class="p">,</span>
+
+    <span class="s2">&quot;compress_image&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;uncompress_image&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;add_annotation_to_image&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;undistort_image&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;resize_img&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;concat_imgs&quot;</span><span class="p">,</span>
+
+    <span class="s2">&quot;extract_img_from_ros_msg&quot;</span><span class="p">,</span>
+
+    <span class="s2">&quot;debug_threshold_color&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;debug_markers&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="c1"># Image Processing</span>
+<div class="viewcode-block" id="threshold_hsv">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.threshold_hsv">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">threshold_hsv</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">list_min_hsv</span><span class="p">,</span> <span class="n">list_max_hsv</span><span class="p">,</span> <span class="n">reverse_hue</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_s_prime</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Take BGR image (OpenCV imread result) and return thresholded image</span>
+<span class="sd">    according to values on HSV (Hue, Saturation, Value)</span>
+<span class="sd">    Pixel will worth 1 if a pixel has a value between min_v and max_v for all channels</span>
+
+<span class="sd">    :param img: image BGR if rgb_space = False</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param list_min_hsv: list corresponding to [min_value_H,min_value_S,min_value_V]</span>
+<span class="sd">    :type list_min_hsv: list[int]</span>
+<span class="sd">    :param list_max_hsv: list corresponding to [max_value_H,max_value_S,max_value_V]</span>
+<span class="sd">    :type list_max_hsv: list[int]</span>
+<span class="sd">    :param use_s_prime: True if you want to use S channel as S&#39; = S x V else classic</span>
+<span class="sd">    :type use_s_prime: bool</span>
+<span class="sd">    :param reverse_hue: Useful for Red color cause it is at both extremum</span>
+<span class="sd">    :type reverse_hue: bool</span>
+<span class="sd">    :return: threshold image</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">frame_hsv</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2HSV</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">use_s_prime</span><span class="p">:</span>
+        <span class="n">frame_hsv</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="mi">255</span><span class="p">)</span> <span class="o">*</span> <span class="n">frame_hsv</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">frame_hsv</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">reverse_hue</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">inRange</span><span class="p">(</span><span class="n">frame_hsv</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">list_min_hsv</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">list_max_hsv</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">list_min_v_c</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">list_min_hsv</span><span class="p">)</span>
+        <span class="n">list_max_v_c</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">list_max_hsv</span><span class="p">)</span>
+        <span class="n">lower_bound_red</span><span class="p">,</span> <span class="n">higher_bound_red</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">list_min_v_c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">list_max_v_c</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">list_min_v_c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">list_max_v_c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lower_bound_red</span>
+        <span class="n">low_red_im</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">inRange</span><span class="p">(</span><span class="n">frame_hsv</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">list_min_v_c</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">list_max_v_c</span><span class="p">))</span>
+        <span class="n">list_min_v_c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">list_max_v_c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">higher_bound_red</span><span class="p">,</span> <span class="mi">179</span>
+        <span class="n">high_red_im</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">inRange</span><span class="p">(</span><span class="n">frame_hsv</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">list_min_v_c</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">list_max_v_c</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">addWeighted</span><span class="p">(</span><span class="n">low_red_im</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">high_red_im</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="morphological_transformations">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.morphological_transformations">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">morphological_transformations</span><span class="p">(</span><span class="n">im_thresh</span><span class="p">,</span> <span class="n">morpho_type</span><span class="o">=</span><span class="n">MorphoType</span><span class="o">.</span><span class="n">CLOSE</span><span class="p">,</span> <span class="n">kernel_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+                                  <span class="n">kernel_type</span><span class="o">=</span><span class="n">KernelType</span><span class="o">.</span><span class="n">ELLIPSE</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Take black &amp; white image and apply morphological transformation</span>
+
+<span class="sd">    :param im_thresh: Black &amp; White Image</span>
+<span class="sd">    :type im_thresh: numpy.array</span>
+<span class="sd">    :param morpho_type: CLOSE/OPEN/ERODE/DILATE =&gt; See on OpenCV/Google if you do not know these words</span>
+<span class="sd">    :type morpho_type: MorphoType</span>
+<span class="sd">    :param kernel_shape: tuple corresponding to the size of the kernel</span>
+<span class="sd">    :type kernel_shape: tuple[float]</span>
+<span class="sd">    :param kernel_type: RECT/ELLIPSE/CROSS =&gt; see on OpenCV</span>
+<span class="sd">    :type kernel_type: KernelType</span>
+<span class="sd">    :return: image after processing</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">morpho_type</span><span class="p">,</span> <span class="n">MorphoType</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kernel_type</span><span class="p">,</span> <span class="n">KernelType</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span>
+
+    <span class="n">kernel</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">getStructuringElement</span><span class="p">(</span><span class="n">kernel_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">kernel_shape</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">morphologyEx</span><span class="p">(</span><span class="n">im_thresh</span><span class="p">,</span> <span class="n">morpho_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># Contours</span>
+<div class="viewcode-block" id="get_contour_barycenter">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.get_contour_barycenter">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_contour_barycenter</span><span class="p">(</span><span class="n">contour</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return barycenter of an OpenCV Contour</span>
+
+<span class="sd">    :param contour:</span>
+<span class="sd">    :type contour: OpenCV Contour</span>
+<span class="sd">    :return: Barycenter X, Barycenter Y</span>
+<span class="sd">    :rtype: int, int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">moments</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">moments</span><span class="p">(</span><span class="n">contour</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">moments</span><span class="p">[</span><span class="s1">&#39;m00&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">(</span><span class="n">contour</span><span class="p">)</span>
+        <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">rect</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">moments</span><span class="p">[</span><span class="s1">&#39;m10&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">moments</span><span class="p">[</span><span class="s1">&#39;m00&#39;</span><span class="p">])</span>
+        <span class="n">cy</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">moments</span><span class="p">[</span><span class="s1">&#39;m01&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">moments</span><span class="p">[</span><span class="s1">&#39;m00&#39;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span></div>
+
+
+
+<div class="viewcode-block" id="get_contour_angle">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.get_contour_angle">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_contour_angle</span><span class="p">(</span><span class="n">contour</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return orientation of a contour according to the smallest side</span>
+<span class="sd">    in order to be well oriented for gripper</span>
+
+<span class="sd">    :param contour: contour</span>
+<span class="sd">    :type contour: OpenCV Contour</span>
+<span class="sd">    :return: Angle in radians</span>
+<span class="sd">    :rtype: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rotrect</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">minAreaRect</span><span class="p">(</span><span class="n">contour</span><span class="p">)</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">rotrect</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">size1</span><span class="p">,</span> <span class="n">size2</span> <span class="o">=</span> <span class="n">rotrect</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">rotrect</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ratio_size</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">size1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">size2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="mf">1.25</span> <span class="o">&gt;</span> <span class="n">ratio_size</span> <span class="o">&gt;</span> <span class="mf">0.75</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">45</span><span class="p">:</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">+</span> <span class="n">angle</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">size1</span> <span class="o">&lt;</span> <span class="n">size2</span><span class="p">:</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span> <span class="o">+</span> <span class="mi">180</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span> <span class="o">+</span> <span class="mi">90</span>
+
+        <span class="k">if</span> <span class="n">angle</span> <span class="o">&gt;</span> <span class="mi">90</span><span class="p">:</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span> <span class="o">-</span> <span class="mi">180</span>
+
+    <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">biggest_contour_finder</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">biggest_contours_finder</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">nb_contours_max</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">res</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">res</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="biggest_contours_finder">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.biggest_contours_finder">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">biggest_contours_finder</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">nb_contours_max</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to find the biggest contour in an binary image</span>
+
+<span class="sd">    :param img: Binary Image</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param nb_contours_max: maximal number of contours which will be returned</span>
+<span class="sd">    :type nb_contours_max: int</span>
+<span class="sd">    :return: biggest contours found</span>
+<span class="sd">    :rtype: list[OpenCV Contour]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">contours</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RETR_LIST</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_NONE</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">contours</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="n">contours_area</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">cnt</span> <span class="ow">in</span> <span class="n">contours</span><span class="p">:</span>
+        <span class="n">contours_area</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">contourArea</span><span class="p">(</span><span class="n">cnt</span><span class="p">))</span>
+    <span class="n">biggest_contours</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">le</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">contours_area</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">nb_contours_max</span> <span class="o">&gt;</span> <span class="n">le</span><span class="p">:</span>
+        <span class="n">nb_contours</span> <span class="o">=</span> <span class="n">le</span>
+        <span class="n">id_contours_sorted_init</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nb_contours</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">nb_contours</span> <span class="o">=</span> <span class="n">nb_contours_max</span>
+        <span class="n">id_contours_sorted_init</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argpartition</span><span class="p">(</span><span class="n">contours_area</span><span class="p">,</span> <span class="o">-</span><span class="n">nb_contours</span><span class="p">)[</span><span class="o">-</span><span class="n">nb_contours</span><span class="p">:]</span>
+    <span class="n">id_contours_sorted</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">id_contours_sorted_init</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">idi</span><span class="p">:</span> <span class="o">-</span><span class="n">contours_area</span><span class="p">[</span><span class="n">idi</span><span class="p">])]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nb_contours</span><span class="p">):</span>
+        <span class="n">id_used</span> <span class="o">=</span> <span class="n">id_contours_sorted</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">contours_area</span><span class="p">[</span><span class="n">id_used</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">400</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="n">biggest_contours</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">contours</span><span class="p">[</span><span class="n">id_used</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">biggest_contours</span></div>
+
+
+
+<div class="viewcode-block" id="draw_contours">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.draw_contours">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">draw_contours</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">contours</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Draw a list of contour on an image and return the drawing image</span>
+
+<span class="sd">    :param img: Image</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param contours: contours list</span>
+<span class="sd">    :type contours: list[OpenCV Contour]</span>
+<span class="sd">    :return: Image with drawing</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">img_bgr</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_GRAY2BGR</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">img_bgr</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">drawContours</span><span class="p">(</span><span class="n">img_bgr</span><span class="p">,</span> <span class="n">contours</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img_bgr</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">draw_barycenter</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="n">marker_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Draw a barycenter marker on an image and return the drawing image</span>
+
+<span class="sd">    :param img: Image</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param cx: Barycenter X</span>
+<span class="sd">    :type cx: int</span>
+<span class="sd">    :param cy: Barycenter Y</span>
+<span class="sd">    :type cy: int</span>
+<span class="sd">    :param color: (R, G, B) colors of the marker</span>
+<span class="sd">    :type color: list[uint8, utin8, uint8]</span>
+<span class="sd">    :param marker_size: size of the marker</span>
+<span class="sd">    :type marker_size: int</span>
+<span class="sd">    :param thickness: thickness of the marker</span>
+<span class="sd">    :type thickness: int</span>
+<span class="sd">    :return: Image with drawing</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">img_bgr</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_GRAY2BGR</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">img_bgr</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">cv2</span><span class="o">.</span><span class="n">drawMarker</span><span class="p">(</span><span class="n">img_bgr</span><span class="p">,</span> <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">),</span> <span class="n">markerType</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">MARKER_DIAMOND</span><span class="p">,</span>
+                   <span class="n">markerSize</span><span class="o">=</span><span class="n">marker_size</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=</span><span class="n">thickness</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img_bgr</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">draw_angle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="n">arrow_length</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Draw an arrow that represents the orientation of an object on an image and return the drawing image</span>
+
+<span class="sd">    :param img: Image</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param cx: Barycenter X</span>
+<span class="sd">    :type cx: int</span>
+<span class="sd">    :param cy: Barycenter Y</span>
+<span class="sd">    :type cy: int</span>
+<span class="sd">    :param angle: angle to display</span>
+<span class="sd">    :type angle:</span>
+<span class="sd">    :param color: (R, G, B) colors of the marker</span>
+<span class="sd">    :type color: list[uint8, utin8, uint8]</span>
+<span class="sd">    :param arrow_length: length of the arrow marker</span>
+<span class="sd">    :type arrow_length: int</span>
+<span class="sd">    :param thickness: thickness of the arrow marker</span>
+<span class="sd">    :type thickness: int</span>
+<span class="sd">    :return: Image with drawing</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">img_bgr</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_GRAY2BGR</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">img_bgr</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">cx</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">arrow_length</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)),</span> <span class="n">cy</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">arrow_length</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">arrowedLine</span><span class="p">(</span><span class="n">img_bgr</span><span class="p">,</span> <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="n">color</span><span class="p">,</span> <span class="n">thickness</span><span class="o">=</span><span class="n">thickness</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img_bgr</span>
+
+
+<div class="viewcode-block" id="extract_img_workspace">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.extract_img_workspace">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_img_workspace</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">workspace_ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract working area from an image thanks to 4 Niryo&#39;s markers</span>
+
+<span class="sd">    :param img: OpenCV image which contain 4 Niryo&#39;s markers</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param workspace_ratio: Ratio between the width and the height of the area represented by the markers</span>
+<span class="sd">    :type workspace_ratio: float</span>
+<span class="sd">    :return: extracted and warped working area image</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">extract_img_markers</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">workspace_ratio</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="relative_pos_from_pixels">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.relative_pos_from_pixels">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">relative_pos_from_pixels</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">x_pixels</span><span class="p">,</span> <span class="n">y_pixels</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform a pixels position to a relative position</span>
+
+<span class="sd">    :param img: Image where the object is detected</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param x_pixels: coordinate X</span>
+<span class="sd">    :type x_pixels: int</span>
+<span class="sd">    :param y_pixels: coordinate Y</span>
+<span class="sd">    :type y_pixels: int</span>
+<span class="sd">    :return: X relative, Y relative</span>
+<span class="sd">    :rtype: float, float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">x_pixels</span><span class="p">)</span> <span class="o">/</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="n">y_pixels</span><span class="p">)</span> <span class="o">/</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+
+<span class="c1"># - SHOW FUNCTIONS</span>
+<span class="n">keys_leave</span> <span class="o">=</span> <span class="p">[</span><span class="mi">27</span><span class="p">,</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;q&#39;</span><span class="p">)]</span>
+
+
+<div class="viewcode-block" id="show_img_and_check_close">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.show_img_and_check_close">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">show_img_and_check_close</span><span class="p">(</span><span class="n">window_name</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display an image and check whether the user want to close</span>
+
+<span class="sd">    :param window_name: window&#39;s name</span>
+<span class="sd">    :type window_name: str</span>
+<span class="sd">    :param img: Image</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :return: boolean indicating if the user wanted to leave</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">window_name</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">keys_leave</span></div>
+
+
+
+<div class="viewcode-block" id="show_img">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.show_img">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">show_img</span><span class="p">(</span><span class="n">window_name</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">wait_ms</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display an image during a certain time</span>
+
+<span class="sd">    :param window_name: window&#39;s name</span>
+<span class="sd">    :type window_name: str</span>
+<span class="sd">    :param img: Image</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param wait_ms: Wait time in milliseconds</span>
+<span class="sd">    :type wait_ms: int</span>
+<span class="sd">    :return: value of the key pressed during the display</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">wait_ms</span><span class="p">)</span> <span class="o">==</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">wait_ms</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">wait_ms</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">wait_ms</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">wait_ms</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">window_name</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="n">wait_ms</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="show_img_and_wait_close">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.show_img_and_wait_close">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">show_img_and_wait_close</span><span class="p">(</span><span class="n">window_name</span><span class="p">,</span> <span class="n">img</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display an image and wait that the user close it</span>
+
+<span class="sd">    :param window_name: window&#39;s name</span>
+<span class="sd">    :type window_name: str</span>
+<span class="sd">    :param img: Image</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :return: None</span>
+<span class="sd">    :rtype: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">window_name</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># -- IMAGE EDITING</span>
+<div class="viewcode-block" id="compress_image">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.compress_image">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compress_image</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">90</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compress OpenCV image</span>
+
+<span class="sd">    :param img: OpenCV Image</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param quality: integer between 1 - 100. The higher it is, the less information will be lost,</span>
+<span class="sd">     but the heavier the compressed image will be</span>
+<span class="sd">    :type quality: int</span>
+<span class="sd">    :return: status &amp; string representing compressed image</span>
+<span class="sd">    :rtype: bool, str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span><span class="p">,</span> <span class="n">encimg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imencode</span><span class="p">(</span><span class="s1">&#39;.jpg&#39;</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">IMWRITE_JPEG_QUALITY</span><span class="p">),</span> <span class="n">quality</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">encimg</span><span class="p">)</span><span class="o">.</span><span class="n">tostring</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="uncompress_image">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.uncompress_image">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">uncompress_image</span><span class="p">(</span><span class="n">compressed_image</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Take a compressed img and return an OpenCV image</span>
+
+<span class="sd">    :param compressed_image: compressed image</span>
+<span class="sd">    :type compressed_image: str</span>
+<span class="sd">    :return: OpenCV image</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">np_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">compressed_image</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imdecode</span><span class="p">(</span><span class="n">np_arr</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_COLOR</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="add_annotation_to_image">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.add_annotation_to_image">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_annotation_to_image</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">write_on_top</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add Annotation to an image</span>
+
+<span class="sd">    :param img: Image</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param text: text string</span>
+<span class="sd">    :type text: str</span>
+<span class="sd">    :param write_on_top: if you write the text on top</span>
+<span class="sd">    :type write_on_top: bool</span>
+<span class="sd">    :return: img with text written on it</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">font_scale_used</span> <span class="o">=</span> <span class="n">font_scale_normal</span>
+    <span class="n">thickness_used</span> <span class="o">=</span> <span class="n">thickness_small</span>
+    <span class="n">h_im</span><span class="p">,</span> <span class="n">w_im</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="p">(</span><span class="n">text_width</span><span class="p">,</span> <span class="n">text_height</span><span class="p">),</span> <span class="n">baseline</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">getTextSize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">font</span><span class="p">,</span> <span class="n">fontScale</span><span class="o">=</span><span class="n">font_scale_used</span><span class="p">,</span>
+                                                          <span class="n">thickness</span><span class="o">=</span><span class="n">thickness_used</span><span class="p">)</span>
+    <span class="n">text_true_height</span> <span class="o">=</span> <span class="n">text_height</span> <span class="o">+</span> <span class="n">baseline</span>
+    <span class="k">if</span> <span class="n">write_on_top</span><span class="p">:</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                      <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">text_width</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">text_true_height</span> <span class="o">*</span> <span class="mf">1.35</span><span class="p">)),</span>
+                      <span class="n">WHITE</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">FILLED</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span>
+                    <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">text_width</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">text_true_height</span> <span class="o">*</span> <span class="mf">1.2</span> <span class="o">-</span> <span class="n">baseline</span><span class="p">)),</span>
+                    <span class="n">font</span><span class="p">,</span> <span class="n">font_scale_used</span><span class="p">,</span> <span class="n">ORANGE</span><span class="p">,</span> <span class="n">thickness_used</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">img</span><span class="p">,</span>
+                      <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">text_width</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">),</span> <span class="n">h_im</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">text_true_height</span> <span class="o">*</span> <span class="mf">1.35</span><span class="p">)),</span>
+                      <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">h_im</span><span class="p">),</span>
+                      <span class="n">WHITE</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">FILLED</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span>
+                    <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">text_width</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">),</span> <span class="n">h_im</span> <span class="o">-</span> <span class="n">baseline</span><span class="p">),</span>
+                    <span class="n">font</span><span class="p">,</span> <span class="n">font_scale_used</span><span class="p">,</span> <span class="n">ORANGE</span><span class="p">,</span> <span class="n">thickness_used</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">img</span></div>
+
+
+
+<div class="viewcode-block" id="undistort_image">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.undistort_image">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">undistort_image</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">mtx</span><span class="p">,</span> <span class="n">dist</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Use camera intrinsics to undistort raw image</span>
+
+<span class="sd">    :param img: Raw Image</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param mtx: Camera Intrinsics matrix</span>
+<span class="sd">    :type mtx: list[list[float]]</span>
+<span class="sd">    :param dist: Distortion Coefficient</span>
+<span class="sd">    :type dist: list[list[float]]</span>
+<span class="sd">    :return: Undistorted image</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">undistort</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">img</span><span class="p">,</span> <span class="n">cameraMatrix</span><span class="o">=</span><span class="n">mtx</span><span class="p">,</span> <span class="n">distCoeffs</span><span class="o">=</span><span class="n">dist</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="resize_img">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.resize_img">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resize_img</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">inter</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_AREA</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Resize an image. The user should precise only width or height if he wants to keep image&#39;s ratio</span>
+
+<span class="sd">    :param img: OpenCV Image</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param width: Target Width</span>
+<span class="sd">    :type width: int</span>
+<span class="sd">    :param height: Target Height</span>
+<span class="sd">    :type height: int</span>
+<span class="sd">    :param inter: OpenCV interpolation flag</span>
+<span class="sd">    :type inter: long</span>
+<span class="sd">    :return: resized image</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">width</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">height</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">img</span>
+
+    <span class="n">height_init</span><span class="p">,</span> <span class="n">width_init</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">width</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="n">height</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">height_init</span><span class="p">)</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">width_init</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">),</span> <span class="n">height</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">height</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="n">width</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">width_init</span><span class="p">)</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">height_init</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dim</span> <span class="o">=</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+
+    <span class="n">resized</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="n">inter</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">resized</span></div>
+
+
+
+<div class="viewcode-block" id="concat_imgs">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.concat_imgs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">concat_imgs</span><span class="p">(</span><span class="n">tuple_imgs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Concat multiple images along 1 axis</span>
+
+<span class="sd">    :param tuple_imgs: tuple of images</span>
+<span class="sd">    :type tuple_imgs: tuple[numpy.array]</span>
+<span class="sd">    :param axis: 0 means vertically and 1 means horizontally</span>
+<span class="sd">    :type axis: int</span>
+<span class="sd">    :return: Concat image</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">new_list_imgs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">tuple_imgs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_GRAY2BGR</span><span class="p">)</span>
+        <span class="n">new_list_imgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="n">concat_im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">new_list_imgs</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">concat_im</span></div>
+
+
+
+<span class="c1"># ROS</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_img_from_ros_msg</span><span class="p">(</span><span class="n">ros_msg</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Take a ROS CompressedImage message and return the image uncompressed</span>
+
+<span class="sd">    :param ros_msg: a ROS CompressedImage</span>
+<span class="sd">    :type ros_msg: :sensor_msgs:`CompressedImage`</span>
+<span class="sd">    :return: image uncompressed</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data_image</span> <span class="o">=</span> <span class="n">ros_msg</span><span class="o">.</span><span class="n">data</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">data_image</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">uncompress_image</span><span class="p">(</span><span class="n">data_image</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">image</span>
+
+
+<span class="c1"># DEBUG</span>
+
+<div class="viewcode-block" id="debug_threshold_color">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.debug_threshold_color">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">debug_threshold_color</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">color_hsv</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return masked image to see the effect of color threshold</span>
+
+<span class="sd">    :param img: OpenCV image</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param color_hsv: Color used for debug</span>
+<span class="sd">    :type color_hsv: ColorHSV</span>
+<span class="sd">    :return: Masked image</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">param_thresh</span> <span class="o">=</span> <span class="n">color_hsv</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">thresh_img</span> <span class="o">=</span> <span class="n">threshold_hsv</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="o">*</span><span class="n">param_thresh</span><span class="p">)</span>
+    <span class="n">im_morph</span> <span class="o">=</span> <span class="n">morphological_transformations</span><span class="p">(</span><span class="n">thresh_img</span><span class="p">,</span> <span class="n">MorphoType</span><span class="o">.</span><span class="n">OPEN</span><span class="p">,</span> <span class="n">kernel_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">im_morph</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="debug_markers">
+<a class="viewcode-back" href="../../source/vision/image_processing_api.html#vision.image_functions.debug_markers">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">debug_markers</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">workspace_ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display detected markers on an image</span>
+
+<span class="sd">    :param img: OpenCV image which contain Niryo&#39;s markers</span>
+<span class="sd">    :type img: numpy.array</span>
+<span class="sd">    :param workspace_ratio: Ratio between the width and the height of the area represented by the markers</span>
+<span class="sd">    :type workspace_ratio: float</span>
+<span class="sd">    :return: (status, annotated image)</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">draw_markers</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">workspace_ratio</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Niryo All rights reserved. No part of this document may be reproduced or transmitted in any form or by any means without prior written consent of Niryo SAS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="injected">
+  <div class="rst-versions " data-toggle="rst-versions" role="note"
+    aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;&nbsp;Other versions&nbsp;&nbsp;</span>
+      v: v1.0.4
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Tags</dt>
+        <dd class="">
+          <a href="../../../v1.2.1-1/index.html">v1.2.1-1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.2/index.html">v1.2.2</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.2/index.html">v1.1.2</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.0.5/index.html">v1.0.5</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.0/index.html">v1.2.0</a>
+        </dd>
+        <dd class="rtd-current-item">
+          <a href="../../../v1.0.4/index.html">v1.0.4</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.3/index.html">v1.2.3</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.0.3/index.html">v1.0.3</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.0/index.html">v1.1.0</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.0-1/index.html">v1.2.0-1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.1/index.html">v1.1.1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.1/index.html">v1.2.1</a>
+        </dd>
+      </dl>
+      <dl>
+        <dt>Search</dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="../../
+              ../v1.0.4/index.html/../search.html" method="get">
+              <input type="text" name="q" aria-label="Search docs" placeholder="Search docs">
+            </form>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85632199-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-85632199-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

@@ -1,0 +1,604 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find your Robot’s IP address &mdash; PyNiryo v1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../_static/_rst_properties.css?v=754ff73a" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=411a527d"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Verify your Setup and Get Started" href="verify_setup.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyNiryo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installation-with-pip">Installation with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#uninstall">Uninstall</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Find your Robot’s IP address</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#hotspot-mode">Hotspot mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simulation-or-directly-on-the-robot">Simulation or directly on the robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#direct-ethernet-connection">Direct Ethernet connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#computer-and-robot-connected-on-the-same-router">Computer and Robot Connected on the same router</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#make-ip-permanent">Make IP permanent</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1">Step 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2">Step 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-3">Step 3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="verify_setup.html">Verify your Setup and Get Started</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_basics.html">Examples: Basics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_basics.html#your-first-move-joint">Your first move joint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_basics.html#code-details-first-move-j">Code Details - First Move J</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_basics.html#your-first-pick-and-place">Your first pick and place</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_basics.html#code-details-first-pick-and-place">Code Details - First Pick And Place</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_basics.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_movement.html">Examples: Movement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_movement.html#joints">Joints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#move-joints">Move Joints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#get-joints">Get Joints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_movement.html#pose">Pose</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#move-pose">Move Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#get-pose">Get Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#how-to-use-the-poseobject">How to use the PoseObject</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_tool_action.html">Examples: Tool Action</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_tool_action.html#tool-control">Tool control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#equip-tool">Equip Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#grasping">Grasping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#releasing">Releasing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_tool_action.html#pick-place-with-tools">Pick &amp; Place with tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#code-baseline">Code Baseline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#first-solution-the-heaviest">First Solution : the heaviest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#second-solution-use-of-poseobject">Second Solution : Use of PoseObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#third-solution-pick-from-pose-place-from-pose-functions">Third Solution : Pick from pose &amp; Place from pose functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#fourth-solution-all-in-one">Fourth Solution : All in one</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_conveyor.html">Examples: Conveyor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_conveyor.html#simple-conveyor-control">Simple Conveyor control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_conveyor.html#advanced-conveyor-control">Advanced Conveyor control</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_vision.html">Examples: Vision</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#needed-piece-of-code">Needed piece of code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#simple-vision-pick-place">Simple Vision Pick &amp; Place</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_vision.html#code-details-simple-vision-pick-and-place">Code Details - Simple Vision Pick and Place</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#first-conditioning-via-vision">First conditioning via Vision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_vision.html#code-details-first-conditioning-via-vision">Code Details - First Conditioning via Vision</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#multi-reference-conditioning">Multi Reference Conditioning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_vision.html#code-details-multi-reference-conditioning">Code Details - Multi Reference Conditioning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#sorting-pick-with-conveyor">Sorting Pick with Conveyor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_vision.html#code-details-sort-picking">Code Details - Sort Picking</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/code_templates.html">Code templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/code_templates.html#the-short-template">The short template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/code_templates.html#advanced-template">Advanced template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/code_templates.html#advanced-template-for-conveyor">Advanced template for conveyor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/code_templates.html#advanced-template-for-vision">Advanced template for vision</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_doc/api.html">PyNiryo API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#module-api.tcp_client">Command Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#tcp-connection">TCP Connection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#main-purpose-functions">Main purpose functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id0"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#joints-pose">Joints &amp; Pose</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id1"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#saved-poses">Saved Poses</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id2"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#pick-place">Pick &amp; Place</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id3"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#trajectories">Trajectories</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id4"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#tools">Tools</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id5"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#hardware">Hardware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id6"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#conveyor">Conveyor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id7"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#vision">Vision</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id8"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#enums">Enums</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.CalibrateMode"><code class="docutils literal notranslate"><span class="pre">CalibrateMode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.CalibrateMode.AUTO"><code class="docutils literal notranslate"><span class="pre">CalibrateMode.AUTO</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.CalibrateMode.MANUAL"><code class="docutils literal notranslate"><span class="pre">CalibrateMode.MANUAL</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis"><code class="docutils literal notranslate"><span class="pre">RobotAxis</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis.X"><code class="docutils literal notranslate"><span class="pre">RobotAxis.X</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis.Y"><code class="docutils literal notranslate"><span class="pre">RobotAxis.Y</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis.Z"><code class="docutils literal notranslate"><span class="pre">RobotAxis.Z</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis.ROLL"><code class="docutils literal notranslate"><span class="pre">RobotAxis.ROLL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis.PITCH"><code class="docutils literal notranslate"><span class="pre">RobotAxis.PITCH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis.YAW"><code class="docutils literal notranslate"><span class="pre">RobotAxis.YAW</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID"><code class="docutils literal notranslate"><span class="pre">ToolID</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID.NONE"><code class="docutils literal notranslate"><span class="pre">ToolID.NONE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID.GRIPPER_1"><code class="docutils literal notranslate"><span class="pre">ToolID.GRIPPER_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID.GRIPPER_2"><code class="docutils literal notranslate"><span class="pre">ToolID.GRIPPER_2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID.GRIPPER_3"><code class="docutils literal notranslate"><span class="pre">ToolID.GRIPPER_3</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID.ELECTROMAGNET_1"><code class="docutils literal notranslate"><span class="pre">ToolID.ELECTROMAGNET_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID.VACUUM_PUMP_1"><code class="docutils literal notranslate"><span class="pre">ToolID.VACUUM_PUMP_1</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinMode"><code class="docutils literal notranslate"><span class="pre">PinMode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinMode.OUTPUT"><code class="docutils literal notranslate"><span class="pre">PinMode.OUTPUT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinMode.INPUT"><code class="docutils literal notranslate"><span class="pre">PinMode.INPUT</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinState"><code class="docutils literal notranslate"><span class="pre">PinState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinState.LOW"><code class="docutils literal notranslate"><span class="pre">PinState.LOW</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinState.HIGH"><code class="docutils literal notranslate"><span class="pre">PinState.HIGH</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID"><code class="docutils literal notranslate"><span class="pre">PinID</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.GPIO_1A"><code class="docutils literal notranslate"><span class="pre">PinID.GPIO_1A</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.GPIO_1B"><code class="docutils literal notranslate"><span class="pre">PinID.GPIO_1B</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.GPIO_1C"><code class="docutils literal notranslate"><span class="pre">PinID.GPIO_1C</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.GPIO_2A"><code class="docutils literal notranslate"><span class="pre">PinID.GPIO_2A</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.GPIO_2B"><code class="docutils literal notranslate"><span class="pre">PinID.GPIO_2B</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.GPIO_2C"><code class="docutils literal notranslate"><span class="pre">PinID.GPIO_2C</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.SW_1"><code class="docutils literal notranslate"><span class="pre">PinID.SW_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.SW_2"><code class="docutils literal notranslate"><span class="pre">PinID.SW_2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DO1"><code class="docutils literal notranslate"><span class="pre">PinID.DO1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DO2"><code class="docutils literal notranslate"><span class="pre">PinID.DO2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DO3"><code class="docutils literal notranslate"><span class="pre">PinID.DO3</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DO4"><code class="docutils literal notranslate"><span class="pre">PinID.DO4</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DI1"><code class="docutils literal notranslate"><span class="pre">PinID.DI1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DI2"><code class="docutils literal notranslate"><span class="pre">PinID.DI2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DI3"><code class="docutils literal notranslate"><span class="pre">PinID.DI3</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DI4"><code class="docutils literal notranslate"><span class="pre">PinID.DI4</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DI5"><code class="docutils literal notranslate"><span class="pre">PinID.DI5</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.AI1"><code class="docutils literal notranslate"><span class="pre">PinID.AI1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.AI2"><code class="docutils literal notranslate"><span class="pre">PinID.AI2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.AO1"><code class="docutils literal notranslate"><span class="pre">PinID.AO1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.AO2"><code class="docutils literal notranslate"><span class="pre">PinID.AO2</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorID"><code class="docutils literal notranslate"><span class="pre">ConveyorID</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorID.NONE"><code class="docutils literal notranslate"><span class="pre">ConveyorID.NONE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorID.ID_1"><code class="docutils literal notranslate"><span class="pre">ConveyorID.ID_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorID.ID_2"><code class="docutils literal notranslate"><span class="pre">ConveyorID.ID_2</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorDirection"><code class="docutils literal notranslate"><span class="pre">ConveyorDirection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorDirection.FORWARD"><code class="docutils literal notranslate"><span class="pre">ConveyorDirection.FORWARD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorDirection.BACKWARD"><code class="docutils literal notranslate"><span class="pre">ConveyorDirection.BACKWARD</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectColor"><code class="docutils literal notranslate"><span class="pre">ObjectColor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectColor.RED"><code class="docutils literal notranslate"><span class="pre">ObjectColor.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectColor.BLUE"><code class="docutils literal notranslate"><span class="pre">ObjectColor.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectColor.GREEN"><code class="docutils literal notranslate"><span class="pre">ObjectColor.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectColor.ANY"><code class="docutils literal notranslate"><span class="pre">ObjectColor.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectShape"><code class="docutils literal notranslate"><span class="pre">ObjectShape</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectShape.SQUARE"><code class="docutils literal notranslate"><span class="pre">ObjectShape.SQUARE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectShape.CIRCLE"><code class="docutils literal notranslate"><span class="pre">ObjectShape.CIRCLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectShape.ANY"><code class="docutils literal notranslate"><span class="pre">ObjectShape.ANY</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#python-object-classes">Python Object classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject"><code class="docutils literal notranslate"><span class="pre">PoseObject</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject.copy_with_offsets"><code class="docutils literal notranslate"><span class="pre">PoseObject.copy_with_offsets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject.to_list"><code class="docutils literal notranslate"><span class="pre">PoseObject.to_list()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.HardwareStatusObject"><code class="docutils literal notranslate"><span class="pre">HardwareStatusObject</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.DigitalPinObject"><code class="docutils literal notranslate"><span class="pre">DigitalPinObject</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.AnalogPinObject"><code class="docutils literal notranslate"><span class="pre">AnalogPinObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Image Processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../vision/image_processing_overview.html">Overview &amp; Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_overview.html#play-with-robot-video-stream">Play with Robot Video Stream</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#get-display-image-from-stream">Get &amp; Display Image from Stream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#undistort-and-display-video-stream">Undistort and display video stream</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_overview.html#pure-image-processing-functions">Pure image processing functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#color-thresholding">Color Thresholding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#morphological-transformations">Morphological Transformations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#contours-finder">Contours finder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#find-object-center-position">Find object center position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#markers-extraction">Markers Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#debug-mode">Debug mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_overview.html#do-your-own-image-processing">Do your own image processing !</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#display-video-stream-with-extracted-workspace">Display video stream with extracted workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#vision-pick-via-your-image-processing-pipeline">Vision pick via your image processing pipeline</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vision/image_processing_api.html">Functions Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#module-vision.image_functions">Pure Image Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.biggest_contours_finder"><code class="docutils literal notranslate"><span class="pre">biggest_contours_finder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.debug_threshold_color"><code class="docutils literal notranslate"><span class="pre">debug_threshold_color()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.draw_contours"><code class="docutils literal notranslate"><span class="pre">draw_contours()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.get_contour_angle"><code class="docutils literal notranslate"><span class="pre">get_contour_angle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.get_contour_barycenter"><code class="docutils literal notranslate"><span class="pre">get_contour_barycenter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.morphological_transformations"><code class="docutils literal notranslate"><span class="pre">morphological_transformations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.threshold_hsv"><code class="docutils literal notranslate"><span class="pre">threshold_hsv()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#module-0">Workspaces wise</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.debug_markers"><code class="docutils literal notranslate"><span class="pre">debug_markers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.extract_img_workspace"><code class="docutils literal notranslate"><span class="pre">extract_img_workspace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.relative_pos_from_pixels"><code class="docutils literal notranslate"><span class="pre">relative_pos_from_pixels()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#module-1">Show</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.show_img"><code class="docutils literal notranslate"><span class="pre">show_img()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.show_img_and_check_close"><code class="docutils literal notranslate"><span class="pre">show_img_and_check_close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.show_img_and_wait_close"><code class="docutils literal notranslate"><span class="pre">show_img_and_wait_close()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#module-2">Image Editing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.add_annotation_to_image"><code class="docutils literal notranslate"><span class="pre">add_annotation_to_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.compress_image"><code class="docutils literal notranslate"><span class="pre">compress_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.concat_imgs"><code class="docutils literal notranslate"><span class="pre">concat_imgs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.resize_img"><code class="docutils literal notranslate"><span class="pre">resize_img()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.uncompress_image"><code class="docutils literal notranslate"><span class="pre">uncompress_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.undistort_image"><code class="docutils literal notranslate"><span class="pre">undistort_image()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#enums-image-processing">Enums Image Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV"><code class="docutils literal notranslate"><span class="pre">ColorHSV</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorHSV.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV.RED"><code class="docutils literal notranslate"><span class="pre">ColorHSV.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorHSV.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV.ANY"><code class="docutils literal notranslate"><span class="pre">ColorHSV.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime.RED"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime.ANY"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType"><code class="docutils literal notranslate"><span class="pre">ObjectType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType.SQUARE"><code class="docutils literal notranslate"><span class="pre">ObjectType.SQUARE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType.TRIANGLE"><code class="docutils literal notranslate"><span class="pre">ObjectType.TRIANGLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType.CIRCLE"><code class="docutils literal notranslate"><span class="pre">ObjectType.CIRCLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType.ANY"><code class="docutils literal notranslate"><span class="pre">ObjectType.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType"><code class="docutils literal notranslate"><span class="pre">MorphoType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType.ERODE"><code class="docutils literal notranslate"><span class="pre">MorphoType.ERODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType.DILATE"><code class="docutils literal notranslate"><span class="pre">MorphoType.DILATE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType.OPEN"><code class="docutils literal notranslate"><span class="pre">MorphoType.OPEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType.CLOSE"><code class="docutils literal notranslate"><span class="pre">MorphoType.CLOSE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.KernelType"><code class="docutils literal notranslate"><span class="pre">KernelType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.KernelType.RECT"><code class="docutils literal notranslate"><span class="pre">KernelType.RECT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.KernelType.ELLIPSE"><code class="docutils literal notranslate"><span class="pre">KernelType.ELLIPSE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.KernelType.CROSS"><code class="docutils literal notranslate"><span class="pre">KernelType.CROSS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyNiryo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Find your Robot’s IP address</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/source/setup/ip_address.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="find-your-robot-s-ip-address">
+<h1>Find your Robot’s IP address<a class="headerlink" href="#find-your-robot-s-ip-address" title="Link to this heading"></a></h1>
+<p>In order to use your robot through TCP connection, you will firstly need
+to connect to it, which imply that you know its IP Address</p>
+<p>The next sections explain how to find your robot IP according to your configuration:</p>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#hotspot-mode" id="id1">Hotspot mode</a></p></li>
+<li><p><a class="reference internal" href="#simulation-or-directly-on-the-robot" id="id2">Simulation or directly on the robot</a></p></li>
+<li><p><a class="reference internal" href="#direct-ethernet-connection" id="id3">Direct Ethernet connection</a></p></li>
+<li><p><a class="reference internal" href="#computer-and-robot-connected-on-the-same-router" id="id4">Computer and Robot Connected on the same router</a></p></li>
+<li><p><a class="reference internal" href="#make-ip-permanent" id="id5">Make IP permanent</a></p></li>
+</ul>
+</nav>
+<section id="hotspot-mode">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Hotspot mode</a><a class="headerlink" href="#hotspot-mode" title="Link to this heading"></a></h2>
+<p>If you are directly connected to your robot through its wifi, the IP Address
+you will need to use is <code class="docutils literal notranslate"><span class="pre">10.10.10.10</span></code></p>
+</section>
+<section id="simulation-or-directly-on-the-robot">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Simulation or directly on the robot</a><a class="headerlink" href="#simulation-or-directly-on-the-robot" title="Link to this heading"></a></h2>
+<p>In this situation, the Robot is running on the same computer as the client,
+the IP Address will be the localhost address <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code></p>
+</section>
+<section id="direct-ethernet-connection">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Direct Ethernet connection</a><a class="headerlink" href="#direct-ethernet-connection" title="Link to this heading"></a></h2>
+<p>If you are directly connected to your robot with an ethernet cable, the static IP of your
+robot will be <code class="docutils literal notranslate"><span class="pre">169.254.200.200</span></code></p>
+<p>The reader should note that he may has to change his wired settings to allow the connection.
+See how <a class="reference external" href="https://niryo.com/docs/niryo-one/developer-tutorials/connect-to-niryo-one-via-ethernet-on-ubuntu/">Connect to Ned via Ethernet on Ubuntu</a></p>
+</section>
+<section id="computer-and-robot-connected-on-the-same-router">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Computer and Robot Connected on the same router</a><a class="headerlink" href="#computer-and-robot-connected-on-the-same-router" title="Link to this heading"></a></h2>
+<p>You will need to find the robot address using <code class="docutils literal notranslate"><span class="pre">nmap</span></code>, or you can also use search button
+of Niryo Studio to see which robots are available</p>
+<p><em>TODO: faire plus clair via des images/screenshots</em></p>
+<p>You can also <span class="xref std std-ref">make the IP permanent</span> so that
+you won’t have to search for it next time</p>
+</section>
+<section id="make-ip-permanent">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Make IP permanent</a><a class="headerlink" href="#make-ip-permanent" title="Link to this heading"></a></h2>
+<section id="step-1">
+<h3>Step 1<a class="headerlink" href="#step-1" title="Link to this heading"></a></h3>
+<p>Firstly, you need to be connected to your robot via SSH.</p>
+<p>On Ubuntu, use the command line</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="n">niryo</span><span class="o">@&lt;</span><span class="n">robot_ip_address</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The password is <code class="docutils literal notranslate"><span class="pre">robotics</span></code></p>
+<p>On Windows, you can use <a class="reference external" href="https://www.putty.org/">Putty</a>. Robot username is <code class="docutils literal notranslate"><span class="pre">niyro</span></code>
+and password is <code class="docutils literal notranslate"><span class="pre">robotics</span></code></p>
+</section>
+<section id="step-2">
+<h3>Step 2<a class="headerlink" href="#step-2" title="Link to this heading"></a></h3>
+<p>Find your proxy key</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ifconfig</span>
+</pre></div>
+</div>
+<p>Your proxy key is written on the first line
+and should look something like <code class="docutils literal notranslate"><span class="pre">eth0</span></code>.</p>
+</section>
+<section id="step-3">
+<h3>Step 3<a class="headerlink" href="#step-3" title="Link to this heading"></a></h3>
+<p>Select arbitrarily a number between 50 &amp; 255. It will be your IP address’ last number</p>
+<p>Then, edit the file <code class="docutils literal notranslate"><span class="pre">/etc/network/interfaces</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">nano</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">network</span><span class="o">/</span><span class="n">interfaces</span>
+</pre></div>
+</div>
+<p>And add to its end</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">auto</span> <span class="o">&lt;</span><span class="n">robot_proxy_key</span><span class="o">&gt;</span>
+<span class="n">iface</span> <span class="o">&lt;</span><span class="n">robot_proxy_key</span><span class="o">&gt;</span> <span class="n">inet</span> <span class="n">static</span>
+    <span class="n">address</span> <span class="mf">192.168.1</span><span class="o">.&lt;</span><span class="n">your_ip_address_last_number</span><span class="o">&gt;</span>
+    <span class="n">broadcast</span> <span class="mf">192.168.1.255</span>
+    <span class="n">netmask</span> <span class="mf">255.255.255.0</span>
+    <span class="n">gateway</span> <span class="mf">192.168.1.1</span>
+    <span class="n">dns</span><span class="o">-</span><span class="n">nameservers</span> <span class="mf">192.168.1.1</span>
+</pre></div>
+</div>
+<p>From its next reboot, the robot will appear under
+the IP <code class="docutils literal notranslate"><span class="pre">192.168.1.&lt;your_ip_address_last_number&gt;</span></code></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="verify_setup.html" class="btn btn-neutral float-right" title="Verify your Setup and Get Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Niryo All rights reserved. No part of this document may be reproduced or transmitted in any form or by any means without prior written consent of Niryo SAS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="injected">
+  <div class="rst-versions " data-toggle="rst-versions" role="note"
+    aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;&nbsp;Other versions&nbsp;&nbsp;</span>
+      v: v1.0.3
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Tags</dt>
+        <dd class="">
+          <a href="../../../v1.2.1-1/index.html">v1.2.1-1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.2/index.html">v1.2.2</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.2/index.html">v1.1.2</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.0.5/index.html">v1.0.5</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.0/index.html">v1.2.0</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.0.4/index.html">v1.0.4</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.3/index.html">v1.2.3</a>
+        </dd>
+        <dd class="rtd-current-item">
+          <a href="../../../v1.0.3/index.html">v1.0.3</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.0/index.html">v1.1.0</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.0-1/index.html">v1.2.0-1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.1/index.html">v1.1.1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.1/index.html">v1.2.1</a>
+        </dd>
+      </dl>
+      <dl>
+        <dt>Search</dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="../../
+              ../v1.0.3/index.html/../search.html" method="get">
+              <input type="text" name="q" aria-label="Search docs" placeholder="Search docs">
+            </form>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85632199-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-85632199-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

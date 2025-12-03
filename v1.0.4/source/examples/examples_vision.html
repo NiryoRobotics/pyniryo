@@ -1,0 +1,799 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examples: Vision &mdash; PyNiryo v1.0.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../_static/_rst_properties.css?v=754ff73a" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=8a93c2b0"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Code templates" href="code_templates.html" />
+    <link rel="prev" title="Examples: Conveyor Belt" href="examples_conveyor.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyNiryo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../setup/installation.html#installation-with-pip">Installation with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/installation.html#uninstall">Uninstall</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/ip_address.html">Find your Robot’s IP address</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#hotspot-mode">Hotspot mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#simulation-or-directly-on-the-robot">Simulation or directly on the robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#direct-ethernet-connection">Direct ethernet connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#computer-and-robot-connected-on-the-same-router">Computer and robot connected on the same router</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#make-ip-permanent">Make IP permanent</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../setup/ip_address.html#step-1">Step 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../setup/ip_address.html#step-2">Step 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../setup/ip_address.html#step-3">Step 3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/verify_setup.html">Verify your Setup and Get Started</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="examples_basics.html">Examples: Basics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples_basics.html#your-first-move-joint">Your first move joint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_basics.html#code-details-first-move-j">Code Details - First Move J</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples_basics.html#your-first-pick-and-place">Your first pick and place</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_basics.html#code-details-first-pick-and-place">Code Details - First Pick And Place</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples_basics.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples_movement.html">Examples: Movement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples_movement.html#joints">Joints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_movement.html#move-joints">Move Joints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_movement.html#get-joints">Get Joints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples_movement.html#pose">Pose</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_movement.html#move-pose">Move Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_movement.html#get-pose">Get Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_movement.html#how-to-use-the-poseobject">How to use the PoseObject</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples_tool_action.html">Examples: Tool action</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples_tool_action.html#tool-control">Tool control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#equip-tool">Equip Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#grasping">Grasping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#releasing">Releasing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples_tool_action.html#pick-place-with-tools">Pick &amp; Place with tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#code-baseline">Code Baseline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#first-solution-the-heaviest">First Solution: the heaviest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#second-solution-use-of-poseobject">Second Solution: Use of PoseObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#third-solution-pick-from-pose-place-from-pose-functions">Third Solution: Pick from pose &amp; Place from pose functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#fourth-solution-all-in-one">Fourth Solution: All in one</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples_conveyor.html">Examples: Conveyor Belt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples_conveyor.html#simple-conveyor-control">Simple Conveyor control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples_conveyor.html#advanced-conveyor-belt-control">Advanced Conveyor Belt control</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples: Vision</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#needed-piece-of-code">Needed piece of code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#simple-vision-pick-place">Simple Vision Pick &amp; Place</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#code-details-simple-vision-pick-and-place">Code Details - Simple Vision Pick and Place</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#first-conditioning-via-vision">First conditioning via Vision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#code-details-first-conditioning-via-vision">Code Details - First Conditioning via Vision</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#multi-reference-conditioning">Multi Reference Conditioning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#code-details-multi-reference-conditioning">Code Details - Multi Reference Conditioning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sorting-pick-with-conveyor">Sorting Pick with Conveyor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#code-details-sort-picking">Code Details - Sort Picking</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code_templates.html">Code templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code_templates.html#the-short-template">The short template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_templates.html#advanced-template">Advanced template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_templates.html#advanced-template-for-conveyor-belt">Advanced template for Conveyor Belt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_templates.html#advanced-template-for-vision">Advanced template for Vision</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_doc/api.html">PyNiryo API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#command-functions">Command functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#tcp-connection">TCP Connection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#main-purpose-functions">Main purpose functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#joints-pose">Joints &amp; Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#saved-poses">Saved Poses</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#pick-place">Pick &amp; Place</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#trajectories">Trajectories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#tools">Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#hardware">Hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#conveyor">Conveyor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#vision">Vision</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#enums">Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#python-object-classes">Python object classes</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Image Processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../vision/image_processing_overview.html">Overview &amp; examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_overview.html#play-with-robot-video-stream">Play with Robot video stream</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#get-display-image-from-stream">Get &amp; display image from stream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#undistort-and-display-video-stream">Undistort and display video stream</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_overview.html#pure-image-processing-functions">Pure image processing functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#color-thresholding">Color thresholding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#morphological-transformations">Morphological transformations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#contours-finder">Contours finder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#find-object-center-position">Find object center position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#markers-extraction">Markers extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#debug-mode">Debug mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_overview.html#do-your-own-image-processing">Do your own image processing!</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#display-video-stream-with-extracted-workspace">Display video stream with extracted workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#vision-pick-via-your-image-processing-pipeline">Vision pick via your image processing pipeline</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vision/image_processing_api.html">Functions documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#pure-image-processing">Pure image processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#workspaces-wise">Workspaces wise</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#show">Show</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#image-editing">Image Editing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#enums-image-processing">Enums Image Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV"><code class="docutils literal notranslate"><span class="pre">ColorHSV</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorHSV.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV.RED"><code class="docutils literal notranslate"><span class="pre">ColorHSV.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorHSV.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV.ANY"><code class="docutils literal notranslate"><span class="pre">ColorHSV.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime.RED"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime.ANY"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType"><code class="docutils literal notranslate"><span class="pre">ObjectType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType.SQUARE"><code class="docutils literal notranslate"><span class="pre">ObjectType.SQUARE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType.TRIANGLE"><code class="docutils literal notranslate"><span class="pre">ObjectType.TRIANGLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType.CIRCLE"><code class="docutils literal notranslate"><span class="pre">ObjectType.CIRCLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType.ANY"><code class="docutils literal notranslate"><span class="pre">ObjectType.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType"><code class="docutils literal notranslate"><span class="pre">MorphoType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType.ERODE"><code class="docutils literal notranslate"><span class="pre">MorphoType.ERODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType.DILATE"><code class="docutils literal notranslate"><span class="pre">MorphoType.DILATE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType.OPEN"><code class="docutils literal notranslate"><span class="pre">MorphoType.OPEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType.CLOSE"><code class="docutils literal notranslate"><span class="pre">MorphoType.CLOSE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.KernelType"><code class="docutils literal notranslate"><span class="pre">KernelType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.KernelType.RECT"><code class="docutils literal notranslate"><span class="pre">KernelType.RECT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.KernelType.ELLIPSE"><code class="docutils literal notranslate"><span class="pre">KernelType.ELLIPSE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.KernelType.CROSS"><code class="docutils literal notranslate"><span class="pre">KernelType.CROSS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyNiryo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Examples: Vision</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/source/examples/examples_vision.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="examples-vision">
+<h1>Examples: Vision<a class="headerlink" href="#examples-vision" title="Link to this heading"></a></h1>
+<p>This page shows how to use Ned’s Vision Set.</p>
+<div class="line-block">
+<div class="line">If you want to see more about Ned’s Vision functions,
+you can look at <a class="reference internal" href="../api_doc/api.html#vision"><span class="std std-ref">PyNiryo - Vision</span></a></div>
+<div class="line">If you want to see how to do Image Processing,
+go check out the <a class="reference internal" href="../vision/image_processing_overview.html"><span class="doc">Image Processing section</span></a>.</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Even if you do not own a Vision Set, you can still realize these examples
+with the Gazebo simulation version.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>If you are using the real robot, make sure the environment around it is clear.</p>
+</div>
+<section id="needed-piece-of-code">
+<h2>Needed piece of code<a class="headerlink" href="#needed-piece-of-code" title="Link to this heading"></a></h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>In order to achieve the following examples, you need to
+create a vision workspace. In this page, the workspace used is named <code class="docutils literal notranslate"><span class="pre">workspace_1</span></code>.
+To create it, the user should go on Niryo Studio!</p>
+</div>
+<p>As the examples start always the same, add the following lines at the beginning of codes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyniryo</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># - Constants</span>
+<span class="n">workspace_name</span> <span class="o">=</span> <span class="s2">&quot;workspace_1&quot;</span>  <span class="c1"># Robot&#39;s Workspace Name</span>
+<span class="n">robot_ip_address</span> <span class="o">=</span> <span class="s2">&quot;x.x.x.x&quot;</span>
+
+<span class="c1"># The pose from where the image processing happens</span>
+<span class="n">observation_pose</span> <span class="o">=</span> <span class="n">PoseObject</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="mf">0.16</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span>
+    <span class="n">roll</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">pitch</span><span class="o">=</span><span class="mf">1.57</span><span class="p">,</span> <span class="n">yaw</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># Place pose</span>
+<span class="n">place_pose</span> <span class="o">=</span> <span class="n">PoseObject</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=-</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">0.12</span><span class="p">,</span>
+    <span class="n">roll</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">pitch</span><span class="o">=</span><span class="mf">1.57</span><span class="p">,</span> <span class="n">yaw</span><span class="o">=-</span><span class="mf">1.57</span>
+<span class="p">)</span>
+
+<span class="c1"># - Initialization</span>
+
+<span class="c1"># Connect to robot</span>
+<span class="n">robot</span> <span class="o">=</span> <span class="n">NiryoRobot</span><span class="p">(</span><span class="n">robot_ip_address</span><span class="p">)</span>
+<span class="c1"># Calibrate robot if the robot needs calibration</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">calibrate_auto</span><span class="p">()</span>
+<span class="c1"># Updating tool</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">update_tool</span><span class="p">()</span>
+
+<span class="c1"># --- -------------- --- #</span>
+<span class="c1"># --- CODE GOES HERE --- #</span>
+<span class="c1"># --- -------------- --- #</span>
+
+<span class="n">robot</span><span class="o">.</span><span class="n">close_connection</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>All the following examples are only a part of what can be made
+with the API in terms of Vision. We advise you to look at <a class="reference internal" href="../api_doc/api.html#vision"><span class="std std-ref">API - Vision</span></a>
+to understand more deeply</p>
+</div>
+</section>
+<section id="simple-vision-pick-place">
+<h2>Simple Vision Pick &amp; Place<a class="headerlink" href="#simple-vision-pick-place" title="Link to this heading"></a></h2>
+<p>The goal of a Vision Pick &amp; Place is the same as a classical Pick &amp; Place,
+with a close difference: the camera detects where the robot has to go in order to pick!</p>
+<p>This short example shows how to do your first Vision pick using the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">vision_pick()</span></code> function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">observation_pose</span><span class="p">)</span>
+<span class="c1"># Trying to pick target using camera</span>
+<span class="n">obj_found</span><span class="p">,</span> <span class="n">shape_ret</span><span class="p">,</span> <span class="n">color_ret</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">vision_pick</span><span class="p">(</span><span class="n">workspace_name</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">obj_found</span><span class="p">:</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">place_from_pose</span><span class="p">(</span><span class="n">place_pose</span><span class="p">)</span>
+
+<span class="n">robot</span><span class="o">.</span><span class="n">set_learning_mode</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="code-details-simple-vision-pick-and-place">
+<span id="code-details-simple-vision-pick-n-place"></span><h3>Code Details - Simple Vision Pick and Place<a class="headerlink" href="#code-details-simple-vision-pick-and-place" title="Link to this heading"></a></h3>
+<p>To execute a Vision pick, we firstly need to go to a place where the robot will
+be able to see the workspace:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">observation_pose</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then, we try to perform a Vision pick in the workspace with the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">vision_pick()</span></code> function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">obj_found</span><span class="p">,</span> <span class="n">shape_ret</span><span class="p">,</span> <span class="n">color_ret</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">vision_pick</span><span class="p">(</span><span class="n">workspace_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Variables <code class="docutils literal notranslate"><span class="pre">shape_ret</span></code> and <code class="docutils literal notranslate"><span class="pre">color_ret</span></code> are respectively of type
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectShape</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectColor</span></code>, and
+store the shape and the color of the detected object! We will not use them for this first
+example.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">obj_found</span></code> variable is a boolean which indicates whereas an
+object has been found and picked, or not. Thus, if the pick worked,
+we can place the object at the place pose.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">obj_found</span><span class="p">:</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">place_from_pose</span><span class="p">(</span><span class="n">place_pose</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, we turn learning mode on:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">robot</span><span class="o">.</span><span class="n">set_learning_mode</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If your <code class="docutils literal notranslate"><span class="pre">obj_found</span></code> variable indicates <code class="docutils literal notranslate"><span class="pre">False</span></code>, check that:</p>
+<ul class="simple">
+<li><p>Nothing obstructs the camera field of view</p></li>
+<li><p>Workspace’s 4 markers are visible</p></li>
+<li><p>At least 1 object is placed fully inside the workspace</p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="first-conditioning-via-vision">
+<h2>First conditioning via Vision<a class="headerlink" href="#first-conditioning-via-vision" title="Link to this heading"></a></h2>
+<p>In most of use cases, the robot will need to perform more than one Pick &amp; Place.
+In this example, we will see how to condition multiple objects according to
+a straight line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initializing variables</span>
+<span class="n">offset_size</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">max_catch_count</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="c1"># Loop until enough objects have been caught</span>
+<span class="n">catch_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">catch_count</span> <span class="o">&lt;</span> <span class="n">max_catch_count</span><span class="p">:</span>
+    <span class="c1"># Moving to observation pose</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">observation_pose</span><span class="p">)</span>
+
+    <span class="c1"># Trying to get object via Vision Pick</span>
+    <span class="n">obj_found</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">vision_pick</span><span class="p">(</span><span class="n">workspace_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">obj_found</span><span class="p">:</span>
+        <span class="n">robot</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="k">continue</span>
+
+    <span class="c1"># Calculate place pose and going to place the object</span>
+    <span class="n">next_place_pose</span> <span class="o">=</span> <span class="n">place_pose</span><span class="o">.</span><span class="n">copy_with_offsets</span><span class="p">(</span><span class="n">x_offset</span><span class="o">=</span><span class="n">catch_count</span> <span class="o">*</span> <span class="n">offset_size</span><span class="p">)</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">place_from_pose</span><span class="p">(</span><span class="n">next_place_pose</span><span class="p">)</span>
+
+    <span class="n">catch_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">robot</span><span class="o">.</span><span class="n">go_to_sleep</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="code-details-first-conditioning-via-vision">
+<span id="code-details-first-conditionning-via-vision"></span><h3>Code Details - First Conditioning via Vision<a class="headerlink" href="#code-details-first-conditioning-via-vision" title="Link to this heading"></a></h3>
+<p>We want to catch <code class="docutils literal notranslate"><span class="pre">max_catch_count</span></code> objects, and space each of
+them by <code class="docutils literal notranslate"><span class="pre">offset_size</span></code> meter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">offset_size</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">max_catch_count</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>We start a loop until the robot has caught <code class="docutils literal notranslate"><span class="pre">max_catch_count</span></code> objects:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">catch_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">catch_count</span> <span class="o">&lt;</span> <span class="n">max_catch_count</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>For each iteration, we firstly go to the observation pose and then,
+try to make a Vision pick in the workspace:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">observation_pose</span><span class="p">)</span>
+
+<span class="n">obj_found</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">vision_pick</span><span class="p">(</span><span class="n">workspace_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the Vision pick failed, we wait 0.1 second and then, start a new iteration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">obj_found</span><span class="p">:</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="k">continue</span>
+</pre></div>
+</div>
+<p>Else, we compute the new place position according to the number of catches, and
+then, go placing the object at that place:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">next_place_pose</span> <span class="o">=</span> <span class="n">place_pose</span><span class="o">.</span><span class="n">copy_with_offsets</span><span class="p">(</span><span class="n">x_offset</span><span class="o">=</span><span class="n">catch_count</span> <span class="o">*</span> <span class="n">offset_size</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">place_from_pose</span><span class="p">(</span><span class="n">next_place_pose</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We also increment the <code class="docutils literal notranslate"><span class="pre">catch_count</span></code> variable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">catch_count</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Once the target catch number is achieved, we go to sleep:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">robot</span><span class="o">.</span><span class="n">go_to_sleep</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="multi-reference-conditioning">
+<h2>Multi Reference Conditioning<a class="headerlink" href="#multi-reference-conditioning" title="Link to this heading"></a></h2>
+<p>During a conditioning task, objects may not always be placed as the same
+place according to their type. In this example, we will see how to align object
+according to their color, using the
+color element <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectColor</span></code>
+returned by <code class="xref py py-meth docutils literal notranslate"><span class="pre">vision_pick()</span></code> function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Distance between elements</span>
+<span class="n">offset_size</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">max_failure_count</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1"># Dict to write catch history</span>
+<span class="n">count_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">ObjectColor</span><span class="o">.</span><span class="n">BLUE</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">ObjectColor</span><span class="o">.</span><span class="n">RED</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">ObjectColor</span><span class="o">.</span><span class="n">GREEN</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">try_without_success</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># Loop until too much failures</span>
+<span class="k">while</span> <span class="n">try_without_success</span> <span class="o">&lt;</span> <span class="n">max_failure_count</span><span class="p">:</span>
+    <span class="c1"># Moving to observation pose</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">observation_pose</span><span class="p">)</span>
+    <span class="c1"># Trying to get object via Vision Pick</span>
+    <span class="n">obj_found</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">vision_pick</span><span class="p">(</span><span class="n">workspace_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">obj_found</span><span class="p">:</span>
+        <span class="n">try_without_success</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">robot</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="k">continue</span>
+
+    <span class="c1"># Choose X position according to how the color line is filled</span>
+    <span class="n">offset_x_ind</span> <span class="o">=</span> <span class="n">count_dict</span><span class="p">[</span><span class="n">color</span><span class="p">]</span>
+
+    <span class="c1"># Choose Y position according to ObjectColor</span>
+    <span class="k">if</span> <span class="n">color</span> <span class="o">==</span> <span class="n">ObjectColor</span><span class="o">.</span><span class="n">BLUE</span><span class="p">:</span>
+        <span class="n">offset_y_ind</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">color</span> <span class="o">==</span> <span class="n">ObjectColor</span><span class="o">.</span><span class="n">RED</span><span class="p">:</span>
+        <span class="n">offset_y_ind</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">offset_y_ind</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># Going to place the object</span>
+    <span class="n">next_place_pose</span> <span class="o">=</span> <span class="n">place_pose</span><span class="o">.</span><span class="n">copy_with_offsets</span><span class="p">(</span><span class="n">x_offset</span><span class="o">=</span><span class="n">offset_x_ind</span> <span class="o">*</span> <span class="n">offset_size</span><span class="p">,</span>
+                                                   <span class="n">y_offset</span><span class="o">=</span><span class="n">offset_y_ind</span> <span class="o">*</span> <span class="n">offset_size</span><span class="p">)</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">place_from_pose</span><span class="p">(</span><span class="n">next_place_pose</span><span class="p">)</span>
+
+    <span class="c1"># Increment count</span>
+    <span class="n">count_dict</span><span class="p">[</span><span class="n">color</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">try_without_success</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">robot</span><span class="o">.</span><span class="n">go_to_sleep</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="code-details-multi-reference-conditioning">
+<span id="code-details-multi-ref-conditioning"></span><h3>Code Details - Multi Reference Conditioning<a class="headerlink" href="#code-details-multi-reference-conditioning" title="Link to this heading"></a></h3>
+<p>We want to catch objects until Vision Pick failed <code class="docutils literal notranslate"><span class="pre">max_failure_count</span></code> times.
+Each of the object will be put on a specific column according to its color.
+The number of catches for each color will be stored on a dictionary <code class="docutils literal notranslate"><span class="pre">count_dict</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Distance between elements</span>
+<span class="n">offset_size</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">max_failure_count</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="c1"># Dict to write catch history</span>
+<span class="n">count_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">ObjectColor</span><span class="o">.</span><span class="n">BLUE</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">ObjectColor</span><span class="o">.</span><span class="n">RED</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">ObjectColor</span><span class="o">.</span><span class="n">GREEN</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">try_without_success</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># Loop until too much failures</span>
+<span class="k">while</span> <span class="n">try_without_success</span> <span class="o">&lt;</span> <span class="n">max_failure_count</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>For each iteration, we firstly go to the observation pose and then,
+try to make a Vision pick in the workspace:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">observation_pose</span><span class="p">)</span>
+
+<span class="n">obj_found</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">vision_pick</span><span class="p">(</span><span class="n">workspace_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the Vision pick failed, we wait 0.1 second and then, start a new iteration, without
+forgetting to increment the failure counter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">obj_found</span><span class="p">:</span>
+    <span class="n">try_without_success</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="k">continue</span>
+</pre></div>
+</div>
+<p>Else, we compute the new place position according to the number of catches, and
+then, go place the object at that place:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Choose X position according to how the color line is filled</span>
+<span class="n">offset_x_ind</span> <span class="o">=</span> <span class="n">count_dict</span><span class="p">[</span><span class="n">color</span><span class="p">]</span>
+
+<span class="c1"># Choose Y position according to ObjectColor</span>
+<span class="k">if</span> <span class="n">color</span> <span class="o">==</span> <span class="n">ObjectColor</span><span class="o">.</span><span class="n">BLUE</span><span class="p">:</span>
+    <span class="n">offset_y_ind</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="k">elif</span> <span class="n">color</span> <span class="o">==</span> <span class="n">ObjectColor</span><span class="o">.</span><span class="n">RED</span><span class="p">:</span>
+    <span class="n">offset_y_ind</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">offset_y_ind</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Going to place the object</span>
+<span class="n">next_place_pose</span> <span class="o">=</span> <span class="n">place_pose</span><span class="o">.</span><span class="n">copy_with_offsets</span><span class="p">(</span><span class="n">x_offset</span><span class="o">=</span><span class="n">offset_x_ind</span> <span class="o">*</span> <span class="n">offset_size</span><span class="p">,</span>
+                                               <span class="n">y_offset</span><span class="o">=</span><span class="n">offset_y_ind</span> <span class="o">*</span> <span class="n">offset_size</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">place_from_pose</span><span class="p">(</span><span class="n">next_place_pose</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We increment the <code class="docutils literal notranslate"><span class="pre">count_dict</span></code> dictionary and reset <code class="docutils literal notranslate"><span class="pre">try_without_success</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">count_dict</span><span class="p">[</span><span class="n">color</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">try_without_success</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Once the target catch number is achieved, we go to sleep:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">robot</span><span class="o">.</span><span class="n">go_to_sleep</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sorting-pick-with-conveyor">
+<h2>Sorting Pick with Conveyor<a class="headerlink" href="#sorting-pick-with-conveyor" title="Link to this heading"></a></h2>
+<p>An interesting way to bring objects to the robot, is the use of a Conveyor Belt.
+In this examples, we will see how to catch only a certain type of object by
+stopping the conveyor as soon as the object is detected on the workspace.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initializing variables</span>
+<span class="n">offset_size</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">max_catch_count</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">shape_expected</span> <span class="o">=</span> <span class="n">ObjectShape</span><span class="o">.</span><span class="n">CIRCLE</span>
+<span class="n">color_expected</span> <span class="o">=</span> <span class="n">ObjectColor</span><span class="o">.</span><span class="n">RED</span>
+
+<span class="n">conveyor_id</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">set_conveyor</span><span class="p">()</span>
+
+<span class="n">catch_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">catch_count</span> <span class="o">&lt;</span> <span class="n">max_catch_count</span><span class="p">:</span>
+    <span class="c1"># Turning conveyor on</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">run_conveyor</span><span class="p">(</span><span class="n">conveyor_id</span><span class="p">)</span>
+    <span class="c1"># Moving to observation pose</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">observation_pose</span><span class="p">)</span>
+    <span class="c1"># Check if object is in the workspace</span>
+    <span class="n">obj_found</span><span class="p">,</span> <span class="n">pos_array</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">detect_object</span><span class="p">(</span><span class="n">workspace_name</span><span class="p">,</span>
+                                                             <span class="n">shape</span><span class="o">=</span><span class="n">shape_expected</span><span class="p">,</span>
+                                                             <span class="n">color</span><span class="o">=</span><span class="n">color_expected</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">obj_found</span><span class="p">:</span>
+        <span class="n">robot</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>  <span class="c1"># Wait to let the conveyor turn a bit</span>
+        <span class="k">continue</span>
+    <span class="c1"># Stopping conveyor</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">stop_conveyor</span><span class="p">(</span><span class="n">conveyor_id</span><span class="p">)</span>
+    <span class="c1"># Making a vision pick</span>
+    <span class="n">obj_found</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">vision_pick</span><span class="p">(</span><span class="n">workspace_name</span><span class="p">,</span>
+                                                <span class="n">shape</span><span class="o">=</span><span class="n">shape_expected</span><span class="p">,</span>
+                                                <span class="n">color</span><span class="o">=</span><span class="n">color_expected</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">obj_found</span><span class="p">:</span>  <span class="c1"># If visual pick did not work</span>
+        <span class="k">continue</span>
+
+    <span class="c1"># Calculate place pose and going to place the object</span>
+    <span class="n">next_place_pose</span> <span class="o">=</span> <span class="n">place_pose</span><span class="o">.</span><span class="n">copy_with_offsets</span><span class="p">(</span><span class="n">x_offset</span><span class="o">=</span><span class="n">catch_count</span> <span class="o">*</span> <span class="n">offset_size</span><span class="p">)</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">place_from_pose</span><span class="p">(</span><span class="n">next_place_pose</span><span class="p">)</span>
+
+    <span class="n">catch_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1"># Stopping &amp; unsetting conveyor</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">stop_conveyor</span><span class="p">(</span><span class="n">conveyor_id</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">unset_conveyor</span><span class="p">(</span><span class="n">conveyor_id</span><span class="p">)</span>
+
+<span class="n">robot</span><span class="o">.</span><span class="n">go_to_sleep</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="code-details-sort-picking">
+<h3>Code Details - Sort Picking<a class="headerlink" href="#code-details-sort-picking" title="Link to this heading"></a></h3>
+<p>Firstly, we initialize your process: we want the robot to catch 4 red circles. To do so,
+we set variables <code class="docutils literal notranslate"><span class="pre">shape_expected</span></code> and <code class="docutils literal notranslate"><span class="pre">color_expected</span></code> with
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">ObjectShape.CIRCLE</span></code>
+and <code class="xref py py-attr docutils literal notranslate"><span class="pre">ObjectColor.RED</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">offset_size</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">max_catch_count</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">shape_expected</span> <span class="o">=</span> <span class="n">ObjectShape</span><span class="o">.</span><span class="n">CIRCLE</span>
+<span class="n">color_expected</span> <span class="o">=</span> <span class="n">ObjectColor</span><span class="o">.</span><span class="n">RED</span>
+</pre></div>
+</div>
+<p>We activate the connection with the Conveyor Belt and
+start a loop until the robot has caught <code class="docutils literal notranslate"><span class="pre">max_catch_count</span></code> objects:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conveyor_id</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">set_conveyor</span><span class="p">()</span>
+
+<span class="n">catch_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">while</span> <span class="n">catch_count</span> <span class="o">&lt;</span> <span class="n">max_catch_count</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>For each iteration, we firstly run the Conveyor Belt (if the latter is already running,
+nothing will happen), then go to the observation pose:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Turning the Conveyor Belt on</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">run_conveyor</span><span class="p">(</span><span class="n">conveyor_id</span><span class="p">)</span>
+<span class="c1"># Moving to observation pose</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">observation_pose</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We then check if an object corresponding to our criteria
+is in the workspace. If not, we wait 0.5 second and then, start a new iteration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">obj_found</span><span class="p">,</span> <span class="n">pos_array</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">detect_object</span><span class="p">(</span><span class="n">workspace_name</span><span class="p">,</span>
+                                                         <span class="n">shape</span><span class="o">=</span><span class="n">shape_expected</span><span class="p">,</span>
+                                                         <span class="n">color</span><span class="o">=</span><span class="n">color_expected</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">obj_found</span><span class="p">:</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>  <span class="c1"># Wait to let the conveyor turn a bit</span>
+    <span class="k">continue</span>
+</pre></div>
+</div>
+<p>Else, stop the Conveyor Belt and try to make a Vision pick:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Stopping Conveyor Belt</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">stop_conveyor</span><span class="p">(</span><span class="n">conveyor_id</span><span class="p">)</span>
+<span class="c1"># Making a Vision pick</span>
+<span class="n">obj_found</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">vision_pick</span><span class="p">(</span><span class="n">workspace_name</span><span class="p">,</span>
+                                            <span class="n">shape</span><span class="o">=</span><span class="n">shape_expected</span><span class="p">,</span>
+                                            <span class="n">color</span><span class="o">=</span><span class="n">color_expected</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">obj_found</span><span class="p">:</span>  <span class="c1"># If visual pick did not work</span>
+    <span class="k">continue</span>
+</pre></div>
+</div>
+<p>If Vision Pick succeed, compute new place pose, and place the object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate place pose and going to place the object</span>
+<span class="n">next_place_pose</span> <span class="o">=</span> <span class="n">place_pose</span><span class="o">.</span><span class="n">copy_with_offsets</span><span class="p">(</span><span class="n">x_offset</span><span class="o">=</span><span class="n">catch_count</span> <span class="o">*</span> <span class="n">offset_size</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">place_from_pose</span><span class="p">(</span><span class="n">next_place_pose</span><span class="p">)</span>
+
+<span class="n">catch_count</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Once the target catch number is achieved, we stop the Conveyor Belt and go to sleep:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Stopping &amp; unsetting Conveyor Belt</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">stop_conveyor</span><span class="p">(</span><span class="n">conveyor_id</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">unset_conveyor</span><span class="p">(</span><span class="n">conveyor_id</span><span class="p">)</span>
+
+<span class="n">robot</span><span class="o">.</span><span class="n">go_to_sleep</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples_conveyor.html" class="btn btn-neutral float-left" title="Examples: Conveyor Belt" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="code_templates.html" class="btn btn-neutral float-right" title="Code templates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Niryo All rights reserved. No part of this document may be reproduced or transmitted in any form or by any means without prior written consent of Niryo SAS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="injected">
+  <div class="rst-versions " data-toggle="rst-versions" role="note"
+    aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;&nbsp;Other versions&nbsp;&nbsp;</span>
+      v: v1.0.4
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Tags</dt>
+        <dd class="">
+          <a href="../../../v1.2.1-1/index.html">v1.2.1-1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.2/index.html">v1.2.2</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.2/index.html">v1.1.2</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.0.5/index.html">v1.0.5</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.0/index.html">v1.2.0</a>
+        </dd>
+        <dd class="rtd-current-item">
+          <a href="../../../v1.0.4/index.html">v1.0.4</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.3/index.html">v1.2.3</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.0.3/index.html">v1.0.3</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.0/index.html">v1.1.0</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.0-1/index.html">v1.2.0-1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.1/index.html">v1.1.1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.1/index.html">v1.2.1</a>
+        </dd>
+      </dl>
+      <dl>
+        <dt>Search</dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="../../
+              ../v1.0.4/index.html/../search.html" method="get">
+              <input type="text" name="q" aria-label="Search docs" placeholder="Search docs">
+            </form>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85632199-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-85632199-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

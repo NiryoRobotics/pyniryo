@@ -1,0 +1,637 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examples: Movement &mdash; PyNiryo v1.0.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../_static/_rst_properties.css?v=754ff73a" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=2eeb46a9"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Examples: Tool action" href="examples_tool_action.html" />
+    <link rel="prev" title="Examples: Basics" href="examples_basics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyNiryo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../setup/installation.html#installation-with-pip">Installation with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/installation.html#uninstall">Uninstall</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/ip_address.html">Find your Robot’s IP address</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#hotspot-mode">Hotspot mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#simulation-or-directly-on-the-robot">Simulation or directly on the robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#direct-ethernet-connection">Direct ethernet connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#computer-and-robot-connected-on-the-same-router">Computer and robot connected on the same router</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#make-ip-permanent">Make IP permanent</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../setup/ip_address.html#step-1">Step 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../setup/ip_address.html#step-2">Step 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../setup/ip_address.html#step-3">Step 3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/verify_setup.html">Verify your Setup and Get Started</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="examples_basics.html">Examples: Basics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples_basics.html#your-first-move-joint">Your first move joint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_basics.html#code-details-first-move-j">Code Details - First Move J</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples_basics.html#your-first-pick-and-place">Your first pick and place</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_basics.html#code-details-first-pick-and-place">Code Details - First Pick And Place</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples_basics.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Examples: Movement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#joints">Joints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#move-joints">Move Joints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-joints">Get Joints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pose">Pose</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#move-pose">Move Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-pose">Get Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-use-the-poseobject">How to use the PoseObject</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples_tool_action.html">Examples: Tool action</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples_tool_action.html#tool-control">Tool control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#equip-tool">Equip Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#grasping">Grasping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#releasing">Releasing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples_tool_action.html#pick-place-with-tools">Pick &amp; Place with tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#code-baseline">Code Baseline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#first-solution-the-heaviest">First Solution: the heaviest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#second-solution-use-of-poseobject">Second Solution: Use of PoseObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#third-solution-pick-from-pose-place-from-pose-functions">Third Solution: Pick from pose &amp; Place from pose functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples_tool_action.html#fourth-solution-all-in-one">Fourth Solution: All in one</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples_conveyor.html">Examples: Conveyor Belt</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples_conveyor.html#simple-conveyor-control">Simple Conveyor control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples_conveyor.html#advanced-conveyor-belt-control">Advanced Conveyor Belt control</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples_vision.html">Examples: Vision</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples_vision.html#needed-piece-of-code">Needed piece of code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples_vision.html#simple-vision-pick-place">Simple Vision Pick &amp; Place</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_vision.html#code-details-simple-vision-pick-and-place">Code Details - Simple Vision Pick and Place</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples_vision.html#first-conditioning-via-vision">First conditioning via Vision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_vision.html#code-details-first-conditioning-via-vision">Code Details - First Conditioning via Vision</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples_vision.html#multi-reference-conditioning">Multi Reference Conditioning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_vision.html#code-details-multi-reference-conditioning">Code Details - Multi Reference Conditioning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples_vision.html#sorting-pick-with-conveyor">Sorting Pick with Conveyor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples_vision.html#code-details-sort-picking">Code Details - Sort Picking</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code_templates.html">Code templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code_templates.html#the-short-template">The short template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_templates.html#advanced-template">Advanced template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_templates.html#advanced-template-for-conveyor-belt">Advanced template for Conveyor Belt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code_templates.html#advanced-template-for-vision">Advanced template for Vision</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_doc/api.html">PyNiryo API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#command-functions">Command functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#tcp-connection">TCP Connection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.connect"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.connect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.close_connection"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.close_connection()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#main-purpose-functions">Main purpose functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.calibrate"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.calibrate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.calibrate_auto"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.calibrate_auto()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.need_calibration"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.need_calibration()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_learning_mode"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_learning_mode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_learning_mode"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_learning_mode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_arm_max_velocity"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_arm_max_velocity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_jog_control"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_jog_control()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.wait"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.wait()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#joints-pose">Joints &amp; Pose</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_joints"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_joints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_pose_quat"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_pose_quat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.move_joints"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.move_joints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.move_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.move_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.move_linear_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.move_linear_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.shift_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.shift_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.shift_linear_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.shift_linear_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.jog_joints"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.jog_joints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.jog_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.jog_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.move_to_home_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.move_to_home_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.go_to_sleep"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.go_to_sleep()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.forward_kinematics"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.forward_kinematics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.inverse_kinematics"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.inverse_kinematics()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#saved-poses">Saved Poses</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_pose_saved"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_pose_saved()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.save_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.save_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.delete_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.delete_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_saved_pose_list"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_saved_pose_list()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#pick-place">Pick &amp; Place</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.pick_from_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.pick_from_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.place_from_pose"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.place_from_pose()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.pick_and_place"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.pick_and_place()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#trajectories">Trajectories</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_trajectory_saved"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_trajectory_saved()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.execute_trajectory_from_poses"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.execute_trajectory_from_poses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.execute_trajectory_from_poses_and_joints"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.execute_trajectory_from_poses_and_joints()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.save_trajectory"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.save_trajectory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.delete_trajectory"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.delete_trajectory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_saved_trajectory_list"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_saved_trajectory_list()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#tools">Tools</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_current_tool_id"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_current_tool_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.update_tool"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.update_tool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.grasp_with_tool"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.grasp_with_tool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.release_with_tool"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.release_with_tool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.open_gripper"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.open_gripper()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.close_gripper"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.close_gripper()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.pull_air_vacuum_pump"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.pull_air_vacuum_pump()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.push_air_vacuum_pump"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.push_air_vacuum_pump()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.setup_electromagnet"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.setup_electromagnet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.activate_electromagnet"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.activate_electromagnet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.deactivate_electromagnet"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.deactivate_electromagnet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.enable_tcp"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.enable_tcp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_tcp"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_tcp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.reset_tcp"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.reset_tcp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.tool_reboot"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.tool_reboot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#hardware">Hardware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_pin_mode"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_pin_mode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.digital_write"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.digital_write()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.digital_read"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.digital_read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_hardware_status"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_hardware_status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_digital_io_state"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_digital_io_state()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#conveyor">Conveyor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_conveyor"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_conveyor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.unset_conveyor"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.unset_conveyor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.run_conveyor"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.run_conveyor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.stop_conveyor"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.stop_conveyor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.control_conveyor"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.control_conveyor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_connected_conveyors_id"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_connected_conveyors_id()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#vision">Vision</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_img_compressed"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_img_compressed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_brightness"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_brightness()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_contrast"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_contrast()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.set_saturation"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.set_saturation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_image_parameters"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_image_parameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_target_pose_from_rel"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_target_pose_from_rel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_target_pose_from_cam"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_target_pose_from_cam()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.vision_pick"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.vision_pick()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.move_to_object"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.move_to_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.detect_object"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.detect_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_camera_intrinsics"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_camera_intrinsics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.save_workspace_from_robot_poses"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.save_workspace_from_robot_poses()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.save_workspace_from_points"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.save_workspace_from_points()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.delete_workspace"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.delete_workspace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_workspace_ratio"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_workspace_ratio()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_workspace_list"><code class="docutils literal notranslate"><span class="pre">NiryoRobot.get_workspace_list()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#enums">Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#python-object-classes">Python object classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject"><code class="docutils literal notranslate"><span class="pre">PoseObject</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject.copy_with_offsets"><code class="docutils literal notranslate"><span class="pre">PoseObject.copy_with_offsets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject.to_list"><code class="docutils literal notranslate"><span class="pre">PoseObject.to_list()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.HardwareStatusObject"><code class="docutils literal notranslate"><span class="pre">HardwareStatusObject</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.DigitalPinObject"><code class="docutils literal notranslate"><span class="pre">DigitalPinObject</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.AnalogPinObject"><code class="docutils literal notranslate"><span class="pre">AnalogPinObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Image Processing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../vision/image_processing_overview.html">Overview &amp; examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_overview.html#play-with-robot-video-stream">Play with Robot video stream</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#get-display-image-from-stream">Get &amp; display image from stream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#undistort-and-display-video-stream">Undistort and display video stream</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_overview.html#pure-image-processing-functions">Pure image processing functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#color-thresholding">Color thresholding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#morphological-transformations">Morphological transformations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#contours-finder">Contours finder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#find-object-center-position">Find object center position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#markers-extraction">Markers extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#debug-mode">Debug mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_overview.html#do-your-own-image-processing">Do your own image processing!</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#display-video-stream-with-extracted-workspace">Display video stream with extracted workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_overview.html#vision-pick-via-your-image-processing-pipeline">Vision pick via your image processing pipeline</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../vision/image_processing_api.html">Functions documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#pure-image-processing">Pure image processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.threshold_hsv"><code class="docutils literal notranslate"><span class="pre">image_functions.threshold_hsv()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.debug_threshold_color"><code class="docutils literal notranslate"><span class="pre">image_functions.debug_threshold_color()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.morphological_transformations"><code class="docutils literal notranslate"><span class="pre">image_functions.morphological_transformations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.get_contour_barycenter"><code class="docutils literal notranslate"><span class="pre">image_functions.get_contour_barycenter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.get_contour_angle"><code class="docutils literal notranslate"><span class="pre">image_functions.get_contour_angle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.biggest_contour_finder"><code class="docutils literal notranslate"><span class="pre">image_functions.biggest_contour_finder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.biggest_contours_finder"><code class="docutils literal notranslate"><span class="pre">image_functions.biggest_contours_finder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.draw_contours"><code class="docutils literal notranslate"><span class="pre">image_functions.draw_contours()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#workspaces-wise">Workspaces wise</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.extract_img_workspace"><code class="docutils literal notranslate"><span class="pre">image_functions.extract_img_workspace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.debug_markers"><code class="docutils literal notranslate"><span class="pre">image_functions.debug_markers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.relative_pos_from_pixels"><code class="docutils literal notranslate"><span class="pre">image_functions.relative_pos_from_pixels()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#show">Show</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.show_img_and_check_close"><code class="docutils literal notranslate"><span class="pre">image_functions.show_img_and_check_close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.show_img"><code class="docutils literal notranslate"><span class="pre">image_functions.show_img()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.show_img_and_wait_close"><code class="docutils literal notranslate"><span class="pre">image_functions.show_img_and_wait_close()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#image-editing">Image Editing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.compress_image"><code class="docutils literal notranslate"><span class="pre">image_functions.compress_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.uncompress_image"><code class="docutils literal notranslate"><span class="pre">image_functions.uncompress_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.add_annotation_to_image"><code class="docutils literal notranslate"><span class="pre">image_functions.add_annotation_to_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.undistort_image"><code class="docutils literal notranslate"><span class="pre">image_functions.undistort_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.resize_img"><code class="docutils literal notranslate"><span class="pre">image_functions.resize_img()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.image_functions.concat_imgs"><code class="docutils literal notranslate"><span class="pre">image_functions.concat_imgs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vision/image_processing_api.html#enums-image-processing">Enums Image Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV"><code class="docutils literal notranslate"><span class="pre">ColorHSV</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorHSV.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV.RED"><code class="docutils literal notranslate"><span class="pre">ColorHSV.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorHSV.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSV.ANY"><code class="docutils literal notranslate"><span class="pre">ColorHSV.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime.RED"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ColorHSVPrime.ANY"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType"><code class="docutils literal notranslate"><span class="pre">ObjectType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType.SQUARE"><code class="docutils literal notranslate"><span class="pre">ObjectType.SQUARE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType.TRIANGLE"><code class="docutils literal notranslate"><span class="pre">ObjectType.TRIANGLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType.CIRCLE"><code class="docutils literal notranslate"><span class="pre">ObjectType.CIRCLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.ObjectType.ANY"><code class="docutils literal notranslate"><span class="pre">ObjectType.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType"><code class="docutils literal notranslate"><span class="pre">MorphoType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType.ERODE"><code class="docutils literal notranslate"><span class="pre">MorphoType.ERODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType.DILATE"><code class="docutils literal notranslate"><span class="pre">MorphoType.DILATE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType.OPEN"><code class="docutils literal notranslate"><span class="pre">MorphoType.OPEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.MorphoType.CLOSE"><code class="docutils literal notranslate"><span class="pre">MorphoType.CLOSE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.KernelType"><code class="docutils literal notranslate"><span class="pre">KernelType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.KernelType.RECT"><code class="docutils literal notranslate"><span class="pre">KernelType.RECT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.KernelType.ELLIPSE"><code class="docutils literal notranslate"><span class="pre">KernelType.ELLIPSE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../vision/image_processing_api.html#vision.enums.KernelType.CROSS"><code class="docutils literal notranslate"><span class="pre">KernelType.CROSS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyNiryo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Examples: Movement</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/source/examples/examples_movement.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="examples-movement">
+<h1>Examples: Movement<a class="headerlink" href="#examples-movement" title="Link to this heading"></a></h1>
+<p>This document shows how to control Ned in order to make Move Joints &amp; Move Pose.</p>
+<p>If you want to see more, you can look at <a class="reference internal" href="../api_doc/api.html#joints-pose"><span class="std std-ref">PyNiryo - Joints &amp; Pose</span></a></p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>In the following sections, you are supposed to be already connected to a calibrated robot.
+The robot’s instance is saved in the variable <code class="docutils literal notranslate"><span class="pre">robot</span></code>. To know how to do so, go
+look at section <a class="reference internal" href="examples_basics.html"><span class="doc">Examples: Basics</span></a>.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>If you are using the real robot, make sure the environment around it is clear.</p>
+</div>
+<section id="joints">
+<h2>Joints<a class="headerlink" href="#joints" title="Link to this heading"></a></h2>
+<section id="move-joints">
+<h3>Move Joints<a class="headerlink" href="#move-joints" title="Link to this heading"></a></h3>
+<p>To make a moveJ, you can either provide:</p>
+<ul class="simple">
+<li><p>6 floats : <code class="docutils literal notranslate"><span class="pre">j1,</span> <span class="pre">j2,</span> <span class="pre">j3,</span> <span class="pre">j4,</span> <span class="pre">j5,</span> <span class="pre">j6</span></code></p></li>
+<li><p>a list of 6 floats : <code class="docutils literal notranslate"><span class="pre">[j1,</span> <span class="pre">j2,</span> <span class="pre">j3,</span> <span class="pre">j4,</span> <span class="pre">j5,</span> <span class="pre">j6]</span></code></p></li>
+</ul>
+<p>It is possible to provide these parameters to the function <a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.move_joints" title="api.tcp_client.NiryoRobot.move_joints"><code class="xref py py-meth docutils literal notranslate"><span class="pre">move_joints()</span></code></a>
+or via the <code class="docutils literal notranslate"><span class="pre">joints</span></code> setter, at your convenience:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Moving Joints with function &amp; 6 floats</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">move_joints</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+<span class="c1"># Moving Joints with function &amp; a list of floats</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">move_joints</span><span class="p">([</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+
+<span class="c1"># Moving Joints with setter &amp; 6 floats</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">joints</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
+
+<span class="c1"># Moving Joints with setter &amp; a list of floats</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">joints</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>You should note that these 4 commands are doing exactly the same thing!
+In your future scripts, chose the one you prefer, but try to remain consistent to
+keep a good readability.</p>
+</section>
+<section id="get-joints">
+<h3>Get Joints<a class="headerlink" href="#get-joints" title="Link to this heading"></a></h3>
+<p>To get actual joint positions, you can use the function <a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_joints" title="api.tcp_client.NiryoRobot.get_joints"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_joints()</span></code></a>
+or the <code class="docutils literal notranslate"><span class="pre">joints</span></code> getter. Both will return a list of the 6 joints position:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Getting Joints with function</span>
+<span class="n">joints_read</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_joints</span><span class="p">()</span>
+
+<span class="c1"># Getting Joints with getter</span>
+<span class="n">joints_read</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">joints</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>As we are developing in Python, we can unpack list very easily, which means that
+we can retrieve joints value in 6 variables by writing <code class="docutils literal notranslate"><span class="pre">j1,</span> <span class="pre">j2,</span> <span class="pre">j3,</span> <span class="pre">j4,</span> <span class="pre">j5,</span> <span class="pre">j6</span> <span class="pre">=</span> <span class="pre">robot.get_joints()</span></code>.</p>
+</div>
+</section>
+</section>
+<section id="pose">
+<h2>Pose<a class="headerlink" href="#pose" title="Link to this heading"></a></h2>
+<section id="move-pose">
+<h3>Move Pose<a class="headerlink" href="#move-pose" title="Link to this heading"></a></h3>
+<p>To perform a moveP, you can provide:</p>
+<ul class="simple">
+<li><p>6 floats : x, y, z, roll, pitch, yaw</p></li>
+<li><p>a list of 6 floats : [x, y, z, roll, pitch, yaw]</p></li>
+<li><p>a <a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject" title="api.objects.PoseObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PoseObject</span></code></a></p></li>
+</ul>
+<p>As for MoveJ, it is possible to provide these parameters
+to the function <a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.move_pose" title="api.tcp_client.NiryoRobot.move_pose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">move_pose()</span></code></a>
+or the <code class="docutils literal notranslate"><span class="pre">pose</span></code> setter, at your convenience:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pose_target</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+<span class="n">pose_target_obj</span> <span class="o">=</span> <span class="n">PoseObject</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+<span class="c1"># Moving Pose with function</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">pose_target</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">pose_target_obj</span><span class="p">)</span>
+
+<span class="c1"># Moving Pose with setter</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="n">pose_target</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="n">pose_target_obj</span>
+</pre></div>
+</div>
+<p>Each of these 6 commands are doing the same thing.</p>
+</section>
+<section id="get-pose">
+<h3>Get Pose<a class="headerlink" href="#get-pose" title="Link to this heading"></a></h3>
+<p>To get end effector actual pose, you can use
+the function <a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_pose" title="api.tcp_client.NiryoRobot.get_pose"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_pose()</span></code></a>
+or the <code class="docutils literal notranslate"><span class="pre">pose</span></code> getter. Both will return a <a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject" title="api.objects.PoseObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PoseObject</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Getting Joints with function</span>
+<span class="n">pose_read</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_pose</span><span class="p">()</span>
+
+<span class="c1"># Getting Joints with getter</span>
+<span class="n">pose_read</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">pose</span>
+</pre></div>
+</div>
+</section>
+<section id="how-to-use-the-poseobject">
+<h3>How to use the PoseObject<a class="headerlink" href="#how-to-use-the-poseobject" title="Link to this heading"></a></h3>
+<p>The <a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject" title="api.objects.PoseObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PoseObject</span></code></a> is a Python object which allows to store all poses’ 6 coordinates (x, y, z,
+roll, pitch, yaw) in one single instance.
+It can be converted into a list if needed with the method
+<a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject.to_list" title="api.objects.PoseObject.to_list"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_list()</span></code></a>.</p>
+<p>It also allows to create new <a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject" title="api.objects.PoseObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">PoseObject</span></code></a> with some offset, much easier than
+copying list and editing only 1 or 2 values.
+For instance, imagine that we want to shift the place pose by 5 centimeters at each iteration of a loop,
+you can use the <a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject.copy_with_offsets" title="api.objects.PoseObject.copy_with_offsets"><code class="xref py py-meth docutils literal notranslate"><span class="pre">copy_with_offsets()</span></code></a> method:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pick_pose</span> <span class="o">=</span> <span class="n">PoseObject</span><span class="p">(</span>
+<span class="n">x</span><span class="o">=</span><span class="mf">0.30</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+<span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pitch</span><span class="o">=</span><span class="mf">1.57</span><span class="p">,</span> <span class="n">yaw</span><span class="o">=</span><span class="mf">0.0</span>
+<span class="p">)</span>
+<span class="n">first_place_pose</span> <span class="o">=</span> <span class="n">PoseObject</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+    <span class="n">roll</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pitch</span><span class="o">=</span><span class="mf">1.57</span><span class="p">,</span> <span class="n">yaw</span><span class="o">=</span><span class="mf">0.0</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">pick_pose</span><span class="p">)</span>
+    <span class="n">new_place_pose</span> <span class="o">=</span> <span class="n">first_place_pose</span><span class="o">.</span><span class="n">copy_with_offsets</span><span class="p">(</span><span class="n">x_offset</span><span class="o">=</span><span class="mf">0.05</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">new_place_pose</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="examples_basics.html" class="btn btn-neutral float-left" title="Examples: Basics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples_tool_action.html" class="btn btn-neutral float-right" title="Examples: Tool action" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Niryo All rights reserved. No part of this document may be reproduced or transmitted in any form or by any means without prior written consent of Niryo SAS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="injected">
+  <div class="rst-versions " data-toggle="rst-versions" role="note"
+    aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;&nbsp;Other versions&nbsp;&nbsp;</span>
+      v: v1.0.5
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Tags</dt>
+        <dd class="">
+          <a href="../../../v1.2.1-1/index.html">v1.2.1-1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.2/index.html">v1.2.2</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.2/index.html">v1.1.2</a>
+        </dd>
+        <dd class="rtd-current-item">
+          <a href="../../../v1.0.5/index.html">v1.0.5</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.0/index.html">v1.2.0</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.0.4/index.html">v1.0.4</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.3/index.html">v1.2.3</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.0.3/index.html">v1.0.3</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.0/index.html">v1.1.0</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.0-1/index.html">v1.2.0-1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.1/index.html">v1.1.1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.1/index.html">v1.2.1</a>
+        </dd>
+      </dl>
+      <dl>
+        <dt>Search</dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="../../
+              ../v1.0.5/index.html/../search.html" method="get">
+              <input type="text" name="q" aria-label="Search docs" placeholder="Search docs">
+            </form>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85632199-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-85632199-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>

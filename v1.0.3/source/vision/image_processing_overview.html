@@ -1,0 +1,1006 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overview &amp; Examples &mdash; PyNiryo v1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+      <link rel="stylesheet" type="text/css" href="../../_static/_rst_properties.css?v=754ff73a" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=411a527d"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Functions Documentation" href="image_processing_api.html" />
+    <link rel="prev" title="PyNiryo API Documentation" href="../api_doc/api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyNiryo
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup/installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../setup/installation.html#installation-with-pip">Installation with pip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/installation.html#uninstall">Uninstall</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/ip_address.html">Find your Robot’s IP address</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#hotspot-mode">Hotspot mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#simulation-or-directly-on-the-robot">Simulation or directly on the robot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#direct-ethernet-connection">Direct Ethernet connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#computer-and-robot-connected-on-the-same-router">Computer and Robot Connected on the same router</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup/ip_address.html#make-ip-permanent">Make IP permanent</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../setup/ip_address.html#step-1">Step 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../setup/ip_address.html#step-2">Step 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../setup/ip_address.html#step-3">Step 3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../setup/verify_setup.html">Verify your Setup and Get Started</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_basics.html">Examples: Basics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_basics.html#your-first-move-joint">Your first move joint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_basics.html#code-details-first-move-j">Code Details - First Move J</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_basics.html#your-first-pick-and-place">Your first pick and place</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_basics.html#code-details-first-pick-and-place">Code Details - First Pick And Place</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_basics.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_movement.html">Examples: Movement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_movement.html#joints">Joints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#move-joints">Move Joints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#get-joints">Get Joints</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_movement.html#pose">Pose</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#move-pose">Move Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#get-pose">Get Pose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_movement.html#how-to-use-the-poseobject">How to use the PoseObject</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_tool_action.html">Examples: Tool Action</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_tool_action.html#tool-control">Tool control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#equip-tool">Equip Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#grasping">Grasping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#releasing">Releasing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_tool_action.html#pick-place-with-tools">Pick &amp; Place with tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#code-baseline">Code Baseline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#first-solution-the-heaviest">First Solution : the heaviest</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#second-solution-use-of-poseobject">Second Solution : Use of PoseObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#third-solution-pick-from-pose-place-from-pose-functions">Third Solution : Pick from pose &amp; Place from pose functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_tool_action.html#fourth-solution-all-in-one">Fourth Solution : All in one</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_conveyor.html">Examples: Conveyor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_conveyor.html#simple-conveyor-control">Simple Conveyor control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_conveyor.html#advanced-conveyor-control">Advanced Conveyor control</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/examples_vision.html">Examples: Vision</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#needed-piece-of-code">Needed piece of code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#simple-vision-pick-place">Simple Vision Pick &amp; Place</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_vision.html#code-details-simple-vision-pick-and-place">Code Details - Simple Vision Pick and Place</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#first-conditioning-via-vision">First conditioning via Vision</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_vision.html#code-details-first-conditioning-via-vision">Code Details - First Conditioning via Vision</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#multi-reference-conditioning">Multi Reference Conditioning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_vision.html#code-details-multi-reference-conditioning">Code Details - Multi Reference Conditioning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples_vision.html#sorting-pick-with-conveyor">Sorting Pick with Conveyor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../examples/examples_vision.html#code-details-sort-picking">Code Details - Sort Picking</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/code_templates.html">Code templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/code_templates.html#the-short-template">The short template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/code_templates.html#advanced-template">Advanced template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/code_templates.html#advanced-template-for-conveyor">Advanced template for conveyor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/code_templates.html#advanced-template-for-vision">Advanced template for vision</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api_doc/api.html">PyNiryo API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#module-api.tcp_client">Command Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#tcp-connection">TCP Connection</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#main-purpose-functions">Main purpose functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id0"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#joints-pose">Joints &amp; Pose</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id1"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#saved-poses">Saved Poses</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id2"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#pick-place">Pick &amp; Place</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id3"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#trajectories">Trajectories</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id4"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#tools">Tools</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id5"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#hardware">Hardware</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id6"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#conveyor">Conveyor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id7"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#vision">Vision</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#id8"><code class="docutils literal notranslate"><span class="pre">NiryoRobot</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#enums">Enums</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.CalibrateMode"><code class="docutils literal notranslate"><span class="pre">CalibrateMode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.CalibrateMode.AUTO"><code class="docutils literal notranslate"><span class="pre">CalibrateMode.AUTO</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.CalibrateMode.MANUAL"><code class="docutils literal notranslate"><span class="pre">CalibrateMode.MANUAL</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis"><code class="docutils literal notranslate"><span class="pre">RobotAxis</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis.X"><code class="docutils literal notranslate"><span class="pre">RobotAxis.X</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis.Y"><code class="docutils literal notranslate"><span class="pre">RobotAxis.Y</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis.Z"><code class="docutils literal notranslate"><span class="pre">RobotAxis.Z</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis.ROLL"><code class="docutils literal notranslate"><span class="pre">RobotAxis.ROLL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis.PITCH"><code class="docutils literal notranslate"><span class="pre">RobotAxis.PITCH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.RobotAxis.YAW"><code class="docutils literal notranslate"><span class="pre">RobotAxis.YAW</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID"><code class="docutils literal notranslate"><span class="pre">ToolID</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID.NONE"><code class="docutils literal notranslate"><span class="pre">ToolID.NONE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID.GRIPPER_1"><code class="docutils literal notranslate"><span class="pre">ToolID.GRIPPER_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID.GRIPPER_2"><code class="docutils literal notranslate"><span class="pre">ToolID.GRIPPER_2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID.GRIPPER_3"><code class="docutils literal notranslate"><span class="pre">ToolID.GRIPPER_3</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID.ELECTROMAGNET_1"><code class="docutils literal notranslate"><span class="pre">ToolID.ELECTROMAGNET_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ToolID.VACUUM_PUMP_1"><code class="docutils literal notranslate"><span class="pre">ToolID.VACUUM_PUMP_1</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinMode"><code class="docutils literal notranslate"><span class="pre">PinMode</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinMode.OUTPUT"><code class="docutils literal notranslate"><span class="pre">PinMode.OUTPUT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinMode.INPUT"><code class="docutils literal notranslate"><span class="pre">PinMode.INPUT</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinState"><code class="docutils literal notranslate"><span class="pre">PinState</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinState.LOW"><code class="docutils literal notranslate"><span class="pre">PinState.LOW</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinState.HIGH"><code class="docutils literal notranslate"><span class="pre">PinState.HIGH</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID"><code class="docutils literal notranslate"><span class="pre">PinID</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.GPIO_1A"><code class="docutils literal notranslate"><span class="pre">PinID.GPIO_1A</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.GPIO_1B"><code class="docutils literal notranslate"><span class="pre">PinID.GPIO_1B</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.GPIO_1C"><code class="docutils literal notranslate"><span class="pre">PinID.GPIO_1C</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.GPIO_2A"><code class="docutils literal notranslate"><span class="pre">PinID.GPIO_2A</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.GPIO_2B"><code class="docutils literal notranslate"><span class="pre">PinID.GPIO_2B</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.GPIO_2C"><code class="docutils literal notranslate"><span class="pre">PinID.GPIO_2C</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.SW_1"><code class="docutils literal notranslate"><span class="pre">PinID.SW_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.SW_2"><code class="docutils literal notranslate"><span class="pre">PinID.SW_2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DO1"><code class="docutils literal notranslate"><span class="pre">PinID.DO1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DO2"><code class="docutils literal notranslate"><span class="pre">PinID.DO2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DO3"><code class="docutils literal notranslate"><span class="pre">PinID.DO3</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DO4"><code class="docutils literal notranslate"><span class="pre">PinID.DO4</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DI1"><code class="docutils literal notranslate"><span class="pre">PinID.DI1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DI2"><code class="docutils literal notranslate"><span class="pre">PinID.DI2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DI3"><code class="docutils literal notranslate"><span class="pre">PinID.DI3</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DI4"><code class="docutils literal notranslate"><span class="pre">PinID.DI4</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.DI5"><code class="docutils literal notranslate"><span class="pre">PinID.DI5</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.AI1"><code class="docutils literal notranslate"><span class="pre">PinID.AI1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.AI2"><code class="docutils literal notranslate"><span class="pre">PinID.AI2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.AO1"><code class="docutils literal notranslate"><span class="pre">PinID.AO1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.PinID.AO2"><code class="docutils literal notranslate"><span class="pre">PinID.AO2</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorID"><code class="docutils literal notranslate"><span class="pre">ConveyorID</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorID.NONE"><code class="docutils literal notranslate"><span class="pre">ConveyorID.NONE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorID.ID_1"><code class="docutils literal notranslate"><span class="pre">ConveyorID.ID_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorID.ID_2"><code class="docutils literal notranslate"><span class="pre">ConveyorID.ID_2</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorDirection"><code class="docutils literal notranslate"><span class="pre">ConveyorDirection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorDirection.FORWARD"><code class="docutils literal notranslate"><span class="pre">ConveyorDirection.FORWARD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ConveyorDirection.BACKWARD"><code class="docutils literal notranslate"><span class="pre">ConveyorDirection.BACKWARD</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectColor"><code class="docutils literal notranslate"><span class="pre">ObjectColor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectColor.RED"><code class="docutils literal notranslate"><span class="pre">ObjectColor.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectColor.BLUE"><code class="docutils literal notranslate"><span class="pre">ObjectColor.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectColor.GREEN"><code class="docutils literal notranslate"><span class="pre">ObjectColor.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectColor.ANY"><code class="docutils literal notranslate"><span class="pre">ObjectColor.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectShape"><code class="docutils literal notranslate"><span class="pre">ObjectShape</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectShape.SQUARE"><code class="docutils literal notranslate"><span class="pre">ObjectShape.SQUARE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectShape.CIRCLE"><code class="docutils literal notranslate"><span class="pre">ObjectShape.CIRCLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.enums_communication.ObjectShape.ANY"><code class="docutils literal notranslate"><span class="pre">ObjectShape.ANY</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/api.html#python-object-classes">Python Object classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject"><code class="docutils literal notranslate"><span class="pre">PoseObject</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject.copy_with_offsets"><code class="docutils literal notranslate"><span class="pre">PoseObject.copy_with_offsets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api_doc/api.html#api.objects.PoseObject.to_list"><code class="docutils literal notranslate"><span class="pre">PoseObject.to_list()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.HardwareStatusObject"><code class="docutils literal notranslate"><span class="pre">HardwareStatusObject</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.DigitalPinObject"><code class="docutils literal notranslate"><span class="pre">DigitalPinObject</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../api_doc/api.html#api.objects.AnalogPinObject"><code class="docutils literal notranslate"><span class="pre">AnalogPinObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Image Processing</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview &amp; Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#play-with-robot-video-stream">Play with Robot Video Stream</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#get-display-image-from-stream">Get &amp; Display Image from Stream</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#undistort-and-display-video-stream">Undistort and display video stream</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#pure-image-processing-functions">Pure image processing functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#color-thresholding">Color Thresholding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#morphological-transformations">Morphological Transformations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#contours-finder">Contours finder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#find-object-center-position">Find object center position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#markers-extraction">Markers Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#debug-mode">Debug mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#do-your-own-image-processing">Do your own image processing !</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#display-video-stream-with-extracted-workspace">Display video stream with extracted workspace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vision-pick-via-your-image-processing-pipeline">Vision pick via your image processing pipeline</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="image_processing_api.html">Functions Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="image_processing_api.html#module-vision.image_functions">Pure Image Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.biggest_contours_finder"><code class="docutils literal notranslate"><span class="pre">biggest_contours_finder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.debug_threshold_color"><code class="docutils literal notranslate"><span class="pre">debug_threshold_color()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.draw_contours"><code class="docutils literal notranslate"><span class="pre">draw_contours()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.get_contour_angle"><code class="docutils literal notranslate"><span class="pre">get_contour_angle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.get_contour_barycenter"><code class="docutils literal notranslate"><span class="pre">get_contour_barycenter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.morphological_transformations"><code class="docutils literal notranslate"><span class="pre">morphological_transformations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.threshold_hsv"><code class="docutils literal notranslate"><span class="pre">threshold_hsv()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="image_processing_api.html#module-0">Workspaces wise</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.debug_markers"><code class="docutils literal notranslate"><span class="pre">debug_markers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.extract_img_workspace"><code class="docutils literal notranslate"><span class="pre">extract_img_workspace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.relative_pos_from_pixels"><code class="docutils literal notranslate"><span class="pre">relative_pos_from_pixels()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="image_processing_api.html#module-1">Show</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.show_img"><code class="docutils literal notranslate"><span class="pre">show_img()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.show_img_and_check_close"><code class="docutils literal notranslate"><span class="pre">show_img_and_check_close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.show_img_and_wait_close"><code class="docutils literal notranslate"><span class="pre">show_img_and_wait_close()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="image_processing_api.html#module-2">Image Editing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.add_annotation_to_image"><code class="docutils literal notranslate"><span class="pre">add_annotation_to_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.compress_image"><code class="docutils literal notranslate"><span class="pre">compress_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.concat_imgs"><code class="docutils literal notranslate"><span class="pre">concat_imgs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.resize_img"><code class="docutils literal notranslate"><span class="pre">resize_img()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.uncompress_image"><code class="docutils literal notranslate"><span class="pre">uncompress_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.image_functions.undistort_image"><code class="docutils literal notranslate"><span class="pre">undistort_image()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="image_processing_api.html#enums-image-processing">Enums Image Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.enums.ColorHSV"><code class="docutils literal notranslate"><span class="pre">ColorHSV</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.ColorHSV.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorHSV.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.ColorHSV.RED"><code class="docutils literal notranslate"><span class="pre">ColorHSV.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.ColorHSV.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorHSV.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.ColorHSV.ANY"><code class="docutils literal notranslate"><span class="pre">ColorHSV.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.enums.ColorHSVPrime"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.ColorHSVPrime.BLUE"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.BLUE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.ColorHSVPrime.RED"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.RED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.ColorHSVPrime.GREEN"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.GREEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.ColorHSVPrime.ANY"><code class="docutils literal notranslate"><span class="pre">ColorHSVPrime.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.enums.ObjectType"><code class="docutils literal notranslate"><span class="pre">ObjectType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.ObjectType.SQUARE"><code class="docutils literal notranslate"><span class="pre">ObjectType.SQUARE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.ObjectType.TRIANGLE"><code class="docutils literal notranslate"><span class="pre">ObjectType.TRIANGLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.ObjectType.CIRCLE"><code class="docutils literal notranslate"><span class="pre">ObjectType.CIRCLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.ObjectType.ANY"><code class="docutils literal notranslate"><span class="pre">ObjectType.ANY</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.enums.MorphoType"><code class="docutils literal notranslate"><span class="pre">MorphoType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.MorphoType.ERODE"><code class="docutils literal notranslate"><span class="pre">MorphoType.ERODE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.MorphoType.DILATE"><code class="docutils literal notranslate"><span class="pre">MorphoType.DILATE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.MorphoType.OPEN"><code class="docutils literal notranslate"><span class="pre">MorphoType.OPEN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.MorphoType.CLOSE"><code class="docutils literal notranslate"><span class="pre">MorphoType.CLOSE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="image_processing_api.html#vision.enums.KernelType"><code class="docutils literal notranslate"><span class="pre">KernelType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.KernelType.RECT"><code class="docutils literal notranslate"><span class="pre">KernelType.RECT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.KernelType.ELLIPSE"><code class="docutils literal notranslate"><span class="pre">KernelType.ELLIPSE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="image_processing_api.html#vision.enums.KernelType.CROSS"><code class="docutils literal notranslate"><span class="pre">KernelType.CROSS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyNiryo</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Overview &amp; Examples</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/source/vision/image_processing_overview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="overview-examples">
+<h1>Overview &amp; Examples<a class="headerlink" href="#overview-examples" title="Link to this heading"></a></h1>
+<p>This file illustrates few image processing pipeline using vision module from
+niryo_edu package. This module is based in <a class="reference external" href="https://opencv.org/">OpenCV</a> and
+its functions are detailed in <a class="reference internal" href="image_processing_api.html"><span class="doc">Image Processing API</span></a></p>
+<div class="line-block">
+<div class="line">The package niryo_edu comes up with the <strong>vision</strong> module which contains
+image processing functions including thresholding, blob detection, …</div>
+<div class="line">To use it, add to your imports <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyniryo.vision</span> <span class="pre">import</span> <span class="pre">*</span></code></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is also possible to merge both import lines by using <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pyniryo</span> <span class="pre">import</span> <span class="pre">*</span></code></p>
+</div>
+<section id="play-with-robot-video-stream">
+<h2>Play with Robot Video Stream<a class="headerlink" href="#play-with-robot-video-stream" title="Link to this heading"></a></h2>
+<p>We are firstly going to take a look at robot’s functions which
+can be find at <span class="xref std std-ref">API - Vision</span></p>
+<section id="get-display-image-from-stream">
+<h3>Get &amp; Display Image from Stream<a class="headerlink" href="#get-display-image-from-stream" title="Link to this heading"></a></h3>
+<p>Ned can share its video stream through TCP. As sending raw images will
+lead to heavy packets which can saturate the network, it send compressed images.
+You access it through the Robot’s function :
+<a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_img_compressed" title="api.tcp_client.NiryoRobot.get_img_compressed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_img_compressed()</span></code></a>.
+Once your image is received, you firstly need to uncompress via
+<a class="reference internal" href="image_processing_api.html#vision.image_functions.uncompress_image" title="vision.image_functions.uncompress_image"><code class="xref py py-func docutils literal notranslate"><span class="pre">uncompress_image()</span></code></a> and you can then display
+it with <a class="reference internal" href="image_processing_api.html#vision.image_functions.show_img_and_wait_close" title="vision.image_functions.show_img_and_wait_close"><code class="xref py py-func docutils literal notranslate"><span class="pre">show_img_and_wait_close()</span></code></a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyniryo</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># Connecting to robot</span>
+<span class="n">robot</span> <span class="o">=</span> <span class="n">NiryoRobot</span><span class="p">(</span><span class="s2">&quot;10.10.10.10&quot;</span><span class="p">)</span>
+
+<span class="c1"># Getting image</span>
+<span class="n">img_compressed</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_img_compressed</span><span class="p">()</span>
+<span class="c1"># Uncompressing image</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">uncompress_image</span><span class="p">(</span><span class="n">img_compressed</span><span class="p">)</span>
+
+<span class="c1"># Displaying</span>
+<span class="n">show_img_and_wait_close</span><span class="p">(</span><span class="s2">&quot;img_stream&quot;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="image_processing_api.html#vision.image_functions.show_img_and_wait_close" title="vision.image_functions.show_img_and_wait_close"><code class="xref py py-func docutils literal notranslate"><span class="pre">show_img_and_wait_close()</span></code></a> will wait for the user
+to press either <em>Q</em> or <em>Esc</em> key, before closing the window</p>
+</div>
+</section>
+<section id="undistort-and-display-video-stream">
+<h3>Undistort and display video stream<a class="headerlink" href="#undistort-and-display-video-stream" title="Link to this heading"></a></h3>
+<p>In this section, we are going to display the raw video stream &amp; the
+undistorted video stream</p>
+<p>As Ned’s camera is passing raw images to the robot, these
+images are distorted due to the camera lens. In order to undistort them,
+we need to use Robot’s camera intrinsics.</p>
+<p>To undistort the raw image, we use <a class="reference internal" href="image_processing_api.html#vision.image_functions.undistort_image" title="vision.image_functions.undistort_image"><code class="xref py py-func docutils literal notranslate"><span class="pre">undistort_image()</span></code></a>
+which need to be called with the parameters given by the robot through
+<a class="reference internal" href="../api_doc/api.html#api.tcp_client.NiryoRobot.get_camera_intrinsics" title="api.tcp_client.NiryoRobot.get_camera_intrinsics"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_camera_intrinsics()</span></code></a>.</p>
+<p>Once, we have both raw &amp; undistorted images, we can concatenate them in order
+to display them in once with <a class="reference internal" href="image_processing_api.html#vision.image_functions.concat_imgs" title="vision.image_functions.concat_imgs"><code class="xref py py-func docutils literal notranslate"><span class="pre">concat_imgs()</span></code></a>.
+Finally, we display the image <a class="reference internal" href="image_processing_api.html#vision.image_functions.show_img" title="vision.image_functions.show_img"><code class="xref py py-func docutils literal notranslate"><span class="pre">show_img()</span></code></a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyniryo</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">observation_pose</span> <span class="o">=</span> <span class="n">PoseObject</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="mf">0.18</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span>
+    <span class="n">roll</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">pitch</span><span class="o">=</span><span class="mf">1.57</span><span class="p">,</span> <span class="n">yaw</span><span class="o">=-</span><span class="mf">0.2</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Connecting to robot</span>
+<span class="n">robot</span> <span class="o">=</span> <span class="n">NiryoRobot</span><span class="p">(</span><span class="s2">&quot;10.10.10.10&quot;</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">calibrate_auto</span><span class="p">()</span>
+
+<span class="c1"># Getting calibration param</span>
+<span class="n">mtx</span><span class="p">,</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_camera_intrinsics</span><span class="p">()</span>
+<span class="c1"># Moving to observation pose</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">observation_pose</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="s2">&quot;User do not press Escape neither Q&quot;</span><span class="p">:</span>
+    <span class="c1"># Getting image</span>
+    <span class="n">img_compressed</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_img_compressed</span><span class="p">()</span>
+    <span class="c1"># Uncompressing image</span>
+    <span class="n">img_raw</span> <span class="o">=</span> <span class="n">uncompress_image</span><span class="p">(</span><span class="n">img_compressed</span><span class="p">)</span>
+    <span class="c1"># Undistorting</span>
+    <span class="n">img_undistort</span> <span class="o">=</span> <span class="n">undistort_image</span><span class="p">(</span><span class="n">img_raw</span><span class="p">,</span> <span class="n">mtx</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
+
+    <span class="c1"># - Display</span>
+    <span class="c1"># Concatenating raw image and undistorted image</span>
+    <span class="n">concat_ims</span> <span class="o">=</span> <span class="n">concat_imgs</span><span class="p">((</span><span class="n">img_raw</span><span class="p">,</span> <span class="n">img_undistort</span><span class="p">))</span>
+
+    <span class="c1"># Showing images</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">show_img</span><span class="p">(</span><span class="s2">&quot;Images raw &amp; undistorted&quot;</span><span class="p">,</span> <span class="n">concat_ims</span><span class="p">,</span> <span class="n">wait_ms</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">27</span><span class="p">,</span> <span class="nb">ord</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">)]:</span>  <span class="c1"># Will break loop if the user press Escape or Q</span>
+        <span class="k">break</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To see more about camera distortion/undistortion,
+go on <a class="reference external" href="https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html">OpenCV Documentation about Camera Calibration</a></p>
+</div>
+</section>
+</section>
+<section id="pure-image-processing-functions">
+<h2>Pure image processing functions<a class="headerlink" href="#pure-image-processing-functions" title="Link to this heading"></a></h2>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>See TP on image processing for more theoretical information</p>
+</div>
+<p>In order to illustrate functions, we are going to use the following image</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/img_illustration.jpg"><img alt="Image illustration" src="../../_images/img_illustration.jpg" style="width: 600px;" />
+</a>
+</figure>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>In this section it is supposed that :</p>
+<ul class="simple">
+<li><p>You have import <code class="docutils literal notranslate"><span class="pre">pyniryo.vision</span></code></p></li>
+<li><p>The variable <code class="docutils literal notranslate"><span class="pre">img</span></code> is containing the image on which image processing is applied</p></li>
+</ul>
+</div>
+<section id="color-thresholding">
+<h3>Color Thresholding<a class="headerlink" href="#color-thresholding" title="Link to this heading"></a></h3>
+<p>Color Thresholding is very useful in order to detect object with an uniform color.
+The implemented function to realize this operation is
+<a class="reference internal" href="image_processing_api.html#vision.image_functions.threshold_hsv" title="vision.image_functions.threshold_hsv"><code class="xref py py-func docutils literal notranslate"><span class="pre">threshold_hsv()</span></code></a></p>
+<p>The following code is using parameters from <a class="reference internal" href="image_processing_api.html#vision.enums.ColorHSV" title="vision.enums.ColorHSV"><code class="xref py py-class docutils literal notranslate"><span class="pre">ColorHSV</span></code></a> enum
+in order to threshold Red features &amp; <em>hand made</em> parameters to extract Blue</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">img_threshold_red</span> <span class="o">=</span> <span class="n">threshold_hsv</span><span class="p">(</span><span class="n">img_test</span><span class="p">,</span> <span class="o">*</span><span class="n">ColorHSV</span><span class="o">.</span><span class="n">RED</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+<span class="n">blue_min_hsv</span> <span class="o">=</span> <span class="p">[</span><span class="mi">90</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">70</span><span class="p">]</span>
+<span class="n">blue_max_hsv</span> <span class="o">=</span> <span class="p">[</span><span class="mi">125</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">]</span>
+
+<span class="n">img_threshold_blue</span> <span class="o">=</span> <span class="n">threshold_hsv</span><span class="p">(</span><span class="n">img_test</span><span class="p">,</span> <span class="n">list_min_hsv</span><span class="o">=</span><span class="n">blue_min_hsv</span><span class="p">,</span>
+                                   <span class="n">list_max_hsv</span><span class="o">=</span><span class="n">blue_max_hsv</span><span class="p">,</span> <span class="n">reverse_hue</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">show_img</span><span class="p">(</span><span class="s2">&quot;img_threshold_red&quot;</span><span class="p">,</span> <span class="n">img_threshold_red</span><span class="p">)</span>
+
+<span class="n">show_img_and_wait_close</span><span class="p">(</span><span class="s2">&quot;img_threshold_blue&quot;</span><span class="p">,</span> <span class="n">img_threshold_blue</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id1">
+<caption><span class="caption-text">Images result</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Thresh Color</p></th>
+<th class="head"><p>Image Result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Blue</p></td>
+<td><img alt="Image Threshold Blue" src="../../_images/img_threshold_blue.jpg" />
+</td>
+</tr>
+<tr class="row-odd"><td><p>Red</p></td>
+<td><img alt="Image Threshold Red" src="../../_images/img_threshold_red.jpg" />
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="morphological-transformations">
+<h3>Morphological Transformations<a class="headerlink" href="#morphological-transformations" title="Link to this heading"></a></h3>
+<p>Morphological transformations are some simple operations based on the image shape. It is normally performed on binary images. It needs two inputs, one is our original image, second one is called structuring element or kernel which decides the nature of operation.
+Two basic morphological operators are
+<a class="reference external" href="https://en.wikipedia.org/wiki/Mathematical_morphology#Erosion">Erosion</a>
+and <a class="reference external" href="https://en.wikipedia.org/wiki/Mathematical_morphology#Dilation">Dilation</a></p>
+<p>Then its variant forms like
+<a class="reference external" href="https://en.wikipedia.org/wiki/Mathematical_morphology#Opening">Opening</a>,
+<a class="reference external" href="https://en.wikipedia.org/wiki/Mathematical_morphology#Closing">Closing</a>
+also comes into play.
+Lean more on <a class="reference external" href="https://en.wikipedia.org/wiki/Mathematical_morphology">Wikipedia page</a></p>
+<p>The implemented function to realize these operations is
+<a class="reference internal" href="image_processing_api.html#vision.image_functions.morphological_transformations" title="vision.image_functions.morphological_transformations"><code class="xref py py-func docutils literal notranslate"><span class="pre">morphological_transformations()</span></code></a>.
+It uses <a class="reference internal" href="image_processing_api.html#vision.enums.MorphoType" title="vision.enums.MorphoType"><code class="xref py py-class docutils literal notranslate"><span class="pre">MorphoType</span></code></a> and <a class="reference internal" href="image_processing_api.html#vision.enums.KernelType" title="vision.enums.KernelType"><code class="xref py py-class docutils literal notranslate"><span class="pre">KernelType</span></code></a>
+to determine which operation should be applied on the image</p>
+<p>The code shows how to do a Closing &amp; an Erosion</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">img_threshold</span> <span class="o">=</span> <span class="n">threshold_hsv</span><span class="p">(</span><span class="n">img_test</span><span class="p">,</span> <span class="o">*</span><span class="n">ColorHSV</span><span class="o">.</span><span class="n">ANY</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+<span class="n">img_close</span> <span class="o">=</span> <span class="n">morphological_transformations</span><span class="p">(</span><span class="n">img_threshold</span><span class="p">,</span> <span class="n">morpho_type</span><span class="o">=</span><span class="n">MorphoType</span><span class="o">.</span><span class="n">CLOSE</span><span class="p">,</span>
+                                          <span class="n">kernel_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">kernel_type</span><span class="o">=</span><span class="n">KernelType</span><span class="o">.</span><span class="n">ELLIPSE</span><span class="p">)</span>
+
+<span class="n">img_erode</span> <span class="o">=</span> <span class="n">morphological_transformations</span><span class="p">(</span><span class="n">img_threshold</span><span class="p">,</span> <span class="n">morpho_type</span><span class="o">=</span><span class="n">MorphoType</span><span class="o">.</span><span class="n">ERODE</span><span class="p">,</span>
+                                          <span class="n">kernel_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">kernel_type</span><span class="o">=</span><span class="n">KernelType</span><span class="o">.</span><span class="n">RECT</span><span class="p">)</span>
+
+<span class="n">show_img</span><span class="p">(</span><span class="s2">&quot;img_threshold&quot;</span><span class="p">,</span> <span class="n">img_threshold</span><span class="p">)</span>
+<span class="n">show_img</span><span class="p">(</span><span class="s2">&quot;img_erode&quot;</span><span class="p">,</span> <span class="n">img_erode</span><span class="p">)</span>
+<span class="n">show_img_and_wait_close</span><span class="p">(</span><span class="s2">&quot;img_close&quot;</span><span class="p">,</span> <span class="n">img_close</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id2">
+<caption><span class="caption-text">Images result</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Morpho Type</p></th>
+<th class="head"><p>Image Result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>None</p></td>
+<td><img alt="Image Threshold Any" src="../../_images/img_threshold_any.jpg" />
+</td>
+</tr>
+<tr class="row-odd"><td><p>Erode</p></td>
+<td><img alt="Image Erode" src="../../_images/img_threshold_erode.jpg" />
+</td>
+</tr>
+<tr class="row-even"><td><p>Close</p></td>
+<td><img alt="Image Close" src="../../_images/img_threshold_close.jpg" />
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="contours-finder">
+<h3>Contours finder<a class="headerlink" href="#contours-finder" title="Link to this heading"></a></h3>
+<p>Contours can be explained simply as a curve joining all the continuous
+points (along the boundary), having same color or intensity.
+The contours are a useful tool for shape analysis and
+object detection and recognition. See more on
+<a class="reference external" href="https://docs.opencv.org/3.4/d3/d05/tutorial_py_table_of_contents_contours.html">OpenCV Documentation</a>.</p>
+<p>The implemented function to realize these operations is
+<a class="reference internal" href="image_processing_api.html#vision.image_functions.biggest_contours_finder" title="vision.image_functions.biggest_contours_finder"><code class="xref py py-func docutils literal notranslate"><span class="pre">biggest_contours_finder()</span></code></a> which takes a
+Black &amp; White image, and extract biggest (in term of area) contours from it</p>
+<p>The code to extract and draw the 3 biggest contours from an image is
+the following :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">img_threshold</span> <span class="o">=</span> <span class="n">threshold_hsv</span><span class="p">(</span><span class="n">img_test</span><span class="p">,</span> <span class="o">*</span><span class="n">ColorHSV</span><span class="o">.</span><span class="n">ANY</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="n">img_threshold</span> <span class="o">=</span> <span class="n">morphological_transformations</span><span class="p">(</span><span class="n">img_threshold</span><span class="p">,</span> <span class="n">morpho_type</span><span class="o">=</span><span class="n">MorphoType</span><span class="o">.</span><span class="n">OPEN</span><span class="p">,</span>
+                                              <span class="n">kernel_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">kernel_type</span><span class="o">=</span><span class="n">KernelType</span><span class="o">.</span><span class="n">ELLIPSE</span><span class="p">)</span>
+
+<span class="n">cnts</span> <span class="o">=</span> <span class="n">biggest_contours_finder</span><span class="p">(</span><span class="n">img_threshold</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">img_contours</span> <span class="o">=</span> <span class="n">draw_contours</span><span class="p">(</span><span class="n">img_threshold</span><span class="p">,</span> <span class="n">cnts</span><span class="p">)</span>
+
+<span class="n">show_img</span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">,</span> <span class="n">img_threshold</span><span class="p">)</span>
+<span class="n">show_img_and_wait_close</span><span class="p">(</span><span class="s2">&quot;img with contours&quot;</span><span class="p">,</span> <span class="n">img_contours</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id3">
+<caption><span class="caption-text">Images result</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>Thresh + Opening</p></td>
+<td><img alt="Image Threshold Any &amp; Open" src="../../_images/img_threshold_any_open.jpg" />
+</td>
+</tr>
+<tr class="row-even"><td><p>3 Contours</p></td>
+<td><img alt="3 contours" src="../../_images/img_threshold_any_open_3_cnt.jpg" />
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="find-object-center-position">
+<h3>Find object center position<a class="headerlink" href="#find-object-center-position" title="Link to this heading"></a></h3>
+<p>In order to catch an object, we need to find a pose from where the
+end effector can grasp the object. The method which follow
+uses contours which have been found in the previous section and finds their
+barycenter and orientation via the functions
+<a class="reference internal" href="image_processing_api.html#vision.image_functions.get_contour_barycenter" title="vision.image_functions.get_contour_barycenter"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_contour_barycenter()</span></code></a> &amp;
+<a class="reference internal" href="image_processing_api.html#vision.image_functions.get_contour_angle" title="vision.image_functions.get_contour_angle"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_contour_angle()</span></code></a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">img_threshold</span> <span class="o">=</span> <span class="n">threshold_hsv</span><span class="p">(</span><span class="n">img_test</span><span class="p">,</span> <span class="o">*</span><span class="n">ColorHSV</span><span class="o">.</span><span class="n">ANY</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="n">img_threshold</span> <span class="o">=</span> <span class="n">morphological_transformations</span><span class="p">(</span><span class="n">img_threshold</span><span class="p">,</span> <span class="n">morpho_type</span><span class="o">=</span><span class="n">MorphoType</span><span class="o">.</span><span class="n">OPEN</span><span class="p">,</span>
+                                              <span class="n">kernel_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">kernel_type</span><span class="o">=</span><span class="n">KernelType</span><span class="o">.</span><span class="n">ELLIPSE</span><span class="p">)</span>
+
+<span class="n">cnt</span> <span class="o">=</span> <span class="n">biggest_contour_finder</span><span class="p">(</span><span class="n">img_threshold</span><span class="p">)</span>
+
+<span class="n">cnt_barycenter</span> <span class="o">=</span> <span class="n">get_contour_barycenter</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+<span class="n">cnt_angle</span> <span class="o">=</span> <span class="n">get_contour_angle</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id4">
+<caption><span class="caption-text">Images result</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>Thresh + Opening</p></td>
+<td><img alt="Image Threshold Any &amp; Open" src="../../_images/img_threshold_any_open.jpg" />
+</td>
+</tr>
+<tr class="row-even"><td><p>Barycenter + Angle</p></td>
+<td><img alt="Barycenter + Angle" src="../../_images/cnt_with_angle.jpg" />
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The drawn vector is normal to the contour’s length because we want the robot
+to catch the object by the width rather than the length. Indeed, it leads to
+least cases where the gripper cannot open enough</p>
+</div>
+</section>
+<section id="markers-extraction">
+<h3>Markers Extraction<a class="headerlink" href="#markers-extraction" title="Link to this heading"></a></h3>
+<p>As image processing happens in a workspace, it is important to extract
+the workspace beforehand ! To do so, you can use the function
+<a class="reference internal" href="image_processing_api.html#vision.image_functions.extract_img_workspace" title="vision.image_functions.extract_img_workspace"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_img_workspace()</span></code></a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">status</span><span class="p">,</span> <span class="n">im_work</span> <span class="o">=</span> <span class="n">extract_img_workspace</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">workspace_ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">show_img</span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">,</span> <span class="n">img_test</span><span class="p">)</span>
+<span class="n">show_img_and_wait_close</span><span class="p">(</span><span class="s2">&quot;img_workspace&quot;</span><span class="p">,</span> <span class="n">img_workspace</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id5">
+<caption><span class="caption-text">Images result</span><a class="headerlink" href="#id5" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>Original</p></td>
+<td><img alt="Original Image" src="../../_images/img_illustration.jpg" />
+</td>
+</tr>
+<tr class="row-even"><td><p>Extracted</p></td>
+<td><a class="reference internal image-reference" href="../../_images/workspace_extracted.jpg"><img alt="Extracted Image" src="../../_images/workspace_extracted.jpg" style="height: 300px;" />
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="debug-mode">
+<h3>Debug mode<a class="headerlink" href="#debug-mode" title="Link to this heading"></a></h3>
+<p>If robot’s functions are failing, you can use Debug functions which are
+<a class="reference internal" href="image_processing_api.html#vision.image_functions.debug_threshold_color" title="vision.image_functions.debug_threshold_color"><code class="xref py py-func docutils literal notranslate"><span class="pre">debug_threshold_color()</span></code></a> &amp;
+<a class="reference internal" href="image_processing_api.html#vision.image_functions.debug_markers" title="vision.image_functions.debug_markers"><code class="xref py py-func docutils literal notranslate"><span class="pre">debug_markers()</span></code></a> in order to display what
+the robot sees.</p>
+<p>You can use the functions as follow :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">debug_color</span> <span class="o">=</span> <span class="n">debug_threshold_color</span><span class="p">(</span><span class="n">img_test</span><span class="p">,</span> <span class="n">ColorHSV</span><span class="o">.</span><span class="n">RED</span><span class="p">)</span>
+<span class="n">_status</span><span class="p">,</span> <span class="n">debug_markers_im</span> <span class="o">=</span> <span class="n">debug_markers</span><span class="p">(</span><span class="n">img_test</span><span class="p">,</span> <span class="n">workspace_ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+<span class="n">show_img</span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">,</span> <span class="n">img_test</span><span class="p">)</span>
+<span class="n">show_img</span><span class="p">(</span><span class="s2">&quot;debug_color&quot;</span><span class="p">,</span> <span class="n">debug_color</span><span class="p">)</span>
+<span class="n">show_img_and_wait_close</span><span class="p">(</span><span class="s2">&quot;debug_markers&quot;</span><span class="p">,</span> <span class="n">debug_markers_im</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id6">
+<caption><span class="caption-text">Images result</span><a class="headerlink" href="#id6" title="Link to this table"></a></caption>
+<tbody>
+<tr class="row-odd"><td><p>Original</p></td>
+<td><img alt="Original Image" src="../../_images/img_illustration.jpg" />
+</td>
+</tr>
+<tr class="row-even"><td><p>Debug Red</p></td>
+<td><a class="reference internal image-reference" href="../../_images/debug_red.jpg"><img alt="Debug Red Image" src="../../_images/debug_red.jpg" style="height: 300px;" />
+</a>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Debug Markers</p></td>
+<td><a class="reference internal image-reference" href="../../_images/debug_markers.jpg"><img alt="Debug Markers Image" src="../../_images/debug_markers.jpg" style="height: 300px;" />
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="do-your-own-image-processing">
+<h2>Do your own image processing !<a class="headerlink" href="#do-your-own-image-processing" title="Link to this heading"></a></h2>
+<p>Now that you are a master in image processing, let’s look at
+full examples</p>
+<section id="display-video-stream-with-extracted-workspace">
+<h3>Display video stream with extracted workspace<a class="headerlink" href="#display-video-stream-with-extracted-workspace" title="Link to this heading"></a></h3>
+<p>In the current state, the following code will display the video stream
+and the extracted workspace img. You can add your own image processing functions
+maybe to apply additional process</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyniryo</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># Connecting to robot</span>
+<span class="n">robot</span> <span class="o">=</span> <span class="n">NiryoRobot</span><span class="p">(</span><span class="s2">&quot;10.10.10.10&quot;</span><span class="p">)</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">calibrate_auto</span><span class="p">()</span>
+
+<span class="c1"># Getting calibration param</span>
+<span class="n">mtx</span><span class="p">,</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_camera_intrinsics</span><span class="p">()</span>
+<span class="c1"># Moving to observation pose</span>
+<span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="o">*</span><span class="n">observation_pose</span><span class="o">.</span><span class="n">to_list</span><span class="p">())</span>
+
+<span class="k">while</span> <span class="s2">&quot;User do not press Escape neither Q&quot;</span><span class="p">:</span>
+    <span class="c1"># Getting image</span>
+    <span class="n">img_compressed</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_img_compressed</span><span class="p">()</span>
+    <span class="c1"># Uncompressing image</span>
+    <span class="n">img_raw</span> <span class="o">=</span> <span class="n">uncompress_image</span><span class="p">(</span><span class="n">img_compressed</span><span class="p">)</span>
+    <span class="c1"># Undistorting</span>
+    <span class="n">img_undistort</span> <span class="o">=</span> <span class="n">undistort_image</span><span class="p">(</span><span class="n">img_raw</span><span class="p">,</span> <span class="n">mtx</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
+    <span class="c1"># Trying to find markers</span>
+    <span class="n">workspace_found</span><span class="p">,</span> <span class="n">res_img_markers</span> <span class="o">=</span> <span class="n">debug_markers</span><span class="p">(</span><span class="n">img_undistort</span><span class="p">)</span>
+    <span class="c1"># Trying to extract workspace if possible</span>
+    <span class="k">if</span> <span class="n">workspace_found</span><span class="p">:</span>
+        <span class="n">img_workspace</span> <span class="o">=</span> <span class="n">extract_img_workspace</span><span class="p">(</span><span class="n">img_undistort</span><span class="p">,</span> <span class="n">workspace_ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">img_workspace</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># --- --------- --- #</span>
+    <span class="c1"># --- YOUR CODE --- #</span>
+    <span class="c1"># --- --------- --- #</span>
+
+    <span class="c1"># - Display</span>
+    <span class="c1"># Concatenating raw image and undistorted image</span>
+    <span class="n">concat_ims</span> <span class="o">=</span> <span class="n">concat_imgs</span><span class="p">((</span><span class="n">img_raw</span><span class="p">,</span> <span class="n">img_undistort</span><span class="p">))</span>
+    <span class="c1"># Concatenating extracted workspace with markers annotation</span>
+    <span class="k">if</span> <span class="n">img_workspace</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">resized_img_workspace</span> <span class="o">=</span> <span class="n">resize_img</span><span class="p">(</span><span class="n">img_workspace</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">res_img_markers</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">res_img_markers</span> <span class="o">=</span> <span class="n">concat_imgs</span><span class="p">((</span><span class="n">res_img_markers</span><span class="p">,</span> <span class="n">resized_img_workspace</span><span class="p">))</span>
+    <span class="c1"># Showing images</span>
+    <span class="n">show_img</span><span class="p">(</span><span class="s2">&quot;Images raw &amp; undistorted&quot;</span><span class="p">,</span> <span class="n">concat_ims</span><span class="p">)</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">show_img</span><span class="p">(</span><span class="s2">&quot;Markers&quot;</span><span class="p">,</span> <span class="n">res_img_markers</span><span class="p">,</span> <span class="n">wait_ms</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">27</span><span class="p">,</span> <span class="nb">ord</span><span class="p">(</span><span class="s2">&quot;q&quot;</span><span class="p">)]:</span>  <span class="c1"># Will break loop if the user press Escape or Q</span>
+        <span class="k">break</span>
+</pre></div>
+</div>
+</section>
+<section id="vision-pick-via-your-image-processing-pipeline">
+<h3>Vision pick via your image processing pipeline<a class="headerlink" href="#vision-pick-via-your-image-processing-pipeline" title="Link to this heading"></a></h3>
+<p>You may want to do send coordinate to Ned in order to pick
+the object of your choice ! To do that, use the function
+<code class="xref py py-func docutils literal notranslate"><span class="pre">get_target_pose_from_rel()</span></code> which
+convert a relative pose in the workspace into a pose in the robot’s world !</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initializing variables</span>
+<span class="n">obj_pose</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">try_without_success</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">color_hsv_setting</span> <span class="o">=</span> <span class="n">ColorHSV</span><span class="o">.</span><span class="n">ANY</span><span class="o">.</span><span class="n">value</span>
+
+
+<span class="n">mtx</span><span class="p">,</span> <span class="n">dist</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_camera_intrinsics</span><span class="p">()</span>
+<span class="c1"># Loop</span>
+<span class="k">while</span> <span class="n">try_without_success</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
+    <span class="c1"># Moving to observation pose</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">move_pose</span><span class="p">(</span><span class="n">observation_pose</span><span class="p">)</span>
+
+    <span class="n">img_compressed</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_img_compressed</span><span class="p">()</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">uncompress_image</span><span class="p">(</span><span class="n">img_compressed</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">undistort_image</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">mtx</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
+    <span class="c1"># extracting working area</span>
+    <span class="n">im_work</span> <span class="o">=</span> <span class="n">extract_img_workspace</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">workspace_ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">im_work</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unable to find markers&quot;</span><span class="p">)</span>
+        <span class="n">try_without_success</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">display_stream</span><span class="p">:</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="s2">&quot;Last image saw&quot;</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">waitKey</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+        <span class="k">continue</span>
+
+    <span class="c1"># Applying Threshold on ObjectColor</span>
+    <span class="n">img_thresh</span> <span class="o">=</span> <span class="n">threshold_hsv</span><span class="p">(</span><span class="n">im_work</span><span class="p">,</span> <span class="o">*</span><span class="n">color_hsv_setting</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">display_stream</span><span class="p">:</span>
+        <span class="n">show_img</span><span class="p">(</span><span class="s2">&quot;Last image saw&quot;</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">wait_ms</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">show_img</span><span class="p">(</span><span class="s2">&quot;Image thresh&quot;</span><span class="p">,</span> <span class="n">img_thresh</span><span class="p">,</span> <span class="n">wait_ms</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="c1"># Getting biggest contour/blob from threshold image</span>
+    <span class="n">contour</span> <span class="o">=</span> <span class="n">biggest_contour_finder</span><span class="p">(</span><span class="n">img_thresh</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">contour</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">contour</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No blob found&quot;</span><span class="p">)</span>
+        <span class="n">obj_found</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">img_thresh_rgb</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img_thresh</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_GRAY2BGR</span><span class="p">)</span>
+        <span class="n">draw_contours</span><span class="p">(</span><span class="n">img_thresh_rgb</span><span class="p">,</span> <span class="p">[</span><span class="n">contour</span><span class="p">])</span>
+        <span class="n">show_img</span><span class="p">(</span><span class="s2">&quot;Image thresh&quot;</span><span class="p">,</span> <span class="n">img_thresh</span><span class="p">,</span> <span class="n">wait_ms</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+        <span class="c1"># Getting contour/blob center and angle</span>
+        <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="n">get_contour_barycenter</span><span class="p">(</span><span class="n">contour</span><span class="p">)</span>
+        <span class="n">cx_rel</span><span class="p">,</span> <span class="n">cy_rel</span> <span class="o">=</span> <span class="n">relative_pos_from_pixels</span><span class="p">(</span><span class="n">im_work</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">)</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">get_contour_angle</span><span class="p">(</span><span class="n">contour</span><span class="p">)</span>
+
+        <span class="c1"># Getting object world pose from relative pose</span>
+        <span class="n">obj_pose</span> <span class="o">=</span> <span class="n">robot</span><span class="o">.</span><span class="n">get_target_pose_from_rel</span><span class="p">(</span><span class="n">workspace_name</span><span class="p">,</span>
+                                                             <span class="n">height_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                                                             <span class="n">x_rel</span><span class="o">=</span><span class="n">cx_rel</span><span class="p">,</span> <span class="n">y_rel</span><span class="o">=</span><span class="n">cy_rel</span><span class="p">,</span>
+                                                             <span class="n">yaw_rel</span><span class="o">=</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">obj_found</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">obj_found</span><span class="p">:</span>
+        <span class="n">try_without_success</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">continue</span>
+
+    <span class="c1"># Everything is good, so we going to object</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">pick_from_pose</span><span class="p">(</span><span class="n">obj_pose</span><span class="p">)</span>
+
+    <span class="c1"># Computing new place pose</span>
+    <span class="n">offset_x</span> <span class="o">=</span> <span class="n">count</span> <span class="o">%</span> <span class="n">grid_dimension</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">grid_dimension</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">offset_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">count</span> <span class="o">//</span> <span class="n">grid_dimension</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">-</span> <span class="n">grid_dimension</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">offset_z</span> <span class="o">=</span> <span class="n">count</span> <span class="o">//</span> <span class="p">(</span><span class="n">grid_dimension</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">grid_dimension</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">place_pose</span> <span class="o">=</span> <span class="n">center_conditioning_pose</span><span class="o">.</span><span class="n">copy_with_offsets</span><span class="p">(</span><span class="mf">0.05</span> <span class="o">*</span> <span class="n">offset_x</span><span class="p">,</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="n">offset_y</span><span class="p">,</span> <span class="mf">0.025</span> <span class="o">*</span> <span class="n">offset_z</span><span class="p">)</span>
+
+    <span class="c1"># Placing</span>
+    <span class="n">robot</span><span class="o">.</span><span class="n">place_from_pose</span><span class="p">(</span><span class="n">place_pose</span><span class="p">)</span>
+
+    <span class="n">try_without_success</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../api_doc/api.html" class="btn btn-neutral float-left" title="PyNiryo API Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="image_processing_api.html" class="btn btn-neutral float-right" title="Functions Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Niryo All rights reserved. No part of this document may be reproduced or transmitted in any form or by any means without prior written consent of Niryo SAS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="injected">
+  <div class="rst-versions " data-toggle="rst-versions" role="note"
+    aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book">&nbsp;&nbsp;Other versions&nbsp;&nbsp;</span>
+      v: v1.0.3
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Tags</dt>
+        <dd class="">
+          <a href="../../../v1.2.1-1/index.html">v1.2.1-1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.2/index.html">v1.2.2</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.2/index.html">v1.1.2</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.0.5/index.html">v1.0.5</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.0/index.html">v1.2.0</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.0.4/index.html">v1.0.4</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.3/index.html">v1.2.3</a>
+        </dd>
+        <dd class="rtd-current-item">
+          <a href="../../../v1.0.3/index.html">v1.0.3</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.0/index.html">v1.1.0</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.0-1/index.html">v1.2.0-1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.1.1/index.html">v1.1.1</a>
+        </dd>
+        <dd class="">
+          <a href="../../../v1.2.1/index.html">v1.2.1</a>
+        </dd>
+      </dl>
+      <dl>
+        <dt>Search</dt>
+        <dd>
+          <div style="padding: 6px;">
+            <form id="flyout-search-form" class="wy-form" target="_blank" action="../../
+              ../v1.0.3/index.html/../search.html" method="get">
+              <input type="text" name="q" aria-label="Search docs" placeholder="Search docs">
+            </form>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+    <!-- Theme Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85632199-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-85632199-1', {
+          'anonymize_ip': false,
+      });
+    </script> 
+
+</body>
+</html>
