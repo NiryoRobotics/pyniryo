@@ -15,11 +15,21 @@ template_code = """\
 
 from strenum import StrEnum
 
-{% for group_name, group in groups.items() %}
+{% for group_name, group_content in groups.items() %}
+{% if group_content.is_nested %}
+class {{ group_name }}:
+    {%- for subgroup_name, paths in group_content.subgroups.items() %}
+    class {{ subgroup_name }}(StrEnum):
+        {%- for name, value in paths.items() %}
+        {{ name }} = '{{ value }}'
+        {%- endfor %}
+    {% endfor %}
+{%- else %}
 class {{ group_name }}(StrEnum):
-    {%- for name, value in group.items() %}
+    {%- for name, value in group_content.paths.items() %}
     {{ name }} = '{{ value }}'
     {%- endfor %}
+{% endif %}
 {% endfor %}
 """
 
@@ -93,10 +103,79 @@ def main():
         path_parts = path.split('/')
         if path_parts[0] == '':
             path_parts = path_parts[1:]
-        group_name, path_name = enum_name(path_parts)
-        if group_name not in grouped_paths:
-            grouped_paths[group_name] = {}
-        grouped_paths[group_name][path_name] = path
+
+        # Determine if this should be a nested structure
+        # Nested if we have 3+ parts (e.g., /api/robot/joints)
+        if len(path_parts) >= 3:
+            # First level is the main group (e.g., 'api')
+            main_group = normalize_class_name(path_parts[0])
+            # Second level is the subgroup (e.g., 'robot')
+            sub_group = normalize_class_name(path_parts[1])
+
+            # Generate the enum name from remaining parts
+            remaining_parts = path_parts[2:]
+            enum_parts = []
+            has_path_params = False
+
+            for part in remaining_parts:
+                if part.startswith('{'):
+                    has_path_params = True
+                    # For path parameters, singularize the previous part if it exists
+                    if enum_parts:
+                        enum_parts[-1] = enum_parts[-1].rstrip('s')
+                    else:
+                        # If enum_parts is empty, add singularized subgroup name
+                        # This handles cases like /api/programs/{program_id}/file
+                        enum_parts.append(sub_group.rstrip('s'))
+                else:
+                    enum_parts.append(part)
+
+            if not enum_parts:
+                # If no non-parameter parts remain
+                if has_path_params:
+                    # Path has parameters like /api/programs/{program_id}
+                    # Singularize the subgroup name
+                    enum_name_str = normalize_enum_name(sub_group.rstrip('s'))
+                else:
+                    # Path ends at subgroup level like /api/robot
+                    # Use the subgroup name as-is
+                    enum_name_str = normalize_enum_name(sub_group)
+            else:
+                enum_name_str = normalize_enum_name('_'.join(enum_parts))
+
+            # Initialize nested structure
+            if main_group not in grouped_paths:
+                grouped_paths[main_group] = {'is_nested': True, 'subgroups': {}}
+
+            if sub_group not in grouped_paths[main_group]['subgroups']:
+                grouped_paths[main_group]['subgroups'][sub_group] = {}
+
+            grouped_paths[main_group]['subgroups'][sub_group][enum_name_str] = path
+        else:
+            # Simple flat structure for paths with 1-2 parts
+            group_name, path_name = enum_name(path_parts)
+            if group_name not in grouped_paths:
+                grouped_paths[group_name] = {'is_nested': False, 'paths': {}}
+
+            # Check if this group was already marked as nested
+            if grouped_paths[group_name]['is_nested']:
+                # If the group is already nested, add this as a subgroup
+                # Use the last part of the path as the subgroup name
+                if len(path_parts) == 2:
+                    sub_group = normalize_class_name(path_parts[1])
+                    if sub_group not in grouped_paths[group_name]['subgroups']:
+                        grouped_paths[group_name]['subgroups'][sub_group] = {}
+                    enum_name_str = normalize_enum_name(path_parts[1])
+                    grouped_paths[group_name]['subgroups'][sub_group][enum_name_str] = path
+                else:
+                    # Single part path, create a 'Root' or main subgroup
+                    sub_group = 'Root'
+                    if sub_group not in grouped_paths[group_name]['subgroups']:
+                        grouped_paths[group_name]['subgroups'][sub_group] = {}
+                    enum_name_str = normalize_enum_name(group_name)
+                    grouped_paths[group_name]['subgroups'][sub_group][enum_name_str] = path
+            else:
+                grouped_paths[group_name]['paths'][path_name] = path
 
     template = Template(template_code)
     rendered_code = template.render(script_name=Path(__file__).name, groups=grouped_paths)

@@ -1,2 +1,3 @@
 openapi3-parser
 pyyaml
+datamodel-code-generator

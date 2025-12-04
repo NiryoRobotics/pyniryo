@@ -32,12 +32,13 @@ class Nate:
         http_port = os.getenv('NATE_HTTP_PORT') or DEFAULT_HTTP_PORT
         mqtt_port = os.getenv('NATE_MQTT_PORT') or DEFAULT_MQTT_PORT
         insecure = os.getenv('NATE_INSECURE') is not None
+        use_http = os.getenv('NATE_USE_HTTP') is not None
 
         ##########################################################################################
         ## Bootstrap: fetch all needed data to properly initiate the client and its components. ##
         ##########################################################################################
 
-        http_client = HttpClient(hostname, http_port, token, prefix=HTTP_PREFIX, insecure=insecure)
+        http_client = HttpClient(hostname, http_port, token, prefix=HTTP_PREFIX, insecure=insecure, use_http=use_http)
 
         # Token
         if token is None:
@@ -45,21 +46,22 @@ class Nate:
                 raise ValueError("authentication with username and password requires both username and password")
             username, password = login
             response = http_client.post(
-                paths_gen.Auth.LOGIN,
+                paths_gen.Api.Auth.LOGIN,
                 transport_models.Login(login=username, password=password),
                 transport_models.Token,
             )
             token = response.token
+        http_client.set_token(token)
 
         # Device ID
-        resp = http_client.get(paths_gen.Device.ID, transport_models.DeviceID)
-        device_id = resp.device_id
+        resp = http_client.get(paths_gen.Api.Device.ID, transport_models.DeviceID)
+        device_id = resp.device_id.hex
 
-        self.__http_client: HttpClient = HttpClient(hostname, http_port, token, prefix=HTTP_PREFIX, insecure=insecure)
-        self.__mqtt_client: MqttClient = MqttClient(hostname, mqtt_port, token, prefix=MQTT_PREFIX(device_id))
+        http_client: HttpClient = http_client
+        mqtt_client: MqttClient = MqttClient(hostname, mqtt_port, token, prefix=MQTT_PREFIX(device_id))
 
-        self.auth = Auth(self.__http_client, self.__mqtt_client)
-        self.users = Users(self.__http_client, self.__mqtt_client)
-        self.robot = Robot(self.__http_client, self.__mqtt_client)
-        self.device = Device(self.__http_client, self.__mqtt_client)
-        self.programs = Programs(self.__http_client, self.__mqtt_client)
+        self.auth = Auth(http_client, mqtt_client)
+        self.users = Users(http_client, mqtt_client)
+        self.robot = Robot(http_client, mqtt_client)
+        self.device = Device(http_client, mqtt_client)
+        self.programs = Programs(http_client, mqtt_client)

@@ -5,28 +5,45 @@
 from strenum import StrEnum
 
 
-class Device(StrEnum):
-    ID = '/device/id'
 
-class Robot(StrEnum):
-    FRAMES = '/robot/frames'
-    FRAME_POSE = '/robot/frames/{frame_id}/pose'
-    WAYPOINTS = '/robot/waypoints'
-    JOINTS = '/robot/joints'
+class Health(StrEnum):
+    HEALTH = '/health'
 
-class Programs(StrEnum):
-    PROGRAMS = '/programs'
-    PROGRAM = '/programs/{program_id}'
-    PROGRAM_FILE = '/programs/{program_id}/file'
-    PROGRAM_EXECUTIONS = '/programs/{program_id}/executions'
-    PROGRAM_EXECUTION = '/programs/{program_id}/executions/{execution_id}'
-    PROGRAM_STATUS = '/programs/{program_id}/status'
 
-class Auth(StrEnum):
-    LOGIN = '/auth/login'
 
-class Users(StrEnum):
-    USERS = '/users'
-    USER = '/users/{user_id}'
-    USER_TOKENS = '/users/{user_id}/tokens'
-    USER_PASSWORD = '/users/{user_id}/password'
+class Ready(StrEnum):
+    READY = '/ready'
+
+
+
+class Api:
+    class Device(StrEnum):
+        ID = '/api/device/id'
+    
+    class Robot(StrEnum):
+        FRAMES = '/api/robot/frames'
+        FRAME_POSE = '/api/robot/frames/{frame_id}/pose'
+        WAYPOINTS = '/api/robot/waypoints'
+        TRAJECTORY_GENERATE = '/api/robot/trajectory/generate'
+        TRAJECTORY_EXECUTE = '/api/robot/trajectory/execute'
+        URDF = '/api/robot/urdf'
+        CONFIG = '/api/robot/config'
+        JOINTS = '/api/robot/joints'
+    
+    class Programs(StrEnum):
+        PROGRAMS = '/api/programs'
+        PROGRAM = '/api/programs/{program_id}'
+        PROGRAM_FILE = '/api/programs/{program_id}/file'
+        PROGRAM_EXECUTIONS = '/api/programs/{program_id}/executions'
+        PROGRAM_EXECUTION = '/api/programs/{program_id}/executions/{execution_id}'
+        PROGRAM_STATUS = '/api/programs/{program_id}/status'
+    
+    class Auth(StrEnum):
+        LOGIN = '/api/auth/login'
+    
+    class Users(StrEnum):
+        USERS = '/api/users'
+        USER = '/api/users/{user_id}'
+        USER_TOKENS = '/api/users/{user_id}/tokens'
+        USER_PASSWORD = '/api/users/{user_id}/password'
+    

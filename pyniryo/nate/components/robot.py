@@ -81,7 +81,7 @@ class Robot(BaseAPIComponent):
 
         :return: The current joint positions as a Joints object.
         """
-        joints = self._http_client.get(paths_gen.Robot.JOINTS, transport_models.Joints)
+        joints = self._http_client.get(paths_gen.Api.Robot.JOINTS, transport_models.Joints)
         return models.Joints.from_transport_model(joints)
 
     def on_joints_received(self, callback: JointsCallback) -> None:
@@ -114,7 +114,7 @@ class Robot(BaseAPIComponent):
         move_command = MoveCommand(self._mqtt_client, str(command_id))
 
         if isinstance(target, models.Joints):
-            uri = paths_gen.Robot.JOINTS
+            uri = paths_gen.Api.Robot.JOINTS
             planner = planner or models.Planner.PTP
             data = transport_models.MoveJoints(command_id=command_id,
                                                joints=target.to_transport_model(),
@@ -122,13 +122,13 @@ class Robot(BaseAPIComponent):
         elif isinstance(target, models.Pose):
             if frame_id is None or frame_id == '':
                 raise ValueError("frame_id must be specified when moving to a Pose target")
-            uri = paths_gen.Robot.FRAME_POSE.format(frame_id=frame_id)
+            uri = paths_gen.Api.Robot.FRAME_POSE.format(frame_id=frame_id)
             data = transport_models.MoveFrame(command_id=command_id,
                                               pose=target.to_transport_model(),
                                               reference_frame=reference_frame,
                                               planner=planner)
         elif isinstance(target, list) and all(isinstance(w, models.Waypoint) for w in target):
-            uri = paths_gen.Robot.WAYPOINTS
+            uri = paths_gen.Api.Robot.WAYPOINTS
             data = transport_models.MoveWaypoints(command_id=command_id,
                                                   waypoints=[w.to_transport_model() for w in target])
         else:
@@ -144,5 +144,5 @@ class Robot(BaseAPIComponent):
 
         :return: A list of Frame objects.
         """
-        frames = self._http_client.get(paths_gen.Robot.FRAMES, transport_models.FrameIdList)
+        frames = self._http_client.get(paths_gen.Api.Robot.FRAMES, transport_models.FrameIdList)
         return frames.root
