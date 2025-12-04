@@ -15,24 +15,17 @@ class HttpClient:
     A simple HTTP client wrapped around the requests library to suit the API behaviours.
     """
 
-    def __init__(self,
-                 hostname: str,
-                 port: int,
-                 token: str,
-                 prefix: str = '',
-                 insecure: bool = False,
-                 use_http: bool = False) -> None:
+    def __init__(self, hostname: str, port: int, token: str, insecure: bool = False, use_http: bool = False) -> None:
         """
         Initialize the HTTP client.
         :param hostname: The hostname of the API.
         :param port: The port of the API.
-        :param prefix: The prefix of the API.
         """
         self.__hostname = hostname
         self.__port = port
-        self.__prefix = prefix
         self.__headers = {}
-        self.set_token(token)
+        if token is not None:
+            self.set_token(token)
         self.__insecure = insecure
         self.__scheme = 'http' if use_http else 'https'
 
@@ -63,7 +56,7 @@ class HttpClient:
         :param path: The path of the request.
         :return: The URL of the request.
         """
-        return f"{self.__scheme}://{self.__hostname}:{self.__port}{self.__prefix}{path}"
+        return f"{self.__scheme}://{self.__hostname}:{self.__port}{path}"
 
     def __request(self,
                   method: str,
@@ -88,6 +81,7 @@ class HttpClient:
                                     self.__url(path),
                                     json=dict_json if files is None else None,
                                     data=dict_json if files is not None else None,
+                                    allow_redirects=True,
                                     files=files,
                                     headers=self.__headers,
                                     verify=not self.__insecure)

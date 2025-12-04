@@ -5,7 +5,7 @@ from .components import Auth, Users, Robot, Device, Programs
 from ._internal import paths_gen, transport_models
 from ._internal.http import HttpClient
 from ._internal.mqtt import MqttClient
-from ._internal.const import DEFAULT_HTTP_PORT, DEFAULT_MQTT_PORT, HTTP_PREFIX, MQTT_PREFIX
+from ._internal.const import DEFAULT_HTTP_PORT, DEFAULT_MQTT_PORT, MQTT_PREFIX
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ class Nate:
         ## Bootstrap: fetch all needed data to properly initiate the client and its components. ##
         ##########################################################################################
 
-        http_client = HttpClient(hostname, http_port, token, prefix=HTTP_PREFIX, insecure=insecure, use_http=use_http)
+        http_client = HttpClient(hostname, http_port, token, insecure=insecure, use_http=use_http)
 
         # Token
         if token is None:
