@@ -13,7 +13,7 @@ base_user = models.User(
     email='marneus.calgar@ultramar.terra',
     role=models.Role(id=0, name='Chapter Master'),
 )
-user_endpoint = paths_gen.Users.USER.format(user_id=base_user.id)
+user_endpoint = paths_gen.Api.Users.USER.format(user_id=base_user.id)
 
 base_token = models.Token(
     id=uuid4(),
@@ -37,7 +37,7 @@ class TestUsers(BaseTestComponent):
         self.http_client.get.return_value = t_models
 
         users = self.users.get_all()
-        self.http_client.get.assert_called_once_with(paths_gen.Users.USERS, transport_models.UserList)
+        self.http_client.get.assert_called_once_with(paths_gen.Api.Users.USERS, transport_models.UserList)
         self.assertEqual(users, [models.User.from_transport_model(u) for u in t_models.root])
 
     def test_create(self):
@@ -69,7 +69,7 @@ class TestUsers(BaseTestComponent):
         t_models = transport_models.TokenList([base_token.to_transport_model()])
         self.http_client.get.return_value = t_models
         tokens = self.users.get_tokens(base_user.id)
-        self.http_client.get.assert_called_once_with(paths_gen.Users.USER_TOKENS.format(user_id=base_user.id),
+        self.http_client.get.assert_called_once_with(paths_gen.Api.Users.USER_TOKENS.format(user_id=base_user.id),
                                                      transport_models.TokenList)
         self.assertEqual(tokens, [models.Token.from_transport_model(t) for t in t_models.root])
 
@@ -85,7 +85,7 @@ class TestUsers(BaseTestComponent):
 
         self.assertIsNone(
             self.http_client.patch.assert_called_once_with(
-                paths_gen.Users.USER_PASSWORD.format(user_id=base_user.id),
+                paths_gen.Api.Users.USER_PASSWORD.format(user_id=base_user.id),
                 transport_models.UpdatePassword(old_password='password', new_password='new_password'),
                 None,
             ))
