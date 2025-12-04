@@ -12,5 +12,5 @@ class Device(BaseAPIComponent):
         Get the device ID of the robot.
         :return: The device ID of the robot.
         """
-        resp = self._http_client.get(paths_gen.Device.ID, transport_models.DeviceID)
+        resp = self._http_client.get(paths_gen.Api.Device.ID, transport_models.DeviceID)
         return resp.device_id.hex

@@ -126,7 +126,7 @@ class Programs(BaseAPIComponent):
         :return: The list of all the programs.
         """
         programs = self._http_client.get(
-            paths_gen.Programs.PROGRAMS,
+            paths_gen.Api.Programs.PROGRAMS,
             transport_models.ProgramList,
         )
         return [models.Program.from_transport_model(program) for program in programs.root]
@@ -141,7 +141,7 @@ class Programs(BaseAPIComponent):
         :return: The created program.
         """
         program = self._http_client.post(
-            paths_gen.Programs.PROGRAMS,
+            paths_gen.Api.Programs.PROGRAMS,
             transport_models.Program(name=name, type=program_type.to_transport_model()),
             transport_models.Program,
             files={'file': program},
@@ -157,12 +157,12 @@ class Programs(BaseAPIComponent):
         :return: The corresponding program.
         """
         tr_program = self._http_client.get(
-            paths_gen.Programs.PROGRAM.format(program_id=program_id),
+            paths_gen.Api.Programs.PROGRAM.format(program_id=program_id),
             transport_models.Program,
         )
         program = models.Program.from_transport_model(tr_program)
         if dst is not None:
-            self._http_client.download(paths_gen.Programs.PROGRAM_FILE.format(program_id=program_id), dst)
+            self._http_client.download(paths_gen.Api.Programs.PROGRAM_FILE.format(program_id=program_id), dst)
         return program
 
     def delete(self, program_id: str) -> None:
@@ -172,7 +172,7 @@ class Programs(BaseAPIComponent):
         :param program_id: The ID of the program.
         :return: None
         """
-        return self._http_client.delete(paths_gen.Programs.PROGRAM.format(program_id=program_id))
+        return self._http_client.delete(paths_gen.Api.Programs.PROGRAM.format(program_id=program_id))
 
     def update(self, program: models.Program, src: IO[bytes] = None) -> models.Program:
         """
@@ -182,11 +182,11 @@ class Programs(BaseAPIComponent):
         :param src: Optional file-like object containing the new program content. If None, the content is not updated.
         :return: The updated program.
         """
-        program = self._http_client.patch(paths_gen.Programs.PROGRAM.format(program_id=program.id),
+        program = self._http_client.patch(paths_gen.Api.Programs.PROGRAM.format(program_id=program.id),
                                           program.to_transport_model(),
                                           transport_models.Program)
         if src is not None:
-            self._http_client.patch(paths_gen.Programs.PROGRAM_FILE.format(program_id=program.id),
+            self._http_client.patch(paths_gen.Api.Programs.PROGRAM_FILE.format(program_id=program.id),
                                     None,
                                     None,
                                     files={'file': src})
@@ -200,7 +200,7 @@ class Programs(BaseAPIComponent):
         :return: The list of all the executions of the program.
         """
         executions = self._http_client.get(
-            paths_gen.Programs.PROGRAM_EXECUTIONS.format(program_id=program_id),
+            paths_gen.Api.Programs.PROGRAM_EXECUTIONS.format(program_id=program_id),
             transport_models.ProgramExecutionList,
         )
         return [models.ProgramExecution.from_transport_model(execution) for execution in executions.root]
@@ -214,7 +214,7 @@ class Programs(BaseAPIComponent):
         :return: The corresponding program execution.
         """
         execution = self._http_client.get(
-            paths_gen.Programs.PROGRAM_EXECUTION.format(program_id=program_id, execution_id=execution_id),
+            paths_gen.Api.Programs.PROGRAM_EXECUTION.format(program_id=program_id, execution_id=execution_id),
             transport_models.ProgramExecution,
         )
         return models.ProgramExecution.from_transport_model(execution)
@@ -243,7 +243,7 @@ class Programs(BaseAPIComponent):
                                              lambda: self.get_execution(program_id, execution_id))
 
         self._http_client.post(
-            paths_gen.Programs.PROGRAM_EXECUTIONS.format(program_id=program_id),
+            paths_gen.Api.Programs.PROGRAM_EXECUTIONS.format(program_id=program_id),
             transport_models.ExecuteProgram(execution_id=UUID(execution_id),
                                             context=transport_models.ProgramExecutionContext(environment=environment,
                                                                                              arguments=arguments)),

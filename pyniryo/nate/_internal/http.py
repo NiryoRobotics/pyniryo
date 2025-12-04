@@ -15,7 +15,13 @@ class HttpClient:
     A simple HTTP client wrapped around the requests library to suit the API behaviours.
     """
 
-    def __init__(self, hostname: str, port: int, token: str, prefix: str = '', insecure: bool = False):
+    def __init__(self,
+                 hostname: str,
+                 port: int,
+                 token: str,
+                 prefix: str = '',
+                 insecure: bool = False,
+                 use_http: bool = False) -> None:
         """
         Initialize the HTTP client.
         :param hostname: The hostname of the API.
@@ -25,13 +31,20 @@ class HttpClient:
         self.__hostname = hostname
         self.__port = port
         self.__prefix = prefix
-        self.__headers = {
-            'Authorization': f'Bearer {token}',
-        }
+        self.__headers = {}
+        self.set_token(token)
         self.__insecure = insecure
+        self.__scheme = 'http' if use_http else 'https'
 
         if self.__insecure:
             warnings.filterwarnings('ignore', category=InsecureRequestWarning)
+
+    def set_token(self, token: str) -> None:
+        """
+        Set the authentication token.
+        :param token: The token to set.
+        """
+        self.__headers['Authorization'] = f'Bearer {token}'
 
     @staticmethod
     def __resolve_status_code(response: requests.Response) -> None:
@@ -50,7 +63,7 @@ class HttpClient:
         :param path: The path of the request.
         :return: The URL of the request.
         """
-        return f"https://{self.__hostname}:{self.__port}{self.__prefix}{path}"
+        return f"{self.__scheme}://{self.__hostname}:{self.__port}{self.__prefix}{path}"
 
     def __request(self,
                   method: str,
