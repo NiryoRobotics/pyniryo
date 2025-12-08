@@ -200,6 +200,7 @@ class Waypoint:
     frame_id: Optional[str] = None
     reference_frame: Optional[str] = None
     planner: Optional[Planner] = None
+    blending_radius: Optional[float] = None
 
     @classmethod
     def from_transport_model(cls, model: transport_models.Waypoint) -> 'Waypoint':
@@ -216,6 +217,7 @@ class Waypoint:
             frame_id=self.frame_id,
             reference_frame=self.reference_frame,
             planner=self.planner.to_transport_model() if self.planner is not None else None,
+            blending_radius=self.blending_radius,
         )
 
 
@@ -268,7 +270,7 @@ class MoveFeedback(BaseDataClass):
         )
 
     def to_transport_model(self) -> transport_models.MoveFeedback:
-        return transport_models.MoveFeedback(state=self.state.value, message=self.message)
+        return transport_models.MoveFeedback(state=transport_models.State(self.state.value), message=self.message)
 
 
 class ProgramType(StrEnum):

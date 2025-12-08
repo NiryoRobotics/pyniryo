@@ -18,3 +18,9 @@ class Users(StrEnum):
 class Programs(StrEnum):
     PROGRAM_EXECUTION_OUTPUT = 'programs/{program_id}/executions/{execution_id}/output'
     PROGRAM_EXECUTION_STATUS = 'programs/{program_id}/executions/{execution_id}/status'
+
+class System(StrEnum):
+    METRICS = 'system/metrics'
+
+class Api(StrEnum):
+    METRICS = 'api/metrics'
