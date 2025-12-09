@@ -74,8 +74,6 @@ upload_package:
 docker-build:
   image: $DIND_BUILDER_IMAGE
   stage: deploy
-  services:
-    - docker:dind
   inherit:
     default: false
   tags:
