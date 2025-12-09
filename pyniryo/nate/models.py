@@ -265,7 +265,7 @@ class MoveFeedback(BaseDataClass):
     @classmethod
     def from_transport_model(cls, model: transport_models.MoveFeedback) -> 'MoveFeedback':
         return cls(
-            state=MoveState(model.state),
+            state=MoveState(model.state.value),
             message=model.message,
         )
 
