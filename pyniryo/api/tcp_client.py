@@ -424,11 +424,11 @@ class NiryoRobot(object):
         """
         Limit arm max velocity to a percentage of its maximum velocity
 
-        :param percentage_speed: Should be between 1 & 100
+        :param percentage_speed: Should be between 1 & 200
         :type percentage_speed: int
         :rtype: None
         """
-        self.__check_range_belonging(percentage_speed, 1, 100)
+        self.__check_range_belonging(percentage_speed, 1, 200)
         self.__send_n_receive(Command.SET_ARM_MAX_VELOCITY, percentage_speed)
 
     @contextmanager
