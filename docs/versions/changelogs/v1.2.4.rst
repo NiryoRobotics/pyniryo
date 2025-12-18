@@ -8,3 +8,5 @@ New in version 1.2.4
   * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.get_current_tool_position` to get the current position of the tool's motor.
   * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.control_gripper`, a low-level function to control the equipped gripper.
   * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.get_gripper_specs` to get position and torque specs of a gripper.
+
+* :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.set_arm_max_velocity` now allow a max velocity of 200%
