@@ -5,11 +5,23 @@
 from strenum import StrEnum
 
 
+class Cmd(StrEnum):
+    ROBOT_JOINTS = 'cmd/robot/joints'
+    ROBOT_JOG_JOINT = 'cmd/robot/jog/joint'
+    ROBOT_JOG_CARTESIAN = 'cmd/robot/jog/cartesian'
+    ROBOT_JOG_STOP = 'cmd/robot/jog/stop'
+    ROBOT_CONTROL_MODE = 'cmd/robot/control-mode'
+    ROBOT_TRAJ_GEN = 'cmd/robot/traj-gen'
+    ROBOT_TRAJ_EXEC = 'cmd/robot/traj-exec'
+
+class Ack(StrEnum):
+    ROBOT_TRAJ_EXEC = 'ack/robot/traj-exec'
+
 class Robot(StrEnum):
-    JOINTS_CMD = 'robot/joints/cmd'
     FRAME_POSE = 'robot/frames/{frame_id}/pose'
     JOINTS = 'robot/joints'
     ROBOT_MOVE_FEEDBACK = 'robot/{cmd_id}/move-feedback'
+    CONTROL_MODE = 'robot/control-mode'
 
 class Users(StrEnum):
     USER_LOGGED_IN = 'users/{user_id}/logged-in'
