@@ -659,8 +659,10 @@ class PydanticGenerator:
     @staticmethod
     def _to_enum_member_name(value: str) -> str:
         """Convert an enum value to a valid Python identifier."""
+        # Convert to string first (handles integer enum values)
+        value_str = str(value)
         # Replace special characters
-        member = value.replace('.', '_').replace('-', '_').replace('*', '_').replace(' ', '_')
+        member = value_str.replace('.', '_').replace('-', '_').replace('*', '_').replace(' ', '_')
         # Remove invalid characters
         member = ''.join(c if c.isalnum() or c == '_' else '_' for c in member)
         # Ensure it doesn't start with a number
