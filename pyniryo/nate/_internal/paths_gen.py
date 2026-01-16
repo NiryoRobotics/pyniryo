@@ -11,6 +11,16 @@ class Health(StrEnum):
 
 
 
+class Reboot(StrEnum):
+    REBOOT = '/reboot'
+
+
+
+class Shutdown(StrEnum):
+    SHUTDOWN = '/shutdown'
+
+
+
 class Ready(StrEnum):
     READY = '/ready'
 
@@ -24,10 +34,11 @@ class Api:
         FRAMES = '/api/robot/frames'
         FRAME_POSE = '/api/robot/frames/{frame_id}/pose'
         WAYPOINTS = '/api/robot/waypoints'
-        TRAJECTORY_GENERATE = '/api/robot/trajectory/generate'
-        TRAJECTORY_EXECUTE = '/api/robot/trajectory/execute'
+        TRAJECTORY_GENERATIONS = '/api/robot/trajectory/generations'
+        TRAJECTORY_EXECUTIONS = '/api/robot/trajectory/executions'
         URDF = '/api/robot/urdf'
         CONFIG = '/api/robot/config'
+        CONTROL_MODE = '/api/robot/control-mode'
         JOINTS = '/api/robot/joints'
     
     class Programs(StrEnum):
@@ -46,4 +57,9 @@ class Api:
         USER = '/api/users/{user_id}'
         USER_TOKENS = '/api/users/{user_id}/tokens'
         USER_PASSWORD = '/api/users/{user_id}/password'
+    
+    class Network(StrEnum):
+        INTERFACES = '/api/network/interfaces'
+        INTERFACE = '/api/network/interfaces/{interface_id}'
+        INTERFACE_CONFIG = '/api/network/interfaces/{interface_id}/config'
     

@@ -63,7 +63,7 @@ class Role(BaseDataClass):
 @dataclass
 class User(BaseDataClass):
     id: str
-    email: str
+    login: str
     name: str
     role: Role
 
@@ -71,14 +71,14 @@ class User(BaseDataClass):
     def from_transport_model(cls, model: transport_models.User) -> 'User':
         return cls(
             id=str(model.id),
-            email=str(model.email),
+            login=str(model.login),
             name=model.name,
             role=Role.from_transport_model(model.role),
         )
 
     def to_transport_model(self) -> transport_models.User:
         return transport_models.User(id=UUID(self.id),
-                                     email=self.email,
+                                     login=self.login,
                                      name=self.name,
                                      role=self.role.to_transport_model())
 
