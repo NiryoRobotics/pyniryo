@@ -10,7 +10,7 @@ from .base import BaseTestComponent
 base_user = models.User(
     id=str(uuid4()),
     name='Marneus Calgar',
-    email='marneus.calgar@ultramar.terra',
+    login='marneus.calgar@ultramar.terra',
     role=models.Role(id=0, name='Chapter Master'),
 )
 user_endpoint = paths_gen.Api.Users.USER.format(user_id=base_user.id)
@@ -42,7 +42,7 @@ class TestUsers(BaseTestComponent):
 
     def test_create(self):
         self.http_client.post.return_value = base_user.to_transport_model()
-        user = self.users.create(base_user.email, base_user.name, base_user.role.id, 'password')
+        user = self.users.create(base_user.login, base_user.name, base_user.role.id, 'password')
         self.http_client.post.assert_called_once()
         self.assertEqual(user, base_user)
 
