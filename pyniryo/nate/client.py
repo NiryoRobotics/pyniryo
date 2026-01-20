@@ -55,9 +55,8 @@ class Nate:
 
         # Device ID
         resp = http_client.get(paths_gen.Api.Device.ID, transport_models.DeviceID)
-        device_id = resp.device_id.hex
+        device_id = resp.device_id
 
-        http_client: HttpClient = http_client
         mqtt_client: MqttClient = MqttClient(hostname, mqtt_port, token, prefix=MQTT_PREFIX(device_id))
 
         self.auth = Auth(http_client, mqtt_client)
