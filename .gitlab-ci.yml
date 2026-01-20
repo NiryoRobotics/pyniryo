@@ -98,6 +98,7 @@ docker-build:
         --provenance=false
         --platform linux/amd64,linux/arm64
         --build-arg PYTHON_VERSION=${PYTHON_VERSION}
+        --build-arg OPENCV_HEADLESS_VERSION=4.12.0.88
         -f .docker/Dockerfile
         -t "${ACCOUNT_ID}.dkr.ecr.eu-west-3.amazonaws.com/$CI_PROJECT_PATH:${PYTHON_VERSION}-slim"
         -t $CI_REGISTRY_IMAGE:${PYTHON_VERSION}-slim
