@@ -32,12 +32,20 @@ class HttpClient:
         if self.__insecure:
             warnings.filterwarnings('ignore', category=InsecureRequestWarning)
 
+    def set_header(self, key: str, value: str) -> None:
+        """
+        Set a custom header.
+        :param key: The key of the header.
+        :param value: The value of the header.
+        """
+        self.__headers[key] = value
+
     def set_token(self, token: str) -> None:
         """
         Set the authentication token.
         :param token: The token to set.
         """
-        self.__headers['Authorization'] = f'Bearer {token}'
+        self.set_header('Authorization', f'Bearer {token}')
 
     @staticmethod
     def __resolve_status_code(response: requests.Response) -> None:

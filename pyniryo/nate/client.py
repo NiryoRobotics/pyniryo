@@ -33,12 +33,15 @@ class Nate:
         mqtt_port = os.getenv('NATE_MQTT_PORT') or DEFAULT_MQTT_PORT
         insecure = os.getenv('NATE_INSECURE') is not None
         use_http = os.getenv('NATE_USE_HTTP') is not None
+        execution_token = os.getenv('NATE_EXECUTION_TOKEN')
 
         ##########################################################################################
         ## Bootstrap: fetch all needed data to properly initiate the client and its components. ##
         ##########################################################################################
 
         http_client = HttpClient(hostname, http_port, token, insecure=insecure, use_http=use_http)
+        if execution_token is not None:
+            http_client.set_header('Execution-Token', execution_token)
 
         # Token
         if token is None:
