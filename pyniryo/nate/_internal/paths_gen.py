@@ -2,64 +2,71 @@
 # This file is generated from an OpenAPI specification.
 # Any changes made directly to this file will be lost.
 
-from strenum import StrEnum
+from enum import Enum
 
 
+class Authentication(str, Enum):
 
-class Health(StrEnum):
-    HEALTH = '/health'
-
-
-
-class Reboot(StrEnum):
-    REBOOT = '/reboot'
-
-
-
-class Shutdown(StrEnum):
-    SHUTDOWN = '/shutdown'
+  LOGIN = '/api/auth/login'
+  GET_ALL_USERS = '/api/users'
+  CREATE_USER = '/api/users'
+  GET_USER = '/api/users/{user_id}'
+  DELETE_USER = '/api/users/{user_id}'
+  UPDATE_USER = '/api/users/{user_id}'
+  UPDATE_USER_PASSWORD = '/api/users/{user_id}/password'
+  GET_USER_TOKENS = '/api/users/{user_id}/tokens'
+  CREATE_USER_TOKEN = '/api/users/{user_id}/tokens'
 
 
+class Device(str, Enum):
 
-class Ready(StrEnum):
-    READY = '/ready'
+  GET_DEVICE_ID = '/api/device/id'
+  HEALTH_CHECK = '/api/health'
+  READINESS_CHECK = '/api/ready'
+  REBOOT = '/api/reboot'
+  SHUTDOWN = '/api/shutdown'
 
 
+class Network(str, Enum):
 
-class Api:
-    class Device(StrEnum):
-        ID = '/api/device/id'
-    
-    class Robot(StrEnum):
-        FRAMES = '/api/robot/frames'
-        FRAME_POSE = '/api/robot/frames/{frame_id}/pose'
-        WAYPOINTS = '/api/robot/waypoints'
-        TRAJECTORY_GENERATIONS = '/api/robot/trajectory/generations'
-        TRAJECTORY_EXECUTIONS = '/api/robot/trajectory/executions'
-        URDF = '/api/robot/urdf'
-        CONFIG = '/api/robot/config'
-        CONTROL_MODE = '/api/robot/control-mode'
-        JOINTS = '/api/robot/joints'
-    
-    class Programs(StrEnum):
-        PROGRAMS = '/api/programs'
-        PROGRAM = '/api/programs/{program_id}'
-        PROGRAM_FILE = '/api/programs/{program_id}/file'
-        PROGRAM_EXECUTIONS = '/api/programs/{program_id}/executions'
-        PROGRAM_EXECUTION = '/api/programs/{program_id}/executions/{execution_id}'
-        PROGRAM_STATUS = '/api/programs/{program_id}/status'
-    
-    class Auth(StrEnum):
-        LOGIN = '/api/auth/login'
-    
-    class Users(StrEnum):
-        USERS = '/api/users'
-        USER = '/api/users/{user_id}'
-        USER_TOKENS = '/api/users/{user_id}/tokens'
-        USER_PASSWORD = '/api/users/{user_id}/password'
-    
-    class Network(StrEnum):
-        INTERFACES = '/api/network/interfaces'
-        INTERFACE = '/api/network/interfaces/{interface_id}'
-        INTERFACE_CONFIG = '/api/network/interfaces/{interface_id}/config'
-    
+  GET_NETWORK_INTERFACES = '/api/network/interfaces'
+  GET_NETWORK_INTERFACE_STATUS = '/api/network/interfaces/{interface_id}'
+  GET_NETWORK_INTERFACE_CONFIG = '/api/network/interfaces/{interface_id}/config'
+  UPDATE_NETWORK_INTERFACE_CONFIG = '/api/network/interfaces/{interface_id}/config'
+
+
+class Programs(str, Enum):
+
+  GET_ALL_PROGRAMS = '/api/programs'
+  CREATE_PROGRAM = '/api/programs'
+  GET_PROGRAMS_EXECUTOR_STATUS = '/api/programs-executor/status'
+  UPDATE_PROGRAMS_EXECUTOR_STATUS = '/api/programs-executor/status'
+  GET_PROGRAM = '/api/programs/{program_id}'
+  DELETE_PROGRAM = '/api/programs/{program_id}'
+  UPDATE_PROGRAM = '/api/programs/{program_id}'
+  GET_PROGRAM_EXECUTIONS = '/api/programs/{program_id}/executions'
+  EXECUTE_PROGRAM = '/api/programs/{program_id}/executions'
+  GET_PROGRAM_EXECUTION = '/api/programs/{program_id}/executions/{execution_id}'
+  GET_PROGRAM_FILE = '/api/programs/{program_id}/file'
+  UPLOAD_PROGRAM_FILE = '/api/programs/{program_id}/file'
+  GET_PROGRAM_STATUS = '/api/programs/{program_id}/status'
+  UPDATE_PROGRAM_STATUS = '/api/programs/{program_id}/status'
+  GET_TRAJECTORY_EXECUTOR_STATUS = '/api/trajectory-executor/status'
+  UPDATE_TRAJECTORY_EXECUTOR_STATUS = '/api/trajectory-executor/status'
+
+
+class Robot(str, Enum):
+
+  GET_ROBOT_CONFIG = '/api/robot/config'
+  GET_ROBOT_CONTROL_MODE = '/api/robot/control-mode'
+  SET_ROBOT_CONTROL_MODE = '/api/robot/control-mode'
+  GET_ALL_FRAMES = '/api/robot/frames'
+  GET_FRAME_POSE = '/api/robot/frames/{frame_id}/pose'
+  MOVE_FRAME_TO_POSE = '/api/robot/frames/{frame_id}/pose'
+  GET_ROBOT_JOINTS = '/api/robot/joints'
+  MOVE_TO_JOINTS = '/api/robot/joints'
+  EXECUTE_TRAJECTORY = '/api/robot/trajectory/executions'
+  GENERATE_TRAJECTORY = '/api/robot/trajectory/generations'
+  GET_ROBOT_URDF = '/api/robot/urdf'
+  MOVE_ALONG_WAYPOINTS = '/api/robot/waypoints'
+

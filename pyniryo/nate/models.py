@@ -371,20 +371,20 @@ class ProgramExecution(BaseDataClass):
                                                  context=self.context.to_transport_model(),
                                                  startedAt=self.startedAt,
                                                  finishedAt=self.finishedAt,
-                                                 output=self.output,
                                                  exitCode=self.exitCode)
 
 
 @dataclass
 class ExecutionOutput:
     output: str
+    eof: bool
 
     @classmethod
     def from_transport_model(cls, model: transport_models.ProgramExecutionOutput) -> 'ExecutionOutput':
-        return cls(output=model.output)
+        return cls(output=model.output, eof=model.eof)
 
     def to_transport_model(self) -> transport_models.ProgramExecutionOutput:
-        return transport_models.ProgramExecutionOutput(output=self.output)
+        return transport_models.ProgramExecutionOutput(output=self.output, eof=self.eof)
 
 
 class ExecutionStatusStatus(StrEnum):
@@ -392,6 +392,7 @@ class ExecutionStatusStatus(StrEnum):
     COMPLETED = 'completed'
     FAILED = 'failed'
     PAUSED = 'paused'
+    STOPPED = 'stopped'
 
     def is_error(self) -> bool:
         return self == ExecutionStatusStatus.FAILED
@@ -399,14 +400,21 @@ class ExecutionStatusStatus(StrEnum):
     def is_final(self) -> bool:
         return self == ExecutionStatusStatus.COMPLETED or self.is_error()
 
+    @classmethod
+    def from_transport_model(cls, model: transport_models.ExecutorStatus) -> 'ExecutionStatusStatus':
+        return cls(model.value)
+
+    def to_transport_model(self) -> transport_models.ExecutorStatus:
+        return transport_models.ExecutorStatus(self.value)
+
 
 @dataclass
 class ExecutionStatus:
     status: ExecutionStatusStatus
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.ProgramExecutionStatus) -> 'ExecutionStatus':
-        return cls(status=ExecutionStatusStatus(model.status))
+    def from_transport_model(cls, model: transport_models.ProgramsExecutorStatus) -> 'ExecutionStatus':
+        return cls(status=ExecutionStatusStatus.from_transport_model(model.status))
 
-    def to_transport_model(self) -> transport_models.ProgramExecutionStatus:
-        return transport_models.ProgramExecutionStatus(status=self.status)
+    def to_transport_model(self) -> transport_models.ProgramsExecutorStatus:
+        return transport_models.ProgramsExecutorStatus(status=self.status.to_transport_model())
