@@ -49,7 +49,7 @@ class Nate:
                 raise ValueError("authentication with username and password requires both username and password")
             username, password = login
             response = http_client.post(
-                paths_gen.Api.Auth.LOGIN,
+                paths_gen.Authentication.LOGIN,
                 transport_models.Login(login=username, password=password),
                 transport_models.Token,
             )
@@ -57,7 +57,7 @@ class Nate:
         http_client.set_token(token)
 
         # Device ID
-        resp = http_client.get(paths_gen.Api.Device.ID, transport_models.DeviceID)
+        resp = http_client.get(paths_gen.Device.GET_DEVICE_ID, transport_models.DeviceID)
         device_id = resp.device_id
 
         mqtt_client: MqttClient = MqttClient(hostname, mqtt_port, token, prefix=MQTT_PREFIX(device_id))
