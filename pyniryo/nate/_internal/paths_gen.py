@@ -2,10 +2,10 @@
 # This file is generated from an OpenAPI specification.
 # Any changes made directly to this file will be lost.
 
-from enum import Enum
+from strenum import StrEnum
 
 
-class Authentication(str, Enum):
+class Authentication(StrEnum):
 
   LOGIN = '/api/auth/login'
   GET_ALL_USERS = '/api/users'
@@ -18,7 +18,7 @@ class Authentication(str, Enum):
   CREATE_USER_TOKEN = '/api/users/{user_id}/tokens'
 
 
-class Device(str, Enum):
+class Device(StrEnum):
 
   GET_DEVICE_ID = '/api/device/id'
   HEALTH_CHECK = '/api/health'
@@ -27,7 +27,7 @@ class Device(str, Enum):
   SHUTDOWN = '/api/shutdown'
 
 
-class Network(str, Enum):
+class Network(StrEnum):
 
   GET_NETWORK_INTERFACES = '/api/network/interfaces'
   GET_NETWORK_INTERFACE_STATUS = '/api/network/interfaces/{interface_id}'
@@ -35,7 +35,7 @@ class Network(str, Enum):
   UPDATE_NETWORK_INTERFACE_CONFIG = '/api/network/interfaces/{interface_id}/config'
 
 
-class Programs(str, Enum):
+class Programs(StrEnum):
 
   GET_ALL_PROGRAMS = '/api/programs'
   CREATE_PROGRAM = '/api/programs'
@@ -55,7 +55,7 @@ class Programs(str, Enum):
   UPDATE_TRAJECTORY_EXECUTOR_STATUS = '/api/trajectory-executor/status'
 
 
-class Robot(str, Enum):
+class Robot(StrEnum):
 
   GET_ROBOT_CONFIG = '/api/robot/config'
   GET_ROBOT_CONTROL_MODE = '/api/robot/control-mode'

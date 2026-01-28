@@ -18,10 +18,10 @@ template_code = """\
 # This file is generated from an OpenAPI specification.
 # Any changes made directly to this file will be lost.
 
-from enum import Enum
+from strenum import StrEnum
 
 {% for class_name, paths in grouped_paths.items() %}
-class {{ class_name }}(str, Enum):
+class {{ class_name }}(StrEnum):
 {% for op_id, path in paths.items() %}
   {{ op_id }} = '{{ path }}'{% endfor %}
 
