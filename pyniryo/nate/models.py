@@ -236,6 +236,7 @@ class MoveState(StrEnum):
     EXEC_TRAJ = "executing_trajectory"
     ERR_EXEC_TRAJ = "error_executing_trajectory"
     DONE = "done"
+    PAUSED = "paused"
 
     def is_error(self) -> bool:
         return self.name.startswith("ERR_")
