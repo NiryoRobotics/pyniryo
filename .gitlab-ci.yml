@@ -100,8 +100,7 @@ docker-build:
         --build-arg PYTHON_VERSION=${PYTHON_VERSION}
         --build-arg OPENCV_HEADLESS_VERSION=4.12.0.88
         -f .docker/Dockerfile
-        -t "${ACCOUNT_ID}.dkr.ecr.eu-west-3.amazonaws.com/$CI_PROJECT_PATH:${PYTHON_VERSION}-slim"
-        -t $CI_REGISTRY_IMAGE:${PYTHON_VERSION}-slim
+        $DOCKER_TAGS
         --push .
   parallel:
     matrix:
@@ -116,11 +115,18 @@ docker-build:
     - if: '$CI_COMMIT_BRANCH == "master-nate" && $CI_COMMIT_TAG == null'
       variables:
         ACCOUNT_ID: "374724054640"
-        TAG_NAME: "${PYTHON_VERSION}-slim"
+        DOCKER_TAGS: |
+          -t ${ACCOUNT_ID}.dkr.ecr.eu-west-3.amazonaws.com/$CI_PROJECT_PATH:$PYTHON_VERSION-slim 
+          -t $CI_REGISTRY_IMAGE:$PYTHON_VERSION-slim"
     - if: '$CI_COMMIT_TAG != null'
       variables:
         ACCOUNT_ID: "458204441573"
         TAG_NAME: "${PYTHON_VERSION}-slim-$CI_COMMIT_TAG"
+        DOCKER_TAGS: |
+          -t ${ACCOUNT_ID}.dkr.ecr.eu-west-3.amazonaws.com/$CI_PROJECT_PATH:$PYTHON_VERSION-slim 
+          -t $CI_REGISTRY_IMAGE:$PYTHON_VERSION-slim
+          -t ${ACCOUNT_ID}.dkr.ecr.eu-west-3.amazonaws.com/$CI_PROJECT_PATH:$PYTHON_VERSION-slim-$CI_COMMIT_TAG 
+          -t $CI_REGISTRY_IMAGE:$PYTHON_VERSION-slim-$CI_COMMIT_TAG"
 
 
 mirror_github:
