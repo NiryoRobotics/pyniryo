@@ -117,7 +117,7 @@ docker-build:
         ACCOUNT_ID: "374724054640"
         DOCKER_TAGS: |
           -t ${ACCOUNT_ID}.dkr.ecr.eu-west-3.amazonaws.com/$CI_PROJECT_PATH:$PYTHON_VERSION-slim 
-          -t $CI_REGISTRY_IMAGE:$PYTHON_VERSION-slim"
+          -t $CI_REGISTRY_IMAGE:$PYTHON_VERSION-slim
     - if: '$CI_COMMIT_TAG != null'
       variables:
         ACCOUNT_ID: "458204441573"
@@ -126,7 +126,7 @@ docker-build:
           -t ${ACCOUNT_ID}.dkr.ecr.eu-west-3.amazonaws.com/$CI_PROJECT_PATH:$PYTHON_VERSION-slim 
           -t $CI_REGISTRY_IMAGE:$PYTHON_VERSION-slim
           -t ${ACCOUNT_ID}.dkr.ecr.eu-west-3.amazonaws.com/$CI_PROJECT_PATH:$PYTHON_VERSION-slim-$CI_COMMIT_TAG 
-          -t $CI_REGISTRY_IMAGE:$PYTHON_VERSION-slim-$CI_COMMIT_TAG"
+          -t $CI_REGISTRY_IMAGE:$PYTHON_VERSION-slim-$CI_COMMIT_TAG
 
 
 mirror_github:
