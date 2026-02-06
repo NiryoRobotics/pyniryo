@@ -11,7 +11,7 @@ from typing import Callable, TypeVar, Type
 
 logger = logging.getLogger(__name__)
 
-T = TypeVar("T", bound=(BaseModel | None))
+T = TypeVar("T", bound=BaseModel)
 Callback = Callable[[str, T], None]
 
 SINGLE_LEVEL_WILDCARD = '+'
@@ -31,7 +31,7 @@ class MqttClient:
         self.__client_id = f'pyniryo-{b64encode(uuid4().bytes).decode()}'
         self.__prefix = prefix
 
-        self.__subscribers: Dict[str, Tuple[Type[T], List[Callback]]] = {}
+        self.__subscribers: Dict[str, Tuple[Type[BaseModel], List[Callback]]] = {}
 
         self.__mqtt_client = Client(client_id=self.__client_id, userdata=None, protocol=MQTTv5)
         self.__mqtt_client.username_pw_set(username='token', password=token)
@@ -54,14 +54,14 @@ class MqttClient:
         if self.__mqtt_client.is_connected():
             self.disconnect()
 
-    def subscribe(self, topic: str, callback: Callback, payload_model: Type[T] = None) -> None:
+    def subscribe(self, topic: str, callback: Callback, payload_model: Type[T]) -> None:
         """
         Subscribe to a topic.
         :param topic: The topic to subscribe to.
         :param callback: The callback to call when a message is received.
         :param payload_model: The model to use for the payload. If None, no model is used.
         """
-        if payload_model is not None and not issubclass(payload_model, BaseModel):
+        if not issubclass(payload_model, BaseModel):
             raise TypeError(f'Invalid type {payload_model.__name__} for response model.')
 
         if self.__prefix != '':
@@ -82,7 +82,7 @@ class MqttClient:
         Unsubscribe a callback from a topic.
         :param callback: The callback to unsubscribe from.
         """
-        for topic, (payload_model, callbacks) in list(self.__subscribers.items()):
+        for topic, (payload_model, callbacks) in self.__subscribers.items():
             if callback in callbacks:
                 callbacks.remove(callback)
                 if len(callbacks) == 0:
