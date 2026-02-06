@@ -7,7 +7,7 @@ from urllib3.exceptions import InsecureRequestWarning
 
 from ..exceptions import get_msg_from_errors, ServerError, ClientError, InternalError
 
-T = TypeVar("T", bound=(BaseModel | None))
+T = TypeVar("T", bound=BaseModel)
 
 
 class HttpClient:
@@ -21,6 +21,11 @@ class HttpClient:
         :param hostname: The hostname of the API.
         :param port: The port of the API.
         """
+        if not hostname:
+            raise ValueError(f'Invalid hostname "{hostname}"')
+        if not (1 <= port <= 2**16 - 1):
+            raise ValueError(f'Invalid port number "{port}"')
+
         self.__hostname = hostname
         self.__port = port
         self.__headers = {}
@@ -54,9 +59,9 @@ class HttpClient:
         :param response: The response to resolve.
         """
         if response.status_code >= 500:
-            raise ServerError(response.status_code, response.text)
+            raise ServerError.from_response(response)
         elif response.status_code >= 400:
-            raise ClientError(response.status_code, response.text)
+            raise ClientError.from_response(response)
 
     def __url(self, path: str) -> str:
         """
@@ -69,8 +74,8 @@ class HttpClient:
     def __request(self,
                   method: str,
                   path: str,
+                  response_model: Type[T],
                   json: BaseModel | None = None,
-                  response_model: Type[T] = None,
                   files: dict[str, IO[bytes]] = None) -> T:
         """
         Make a request to the API.
@@ -95,9 +100,6 @@ class HttpClient:
                                     verify=not self.__insecure)
         self.__resolve_status_code(response)
 
-        if response_model is None:
-            return None
-
         try:
             return response_model.model_validate(response.json())
         except ValidationError as e:
@@ -111,44 +113,45 @@ class HttpClient:
         :return: The response of the request.
         :rtype: response_model
         """
-        return self.__request('GET', path, response_model=response_model)
+        return self.__request('GET', path, response_model)
 
-    def post(self, path: str, data: BaseModel, response_model: Type[T], files: dict[str, IO[bytes]] = None) -> T:
+    def post(self, path: str, response_model: Type[T], data: BaseModel | None, files: dict[str, IO[bytes]] = None) -> T:
         """
         Make a POST request to the API.
         :param path: The path of the request.
-        :param data: The data to send with the request.
         :param response_model: The model to use to parse the response.
+        :param data: The data to send with the request.
         :param files: Optional files to send with the request.
         :return: The response of the request.
         :rtype: response_model
         """
-        return self.__request('POST', path, data, response_model, files)
+        return self.__request('POST', path, response_model, data, files)
 
-    def delete(self, path: str) -> None:
+    def delete(self, path: str, response_model: Type[T]) -> T:
         """
         Make a DELETE request to the API.
         :param path: The path of the request.
+        :param response_model: The model to use to parse the response.
         :return: The response of the request.
         :rtype: response_model
         """
-        return self.__request('DELETE', path)
+        return self.__request('DELETE', path, response_model)
 
     def patch(self,
               path: str,
-              data: BaseModel | None,
               response_model: Type[T],
+              data: BaseModel | None,
               files: dict[str, IO[bytes]] = None) -> T:
         """
         Make a PATCH request to the API.
         :param path: The path of the request.
-        :param data: The data to send with the request.
         :param response_model: The model to use to parse the response.
+        :param data: The data to send with the request.
         :param files: Optional files to send with the request.
         :return: The response of the request.
         :rtype: response_model
         """
-        return self.__request('PATCH', path, data, response_model, files)
+        return self.__request('PATCH', path, response_model, data, files)
 
     def download(self, path: str, dst: IO[bytes]) -> None:
         """
