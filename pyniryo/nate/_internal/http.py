@@ -115,7 +115,7 @@ class HttpClient:
         """
         return self.__request('GET', path, response_model)
 
-    def post(self, path: str, response_model: Type[T], data: BaseModel | None, files: dict[str, IO[bytes]] = None) -> T:
+    def post(self, path: str, response_model: Type[T], data: BaseModel, files: dict[str, IO[bytes]] = None) -> T:
         """
         Make a POST request to the API.
         :param path: The path of the request.
@@ -137,11 +137,7 @@ class HttpClient:
         """
         return self.__request('DELETE', path, response_model)
 
-    def patch(self,
-              path: str,
-              response_model: Type[T],
-              data: BaseModel | None,
-              files: dict[str, IO[bytes]] = None) -> T:
+    def patch(self, path: str, response_model: Type[T], data: BaseModel, files: dict[str, IO[bytes]] = None) -> T:
         """
         Make a PATCH request to the API.
         :param path: The path of the request.

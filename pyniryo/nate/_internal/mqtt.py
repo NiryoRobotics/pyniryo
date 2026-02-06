@@ -1,3 +1,4 @@
+import threading
 from base64 import b64encode
 from typing import List, Dict, Tuple
 from uuid import uuid4
@@ -31,6 +32,7 @@ class MqttClient:
         self.__client_id = f'pyniryo-{b64encode(uuid4().bytes).decode()}'
         self.__prefix = prefix
 
+        self.__subscribers_lock = threading.Lock()
         self.__subscribers: Dict[str, Tuple[Type[BaseModel], List[Callback]]] = {}
 
         self.__mqtt_client = Client(client_id=self.__client_id, userdata=None, protocol=MQTTv5)
@@ -66,35 +68,43 @@ class MqttClient:
 
         if self.__prefix != '':
             topic = f'{self.__prefix}/{topic}'
-        new_subscriber = topic not in self.__subscribers
 
-        if new_subscriber:
-            self.__subscribers[topic] = (payload_model, [])
+        with self.__subscribers_lock:
+            new_subscriber = topic not in self.__subscribers
 
-        self.__subscribers[topic][1].append(callback)
+            if new_subscriber:
+                self.__subscribers[topic] = (payload_model, [])
 
-        # subscribe at the end to ensure the callback is registered before receiving messages
-        if new_subscriber:
-            self.__mqtt_client.subscribe(topic, qos=2)
+            self.__subscribers[topic][1].append(callback)
+
+            # subscribe at the end to ensure the callback is registered before receiving messages
+            if new_subscriber:
+                self.__mqtt_client.subscribe(topic, qos=2)
 
     def unsubscribe(self, callback: Callable) -> None:
         """
         Unsubscribe a callback from a topic.
         :param callback: The callback to unsubscribe from.
         """
+        topics_to_remove = []
         for topic, (payload_model, callbacks) in self.__subscribers.items():
             if callback in callbacks:
                 callbacks.remove(callback)
                 if len(callbacks) == 0:
-                    self.__mqtt_client.unsubscribe(topic)
-                    del self.__subscribers[topic]
+                    topics_to_remove.append(topic)
+
+        with self.__subscribers_lock:
+            for topic in topics_to_remove:
+                del self.__subscribers[topic]
+                self.__mqtt_client.unsubscribe(topic)
 
     def __on_message(self, _client, _userdata, message):
-        if message.topic not in self.__subscribers:
-            logger.warning(f'No subscribers for topic {message.topic}. Message ignored: {message.payload}')
-            return
+        with self.__subscribers_lock:
+            if message.topic not in self.__subscribers:
+                logger.warning(f'No subscribers for topic {message.topic}. Message ignored: {message.payload}')
+                return
 
-        payload_model, callbacks = self.__subscribers[message.topic]
+            payload_model, callbacks = self.__subscribers[message.topic]
         try:
             model = payload_model.model_validate_json(message.payload) if payload_model else None
         except ValidationError as e:
