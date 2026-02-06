@@ -6,7 +6,9 @@ import time
 from pyniryo.nate.components import BaseAPIComponent
 from .. import models
 from .._internal import transport_models, paths_gen, topics_gen
+from .._internal.http import HttpClient
 from .._internal.mqtt import MqttClient
+from ..models import Pose
 
 logger = logging.getLogger(__name__)
 
@@ -73,6 +75,48 @@ class MoveCommand:
                 f'Move command {self.__command_id} failed with error: {self.__feedbacks[-1].message}')
 
 
+class Frame:
+
+    def __init__(self, frame_id: str, http_client: HttpClient, mqtt_client: MqttClient):
+        self._http_client = http_client
+        self._mqtt_client = mqtt_client
+        self.frame_id = frame_id
+
+    def get_pose(self) -> models.Pose:
+        """
+        Get the current pose of the frame.
+
+        :return: The current pose of the frame as a Pose object.
+        """
+        pose = self._http_client.get(
+            paths_gen.Robot.GET_FRAME_POSE.format(frame_id=self.frame_id),
+            transport_models.Pose,
+        )
+        return models.Pose.from_transport_model(pose)
+
+    def move_to_pose(self, pose: Pose, reference_frame_id: str = None, planner: models.Planner = None) -> MoveCommand:
+        """
+        Move the frame to the specified pose.
+
+        :param pose: The target pose to move to.
+        :param reference_frame_id: The reference frame to use for the movement. If not specified, the robot's base frame will be used.
+        :param planner: The motion planner to use for generating the movement trajectory.
+        :return: The final pose of the frame after the movement is completed.
+        """
+        move_command = MoveCommand(self._mqtt_client, str(uuid4()))
+
+        self._http_client.post(
+            paths_gen.Robot.MOVE_FRAME_TO_POSE.format(frame_id=self.frame_id),
+            transport_models.FeedbackResponse,
+            transport_models.MoveFrame(command_id=move_command.command_id,
+                                       pose=pose.to_transport_model(),
+                                       reference_frame=reference_frame_id,
+                                       planner=planner),
+        )
+
+        return move_command
+
+
 class Robot(BaseAPIComponent):
 
     def get_joints(self) -> models.Joints:
@@ -95,6 +139,36 @@ class Robot(BaseAPIComponent):
             callback(models.Joints.from_transport_model(joints))
 
         self._mqtt_client.subscribe(topics_gen.Robot.JOINTS, internal_callback, transport_models.Joints)
+
+    def get_all_frames(self) -> List[Frame]:
+        """
+        Get all frames defined in the robot.
+
+        :return: A list of Frame objects.
+        """
+        frames = self._http_client.get(
+            paths_gen.Robot.GET_ALL_FRAMES,
+            transport_models.FrameIdList,
+        )
+        return [
+            Frame(frame_id=fid, http_client=self._http_client, mqtt_client=self._mqtt_client)
+            for fid in frames.frame_ids
+        ]
+
+    def get_frame(self, frame_id: str) -> Frame:
+        """
+        Get a specific frame by its ID.
+
+        :param frame_id: The ID of the frame to retrieve.
+        :return: A Frame object corresponding to the specified ID.
+        """
+        frames = self._http_client.get(
+            paths_gen.Robot.GET_ALL_FRAMES,
+            transport_models.FrameIdList,
+        )
+        if frame_id not in frames.frame_ids:
+            raise ValueError(f'Frame with ID {frame_id} not found. Available frames: {frames.frame_ids}')
+        return Frame(frame_id=frame_id, http_client=self._http_client, mqtt_client=self._mqtt_client)
 
     def move(self,
              target: models.MoveTarget,
@@ -141,15 +215,3 @@ class Robot(BaseAPIComponent):
             data,
         )
         return move_command
-
-    def get_all_frame_ids(self) -> List[str]:
-        """
-        Get all frames defined in the robot.
-
-        :return: A list of Frame objects.
-        """
-        frames = self._http_client.get(
-            paths_gen.Robot.GET_ALL_FRAMES,
-            transport_models.FrameIdList,
-        )
-        return frames.root
