@@ -56,15 +56,16 @@ class TestUsers(BaseTestComponent):
         self.http_client.delete.return_value = None
         self.users.delete(base_user.id)
         self.http_client.delete.assert_called_once_with(
-            paths_gen.Authentication.DELETE_USER.format(user_id=base_user.id))
+            paths_gen.Authentication.DELETE_USER.format(user_id=base_user.id), transport_models.EmptyPayload)
 
     def test_update(self):
         self.http_client.patch.return_value = base_user.to_transport_model()
         user = self.users.update(base_user)
         self.http_client.patch.assert_called_once_with(
             paths_gen.Authentication.UPDATE_USER.format(user_id=base_user.id),
+            transport_models.User,
             base_user.to_transport_model(),
-            transport_models.User)
+        )
         self.assertEqual(user, base_user)
 
     def test_get_tokens(self):
@@ -88,6 +89,6 @@ class TestUsers(BaseTestComponent):
         self.assertIsNone(
             self.http_client.patch.assert_called_once_with(
                 paths_gen.Authentication.UPDATE_USER_PASSWORD.format(user_id=base_user.id),
+                transport_models.EmptyPayload,
                 transport_models.UpdatePassword(old_password='password', new_password='new_password'),
-                None,
             ))
