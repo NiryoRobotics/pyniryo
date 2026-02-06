@@ -135,7 +135,11 @@ class Robot(BaseAPIComponent):
             valid_types = ', '.join(f'{m.__module__}.{m.__qualname__}' for m in models.MoveTarget.__args__)
             raise TypeError(f'Invalid type {target.__class__.__name__} for target. Expected one of {valid_types}')
 
-        self._http_client.post(uri, data, transport_models.FeedbackResponse)
+        self._http_client.post(
+            uri,
+            transport_models.FeedbackResponse,
+            data,
+        )
         return move_command
 
     def get_all_frame_ids(self) -> List[str]:
@@ -144,5 +148,8 @@ class Robot(BaseAPIComponent):
 
         :return: A list of Frame objects.
         """
-        frames = self._http_client.get(paths_gen.Robot.GET_ALL_FRAMES, transport_models.FrameIdList)
+        frames = self._http_client.get(
+            paths_gen.Robot.GET_ALL_FRAMES,
+            transport_models.FrameIdList,
+        )
         return frames.root
