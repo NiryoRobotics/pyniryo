@@ -13,18 +13,7 @@ from .exceptions import PyNiryoError, GenerateTrajectoryError, LoadTrajectoryErr
 
 
 @dataclass
-class BaseDataClass:
-
-    @classmethod
-    def from_transport_model(cls, model):
-        raise NotImplementedError()
-
-    def to_transport_model(self):
-        raise NotImplementedError()
-
-
-@dataclass
-class BaseSequenceDataClass(BaseDataClass, MutableSequence):
+class BaseSequenceDataClass(MutableSequence):
 
     root: MutableSequence[float]
 
@@ -45,7 +34,7 @@ class BaseSequenceDataClass(BaseDataClass, MutableSequence):
 
 
 @dataclass
-class Role(BaseDataClass):
+class Role:
     id: int
     name: str
 
@@ -61,7 +50,7 @@ class Role(BaseDataClass):
 
 
 @dataclass
-class User(BaseDataClass):
+class User:
     id: str
     login: str
     name: str
@@ -84,7 +73,7 @@ class User(BaseDataClass):
 
 
 @dataclass
-class Token(BaseDataClass):
+class Token:
     id: UUID
     expires_at: datetime
     created_at: datetime
@@ -107,7 +96,7 @@ class Token(BaseDataClass):
 
 
 @dataclass
-class UserEvent(BaseDataClass):
+class UserEvent:
 
     @classmethod
     def from_transport_model(cls, model: transport_models.UserEvent) -> 'UserEvent':
@@ -134,47 +123,83 @@ class Joints(BaseSequenceDataClass):
 
 
 @dataclass
-class Pose(BaseDataClass):
+class Point:
     x: float
     y: float
     z: float
-    rx: float
-    ry: float
-    rz: float
-    rw: float
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Pose) -> 'Pose':
-        return cls(
-            x=model.position.x,
-            y=model.position.y,
-            z=model.position.z,
-            rx=model.orientation.x,
-            ry=model.orientation.y,
-            rz=model.orientation.z,
-            rw=model.orientation.w,
-        )
+    def from_transport_model(cls, model: transport_models.Point) -> 'Point':
+        return cls(x=model.x, y=model.y, z=model.z)
 
-    def to_transport_model(self) -> transport_models.Pose:
-        return transport_models.Pose(
-            position=transport_models.Point(x=self.x, y=self.y, z=self.z),
-            orientation=transport_models.Quaternion(x=self.rx, y=self.ry, z=self.rz, w=self.rw),
-        )
+    def to_transport_model(self) -> transport_models.Point:
+        return transport_models.Point(x=self.x, y=self.y, z=self.z)
+
+
+@dataclass
+class Quaternion:
+    x: float
+    y: float
+    z: float
+    w: float
 
     @classmethod
-    def with_rpy(cls, x, y, z, roll, pitch, yaw) -> 'Pose':
-        cy = math.cos(yaw * 0.5)
-        sy = math.sin(yaw * 0.5)
-        cp = math.cos(pitch * 0.5)
-        sp = math.sin(pitch * 0.5)
-        cr = math.cos(roll * 0.5)
-        sr = math.sin(roll * 0.5)
+    def from_transport_model(cls, model: transport_models.Quaternion) -> 'Quaternion':
+        return cls(x=model.x, y=model.y, z=model.z, w=model.w)
+
+    def to_transport_model(self) -> transport_models.Quaternion:
+        return transport_models.Quaternion(x=self.x, y=self.y, z=self.z, w=self.w)
+
+
+@dataclass
+class EulerAngles:
+    roll: float
+    pitch: float
+    yaw: float
+
+    def to_quaternion(self) -> Quaternion:
+        cy = math.cos(self.yaw * 0.5)
+        sy = math.sin(self.yaw * 0.5)
+        cp = math.cos(self.pitch * 0.5)
+        sp = math.sin(self.pitch * 0.5)
+        cr = math.cos(self.roll * 0.5)
+        sr = math.sin(self.roll * 0.5)
         rw = cr * cp * cy + sr * sp * sy
         rx = sr * cp * cy - cr * sp * sy
         ry = cr * sp * cy + sr * cp * sy
         rz = cr * cp * sy - sr * sp * cy
 
-        return cls(x, y, z, rx, ry, rz, rw)
+        return Quaternion(rx, ry, rz, rw)
+
+
+@dataclass
+class Pose:
+    """
+    Represents a pose in 3D space, defined by a position and an orientation.
+     - The position is represented by a Point (x, y, z).
+     - The orientation can be represented either as a Quaternion (x, y, z, w) or as Euler angles (roll, pitch, yaw).
+
+     The choice between Quaternion and Euler angles is left to the user.
+     Keep in mind that the Nate API expects orientations to be sent as Quaternions, so Euler angles will be
+     automatically converted to Quaternions when sending commands to the API.
+    """
+    position: Point
+    orientation: Quaternion | EulerAngles
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.Pose) -> 'Pose':
+        return cls(
+            position=Point.from_transport_model(model.position),
+            orientation=Quaternion.from_transport_model(model.orientation),
+        )
+
+    def to_transport_model(self) -> transport_models.Pose:
+        quaternion = self.orientation
+        if isinstance(self.orientation, EulerAngles):
+            quaternion = self.orientation.to_quaternion()
+
+        return transport_models.Pose(position=self.position.to_transport_model(),
+                                     orientation=quaternion.to_transport_model())
 
 
 class Planner(StrEnum):
@@ -221,6 +246,18 @@ class Waypoint:
         )
 
 
+@dataclass
+class ComputedTrajectoryWaypoint:
+    joints: Joints
+    pose: Pose
+    time_from_start: float
+
+
+@dataclass
+class ComputedTrajectory:
+    ...
+
+
 MoveTarget = Pose | Joints | Waypoint | list[Waypoint]
 
 
@@ -259,7 +296,7 @@ class MoveState(StrEnum):
 
 
 @dataclass
-class MoveFeedback(BaseDataClass):
+class MoveFeedback:
     state: MoveState
     message: str
 
@@ -304,7 +341,7 @@ class ProgramType(StrEnum):
 
 
 @dataclass
-class Program(BaseDataClass):
+class Program:
     id: str
     name: str
     type: ProgramType
@@ -326,7 +363,7 @@ class Program(BaseDataClass):
 
 
 @dataclass
-class ProgramExecutionContext(BaseDataClass):
+class ProgramExecutionContext:
     environment: dict[str, str]
     arguments: list[str]
 
@@ -345,7 +382,7 @@ class ProgramExecutionContext(BaseDataClass):
 
 
 @dataclass
-class ProgramExecution(BaseDataClass):
+class ProgramExecution:
     id: str
     program_id: str
     context: ProgramExecutionContext

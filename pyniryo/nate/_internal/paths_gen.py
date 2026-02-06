@@ -20,11 +20,11 @@ class Authentication(StrEnum):
 
 class Device(StrEnum):
 
+  HEALTH_CHECK = '/api/device/health'
   GET_DEVICE_ID = '/api/device/id'
-  HEALTH_CHECK = '/api/health'
-  READINESS_CHECK = '/api/ready'
-  REBOOT = '/api/reboot'
-  SHUTDOWN = '/api/shutdown'
+  READINESS_CHECK = '/api/device/ready'
+  REBOOT = '/api/device/reboot'
+  SHUTDOWN = '/api/device/shutdown'
 
 
 class Network(StrEnum):

@@ -17,12 +17,12 @@ class Nate:
         Initialize a client to communicate with the Nate API.
         
         :param hostname: The hostname of the Nate API. It can be an IP address or a domain name.
-        If None, retrieve it from the environment variable NATE_HOSTNAME. If the environment variable is not set, use localhost.
+            If None, retrieve it from the environment variable NATE_HOSTNAME. If the environment variable is not set, use localhost.
         :type hostname: str
         :param token: The token to use for authentication. If None, retrieve it from the environment variable NATE_TOKEN.
         :type token: str
         :param login: A tuple containing the username and password to use for authentication. Omitted if using an auth token.
-        If None, retrieve them from the environment variables NATE_USERNAME and NATE_PASSWORD.
+            If None, retrieve them from the environment variables NATE_USERNAME and NATE_PASSWORD.
         """
         hostname = hostname or os.getenv('NATE_HOSTNAME') or 'localhost'
         token = token or os.getenv('NATE_TOKEN')
@@ -50,8 +50,8 @@ class Nate:
             username, password = login
             response = http_client.post(
                 paths_gen.Authentication.LOGIN,
-                transport_models.Login(login=username, password=password),
                 transport_models.Token,
+                transport_models.Login(login=username, password=password),
             )
             token = response.token
         http_client.set_token(token)
