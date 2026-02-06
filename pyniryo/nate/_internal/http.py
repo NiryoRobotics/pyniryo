@@ -86,7 +86,7 @@ class HttpClient:
         :return: The response of the request.
         :rtype: response_model
         """
-        if response_model is not None and not issubclass(response_model, BaseModel):
+        if not issubclass(response_model, BaseModel):
             raise TypeError(f'Invalid type {response_model.__name__} for response model.')
 
         dict_json = None if json is None else json.model_dump(mode='json')
