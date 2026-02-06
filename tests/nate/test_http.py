@@ -34,15 +34,15 @@ class TestHttpClient(unittest.TestCase):
         mock_request.return_value = self.mock_response(201, {"message": "Created"})
 
         data = ResponseModel(message="Hello")
-        response = self.client.post("/test", data, ResponseModel)
+        response = self.client.post("/test", ResponseModel, data)
         self.assertEqual(response.message, "Created")
 
     @patch("requests.request", autospec=True)
     def test_delete_request_success(self, mock_request):
-        mock_request.return_value = self.mock_response(204)
+        mock_request.return_value = self.mock_response(204, {"message": "Deleted"})
 
-        response = self.client.delete("/test")
-        self.assertIsNone(response)
+        response = self.client.delete("/test", ResponseModel)
+        self.assertEqual(response.message, "Deleted")
 
     @patch("requests.request", autospec=True)
     def test_server_error(self, mock_request):
