@@ -40,7 +40,6 @@
 
 .. toctree::
    :caption: API Documentation
-   :maxdepth: 1
 
    api/ned/api
    api/ned/vision

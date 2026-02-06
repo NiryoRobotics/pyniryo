@@ -11,7 +11,7 @@ from datetime import date
 from pathlib import Path
 
 module_directory = Path(__file__).parent.parent.absolute()
-sys.path.append(str(module_directory))
+sys.path.insert(0, str(module_directory))
 
 project = 'PyNiryo'
 copyright = f'{date.today().year}, Niryo'
@@ -23,10 +23,16 @@ release = re.match(r'__version__ = ["\']((\d+\.?){3})', file_content)[1]
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.autodoc', 'sphinx_copybutton', 'sphinxemoji.sphinxemoji']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.napoleon',
+    'sphinx_copybutton',
+    'sphinxemoji.sphinxemoji'
+]
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '_templates']
 
 language = 'en'
 
@@ -43,6 +49,10 @@ rst_prolog = """
 html_theme = 'sphinx_rtd_theme'
 # html_static_path = ['_static']
 html_theme_options = {"collapse_navigation": False}
+
+# -- AutoSummary configuration -------------------------------------------------
+
+autosummary_generate = True
 
 # -- AutoDoc configuration ---------------------------------------------------
 
