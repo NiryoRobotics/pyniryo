@@ -1,5 +1,5 @@
 default:
-  image: $CI_REGISTRY/robot/ned/development-tools/development-tools:latest
+  image: python:3.12-slim
   tags:
     - amd
   cache:
@@ -9,11 +9,12 @@ default:
 .doc_job:
   stage: build
   before_script:
-    - virtualenv venv
+    - python3 -m venv venv
     - source venv/bin/activate
     - pip install -e .[docs]
 
 .test_job:
+  image: $CI_REGISTRY/robot/ned/development-tools/development-tools:latest
   stage: test
   before_script:
     - virtualenv venv
@@ -23,7 +24,7 @@ default:
 .build_job:
   stage: build
   before_script:
-    - virtualenv venv
+    - python3 -m venv venv
     - source venv/bin/activate
     - pip install --upgrade $PIP_DEPS
   variables:
@@ -34,14 +35,13 @@ tests:
   script:
     - tox run-parallel --parallel auto
 
-
 pages:
   extends: .doc_job
   script:
+    - apt update && apt install -y git
     - git fetch --tags --force
     - git checkout $CI_COMMIT_REF_NAME
-    #- scripts/build_docs_versioned.py public $CI_COMMIT_REF_NAME $(git tag)
-    - sphinx-build -b html docs/ public
+    - scripts/build_docs_versioned.py public $CI_COMMIT_REF_NAME $(git tag)
   artifacts:
     paths:
       - public
@@ -160,6 +160,7 @@ promote_prod:
 
 
 mirror_github:
+  image: $CI_REGISTRY/robot/ned/development-tools/development-tools:latest
   stage: deploy
   dependencies: []
   variables:
