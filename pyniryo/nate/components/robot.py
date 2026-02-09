@@ -1,4 +1,5 @@
 import logging
+from locale import normalize
 from typing import Callable, List
 from uuid import uuid4
 import time
@@ -8,7 +9,7 @@ from .. import models
 from .._internal import transport_models, paths_gen, topics_gen
 from .._internal.http import HttpClient
 from .._internal.mqtt import MqttClient
-from ..models import Pose
+from ..models import Pose, Waypoint
 
 logger = logging.getLogger(__name__)
 
@@ -75,48 +76,6 @@ class MoveCommand:
                 f'Move command {self.__command_id} failed with error: {self.__feedbacks[-1].message}')
 
 
-class Frame:
-
-    def __init__(self, frame_id: str, http_client: HttpClient, mqtt_client: MqttClient):
-        self._http_client = http_client
-        self._mqtt_client = mqtt_client
-        self.frame_id = frame_id
-
-    def get_pose(self) -> models.Pose:
-        """
-        Get the current pose of the frame.
-
-        :return: The current pose of the frame as a Pose object.
-        """
-        pose = self._http_client.get(
-            paths_gen.Robot.GET_FRAME_POSE.format(frame_id=self.frame_id),
-            transport_models.Pose,
-        )
-        return models.Pose.from_transport_model(pose)
-
-    def move_to_pose(self, pose: Pose, reference_frame_id: str = None, planner: models.Planner = None) -> MoveCommand:
-        """
-        Move the frame to the specified pose.
-
-        :param pose: The target pose to move to.
-        :param reference_frame_id: The reference frame to use for the movement. If not specified, the robot's base frame will be used.
-        :param planner: The motion planner to use for generating the movement trajectory.
-        :return: The final pose of the frame after the movement is completed.
-        """
-        move_command = MoveCommand(self._mqtt_client, str(uuid4()))
-
-        self._http_client.post(
-            paths_gen.Robot.MOVE_FRAME_TO_POSE.format(frame_id=self.frame_id),
-            transport_models.FeedbackResponse,
-            transport_models.MoveFrame(command_id=move_command.command_id,
-                                       pose=pose.to_transport_model(),
-                                       reference_frame=reference_frame_id,
-                                       planner=planner),
-        )
-
-        return move_command
-
-
 class Robot(BaseAPIComponent):
 
     def get_joints(self) -> models.Joints:
@@ -140,7 +99,7 @@ class Robot(BaseAPIComponent):
 
         self._mqtt_client.subscribe(topics_gen.Robot.JOINTS, internal_callback, transport_models.Joints)
 
-    def get_all_frames(self) -> List[Frame]:
+    def get_all_frames(self) -> List[str]:
         """
         Get all frames defined in the robot.
 
@@ -150,68 +109,51 @@ class Robot(BaseAPIComponent):
             paths_gen.Robot.GET_ALL_FRAMES,
             transport_models.FrameIdList,
         )
-        return [
-            Frame(frame_id=fid, http_client=self._http_client, mqtt_client=self._mqtt_client)
-            for fid in frames.frame_ids
-        ]
+        return frames.root
 
-    def get_frame(self, frame_id: str) -> Frame:
+    def get_frame_pose(self, frame_id: str) -> Pose:
         """
         Get a specific frame by its ID.
 
         :param frame_id: The ID of the frame to retrieve.
-        :return: A Frame object corresponding to the specified ID.
+        :return: The current pose of the frame as a Pose object.
         """
-        frames = self._http_client.get(
-            paths_gen.Robot.GET_ALL_FRAMES,
-            transport_models.FrameIdList,
+        pose = self._http_client.get(
+            paths_gen.Robot.GET_FRAME_POSE.format(frame_id=frame_id),
+            transport_models.Pose,
         )
-        if frame_id not in frames.frame_ids:
-            raise ValueError(f'Frame with ID {frame_id} not found. Available frames: {frames.frame_ids}')
-        return Frame(frame_id=frame_id, http_client=self._http_client, mqtt_client=self._mqtt_client)
+        return models.Pose.from_transport_model(pose)
 
-    def move(self,
-             target: models.MoveTarget,
-             frame_id: str = None,
-             reference_frame: str = None,
-             planner: models.Planner = None) -> MoveCommand:
+    def _normalize_move_target(self, target: models.MoveTarget) -> list[Waypoint]:
+        if isinstance(target, models.Joints):
+            return [Waypoint(joints=target)]
+        if isinstance(target, models.Pose):
+            return [Waypoint(pose=target)]
+        if isinstance(target, models.Waypoint):
+            return [target]
+        if isinstance(target, list):
+            normalized_waypoints = []
+            for t in target:
+                normalized_waypoints.extend(self._normalize_move_target(t))
+            return normalized_waypoints
+        else:
+            valid_types = ', '.join(f'{m.__module__}.{m.__qualname__}' for m in models.MoveTarget.__args__)
+            raise TypeError(f'Invalid type {target.__class__.__name__} for target. Expected one of {valid_types}')
+
+    def move(self, target: models.MoveTarget) -> MoveCommand:
         """
         Move the robot to the specified joint positions.
 
         :param target: The target to reach
-        :param frame_id: Move linear only. The frame ID to use for the target.
-        :param reference_frame: The reference frame to use for the movement. If not specified, the robot's base frame will be used.
-        :param planner: The motion planner to use for generating the movement trajectory.
         :return: A MoveCommand object to track the progress of the movement.
         """
         command_id = uuid4()
         move_command = MoveCommand(self._mqtt_client, str(command_id))
 
-        if isinstance(target, models.Joints):
-            uri = paths_gen.Robot.MOVE_TO_JOINTS
-            planner = planner or models.Planner.PTP
-            data = transport_models.MoveJoints(command_id=command_id,
-                                               joints=target.to_transport_model(),
-                                               planner=planner.to_transport_model())
-        elif isinstance(target, models.Pose):
-            if frame_id is None or frame_id == '':
-                raise ValueError("frame_id must be specified when moving to a Pose target")
-            uri = paths_gen.Robot.MOVE_FRAME_TO_POSE.format(frame_id=frame_id)
-            data = transport_models.MoveFrame(command_id=command_id,
-                                              pose=target.to_transport_model(),
-                                              reference_frame=reference_frame,
-                                              planner=planner)
-        elif isinstance(target, list) and all(isinstance(w, models.Waypoint) for w in target):
-            uri = paths_gen.Robot.MOVE_ALONG_WAYPOINTS
-            data = transport_models.MoveWaypoints(command_id=command_id,
-                                                  waypoints=[w.to_transport_model() for w in target])
-        else:
-            valid_types = ', '.join(f'{m.__module__}.{m.__qualname__}' for m in models.MoveTarget.__args__)
-            raise TypeError(f'Invalid type {target.__class__.__name__} for target. Expected one of {valid_types}')
-
+        target = self._normalize_move_target(target)
         self._http_client.post(
-            uri,
+            paths_gen.Robot.MOVE_ALONG_WAYPOINTS,
             transport_models.FeedbackResponse,
-            data,
+            transport_models.MoveWaypoints(command_id=command_id, waypoints=[w.to_transport_model() for w in target]),
         )
         return move_command
