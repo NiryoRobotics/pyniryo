@@ -40,7 +40,8 @@ pages:
   script:
     - git fetch --tags --force
     - git checkout $CI_COMMIT_REF_NAME
-    - scripts/build_docs_versioned.py public $CI_COMMIT_REF_NAME $(git tag)
+    #- scripts/build_docs_versioned.py public $CI_COMMIT_REF_NAME $(git tag)
+    - sphinx-build -b html docs/ public
   artifacts:
     paths:
       - public
