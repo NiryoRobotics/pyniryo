@@ -25,10 +25,11 @@ release = re.match(r'__version__ = ["\']((\d+\.?){3})', file_content)[1]
 
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.viewcode',
     'sphinx.ext.autosummary',
     'sphinx.ext.napoleon',
     'sphinx_copybutton',
-    'sphinxemoji.sphinxemoji'
+    'sphinxemoji.sphinxemoji',
 ]
 
 templates_path = ['_templates']
@@ -48,7 +49,10 @@ rst_prolog = """
 
 html_theme = 'sphinx_rtd_theme'
 # html_static_path = ['_static']
-html_theme_options = {"collapse_navigation": False}
+html_theme_options = {
+    "collapse_navigation": False,
+    "navigation_depth": -1,
+}
 
 # -- AutoSummary configuration -------------------------------------------------
 

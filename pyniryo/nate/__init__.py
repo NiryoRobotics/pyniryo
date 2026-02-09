@@ -1,6 +1,8 @@
+from .client import Nate
+
 __all__ = [
     'components',
-    'client',
+    'Nate',
     'exceptions',
     'models',
 ]
