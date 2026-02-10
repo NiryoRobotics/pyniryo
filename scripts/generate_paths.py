@@ -6,10 +6,9 @@ import sys
 from pathlib import Path
 from keyword import iskeyword
 from collections import defaultdict
-from typing import Dict, List
+from typing import Dict
 
-# openapi3-parser
-from openapi_parser import parse
+import yaml
 from jinja2 import Template
 
 # Template now supports multiple classes based on tags
@@ -92,44 +91,41 @@ def main():
         print(f"Error: Input file '{args.input}' not found.")
         sys.exit(1)
 
-    try:
-        specification = parse(str(args.input))
-    except Exception as e:
-        print(f"Error parsing OpenAPI spec: {e}")
-        sys.exit(1)
+    with args.input.open() as f:
+        raw_specs = yaml.load(f, Loader=yaml.SafeLoader)
 
-    if not specification.paths:
-        print("Warning: No paths found in specification.")
-        return
+    if 'paths' not in raw_specs:
+        print("Error: No 'paths' found in the OpenAPI specification.")
+        sys.exit(1)
 
     # Data structure: {'ClassName': {'OP_ID': '/url/path'}}
     grouped_paths: Dict[str, Dict[str, str]] = defaultdict(dict)
 
     total_paths = 0
 
-    for path in specification.paths:
-        for operation in path.operations:
-            if not operation.operation_id:
-                print(f"Skipping {operation.method.name} {path.url} (No operationId)")
+    for path, methods in raw_specs['paths'].items():
+        for method, details in methods.items():
+            if 'operationId' not in details:
+                print(f"Skipping {method} {path} (No operationId)")
                 continue
 
             # 1. Determine the Class Name from Tags
-            if operation.tags:
+            if 'tags' in details and len(details['tags']) > 0:
                 # Use the first tag to group
-                raw_tag = operation.tags[0].name if hasattr(operation.tags[0], 'name') else str(operation.tags[0])
+                raw_tag = details['tags'][0]
                 class_name = to_pascal_case(raw_tag)
             else:
                 class_name = "Default"
 
             # 2. Determine the Variable Name
-            var_name = sanitize_variable_name(to_screaming_snake_case(operation.operation_id))
+            var_name = sanitize_variable_name(to_screaming_snake_case(details['operationId']))
 
             # Check for duplicates within the same class
             if var_name in grouped_paths[class_name]:
                 print(f"Warning: Duplicate key '{var_name}' in class '{class_name}'. Skipping.")
                 continue
 
-            grouped_paths[class_name][var_name] = path.url
+            grouped_paths[class_name][var_name] = path
             total_paths += 1
 
     # Sort classes alphabetically, and their contents alphabetically
