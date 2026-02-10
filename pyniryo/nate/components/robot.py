@@ -1,4 +1,6 @@
 import logging
+import xml.etree.ElementTree as ET
+from io import BytesIO
 from typing import Callable, List
 from uuid import uuid4
 import time
@@ -172,3 +174,23 @@ class Robot(BaseAPIComponent):
             transport_models.TrajectoryExecution(command_id=command_id, trajectory=trajectory.to_transport_model()),
         )
         return move_command
+
+    def get_urdf(self) -> ET.Element:
+        buffer = BytesIO()
+        self._http_client.download(paths_gen.Robot.GET_ROBOT_URDF, buffer)
+        buffer.seek(0)
+        tree = ET.parse(buffer)
+        return tree.getroot()
+
+    def get_configuration(self) -> models.RobotConfiguration:
+        resp = self._http_client.get(paths_gen.Robot.GET_ROBOT_CONFIG, transport_models.RobotConfig)
+        return models.RobotConfiguration.from_transport_model(resp)
+
+    def get_control_mode(self) -> models.ControlMode:
+        resp = self._http_client.get(paths_gen.Robot.GET_ROBOT_CONTROL_MODE, transport_models.ControlMode)
+        return models.ControlMode.from_transport_model(resp)
+
+    def set_control_mode(self, mode: models.ControlMode) -> None:
+        self._http_client.put(paths_gen.Robot.SET_ROBOT_CONTROL_MODE,
+                              transport_models.FeedbackResponse,
+                              mode.to_transport_model())
