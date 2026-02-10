@@ -49,8 +49,6 @@ class Programs(StrEnum):
   GET_PROGRAM_EXECUTION = '/api/programs/{program_id}/executions/{execution_id}'
   GET_PROGRAM_FILE = '/api/programs/{program_id}/file'
   UPLOAD_PROGRAM_FILE = '/api/programs/{program_id}/file'
-  GET_PROGRAM_STATUS = '/api/programs/{program_id}/status'
-  UPDATE_PROGRAM_STATUS = '/api/programs/{program_id}/status'
   GET_TRAJECTORY_EXECUTOR_STATUS = '/api/trajectory-executor/status'
   UPDATE_TRAJECTORY_EXECUTOR_STATUS = '/api/trajectory-executor/status'
 
