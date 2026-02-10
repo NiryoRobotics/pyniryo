@@ -142,7 +142,8 @@ class Robot(BaseAPIComponent):
 
     def move(self, target: models.MoveTarget) -> MoveCommand:
         """
-        Move the robot to the specified joint positions.
+        Move the robot according to the provided target. Note that if a joints and pose are provided in the same
+        waypoint, the robot will prioritize the joints target and ignore the pose target.
 
         :param target: The target to reach
         :return: A MoveCommand object to track the progress of the movement.
