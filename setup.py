@@ -12,6 +12,7 @@ REQUIRES = root_path.joinpath('requirements.txt').read_text().splitlines()
 DOC_REQUIRES = root_path.joinpath('docs/requirements.txt').read_text().splitlines()
 TESTS_REQUIRES = root_path.joinpath('tests/requirements.txt').read_text().splitlines()
 SCRIPTS_REQUIRES = root_path.joinpath('scripts/requirements.txt').read_text().splitlines()
+DEV_REQUIRES = ['mypy']
 
 kwargs = {
     'name':
@@ -62,7 +63,7 @@ kwargs = {
         'docs': DOC_REQUIRES,
         'tests': TESTS_REQUIRES,
         'scripts': SCRIPTS_REQUIRES,
-        'dev': DOC_REQUIRES + TESTS_REQUIRES + SCRIPTS_REQUIRES,
+        'dev': DOC_REQUIRES + TESTS_REQUIRES + SCRIPTS_REQUIRES + DEV_REQUIRES,
     }
 }
 

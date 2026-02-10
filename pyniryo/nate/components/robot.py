@@ -1,15 +1,14 @@
 import logging
-from locale import normalize
 from typing import Callable, List
 from uuid import uuid4
 import time
 
-from pyniryo.nate.components import BaseAPIComponent
 from .. import models
 from .._internal import transport_models, paths_gen, topics_gen
-from .._internal.http import HttpClient
 from .._internal.mqtt import MqttClient
 from ..models import Pose, Waypoint
+
+from . import BaseAPIComponent
 
 logger = logging.getLogger(__name__)
 
@@ -124,18 +123,16 @@ class Robot(BaseAPIComponent):
         )
         return models.Pose.from_transport_model(pose)
 
-    def _normalize_move_target(self, target: models.MoveTarget) -> list[Waypoint]:
+    @staticmethod
+    def _normalize_move_target(target: models.MoveTarget) -> models.Waypoints:
         if isinstance(target, models.Joints):
-            return [Waypoint(joints=target)]
+            return models.Waypoints([Waypoint(joints=target)])
         if isinstance(target, models.Pose):
-            return [Waypoint(pose=target)]
+            return models.Waypoints([Waypoint(pose=target)])
         if isinstance(target, models.Waypoint):
-            return [target]
-        if isinstance(target, list):
-            normalized_waypoints = []
-            for t in target:
-                normalized_waypoints.extend(self._normalize_move_target(t))
-            return normalized_waypoints
+            return models.Waypoints([target])
+        if isinstance(target, models.Waypoints):
+            return target
         else:
             valid_types = ', '.join(f'{m.__module__}.{m.__qualname__}' for m in models.MoveTarget.__args__)
             raise TypeError(f'Invalid type {target.__class__.__name__} for target. Expected one of {valid_types}')
@@ -156,5 +153,22 @@ class Robot(BaseAPIComponent):
             paths_gen.Robot.MOVE_ALONG_WAYPOINTS,
             transport_models.FeedbackResponse,
             transport_models.MoveWaypoints(command_id=command_id, waypoints=[w.to_transport_model() for w in target]),
+        )
+        return move_command
+
+    def execute_trajectory(self, trajectory: models.Trajectory) -> MoveCommand:
+        """
+        Execute a trajectory on the robot.
+
+        :param trajectory: The trajectory to execute.
+        :return: A MoveCommand object to track the progress of the movement.
+        """
+        command_id = uuid4()
+        move_command = MoveCommand(self._mqtt_client, str(command_id))
+
+        self._http_client.post(
+            paths_gen.Robot.EXECUTE_TRAJECTORY,
+            transport_models.FeedbackResponse,
+            transport_models.TrajectoryExecution(command_id=command_id, trajectory=trajectory.to_transport_model()),
         )
         return move_command

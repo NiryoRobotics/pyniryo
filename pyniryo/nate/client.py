@@ -6,11 +6,23 @@ from ._internal import paths_gen, transport_models
 from ._internal.http import HttpClient
 from ._internal.mqtt import MqttClient
 from ._internal.const import DEFAULT_HTTP_PORT, DEFAULT_MQTT_PORT, MQTT_PREFIX
+from .components.motion_planner import MotionPlanner
 
 logger = logging.getLogger(__name__)
 
 
 class Nate:
+    """
+    Main client class to interact with the Nate API. It provides access to all the components of the API,
+    such as authentication, users, robot control, device information, and program management.
+    """
+
+    auth: Auth
+    users: Users
+    robot: Robot
+    device: Device
+    programs: Programs
+    motion_planner: MotionPlanner
 
     def __init__(self, hostname: str | None = None, token: str = None, login: tuple[str, str] = None):
         """
@@ -67,3 +79,4 @@ class Nate:
         self.robot = Robot(http_client, mqtt_client)
         self.device = Device(http_client, mqtt_client)
         self.programs = Programs(http_client, mqtt_client)
+        self.motion_planner = MotionPlanner(http_client, mqtt_client)
