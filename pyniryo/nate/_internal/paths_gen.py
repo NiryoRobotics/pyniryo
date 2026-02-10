@@ -25,6 +25,19 @@ class Device(StrEnum):
   READINESS_CHECK = '/api/device/ready'
   REBOOT = '/api/device/reboot'
   SHUTDOWN = '/api/device/shutdown'
+  GET_FIRMWARE_STATE = '/api/firmware'
+
+
+class Firmware(StrEnum):
+
+  GET_ERROR_REPORT = '/api/firmware/errors'
+  CLEAR_FIRMWARE_ERRORS = '/api/firmware/errors'
+
+
+class Ios(StrEnum):
+
+  GET_IO_STATES = '/api/io'
+  UPDATE_IO_STATES = '/api/io'
 
 
 class Network(StrEnum):
