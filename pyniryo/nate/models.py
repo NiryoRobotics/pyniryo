@@ -1,36 +1,16 @@
 import math
 import re
-from collections.abc import MutableSequence
+from abc import ABC, abstractmethod
+from collections import UserList
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Type, Optional
+from typing import Type, Optional, overload
 
 from strenum import StrEnum
 from uuid import UUID
 
 from ._internal import transport_models
 from .exceptions import PyNiryoError, GenerateTrajectoryError, LoadTrajectoryError, ExecuteTrajectoryError
-
-
-@dataclass
-class BaseSequenceDataClass(MutableSequence):
-
-    root: MutableSequence[float]
-
-    def insert(self, index, value):
-        self.root.insert(index, value)
-
-    def __delitem__(self, index):
-        del self[index]
-
-    def __getitem__(self, index: int) -> float:
-        return self.root[index]
-
-    def __setitem__(self, index: int, value):
-        self.root[index] = value
-
-    def __len__(self):
-        return len(self.root)
 
 
 @dataclass
@@ -106,20 +86,19 @@ class UserEvent:
         return transport_models.UserEvent()
 
 
-@dataclass
-class Joints(BaseSequenceDataClass):
-
-    root: list[float]
+class Joints(UserList[float]):
 
     def __init__(self, *joints: float):
-        self.root = list(joints)
+        if len(joints) > 0 and isinstance(joints[0], list):
+            joints = joints[0]
+        super().__init__(initlist=joints)
 
     @classmethod
     def from_transport_model(cls, model: transport_models.Joints) -> 'Joints':
         return cls(*model.root)
 
     def to_transport_model(self) -> transport_models.Joints:
-        return transport_models.Joints(root=self.root)
+        return transport_models.Joints(root=self.data)
 
 
 @dataclass
@@ -252,19 +231,55 @@ class Waypoint:
             acceleration_factor=self.acceleration_factor)
 
 
+class Waypoints(UserList[Waypoint]):
+
+    @classmethod
+    def from_transport_model(cls, model: list[transport_models.Waypoint]) -> 'Waypoints':
+        return cls(*[Waypoint.from_transport_model(wp) for wp in model])
+
+    def to_transport_model(self) -> list[transport_models.Waypoint]:
+        return [wp.to_transport_model() for wp in self]
+
+
 @dataclass
-class ComputedTrajectoryWaypoint:
+class JointsStamped:
     joints: Joints
-    pose: Pose
-    time_from_start: float
+    timestamp: float
+    velocities: list[float] | None
+    accelerations: list[float] | None
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.JointsStamped) -> 'JointsStamped':
+        return cls(
+            joints=Joints.from_transport_model(model.joints),
+            timestamp=model.timestamp,
+            velocities=model.velocities,
+            accelerations=model.accelerations,
+        )
+
+    def to_transport_model(self) -> transport_models.JointsStamped:
+        return transport_models.JointsStamped(
+            joints=self.joints.to_transport_model(),
+            timestamp=self.timestamp,
+            velocities=self.velocities,
+            accelerations=self.accelerations,
+        )
 
 
-@dataclass
-class TrajectoryWaypoint:
-    ...
+class Trajectory(UserList[JointsStamped]):
+    """
+    A sequence of JointsStamped objects.
+    """
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.Trajectory) -> 'Trajectory':
+        return cls(JointsStamped.from_transport_model(js) for js in model.root)
+
+    def to_transport_model(self) -> transport_models.Trajectory:
+        return transport_models.Trajectory(root=[js.to_transport_model() for js in self])
 
 
-MoveTarget = Pose | Joints | Waypoint | list[Waypoint]
+MoveTarget = Pose | Joints | Waypoint | Waypoints
 
 
 class MoveState(StrEnum):
