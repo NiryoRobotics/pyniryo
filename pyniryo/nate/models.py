@@ -226,6 +226,8 @@ class Waypoint:
     reference_frame: Optional[str] = None
     planner: Optional[Planner] = None
     blending_radius: Optional[float] = None
+    velocity_factor: Optional[float] = None
+    acceleration_factor: Optional[float] = None
 
     @classmethod
     def from_transport_model(cls, model: transport_models.Waypoint) -> 'Waypoint':
@@ -233,7 +235,10 @@ class Waypoint:
                    pose=Pose.from_transport_model(model.pose),
                    frame_id=model.frame_id,
                    reference_frame=model.reference_frame,
-                   planner=Planner.from_transport_model(model.planner))
+                   planner=Planner.from_transport_model(model.planner),
+                   blending_radius=model.blending_radius,
+                   velocity_factor=model.velocity_factor,
+                   acceleration_factor=model.acceleration_factor)
 
     def to_transport_model(self) -> transport_models.Waypoint:
         return transport_models.Waypoint(
@@ -243,7 +248,8 @@ class Waypoint:
             reference_frame=self.reference_frame,
             planner=self.planner.to_transport_model() if self.planner is not None else None,
             blending_radius=self.blending_radius,
-        )
+            velocity_factor=self.velocity_factor,
+            acceleration_factor=self.acceleration_factor)
 
 
 @dataclass
@@ -254,7 +260,7 @@ class ComputedTrajectoryWaypoint:
 
 
 @dataclass
-class ComputedTrajectory:
+class TrajectoryWaypoint:
     ...
 
 
