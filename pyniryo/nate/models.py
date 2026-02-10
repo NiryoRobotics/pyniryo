@@ -3,6 +3,7 @@ import re
 from collections import UserList
 from dataclasses import dataclass
 from datetime import datetime
+from enum import Enum
 from typing import Type, Optional
 
 from strenum import StrEnum
@@ -476,3 +477,101 @@ class ExecutionStatus:
 
     def to_transport_model(self) -> transport_models.ProgramsExecutorStatus:
         return transport_models.ProgramsExecutorStatus(status=self.status.to_transport_model())
+
+
+@dataclass
+class PID:
+    p: float
+    i: float
+    d: float
+    ff: float
+    max_i: float
+    max_out: float
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.PIDGains) -> 'PID':
+        return cls(p=model.p, i=model.i, d=model.d, ff=model.ff, max_i=model.max_i, max_out=model.max_out)
+
+    def to_transport_model(self) -> transport_models.PIDGains:
+        return transport_models.PIDGains(p=self.p,
+                                         i=self.i,
+                                         d=self.d,
+                                         ff=self.ff,
+                                         max_i=self.max_i,
+                                         max_out=self.max_out)
+
+
+@dataclass
+class JointConfiguration:
+    name: str
+    type: str
+    position_limit_min: float
+    position_limit_max: float
+    velocity_limit: float
+    acceleration_limit: float
+    effort_limit: float
+    pid_position: PID | None
+    pid_velocity: PID | None
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.JointConfig) -> 'JointConfiguration':
+        return cls(
+            name=model.name,
+            type=model.type,
+            position_limit_min=model.position_limit_min,
+            position_limit_max=model.position_limit_max,
+            velocity_limit=model.velocity_limit,
+            acceleration_limit=model.acceleration_limit,
+            effort_limit=model.effort_limit,
+            pid_position=PID.from_transport_model(model.pid_position) if model.pid_position else None,
+            pid_velocity=PID.from_transport_model(model.pid_velocity) if model.pid_velocity else None,
+        )
+
+    def to_transport_model(self) -> transport_models.JointConfig:
+        return transport_models.JointConfig(
+            name=self.name,
+            type=self.type,
+            position_limit_min=self.position_limit_min,
+            position_limit_max=self.position_limit_max,
+            velocity_limit=self.velocity_limit,
+            acceleration_limit=self.acceleration_limit,
+            effort_limit=self.effort_limit,
+            pid_position=self.pid_position.to_transport_model() if self.pid_position else None,
+            pid_velocity=self.pid_velocity.to_transport_model() if self.pid_velocity else None,
+        )
+
+
+@dataclass
+class RobotConfiguration:
+    name: str
+    n_joint: int
+    joints: list[JointConfiguration]
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.RobotConfig) -> 'RobotConfiguration':
+        return cls(
+            name=model.name,
+            n_joint=model.number_joints,
+            joints=[JointConfiguration.from_transport_model(jc) for jc in model.joints],
+        )
+
+    def to_transport_model(self) -> transport_models.RobotConfig:
+        return transport_models.RobotConfig(
+            name=self.name,
+            number_joints=self.n_joint,
+            joints=[jc.to_transport_model() for jc in self.joints],
+        )
+
+
+class ControlMode(Enum):
+    TRAJECTORY = 1
+    JOG = 2
+    SPEED = 3
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.ControlMode) -> 'ControlMode':
+        return cls(model.mode)
+
+    def to_transport_model(self) -> transport_models.ControlMode:
+        return transport_models.ControlMode(mode_name=transport_models.ModeName(self.name.lower()),
+                                            mode=transport_models.Mode(self.value))

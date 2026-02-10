@@ -149,6 +149,18 @@ class HttpClient:
         """
         return self.__request('PATCH', path, response_model, data, files)
 
+    def put(self, path: str, response_model: Type[T], data: BaseModel, files: dict[str, IO[bytes]] = None) -> T:
+        """
+        Make a PUT request to the API.
+        :param path: The path of the request.
+        :param response_model: The model to use to parse the response.
+        :param data: The data to send with the request.
+        :param files: Optional files to send with the request.
+        :return: The response of the request.
+        :rtype: response_model
+        """
+        return self.__request('PUT', path, response_model, data, files)
+
     def download(self, path: str, dst: IO[bytes]) -> None:
         """
         Download a file from the API.
