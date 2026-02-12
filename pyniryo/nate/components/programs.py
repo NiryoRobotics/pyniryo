@@ -7,7 +7,6 @@ from .base_api_component import BaseAPIComponent
 from .._internal import paths_gen, transport_models, topics_gen
 from .. import models
 from .._internal.mqtt import MqttClient
-from .._internal.transport_models import EmptyPayload
 from ..exceptions import PyNiryoError
 from ..models import ProgramType, ExecutionStatusStatus
 
@@ -53,7 +52,11 @@ class ExecutionCommand:
         """
         Internal callback to handle output messages.
         """
-        self.__on_output(payload.output, payload.eof)
+        try:
+            self.__on_output(payload.output, payload.eof)
+        except Exception as e:
+            logger.error(f'Error in on_output callback: {e}')
+        if payload.eof: self.__mqtt_client.unsubscribe(self.__output_callback)
 
     def __status_callback(self, _topic: str, payload: transport_models.ProgramsExecutorStatus) -> None:
         """
@@ -177,8 +180,8 @@ class Programs(BaseAPIComponent):
         )
         if src is not None:
             self._http_client.patch(paths_gen.Programs.UPLOAD_PROGRAM_FILE.format(program_id=program.id),
-                                    EmptyPayload,
-                                    EmptyPayload(),
+                                    transport_models.EmptyPayload,
+                                    transport_models.EmptyPayload(),
                                     files={'file': src})
         return models.Program.from_transport_model(program)
 
@@ -248,20 +251,18 @@ class Programs(BaseAPIComponent):
         """ Get the current status of the program executor. :return: The current status of the program executor. """
         status = self._http_client.get(paths_gen.Programs.GET_PROGRAMS_EXECUTOR_STATUS,
                                        transport_models.ProgramsExecutorStatus)
-        return models.ExecutorStatus.from_transport_model(status)
+        return models.ExecutorStatus.from_transport_model(status.status)
+
+    def _update_executor_status(self, status: transport_models.ExecutorStatus, **kwargs) -> None:
+        self._http_client.patch(paths_gen.Programs.UPDATE_PROGRAMS_EXECUTOR_STATUS,
+                                transport_models.EmptyPayload,
+                                transport_models.ProgramsExecutorStatus(status=status, **kwargs))
 
     def pause(self) -> None:
-        self._http_client.put(paths_gen.Programs.UPDATE_PROGRAMS_EXECUTOR_STATUS,
-                              EmptyPayload,
-                              transport_models.ProgramsExecutorStatus(status=transport_models.ExecutorStatus.PAUSED))
+        self._update_executor_status(transport_models.ExecutorStatus.PAUSED)
 
     def stop(self, sigkill: bool = False) -> None:
-        self._http_client.put(
-            paths_gen.Programs.UPDATE_PROGRAMS_EXECUTOR_STATUS,
-            EmptyPayload,
-            transport_models.ProgramsExecutorStatus(status=transport_models.ExecutorStatus.STOPPED, sigkill=sigkill))
+        self._update_executor_status(transport_models.ExecutorStatus.STOPPED, sigkill=sigkill)
 
     def resume(self) -> None:
-        self._http_client.put(paths_gen.Programs.UPDATE_PROGRAMS_EXECUTOR_STATUS,
-                              EmptyPayload,
-                              transport_models.ProgramsExecutorStatus(status=transport_models.ExecutorStatus.RUNNING))
+        self._update_executor_status(transport_models.ExecutorStatus.RUNNING)

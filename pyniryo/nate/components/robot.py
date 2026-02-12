@@ -139,12 +139,13 @@ class Robot(BaseAPIComponent):
             valid_types = ', '.join(f'{m.__module__}.{m.__qualname__}' for m in models.MoveTarget.__args__)
             raise TypeError(f'Invalid type {target.__class__.__name__} for target. Expected one of {valid_types}')
 
-    def move(self, target: models.MoveTarget) -> MoveCommand:
+    def move(self, target: models.MoveTarget, add_start: bool = False) -> MoveCommand:
         """
         Move the robot according to the provided target. Note that if a joints and pose are provided in the same
         waypoint, the robot will prioritize the joints target and ignore the pose target.
 
         :param target: The target to reach
+        :param add_start: Whether to add the current robot position as the first waypoint.
         :return: A MoveCommand object to track the progress of the movement.
         """
         command_id = uuid4()
@@ -154,7 +155,9 @@ class Robot(BaseAPIComponent):
         self._http_client.post(
             paths_gen.Robot.MOVE_ALONG_WAYPOINTS,
             transport_models.FeedbackResponse,
-            transport_models.MoveWaypoints(command_id=command_id, waypoints=[w.to_transport_model() for w in target]),
+            transport_models.MoveWaypoints(command_id=command_id,
+                                           add_start=add_start,
+                                           waypoints=[w.to_transport_model() for w in target]),
         )
         return move_command
 
@@ -194,3 +197,23 @@ class Robot(BaseAPIComponent):
         self._http_client.put(paths_gen.Robot.SET_ROBOT_CONTROL_MODE,
                               transport_models.FeedbackResponse,
                               mode.to_transport_model())
+
+    def executor_status(self) -> models.ExecutorStatus:
+        """ Get the current status of the program executor. :return: The current status of the program executor. """
+        status = self._http_client.get(paths_gen.Robot.GET_TRAJECTORY_EXECUTOR_STATUS,
+                                       transport_models.TrajectoryExecutorStatus)
+        return models.ExecutorStatus.from_transport_model(status.status)
+
+    def _update_executor_status(self, status: transport_models.ExecutorStatus) -> None:
+        self._http_client.patch(paths_gen.Robot.UPDATE_TRAJECTORY_EXECUTOR_STATUS,
+                                transport_models.EmptyPayload,
+                                transport_models.TrajectoryExecutorStatus(status=status))
+
+    def pause(self) -> None:
+        self._update_executor_status(transport_models.ExecutorStatus.PAUSED)
+
+    def stop(self) -> None:
+        self._update_executor_status(transport_models.ExecutorStatus.STOPPED)
+
+    def resume(self) -> None:
+        self._update_executor_status(transport_models.ExecutorStatus.RUNNING)
