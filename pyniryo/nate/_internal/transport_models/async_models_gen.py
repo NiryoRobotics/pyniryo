@@ -45,6 +45,7 @@ class State(Enum):
 
 class Status(Enum):
     """The status of the execution."""
+    PENDING = 'pending'
     RUNNING = 'running'
     COMPLETED = 'completed'
     FAILED = 'failed'

@@ -581,6 +581,7 @@ class ControlMode(Enum):
 
 
 class ExecutorStatus(StrEnum):
+    PENDING = 'pending'
     RUNNING = 'running'
     COMPLETED = 'completed'
     FAILED = 'failed'
