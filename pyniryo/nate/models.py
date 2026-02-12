@@ -578,3 +578,18 @@ class ControlMode(Enum):
     def to_transport_model(self) -> transport_models.ControlMode:
         return transport_models.ControlMode(mode_name=transport_models.ModeName(self.name.lower()),
                                             mode=transport_models.Mode(self.value))
+
+
+class ExecutorStatus(StrEnum):
+    RUNNING = 'running'
+    COMPLETED = 'completed'
+    FAILED = 'failed'
+    PAUSED = 'paused'
+    STOPPED = 'stopped'
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.ExecutorStatus) -> 'ExecutorStatus':
+        return cls(model.value)
+
+    def to_transport_model(self) -> transport_models.ExecutorStatus:
+        return transport_models.ExecutorStatus(self.value)
