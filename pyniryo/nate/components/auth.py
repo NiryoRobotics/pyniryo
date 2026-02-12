@@ -23,9 +23,11 @@ class Auth(BaseAPIComponent):
         :param expires_at: The expiration date of the token.
         :return: The token generated for this login session.
         """
-        token = self._http_client.post(paths_gen.Authentication.LOGIN,
-                                       transport_models.Login(login=email, password=password, expires_at=expires_at),
-                                       transport_models.Token)
+        token = self._http_client.post(
+            paths_gen.Authentication.LOGIN,
+            transport_models.Token,
+            transport_models.Login(login=email, password=password, expires_at=expires_at),
+        )
         return models.Token.from_transport_model(token)
 
     def on_user_logged_in(self, callback: UserLoggedInCallback, user_id: str = None) -> None:

@@ -1,12 +1,33 @@
+from typing import Any
+
+import requests
+
+
 class PyNiryoError(Exception):
     pass
 
 
-class ClientError(PyNiryoError):
+class ApiError(PyNiryoError):
+    status_code: int
+    response: str
+
+    def __init__(self, status_code: int, response: str, message: str | None = None) -> None:
+        self.status_code = status_code
+        self.response = response
+        if message is None:
+            message = f"API error with status code {status_code}: {response}"
+        super().__init__(message)
+
+    @classmethod
+    def from_response(cls, response: requests.Response, *args) -> "ApiError":
+        return cls(response.status_code, response.text, *args)
+
+
+class ClientError(ApiError):
     pass
 
 
-class ServerError(PyNiryoError):
+class ServerError(ApiError):
     pass
 
 

@@ -1,6 +1,9 @@
 import unittest
 
 from unittest.mock import create_autospec, patch
+
+from pydantic import BaseModel
+
 from pyniryo.nate._internal.mqtt import MqttClient, get_level_from_wildcard
 
 from paho.mqtt.client import Client as PahoClient
@@ -10,6 +13,10 @@ CLIENT_PATH_PATH = 'pyniryo.nate._internal.mqtt.Client'
 
 def get_paho_mock():
     return create_autospec(PahoClient, spec_set=True, instance=True)
+
+
+class PayloadModel(BaseModel):
+    ...
 
 
 class TestMqttClient(unittest.TestCase):
@@ -36,25 +43,25 @@ class TestMqttClient(unittest.TestCase):
     def test_subscribe(self, mock_client):
         mock_client.return_value = get_paho_mock()
         client = MqttClient("localhost", 1883, '<token>')
-        client.subscribe("test/topic", self.__callback)
+        client.subscribe("test/topic", self.__callback, PayloadModel)
         mock_client.return_value.subscribe.assert_called_once_with("test/topic", 2)
 
     @patch(CLIENT_PATH_PATH)
     def test_multi_subscribe(self, mock_client):
         mock_client.return_value = get_paho_mock()
         client = MqttClient("localhost", 1883, '<token>')
-        client.subscribe("test/topic", self.__callback)
+        client.subscribe("test/topic", self.__callback, PayloadModel)
         mock_client.return_value.subscribe.assert_called_once_with("test/topic", 2)
 
         mock_client.return_value.subscribe.reset_mock()
-        client.subscribe("test/topic", self.__callback)
+        client.subscribe("test/topic", self.__callback, PayloadModel)
         mock_client.return_value.subscribe.assert_not_called()
 
     @patch(CLIENT_PATH_PATH)
     def test_unsubscribe(self, mock_client):
         mock_client.return_value = get_paho_mock()
         client = MqttClient("localhost", 1883, '<token>')
-        client.subscribe("test/topic", self.__callback)
+        client.subscribe("test/topic", self.__callback, PayloadModel)
 
         client.unsubscribe(self.__callback)
         mock_client.return_value.unsubscribe.assert_called_once_with("test/topic")

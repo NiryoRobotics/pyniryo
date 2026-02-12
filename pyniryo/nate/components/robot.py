@@ -1,12 +1,16 @@
 import logging
+import xml.etree.ElementTree as ET
+from io import BytesIO
 from typing import Callable, List
 from uuid import uuid4
 import time
 
-from pyniryo.nate.components import BaseAPIComponent
 from .. import models
 from .._internal import transport_models, paths_gen, topics_gen
 from .._internal.mqtt import MqttClient
+from ..models import Pose, Waypoint
+
+from . import BaseAPIComponent
 
 logger = logging.getLogger(__name__)
 
@@ -96,53 +100,97 @@ class Robot(BaseAPIComponent):
 
         self._mqtt_client.subscribe(topics_gen.Robot.JOINTS, internal_callback, transport_models.Joints)
 
-    def move(self,
-             target: models.MoveTarget,
-             frame_id: str = None,
-             reference_frame: str = None,
-             planner: models.Planner = None) -> MoveCommand:
-        """
-        Move the robot to the specified joint positions.
-
-        :param target: The target to reach
-        :param frame_id: Move linear only. The frame ID to use for the target.
-        :param reference_frame: The reference frame to use for the movement. If not specified, the robot's base frame will be used.
-        :param planner: The motion planner to use for generating the movement trajectory.
-        :return: A MoveCommand object to track the progress of the movement.
-        """
-        command_id = uuid4()
-        move_command = MoveCommand(self._mqtt_client, str(command_id))
-
-        if isinstance(target, models.Joints):
-            uri = paths_gen.Robot.MOVE_TO_JOINTS
-            planner = planner or models.Planner.PTP
-            data = transport_models.MoveJoints(command_id=command_id,
-                                               joints=target.to_transport_model(),
-                                               planner=planner.to_transport_model())
-        elif isinstance(target, models.Pose):
-            if frame_id is None or frame_id == '':
-                raise ValueError("frame_id must be specified when moving to a Pose target")
-            uri = paths_gen.Robot.MOVE_FRAME_TO_POSE.format(frame_id=frame_id)
-            data = transport_models.MoveFrame(command_id=command_id,
-                                              pose=target.to_transport_model(),
-                                              reference_frame=reference_frame,
-                                              planner=planner)
-        elif isinstance(target, list) and all(isinstance(w, models.Waypoint) for w in target):
-            uri = paths_gen.Robot.MOVE_ALONG_WAYPOINTS
-            data = transport_models.MoveWaypoints(command_id=command_id,
-                                                  waypoints=[w.to_transport_model() for w in target])
-        else:
-            valid_types = ', '.join(f'{m.__module__}.{m.__qualname__}' for m in models.MoveTarget.__args__)
-            raise TypeError(f'Invalid type {target.__class__.__name__} for target. Expected one of {valid_types}')
-
-        self._http_client.post(uri, data, transport_models.FeedbackResponse)
-        return move_command
-
-    def get_all_frame_ids(self) -> List[str]:
+    def get_all_frames(self) -> List[str]:
         """
         Get all frames defined in the robot.
 
         :return: A list of Frame objects.
         """
-        frames = self._http_client.get(paths_gen.Robot.GET_ALL_FRAMES, transport_models.FrameIdList)
+        frames = self._http_client.get(
+            paths_gen.Robot.GET_ALL_FRAMES,
+            transport_models.FrameIdList,
+        )
         return frames.root
+
+    def get_frame_pose(self, frame_id: str) -> Pose:
+        """
+        Get a specific frame by its ID.
+
+        :param frame_id: The ID of the frame to retrieve.
+        :return: The current pose of the frame as a Pose object.
+        """
+        pose = self._http_client.get(
+            paths_gen.Robot.GET_FRAME_POSE.format(frame_id=frame_id),
+            transport_models.Pose,
+        )
+        return models.Pose.from_transport_model(pose)
+
+    @staticmethod
+    def _normalize_move_target(target: models.MoveTarget) -> models.Waypoints:
+        if isinstance(target, models.Joints):
+            return models.Waypoints([Waypoint(joints=target)])
+        if isinstance(target, models.Pose):
+            return models.Waypoints([Waypoint(pose=target)])
+        if isinstance(target, models.Waypoint):
+            return models.Waypoints([target])
+        if isinstance(target, models.Waypoints):
+            return target
+        else:
+            valid_types = ', '.join(f'{m.__module__}.{m.__qualname__}' for m in models.MoveTarget.__args__)
+            raise TypeError(f'Invalid type {target.__class__.__name__} for target. Expected one of {valid_types}')
+
+    def move(self, target: models.MoveTarget) -> MoveCommand:
+        """
+        Move the robot according to the provided target. Note that if a joints and pose are provided in the same
+        waypoint, the robot will prioritize the joints target and ignore the pose target.
+
+        :param target: The target to reach
+        :return: A MoveCommand object to track the progress of the movement.
+        """
+        command_id = uuid4()
+        move_command = MoveCommand(self._mqtt_client, str(command_id))
+
+        target = self._normalize_move_target(target)
+        self._http_client.post(
+            paths_gen.Robot.MOVE_ALONG_WAYPOINTS,
+            transport_models.FeedbackResponse,
+            transport_models.MoveWaypoints(command_id=command_id, waypoints=[w.to_transport_model() for w in target]),
+        )
+        return move_command
+
+    def execute_trajectory(self, trajectory: models.Trajectory) -> MoveCommand:
+        """
+        Execute a trajectory on the robot.
+
+        :param trajectory: The trajectory to execute.
+        :return: A MoveCommand object to track the progress of the movement.
+        """
+        command_id = uuid4()
+        move_command = MoveCommand(self._mqtt_client, str(command_id))
+
+        self._http_client.post(
+            paths_gen.Robot.EXECUTE_TRAJECTORY,
+            transport_models.FeedbackResponse,
+            transport_models.TrajectoryExecution(command_id=command_id, trajectory=trajectory.to_transport_model()),
+        )
+        return move_command
+
+    def get_urdf(self) -> ET.Element:
+        buffer = BytesIO()
+        self._http_client.download(paths_gen.Robot.GET_ROBOT_URDF, buffer)
+        buffer.seek(0)
+        tree = ET.parse(buffer)
+        return tree.getroot()
+
+    def get_configuration(self) -> models.RobotConfiguration:
+        resp = self._http_client.get(paths_gen.Robot.GET_ROBOT_CONFIG, transport_models.RobotConfig)
+        return models.RobotConfiguration.from_transport_model(resp)
+
+    def get_control_mode(self) -> models.ControlMode:
+        resp = self._http_client.get(paths_gen.Robot.GET_ROBOT_CONTROL_MODE, transport_models.ControlMode)
+        return models.ControlMode.from_transport_model(resp)
+
+    def set_control_mode(self, mode: models.ControlMode) -> None:
+        self._http_client.put(paths_gen.Robot.SET_ROBOT_CONTROL_MODE,
+                              transport_models.FeedbackResponse,
+                              mode.to_transport_model())

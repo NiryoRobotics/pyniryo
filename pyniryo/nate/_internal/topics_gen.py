@@ -23,6 +23,9 @@ class Robot(StrEnum):
     ROBOT_MOVE_FEEDBACK = 'robot/{cmd_id}/move-feedback'
     CONTROL_MODE = 'robot/control-mode'
 
+class IoStates(StrEnum):
+    IO_STATES = 'io-states'
+
 class Users(StrEnum):
     USER_LOGGED_IN = 'users/{user_id}/logged-in'
     USER_LOGGED_OUT = 'users/{user_id}/logged-out'
@@ -36,3 +39,6 @@ class System(StrEnum):
 
 class Api(StrEnum):
     METRICS = 'api/metrics'
+
+class FirmwareState(StrEnum):
+    FIRMWARE_STATE = 'firmware-state'

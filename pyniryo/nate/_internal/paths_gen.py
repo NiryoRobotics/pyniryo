@@ -20,11 +20,24 @@ class Authentication(StrEnum):
 
 class Device(StrEnum):
 
+  HEALTH_CHECK = '/api/device/health'
   GET_DEVICE_ID = '/api/device/id'
-  HEALTH_CHECK = '/api/health'
-  READINESS_CHECK = '/api/ready'
-  REBOOT = '/api/reboot'
-  SHUTDOWN = '/api/shutdown'
+  READINESS_CHECK = '/api/device/ready'
+  REBOOT = '/api/device/reboot'
+  SHUTDOWN = '/api/device/shutdown'
+  GET_FIRMWARE_STATE = '/api/firmware'
+
+
+class Firmware(StrEnum):
+
+  GET_ERROR_REPORT = '/api/firmware/errors'
+  CLEAR_FIRMWARE_ERRORS = '/api/firmware/errors'
+
+
+class Ios(StrEnum):
+
+  GET_IO_STATES = '/api/io'
+  UPDATE_IO_STATES = '/api/io'
 
 
 class Network(StrEnum):
@@ -49,8 +62,6 @@ class Programs(StrEnum):
   GET_PROGRAM_EXECUTION = '/api/programs/{program_id}/executions/{execution_id}'
   GET_PROGRAM_FILE = '/api/programs/{program_id}/file'
   UPLOAD_PROGRAM_FILE = '/api/programs/{program_id}/file'
-  GET_PROGRAM_STATUS = '/api/programs/{program_id}/status'
-  UPDATE_PROGRAM_STATUS = '/api/programs/{program_id}/status'
   GET_TRAJECTORY_EXECUTOR_STATUS = '/api/trajectory-executor/status'
   UPDATE_TRAJECTORY_EXECUTOR_STATUS = '/api/trajectory-executor/status'
 

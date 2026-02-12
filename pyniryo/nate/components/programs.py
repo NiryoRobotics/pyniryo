@@ -9,6 +9,7 @@ from .base_api_component import BaseAPIComponent
 from .._internal import paths_gen, transport_models, topics_gen
 from .. import models
 from .._internal.mqtt import MqttClient
+from .._internal.transport_models import EmptyPayload
 from ..exceptions import PyNiryoError
 from ..models import ProgramType, ExecutionStatusStatus
 
@@ -142,8 +143,8 @@ class Programs(BaseAPIComponent):
         """
         program = self._http_client.post(
             paths_gen.Programs.CREATE_PROGRAM,
-            transport_models.Program(name=name, type=program_type.to_transport_model()),
             transport_models.Program,
+            transport_models.Program(name=name, type=program_type.to_transport_model()),
             files={'file': program},
         )
         return models.Program.from_transport_model(program)
@@ -172,7 +173,10 @@ class Programs(BaseAPIComponent):
         :param program_id: The ID of the program.
         :return: None
         """
-        return self._http_client.delete(paths_gen.Programs.DELETE_PROGRAM.format(program_id=program_id))
+        self._http_client.delete(
+            paths_gen.Programs.DELETE_PROGRAM.format(program_id=program_id),
+            transport_models.EmptyPayload,
+        )
 
     def update(self, program: models.Program, src: IO[bytes] = None) -> models.Program:
         """
@@ -182,13 +186,15 @@ class Programs(BaseAPIComponent):
         :param src: Optional file-like object containing the new program content. If None, the content is not updated.
         :return: The updated program.
         """
-        program = self._http_client.patch(paths_gen.Programs.UPDATE_PROGRAM.format(program_id=program.id),
-                                          program.to_transport_model(),
-                                          transport_models.Program)
+        program = self._http_client.patch(
+            paths_gen.Programs.UPDATE_PROGRAM.format(program_id=program.id),
+            transport_models.Program,
+            program.to_transport_model(),
+        )
         if src is not None:
             self._http_client.patch(paths_gen.Programs.UPLOAD_PROGRAM_FILE.format(program_id=program.id),
-                                    None,
-                                    None,
+                                    EmptyPayload,
+                                    EmptyPayload(),
                                     files={'file': src})
         return models.Program.from_transport_model(program)
 
@@ -244,9 +250,9 @@ class Programs(BaseAPIComponent):
 
         self._http_client.post(
             paths_gen.Programs.EXECUTE_PROGRAM.format(program_id=program_id),
+            transport_models.FeedbackResponse,
             transport_models.ExecuteProgram(execution_id=UUID(execution_id),
                                             context=transport_models.ProgramExecutionContext(environment=environment,
                                                                                              arguments=arguments)),
-            transport_models.FeedbackResponse,
         )
         return execution_command

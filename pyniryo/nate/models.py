@@ -1,8 +1,9 @@
 import math
 import re
-from collections.abc import MutableSequence
+from collections import UserList
 from dataclasses import dataclass
 from datetime import datetime
+from enum import Enum
 from typing import Type, Optional
 
 from strenum import StrEnum
@@ -13,39 +14,7 @@ from .exceptions import PyNiryoError, GenerateTrajectoryError, LoadTrajectoryErr
 
 
 @dataclass
-class BaseDataClass:
-
-    @classmethod
-    def from_transport_model(cls, model):
-        raise NotImplementedError()
-
-    def to_transport_model(self):
-        raise NotImplementedError()
-
-
-@dataclass
-class BaseSequenceDataClass(BaseDataClass, MutableSequence):
-
-    root: MutableSequence[float]
-
-    def insert(self, index, value):
-        self.root.insert(index, value)
-
-    def __delitem__(self, index):
-        del self[index]
-
-    def __getitem__(self, index: int) -> float:
-        return self.root[index]
-
-    def __setitem__(self, index: int, value):
-        self.root[index] = value
-
-    def __len__(self):
-        return len(self.root)
-
-
-@dataclass
-class Role(BaseDataClass):
+class Role:
     id: int
     name: str
 
@@ -61,7 +30,7 @@ class Role(BaseDataClass):
 
 
 @dataclass
-class User(BaseDataClass):
+class User:
     id: str
     login: str
     name: str
@@ -84,7 +53,7 @@ class User(BaseDataClass):
 
 
 @dataclass
-class Token(BaseDataClass):
+class Token:
     id: UUID
     expires_at: datetime
     created_at: datetime
@@ -107,7 +76,7 @@ class Token(BaseDataClass):
 
 
 @dataclass
-class UserEvent(BaseDataClass):
+class UserEvent:
 
     @classmethod
     def from_transport_model(cls, model: transport_models.UserEvent) -> 'UserEvent':
@@ -117,64 +86,99 @@ class UserEvent(BaseDataClass):
         return transport_models.UserEvent()
 
 
-@dataclass
-class Joints(BaseSequenceDataClass):
-
-    root: list[float]
+class Joints(UserList[float]):
 
     def __init__(self, *joints: float):
-        self.root = list(joints)
+        if len(joints) > 0 and isinstance(joints[0], list):
+            joints = joints[0]
+        super().__init__(initlist=joints)
 
     @classmethod
     def from_transport_model(cls, model: transport_models.Joints) -> 'Joints':
         return cls(*model.root)
 
     def to_transport_model(self) -> transport_models.Joints:
-        return transport_models.Joints(root=self.root)
+        return transport_models.Joints(root=self.data)
 
 
 @dataclass
-class Pose(BaseDataClass):
+class Point:
     x: float
     y: float
     z: float
-    rx: float
-    ry: float
-    rz: float
-    rw: float
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Pose) -> 'Pose':
-        return cls(
-            x=model.position.x,
-            y=model.position.y,
-            z=model.position.z,
-            rx=model.orientation.x,
-            ry=model.orientation.y,
-            rz=model.orientation.z,
-            rw=model.orientation.w,
-        )
+    def from_transport_model(cls, model: transport_models.Point) -> 'Point':
+        return cls(x=model.x, y=model.y, z=model.z)
 
-    def to_transport_model(self) -> transport_models.Pose:
-        return transport_models.Pose(
-            position=transport_models.Point(x=self.x, y=self.y, z=self.z),
-            orientation=transport_models.Quaternion(x=self.rx, y=self.ry, z=self.rz, w=self.rw),
-        )
+    def to_transport_model(self) -> transport_models.Point:
+        return transport_models.Point(x=self.x, y=self.y, z=self.z)
+
+
+@dataclass
+class Quaternion:
+    x: float
+    y: float
+    z: float
+    w: float
 
     @classmethod
-    def with_rpy(cls, x, y, z, roll, pitch, yaw) -> 'Pose':
-        cy = math.cos(yaw * 0.5)
-        sy = math.sin(yaw * 0.5)
-        cp = math.cos(pitch * 0.5)
-        sp = math.sin(pitch * 0.5)
-        cr = math.cos(roll * 0.5)
-        sr = math.sin(roll * 0.5)
+    def from_transport_model(cls, model: transport_models.Quaternion) -> 'Quaternion':
+        return cls(x=model.x, y=model.y, z=model.z, w=model.w)
+
+    def to_transport_model(self) -> transport_models.Quaternion:
+        return transport_models.Quaternion(x=self.x, y=self.y, z=self.z, w=self.w)
+
+
+@dataclass
+class EulerAngles:
+    roll: float
+    pitch: float
+    yaw: float
+
+    def to_quaternion(self) -> Quaternion:
+        cy = math.cos(self.yaw * 0.5)
+        sy = math.sin(self.yaw * 0.5)
+        cp = math.cos(self.pitch * 0.5)
+        sp = math.sin(self.pitch * 0.5)
+        cr = math.cos(self.roll * 0.5)
+        sr = math.sin(self.roll * 0.5)
         rw = cr * cp * cy + sr * sp * sy
         rx = sr * cp * cy - cr * sp * sy
         ry = cr * sp * cy + sr * cp * sy
         rz = cr * cp * sy - sr * sp * cy
 
-        return cls(x, y, z, rx, ry, rz, rw)
+        return Quaternion(rx, ry, rz, rw)
+
+
+@dataclass
+class Pose:
+    """
+    Represents a pose in 3D space, defined by a position and an orientation.
+     - The position is represented by a Point (x, y, z).
+     - The orientation can be represented either as a Quaternion (x, y, z, w) or as Euler angles (roll, pitch, yaw).
+
+     The choice between Quaternion and Euler angles is left to the user.
+     Keep in mind that the Nate API expects orientations to be sent as Quaternions, so Euler angles will be
+     automatically converted to Quaternions when sending commands to the API.
+    """
+    position: Point
+    orientation: Quaternion | EulerAngles
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.Pose) -> 'Pose':
+        return cls(
+            position=Point.from_transport_model(model.position),
+            orientation=Quaternion.from_transport_model(model.orientation),
+        )
+
+    def to_transport_model(self) -> transport_models.Pose:
+        quaternion = self.orientation
+        if isinstance(self.orientation, EulerAngles):
+            quaternion = self.orientation.to_quaternion()
+
+        return transport_models.Pose(position=self.position.to_transport_model(),
+                                     orientation=quaternion.to_transport_model())
 
 
 class Planner(StrEnum):
@@ -201,6 +205,8 @@ class Waypoint:
     reference_frame: Optional[str] = None
     planner: Optional[Planner] = None
     blending_radius: Optional[float] = None
+    velocity_factor: Optional[float] = None
+    acceleration_factor: Optional[float] = None
 
     @classmethod
     def from_transport_model(cls, model: transport_models.Waypoint) -> 'Waypoint':
@@ -208,7 +214,10 @@ class Waypoint:
                    pose=Pose.from_transport_model(model.pose),
                    frame_id=model.frame_id,
                    reference_frame=model.reference_frame,
-                   planner=Planner.from_transport_model(model.planner))
+                   planner=Planner.from_transport_model(model.planner),
+                   blending_radius=model.blending_radius,
+                   velocity_factor=model.velocity_factor,
+                   acceleration_factor=model.acceleration_factor)
 
     def to_transport_model(self) -> transport_models.Waypoint:
         return transport_models.Waypoint(
@@ -218,10 +227,59 @@ class Waypoint:
             reference_frame=self.reference_frame,
             planner=self.planner.to_transport_model() if self.planner is not None else None,
             blending_radius=self.blending_radius,
+            velocity_factor=self.velocity_factor,
+            acceleration_factor=self.acceleration_factor)
+
+
+class Waypoints(UserList[Waypoint]):
+
+    @classmethod
+    def from_transport_model(cls, model: list[transport_models.Waypoint]) -> 'Waypoints':
+        return cls(*[Waypoint.from_transport_model(wp) for wp in model])
+
+    def to_transport_model(self) -> list[transport_models.Waypoint]:
+        return [wp.to_transport_model() for wp in self]
+
+
+@dataclass
+class JointsStamped:
+    joints: Joints
+    timestamp: float
+    velocities: list[float] | None
+    accelerations: list[float] | None
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.JointsStamped) -> 'JointsStamped':
+        return cls(
+            joints=Joints.from_transport_model(model.joints),
+            timestamp=model.timestamp,
+            velocities=model.velocities,
+            accelerations=model.accelerations,
+        )
+
+    def to_transport_model(self) -> transport_models.JointsStamped:
+        return transport_models.JointsStamped(
+            joints=self.joints.to_transport_model(),
+            timestamp=self.timestamp,
+            velocities=self.velocities,
+            accelerations=self.accelerations,
         )
 
 
-MoveTarget = Pose | Joints | Waypoint | list[Waypoint]
+class Trajectory(UserList[JointsStamped]):
+    """
+    A sequence of JointsStamped objects.
+    """
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.Trajectory) -> 'Trajectory':
+        return cls(JointsStamped.from_transport_model(js) for js in model.root)
+
+    def to_transport_model(self) -> transport_models.Trajectory:
+        return transport_models.Trajectory(root=[js.to_transport_model() for js in self])
+
+
+MoveTarget = Pose | Joints | Waypoint | Waypoints
 
 
 class MoveState(StrEnum):
@@ -259,7 +317,7 @@ class MoveState(StrEnum):
 
 
 @dataclass
-class MoveFeedback(BaseDataClass):
+class MoveFeedback:
     state: MoveState
     message: str
 
@@ -304,7 +362,7 @@ class ProgramType(StrEnum):
 
 
 @dataclass
-class Program(BaseDataClass):
+class Program:
     id: str
     name: str
     type: ProgramType
@@ -326,7 +384,7 @@ class Program(BaseDataClass):
 
 
 @dataclass
-class ProgramExecutionContext(BaseDataClass):
+class ProgramExecutionContext:
     environment: dict[str, str]
     arguments: list[str]
 
@@ -345,7 +403,7 @@ class ProgramExecutionContext(BaseDataClass):
 
 
 @dataclass
-class ProgramExecution(BaseDataClass):
+class ProgramExecution:
     id: str
     program_id: str
     context: ProgramExecutionContext
@@ -419,3 +477,101 @@ class ExecutionStatus:
 
     def to_transport_model(self) -> transport_models.ProgramsExecutorStatus:
         return transport_models.ProgramsExecutorStatus(status=self.status.to_transport_model())
+
+
+@dataclass
+class PID:
+    p: float
+    i: float
+    d: float
+    ff: float
+    max_i: float
+    max_out: float
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.PIDGains) -> 'PID':
+        return cls(p=model.p, i=model.i, d=model.d, ff=model.ff, max_i=model.max_i, max_out=model.max_out)
+
+    def to_transport_model(self) -> transport_models.PIDGains:
+        return transport_models.PIDGains(p=self.p,
+                                         i=self.i,
+                                         d=self.d,
+                                         ff=self.ff,
+                                         max_i=self.max_i,
+                                         max_out=self.max_out)
+
+
+@dataclass
+class JointConfiguration:
+    name: str
+    type: str
+    position_limit_min: float
+    position_limit_max: float
+    velocity_limit: float
+    acceleration_limit: float
+    effort_limit: float
+    pid_position: PID | None
+    pid_velocity: PID | None
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.JointConfig) -> 'JointConfiguration':
+        return cls(
+            name=model.name,
+            type=model.type,
+            position_limit_min=model.position_limit_min,
+            position_limit_max=model.position_limit_max,
+            velocity_limit=model.velocity_limit,
+            acceleration_limit=model.acceleration_limit,
+            effort_limit=model.effort_limit,
+            pid_position=PID.from_transport_model(model.pid_position) if model.pid_position else None,
+            pid_velocity=PID.from_transport_model(model.pid_velocity) if model.pid_velocity else None,
+        )
+
+    def to_transport_model(self) -> transport_models.JointConfig:
+        return transport_models.JointConfig(
+            name=self.name,
+            type=self.type,
+            position_limit_min=self.position_limit_min,
+            position_limit_max=self.position_limit_max,
+            velocity_limit=self.velocity_limit,
+            acceleration_limit=self.acceleration_limit,
+            effort_limit=self.effort_limit,
+            pid_position=self.pid_position.to_transport_model() if self.pid_position else None,
+            pid_velocity=self.pid_velocity.to_transport_model() if self.pid_velocity else None,
+        )
+
+
+@dataclass
+class RobotConfiguration:
+    name: str
+    n_joint: int
+    joints: list[JointConfiguration]
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.RobotConfig) -> 'RobotConfiguration':
+        return cls(
+            name=model.name,
+            n_joint=model.number_joints,
+            joints=[JointConfiguration.from_transport_model(jc) for jc in model.joints],
+        )
+
+    def to_transport_model(self) -> transport_models.RobotConfig:
+        return transport_models.RobotConfig(
+            name=self.name,
+            number_joints=self.n_joint,
+            joints=[jc.to_transport_model() for jc in self.joints],
+        )
+
+
+class ControlMode(Enum):
+    TRAJECTORY = 1
+    JOG = 2
+    SPEED = 3
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.ControlMode) -> 'ControlMode':
+        return cls(model.mode)
+
+    def to_transport_model(self) -> transport_models.ControlMode:
+        return transport_models.ControlMode(mode_name=transport_models.ModeName(self.name.lower()),
+                                            mode=transport_models.Mode(self.value))
