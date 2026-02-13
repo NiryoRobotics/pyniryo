@@ -62,8 +62,6 @@ class Programs(StrEnum):
   GET_PROGRAM_EXECUTION = '/api/programs/{program_id}/executions/{execution_id}'
   GET_PROGRAM_FILE = '/api/programs/{program_id}/file'
   UPLOAD_PROGRAM_FILE = '/api/programs/{program_id}/file'
-  GET_TRAJECTORY_EXECUTOR_STATUS = '/api/trajectory-executor/status'
-  UPDATE_TRAJECTORY_EXECUTOR_STATUS = '/api/trajectory-executor/status'
 
 
 class Robot(StrEnum):
@@ -80,4 +78,6 @@ class Robot(StrEnum):
   GENERATE_TRAJECTORY = '/api/robot/trajectory/generations'
   GET_ROBOT_URDF = '/api/robot/urdf'
   MOVE_ALONG_WAYPOINTS = '/api/robot/waypoints'
+  GET_TRAJECTORY_EXECUTOR_STATUS = '/api/trajectory-executor/status'
+  UPDATE_TRAJECTORY_EXECUTOR_STATUS = '/api/trajectory-executor/status'
 
