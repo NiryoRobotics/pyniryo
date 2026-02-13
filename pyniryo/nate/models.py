@@ -220,15 +220,18 @@ class Waypoint:
                    acceleration_factor=model.acceleration_factor)
 
     def to_transport_model(self) -> transport_models.Waypoint:
-        return transport_models.Waypoint(
-            joints=self.joints.to_transport_model() if self.joints is not None else None,
-            pose=self.pose.to_transport_model() if self.pose is not None else None,
-            frame_id=self.frame_id,
-            reference_frame=self.reference_frame,
-            planner=self.planner.to_transport_model() if self.planner is not None else None,
-            blending_radius=self.blending_radius,
-            velocity_factor=self.velocity_factor,
-            acceleration_factor=self.acceleration_factor)
+        w = transport_models.Waypoint(joints=self.joints.to_transport_model() if self.joints is not None else None,
+                                      pose=self.pose.to_transport_model() if self.pose is not None else None,
+                                      frame_id=self.frame_id,
+                                      reference_frame=self.reference_frame,
+                                      planner=self.planner.to_transport_model() if self.planner is not None else None)
+        if self.blending_radius is not None:
+            w.blending_radius = self.blending_radius
+        if self.velocity_factor is not None:
+            w.velocity_factor = self.velocity_factor
+        if self.acceleration_factor is not None:
+            w.acceleration_factor = self.acceleration_factor
+        return w
 
 
 class Waypoints(UserList[Waypoint]):
