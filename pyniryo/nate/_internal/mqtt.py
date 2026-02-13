@@ -1,5 +1,7 @@
+import json
 import threading
 from base64 import b64encode
+from enum import Enum
 from typing import List, Dict, Tuple
 from uuid import uuid4
 import logging
@@ -17,6 +19,12 @@ Callback = Callable[[str, T], None]
 
 SINGLE_LEVEL_WILDCARD = '+'
 MULTI_LEVEL_WILDCARD = '#'
+
+
+class Qos(Enum):
+    AT_MOST_ONCE = 0
+    AT_LEAST_ONCE = 1
+    EXACTLY_ONCE = 2
 
 
 class MqttClient:
@@ -55,6 +63,20 @@ class MqttClient:
             return
         if self.__mqtt_client.is_connected():
             self.disconnect()
+
+    def publish(self, topic: str, data: BaseModel, qos: Qos = Qos.AT_MOST_ONCE) -> None:
+        """
+        Publish a message to a topic.
+        :param topic: The topic to publish to.
+        :param data: The data to publish.
+        :param qos: The QoS level to publish with.
+        """
+        if self.__prefix != '':
+            topic = f'{self.__prefix}/{topic}'
+
+        encoded_data = json.dumps(data.model_dump(mode='json'))
+
+        self.__mqtt_client.publish(topic, encoded_data, qos=qos.value)
 
     def subscribe(self, topic: str, callback: Callback, payload_model: Type[T]) -> None:
         """

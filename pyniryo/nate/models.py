@@ -19,14 +19,14 @@ class Role:
     name: str
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Role) -> 'Role':
+    def from_transport_model(cls, model: transport_models.s.Role) -> 'Role':
         return cls(
             id=model.id,
             name=model.name,
         )
 
-    def to_transport_model(self) -> transport_models.Role:
-        return transport_models.Role(id=self.id, name=self.name)
+    def to_transport_model(self) -> transport_models.s.Role:
+        return transport_models.s.Role(id=self.id, name=self.name)
 
 
 @dataclass
@@ -37,7 +37,7 @@ class User:
     role: Role
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.User) -> 'User':
+    def from_transport_model(cls, model: transport_models.s.User) -> 'User':
         return cls(
             id=str(model.id),
             login=str(model.login),
@@ -45,11 +45,11 @@ class User:
             role=Role.from_transport_model(model.role),
         )
 
-    def to_transport_model(self) -> transport_models.User:
-        return transport_models.User(id=UUID(self.id),
-                                     login=self.login,
-                                     name=self.name,
-                                     role=self.role.to_transport_model())
+    def to_transport_model(self) -> transport_models.s.User:
+        return transport_models.s.User(id=UUID(self.id),
+                                       login=self.login,
+                                       name=self.name,
+                                       role=self.role.to_transport_model())
 
 
 @dataclass
@@ -60,7 +60,7 @@ class Token:
     token: str
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Token) -> 'Token':
+    def from_transport_model(cls, model: transport_models.s.Token) -> 'Token':
         return cls(
             id=model.id,
             expires_at=model.expires_at,
@@ -68,22 +68,22 @@ class Token:
             token=model.token,
         )
 
-    def to_transport_model(self) -> transport_models.Token:
-        return transport_models.Token(id=self.id,
-                                      expires_at=self.expires_at,
-                                      created_at=self.created_at,
-                                      token=self.token)
+    def to_transport_model(self) -> transport_models.s.Token:
+        return transport_models.s.Token(id=self.id,
+                                        expires_at=self.expires_at,
+                                        created_at=self.created_at,
+                                        token=self.token)
 
 
 @dataclass
 class UserEvent:
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.UserEvent) -> 'UserEvent':
+    def from_transport_model(cls, model: transport_models.a.UserEvent) -> 'UserEvent':
         return cls()
 
-    def to_transport_model(self) -> transport_models.UserEvent:
-        return transport_models.UserEvent()
+    def to_transport_model(self) -> transport_models.a.UserEvent:
+        return transport_models.a.UserEvent()
 
 
 class Joints(UserList[float]):
@@ -94,11 +94,11 @@ class Joints(UserList[float]):
         super().__init__(initlist=joints)
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Joints) -> 'Joints':
+    def from_transport_model(cls, model: transport_models.s.Joints) -> 'Joints':
         return cls(*model.root)
 
-    def to_transport_model(self) -> transport_models.Joints:
-        return transport_models.Joints(root=self.data)
+    def to_transport_model(self) -> transport_models.s.Joints:
+        return transport_models.s.Joints(root=self.data)
 
 
 @dataclass
@@ -108,11 +108,11 @@ class Point:
     z: float
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Point) -> 'Point':
+    def from_transport_model(cls, model: transport_models.s.Point) -> 'Point':
         return cls(x=model.x, y=model.y, z=model.z)
 
-    def to_transport_model(self) -> transport_models.Point:
-        return transport_models.Point(x=self.x, y=self.y, z=self.z)
+    def to_transport_model(self) -> transport_models.s.Point:
+        return transport_models.s.Point(x=self.x, y=self.y, z=self.z)
 
 
 @dataclass
@@ -123,11 +123,11 @@ class Quaternion:
     w: float
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Quaternion) -> 'Quaternion':
+    def from_transport_model(cls, model: transport_models.s.Quaternion) -> 'Quaternion':
         return cls(x=model.x, y=model.y, z=model.z, w=model.w)
 
-    def to_transport_model(self) -> transport_models.Quaternion:
-        return transport_models.Quaternion(x=self.x, y=self.y, z=self.z, w=self.w)
+    def to_transport_model(self) -> transport_models.s.Quaternion:
+        return transport_models.s.Quaternion(x=self.x, y=self.y, z=self.z, w=self.w)
 
 
 @dataclass
@@ -166,19 +166,19 @@ class Pose:
     orientation: Quaternion | EulerAngles
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Pose) -> 'Pose':
+    def from_transport_model(cls, model: transport_models.s.Pose) -> 'Pose':
         return cls(
             position=Point.from_transport_model(model.position),
             orientation=Quaternion.from_transport_model(model.orientation),
         )
 
-    def to_transport_model(self) -> transport_models.Pose:
+    def to_transport_model(self) -> transport_models.s.Pose:
         quaternion = self.orientation
         if isinstance(self.orientation, EulerAngles):
             quaternion = self.orientation.to_quaternion()
 
-        return transport_models.Pose(position=self.position.to_transport_model(),
-                                     orientation=quaternion.to_transport_model())
+        return transport_models.s.Pose(position=self.position.to_transport_model(),
+                                       orientation=quaternion.to_transport_model())
 
 
 class Planner(StrEnum):
@@ -190,11 +190,11 @@ class Planner(StrEnum):
     CIRC = "CIRC"
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Planner) -> 'Planner':
+    def from_transport_model(cls, model: transport_models.s.Planner) -> 'Planner':
         return cls(model.value)
 
-    def to_transport_model(self) -> transport_models.Planner:
-        return transport_models.Planner(self.value)
+    def to_transport_model(self) -> transport_models.s.Planner:
+        return transport_models.s.Planner(self.value)
 
 
 @dataclass
@@ -209,7 +209,7 @@ class Waypoint:
     acceleration_factor: Optional[float] = None
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Waypoint) -> 'Waypoint':
+    def from_transport_model(cls, model: transport_models.s.Waypoint) -> 'Waypoint':
         return cls(joints=Joints.from_transport_model(model.joints),
                    pose=Pose.from_transport_model(model.pose),
                    frame_id=model.frame_id,
@@ -219,12 +219,12 @@ class Waypoint:
                    velocity_factor=model.velocity_factor,
                    acceleration_factor=model.acceleration_factor)
 
-    def to_transport_model(self) -> transport_models.Waypoint:
-        w = transport_models.Waypoint(joints=self.joints.to_transport_model() if self.joints is not None else None,
-                                      pose=self.pose.to_transport_model() if self.pose is not None else None,
-                                      frame_id=self.frame_id,
-                                      reference_frame=self.reference_frame,
-                                      planner=self.planner.to_transport_model() if self.planner is not None else None)
+    def to_transport_model(self) -> transport_models.s.Waypoint:
+        w = transport_models.s.Waypoint(joints=self.joints.to_transport_model() if self.joints is not None else None,
+                                        pose=self.pose.to_transport_model() if self.pose is not None else None,
+                                        frame_id=self.frame_id,
+                                        reference_frame=self.reference_frame,
+                                        planner=self.planner.to_transport_model() if self.planner is not None else None)
         if self.blending_radius is not None:
             w.blending_radius = self.blending_radius
         if self.velocity_factor is not None:
@@ -237,10 +237,10 @@ class Waypoint:
 class Waypoints(UserList[Waypoint]):
 
     @classmethod
-    def from_transport_model(cls, model: list[transport_models.Waypoint]) -> 'Waypoints':
+    def from_transport_model(cls, model: list[transport_models.s.Waypoint]) -> 'Waypoints':
         return cls(*[Waypoint.from_transport_model(wp) for wp in model])
 
-    def to_transport_model(self) -> list[transport_models.Waypoint]:
+    def to_transport_model(self) -> list[transport_models.s.Waypoint]:
         return [wp.to_transport_model() for wp in self]
 
 
@@ -252,7 +252,7 @@ class JointsStamped:
     accelerations: list[float] | None
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.JointsStamped) -> 'JointsStamped':
+    def from_transport_model(cls, model: transport_models.s.JointsStamped) -> 'JointsStamped':
         return cls(
             joints=Joints.from_transport_model(model.joints),
             timestamp=model.timestamp,
@@ -260,8 +260,8 @@ class JointsStamped:
             accelerations=model.accelerations,
         )
 
-    def to_transport_model(self) -> transport_models.JointsStamped:
-        return transport_models.JointsStamped(
+    def to_transport_model(self) -> transport_models.s.JointsStamped:
+        return transport_models.s.JointsStamped(
             joints=self.joints.to_transport_model(),
             timestamp=self.timestamp,
             velocities=self.velocities,
@@ -275,11 +275,11 @@ class Trajectory(UserList[JointsStamped]):
     """
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Trajectory) -> 'Trajectory':
+    def from_transport_model(cls, model: transport_models.s.Trajectory) -> 'Trajectory':
         return cls(JointsStamped.from_transport_model(js) for js in model.root)
 
-    def to_transport_model(self) -> transport_models.Trajectory:
-        return transport_models.Trajectory(root=[js.to_transport_model() for js in self])
+    def to_transport_model(self) -> transport_models.s.Trajectory:
+        return transport_models.s.Trajectory(root=[js.to_transport_model() for js in self])
 
 
 MoveTarget = Pose | Joints | Waypoint | Waypoints
@@ -325,14 +325,14 @@ class MoveFeedback:
     message: str
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.MoveFeedback) -> 'MoveFeedback':
+    def from_transport_model(cls, model: transport_models.a.MoveFeedback) -> 'MoveFeedback':
         return cls(
             state=MoveState(model.state.value),
             message=model.message,
         )
 
-    def to_transport_model(self) -> transport_models.MoveFeedback:
-        return transport_models.MoveFeedback(state=transport_models.State(self.state.value), message=self.message)
+    def to_transport_model(self) -> transport_models.a.MoveFeedback:
+        return transport_models.a.MoveFeedback(state=transport_models.a.State(self.state.value), message=self.message)
 
 
 class ProgramType(StrEnum):
@@ -357,11 +357,11 @@ class ProgramType(StrEnum):
         return max((e for e in cls if e.__key()[0] == 'python'), key=lambda e: e.__key())
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Type) -> 'ProgramType':
+    def from_transport_model(cls, model: transport_models.s.Type) -> 'ProgramType':
         return cls(model.value)
 
-    def to_transport_model(self) -> transport_models.Type:
-        return transport_models.Type(str(self))
+    def to_transport_model(self) -> transport_models.s.Type:
+        return transport_models.s.Type(str(self))
 
 
 @dataclass
@@ -371,18 +371,18 @@ class Program:
     type: ProgramType
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.Program) -> 'Program':
+    def from_transport_model(cls, model: transport_models.s.Program) -> 'Program':
         return cls(
             id=str(model.id),
             name=model.name,
             type=ProgramType.from_transport_model(model.type),
         )
 
-    def to_transport_model(self) -> transport_models.Program:
-        return transport_models.Program(
+    def to_transport_model(self) -> transport_models.s.Program:
+        return transport_models.s.Program(
             id=UUID(self.id),
             name=self.name,
-            type=transport_models.Type(self.type.value),
+            type=transport_models.s.Type(self.type.value),
         )
 
 
@@ -392,14 +392,14 @@ class ProgramExecutionContext:
     arguments: list[str]
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.ProgramExecutionContext) -> 'ProgramExecutionContext':
+    def from_transport_model(cls, model: transport_models.s.ProgramExecutionContext) -> 'ProgramExecutionContext':
         return cls(
             environment=model.environment or {},
             arguments=model.arguments or [],
         )
 
-    def to_transport_model(self) -> transport_models.ProgramExecutionContext:
-        return transport_models.ProgramExecutionContext(
+    def to_transport_model(self) -> transport_models.s.ProgramExecutionContext:
+        return transport_models.s.ProgramExecutionContext(
             environment=self.environment,
             arguments=self.arguments,
         )
@@ -416,7 +416,7 @@ class ProgramExecution:
     exitCode: int
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.ProgramExecution) -> 'ProgramExecution':
+    def from_transport_model(cls, model: transport_models.s.ProgramExecution) -> 'ProgramExecution':
         return cls(
             id=str(model.id),
             program_id=str(model.programId),
@@ -427,13 +427,13 @@ class ProgramExecution:
             exitCode=model.exitCode,
         )
 
-    def to_transport_model(self) -> transport_models.ProgramExecution:
-        return transport_models.ProgramExecution(id=UUID(self.id),
-                                                 programId=UUID(self.program_id),
-                                                 context=self.context.to_transport_model(),
-                                                 startedAt=self.startedAt,
-                                                 finishedAt=self.finishedAt,
-                                                 exitCode=self.exitCode)
+    def to_transport_model(self) -> transport_models.s.ProgramExecution:
+        return transport_models.s.ProgramExecution(id=UUID(self.id),
+                                                   programId=UUID(self.program_id),
+                                                   context=self.context.to_transport_model(),
+                                                   startedAt=self.startedAt,
+                                                   finishedAt=self.finishedAt,
+                                                   exitCode=self.exitCode)
 
 
 @dataclass
@@ -442,11 +442,11 @@ class ExecutionOutput:
     eof: bool
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.ProgramExecutionOutput) -> 'ExecutionOutput':
+    def from_transport_model(cls, model: transport_models.a.ProgramExecutionOutput) -> 'ExecutionOutput':
         return cls(output=model.output, eof=model.eof)
 
-    def to_transport_model(self) -> transport_models.ProgramExecutionOutput:
-        return transport_models.ProgramExecutionOutput(output=self.output, eof=self.eof)
+    def to_transport_model(self) -> transport_models.a.ProgramExecutionOutput:
+        return transport_models.a.ProgramExecutionOutput(output=self.output, eof=self.eof)
 
 
 class ExecutionStatusStatus(StrEnum):
@@ -463,11 +463,11 @@ class ExecutionStatusStatus(StrEnum):
         return self == ExecutionStatusStatus.COMPLETED or self.is_error()
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.ExecutorStatus) -> 'ExecutionStatusStatus':
+    def from_transport_model(cls, model: transport_models.s.ExecutorStatus) -> 'ExecutionStatusStatus':
         return cls(model.value)
 
-    def to_transport_model(self) -> transport_models.ExecutorStatus:
-        return transport_models.ExecutorStatus(self.value)
+    def to_transport_model(self) -> transport_models.s.ExecutorStatus:
+        return transport_models.s.ExecutorStatus(self.value)
 
 
 @dataclass
@@ -475,11 +475,11 @@ class ExecutionStatus:
     status: ExecutionStatusStatus
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.ProgramsExecutorStatus) -> 'ExecutionStatus':
+    def from_transport_model(cls, model: transport_models.s.ProgramsExecutorStatus) -> 'ExecutionStatus':
         return cls(status=ExecutionStatusStatus.from_transport_model(model.status))
 
-    def to_transport_model(self) -> transport_models.ProgramsExecutorStatus:
-        return transport_models.ProgramsExecutorStatus(status=self.status.to_transport_model())
+    def to_transport_model(self) -> transport_models.s.ProgramsExecutorStatus:
+        return transport_models.s.ProgramsExecutorStatus(status=self.status.to_transport_model())
 
 
 @dataclass
@@ -492,16 +492,16 @@ class PID:
     max_out: float
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.PIDGains) -> 'PID':
+    def from_transport_model(cls, model: transport_models.s.PIDGains) -> 'PID':
         return cls(p=model.p, i=model.i, d=model.d, ff=model.ff, max_i=model.max_i, max_out=model.max_out)
 
-    def to_transport_model(self) -> transport_models.PIDGains:
-        return transport_models.PIDGains(p=self.p,
-                                         i=self.i,
-                                         d=self.d,
-                                         ff=self.ff,
-                                         max_i=self.max_i,
-                                         max_out=self.max_out)
+    def to_transport_model(self) -> transport_models.s.PIDGains:
+        return transport_models.s.PIDGains(p=self.p,
+                                           i=self.i,
+                                           d=self.d,
+                                           ff=self.ff,
+                                           max_i=self.max_i,
+                                           max_out=self.max_out)
 
 
 @dataclass
@@ -517,7 +517,7 @@ class JointConfiguration:
     pid_velocity: PID | None
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.JointConfig) -> 'JointConfiguration':
+    def from_transport_model(cls, model: transport_models.s.JointConfig) -> 'JointConfiguration':
         return cls(
             name=model.name,
             type=model.type,
@@ -530,8 +530,8 @@ class JointConfiguration:
             pid_velocity=PID.from_transport_model(model.pid_velocity) if model.pid_velocity else None,
         )
 
-    def to_transport_model(self) -> transport_models.JointConfig:
-        return transport_models.JointConfig(
+    def to_transport_model(self) -> transport_models.s.JointConfig:
+        return transport_models.s.JointConfig(
             name=self.name,
             type=self.type,
             position_limit_min=self.position_limit_min,
@@ -551,15 +551,15 @@ class RobotConfiguration:
     joints: list[JointConfiguration]
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.RobotConfig) -> 'RobotConfiguration':
+    def from_transport_model(cls, model: transport_models.s.RobotConfig) -> 'RobotConfiguration':
         return cls(
             name=model.name,
             n_joint=model.number_joints,
             joints=[JointConfiguration.from_transport_model(jc) for jc in model.joints],
         )
 
-    def to_transport_model(self) -> transport_models.RobotConfig:
-        return transport_models.RobotConfig(
+    def to_transport_model(self) -> transport_models.s.RobotConfig:
+        return transport_models.s.RobotConfig(
             name=self.name,
             number_joints=self.n_joint,
             joints=[jc.to_transport_model() for jc in self.joints],
@@ -572,12 +572,12 @@ class ControlMode(Enum):
     SPEED = 3
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.ControlMode) -> 'ControlMode':
+    def from_transport_model(cls, model: transport_models.s.ControlMode) -> 'ControlMode':
         return cls(model.mode)
 
-    def to_transport_model(self) -> transport_models.ControlMode:
-        return transport_models.ControlMode(mode_name=transport_models.ModeName(self.name.lower()),
-                                            mode=transport_models.Mode(self.value))
+    def to_transport_model(self) -> transport_models.s.ControlMode:
+        return transport_models.s.ControlMode(mode_name=transport_models.s.ModeName(self.name.lower()),
+                                              mode=transport_models.s.Mode(self.value))
 
 
 class ExecutorStatus(StrEnum):
@@ -589,8 +589,8 @@ class ExecutorStatus(StrEnum):
     STOPPED = 'stopped'
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.ExecutorStatus) -> 'ExecutorStatus':
+    def from_transport_model(cls, model: transport_models.s.ExecutorStatus) -> 'ExecutorStatus':
         return cls(model.value)
 
-    def to_transport_model(self) -> transport_models.ExecutorStatus:
-        return transport_models.ExecutorStatus(self.value)
+    def to_transport_model(self) -> transport_models.s.ExecutorStatus:
+        return transport_models.s.ExecutorStatus(self.value)

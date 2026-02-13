@@ -21,7 +21,7 @@ class TestAuth(BaseTestComponent):
 
     def test_login(self):
         expire_date = datetime.now() + timedelta(days=1)
-        self.http_client.post.return_value = transport_models.Token(
+        self.http_client.post.return_value = transport_models.s.Token(
             expires_at=expire_date,
             id=uuid4(),
             created_at=datetime.now(),
@@ -32,11 +32,11 @@ class TestAuth(BaseTestComponent):
         self.http_client.post.assert_called_once()
         endpoint, response_model, login_model = self.http_client.post.call_args[0]
         self.assertEqual(endpoint, paths_gen.Authentication.LOGIN)
-        self.assertIsInstance(login_model, transport_models.Login)
+        self.assertIsInstance(login_model, transport_models.s.Login)
         self.assertEqual(login_model.login, 'mail@mail.com')
         self.assertEqual(login_model.password, 'password')
         self.assertEqual(login_model.expires_at, expire_date)
-        self.assertEqual(response_model, transport_models.Token)
+        self.assertEqual(response_model, transport_models.s.Token)
         self.assertEqual(token.token, 'generated_token')
 
     @patch('pyniryo.nate._internal.mqtt.get_level_from_wildcard')
@@ -53,7 +53,7 @@ class TestAuth(BaseTestComponent):
         self.assertEqual(self.mqtt_client.subscribe.call_args[0][0], topic)
 
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
-        internal_callback(topic, transport_models.UserEvent())
+        internal_callback(topic, transport_models.a.UserEvent())
         user_callback.assert_called_once_with(user_id, models.UserEvent())
 
     @patch('pyniryo.nate._internal.mqtt.get_level_from_wildcard')
@@ -73,7 +73,7 @@ class TestAuth(BaseTestComponent):
             self.auth.on_user_logged_in(user_callback, user_id)
 
             internal_callback = self.mqtt_client.subscribe.call_args[0][1]
-            internal_callback(f'users/{user_id}/logged-in', transport_models.UserEvent())
+            internal_callback(f'users/{user_id}/logged-in', transport_models.a.UserEvent())
             expected_calls.append(call(user_id, models.UserEvent()))
 
         user_callback.assert_has_calls(expected_calls)
@@ -92,7 +92,7 @@ class TestAuth(BaseTestComponent):
         self.assertEqual(self.mqtt_client.subscribe.call_args[0][0], topic)
 
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
-        internal_callback(topic, transport_models.UserEvent())
+        internal_callback(topic, transport_models.a.UserEvent())
         user_callback.assert_called_once_with(user_id, models.UserEvent())
 
     @patch('pyniryo.nate._internal.mqtt.get_level_from_wildcard')
@@ -112,7 +112,7 @@ class TestAuth(BaseTestComponent):
             self.auth.on_user_logged_out(user_callback, user_id)
 
             internal_callback = self.mqtt_client.subscribe.call_args[0][1]
-            internal_callback(f'users/{user_id}/logged-out', transport_models.UserEvent())
+            internal_callback(f'users/{user_id}/logged-out', transport_models.a.UserEvent())
             expected_calls.append(call(user_id, models.UserEvent()))
 
         user_callback.assert_has_calls(expected_calls)

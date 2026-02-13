@@ -90,5 +90,5 @@ class TestUsers(BaseTestComponent):
             self.http_client.patch.assert_called_once_with(
                 paths_gen.Authentication.UPDATE_USER_PASSWORD.format(user_id=base_user.id),
                 transport_models.EmptyPayload,
-                transport_models.UpdatePassword(old_password='password', new_password='new_password'),
+                transport_models.s.UpdatePassword(old_password='password', new_password='new_password'),
             ))

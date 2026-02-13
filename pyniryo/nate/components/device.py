@@ -1,6 +1,5 @@
 from .base_api_component import BaseAPIComponent
 from .._internal import paths_gen, transport_models
-from .._internal.transport_models import EmptyPayload
 from ..exceptions import PyNiryoError
 
 
@@ -14,7 +13,7 @@ class Device(BaseAPIComponent):
         Get the device ID of the robot.
         :return: The device ID of the robot.
         """
-        resp = self._http_client.get(paths_gen.Device.GET_DEVICE_ID, transport_models.DeviceID)
+        resp = self._http_client.get(paths_gen.Device.GET_DEVICE_ID, transport_models.s.DeviceID)
         return resp.device_id
 
     def is_healthy(self) -> bool:
@@ -40,10 +39,14 @@ class Device(BaseAPIComponent):
         """
         Reboot the robot.
         """
-        self._http_client.post(paths_gen.Device.REBOOT, EmptyPayload, EmptyPayload())
+        self._http_client.post(paths_gen.Device.REBOOT,
+                               transport_models.EmptyPayload,
+                               transport_models.EmptyPayload())
 
     def shutdown(self) -> None:
         """
         Shutdown the robot.
         """
-        self._http_client.post(paths_gen.Device.SHUTDOWN, EmptyPayload, EmptyPayload())
+        self._http_client.post(paths_gen.Device.SHUTDOWN,
+                               transport_models.EmptyPayload,
+                               transport_models.EmptyPayload())
