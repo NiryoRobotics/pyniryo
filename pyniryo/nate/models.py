@@ -412,7 +412,6 @@ class ProgramExecution:
     context: ProgramExecutionContext
     startedAt: datetime
     finishedAt: datetime
-    output: str
     exitCode: int
 
     @classmethod
@@ -423,7 +422,6 @@ class ProgramExecution:
             context=ProgramExecutionContext.from_transport_model(model.context),
             startedAt=model.startedAt,
             finishedAt=model.finishedAt,
-            output=model.output,
             exitCode=model.exitCode,
         )
 
@@ -573,7 +571,15 @@ class ControlMode(Enum):
 
     @classmethod
     def from_transport_model(cls, model: transport_models.s.ControlMode) -> 'ControlMode':
-        return cls(model.mode)
+        match model.mode.value:
+            case 1:
+                return cls.TRAJECTORY
+            case 2:
+                return cls.JOG
+            case 3:
+                return cls.SPEED
+            case _:
+                raise ValueError(f"Unknown ControlMode value: {model.mode.value}")
 
     def to_transport_model(self) -> transport_models.s.ControlMode:
         return transport_models.s.ControlMode(mode_name=transport_models.s.ModeName(self.name.lower()),
