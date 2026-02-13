@@ -62,14 +62,14 @@ class Nate:
             username, password = login
             response = http_client.post(
                 paths_gen.Authentication.LOGIN,
-                transport_models.Token,
-                transport_models.Login(login=username, password=password),
+                transport_models.s.Token,
+                transport_models.s.Login(login=username, password=password),
             )
             token = response.token
         http_client.set_token(token)
 
         # Device ID
-        resp = http_client.get(paths_gen.Device.GET_DEVICE_ID, transport_models.DeviceID)
+        resp = http_client.get(paths_gen.Device.GET_DEVICE_ID, transport_models.s.DeviceID)
         device_id = resp.device_id
 
         mqtt_client: MqttClient = MqttClient(hostname, mqtt_port, token, prefix=MQTT_PREFIX(device_id))

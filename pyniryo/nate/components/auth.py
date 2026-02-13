@@ -25,8 +25,8 @@ class Auth(BaseAPIComponent):
         """
         token = self._http_client.post(
             paths_gen.Authentication.LOGIN,
-            transport_models.Token,
-            transport_models.Login(login=email, password=password, expires_at=expires_at),
+            transport_models.s.Token,
+            transport_models.s.Login(login=email, password=password, expires_at=expires_at),
         )
         return models.Token.from_transport_model(token)
 
@@ -39,11 +39,11 @@ class Auth(BaseAPIComponent):
         """
         topic = topics_gen.Users.USER_LOGGED_IN.format(user_id=user_id or mqtt.SINGLE_LEVEL_WILDCARD)
 
-        def callback_wrapper(received_topic: str, user_logged_in: transport_models.UserEvent):
+        def callback_wrapper(received_topic: str, user_logged_in: transport_models.a.UserEvent):
             user_id = mqtt.get_level_from_wildcard(topic, received_topic)[0]
             callback(user_id, models.UserEvent.from_transport_model(user_logged_in))
 
-        self._mqtt_client.subscribe(topic, callback_wrapper, transport_models.UserEvent)
+        self._mqtt_client.subscribe(topic, callback_wrapper, transport_models.a.UserEvent)
 
     def on_user_logged_out(self, callback: UserLoggedOutCallback, user_id: str = None) -> None:
         """
@@ -54,8 +54,8 @@ class Auth(BaseAPIComponent):
         """
         topic = f'users/{user_id or mqtt.SINGLE_LEVEL_WILDCARD}/logged-out'
 
-        def callback_wrapper(received_topic: str, user_logged_out: transport_models.UserEvent):
+        def callback_wrapper(received_topic: str, user_logged_out: transport_models.a.UserEvent):
             user_id = mqtt.get_level_from_wildcard(topic, received_topic)[0]
             callback(user_id, models.UserEvent.from_transport_model(user_logged_out))
 
-        self._mqtt_client.subscribe(topic, callback_wrapper, transport_models.UserEvent)
+        self._mqtt_client.subscribe(topic, callback_wrapper, transport_models.a.UserEvent)
