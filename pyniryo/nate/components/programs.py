@@ -94,7 +94,7 @@ class ExecutionCommand:
         """
         start = time.monotonic()
         while not self.status.is_final():
-            if start + timeout > time.monotonic():
+            if timeout > 0 and start + timeout < time.monotonic():
                 raise TimeoutError(f'Execution {self.execution_id} timed out after {timeout} seconds.')
             time.sleep(0.1)
         # TODO: more detailed errors

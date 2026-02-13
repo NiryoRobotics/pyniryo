@@ -13,5 +13,5 @@ class BaseTestComponent(unittest.TestCase):
         cls.mqtt_client = create_autospec(MqttClient, spec_set=True, instance=True)
 
     def setUp(self):
-        self.http_client.reset_mock()
-        self.mqtt_client.reset_mock()
+        self.http_client.reset_mock(return_value=True, side_effect=True)
+        self.mqtt_client.reset_mock(return_value=True, side_effect=True)
