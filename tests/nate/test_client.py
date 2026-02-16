@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch, MagicMock, Mock
+from unittest.mock import patch, MagicMock
 from datetime import datetime, timedelta
 from uuid import uuid4
 

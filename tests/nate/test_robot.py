@@ -2,7 +2,7 @@ import unittest
 import xml.etree.ElementTree as ET
 
 from unittest.mock import MagicMock, patch
-from uuid import uuid4, UUID
+from uuid import uuid4
 
 from pyniryo.nate import models
 from pyniryo.nate._internal import transport_models, paths_gen, topics_gen
