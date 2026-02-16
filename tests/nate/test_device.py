@@ -1,9 +1,8 @@
 import unittest
-from unittest.mock import patch
 
 from pyniryo.nate._internal import transport_models, paths_gen
 from pyniryo.nate.components.device import Device
-from pyniryo.nate.exceptions import PyNiryoError, ServerError
+from pyniryo.nate.exceptions import ServerError
 
 from .base import BaseTestComponent
 
