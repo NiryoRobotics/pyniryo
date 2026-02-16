@@ -87,6 +87,8 @@ class UserEvent:
 
 
 class Joints(UserList[float]):
+    timestamp: int | None = None
+    velocities: list[float] | None = None
 
     def __init__(self, *joints: float):
         if len(joints) > 0 and isinstance(joints[0], list):
@@ -99,6 +101,16 @@ class Joints(UserList[float]):
 
     def to_transport_model(self) -> transport_models.s.Joints:
         return transport_models.s.Joints(root=self.data)
+
+    @classmethod
+    def from_a_transport_model(cls, model: transport_models.a.Joints) -> 'Joints':
+        m = cls(*model.positions)
+        m.timestamp = model.timestamp
+        m.velocities = model.velocities
+        return m
+
+    def to_a_transport_model(self) -> transport_models.a.Joints:
+        return transport_models.a.Joints(positions=self.data, timestamp=self.timestamp, velocities=self.velocities)
 
 
 @dataclass

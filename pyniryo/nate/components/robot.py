@@ -97,10 +97,10 @@ class Robot(BaseAPIComponent):
         :param callback: The callback to call. The callback must take the topic and the joints as parameters.
         """
 
-        def internal_callback(_, joints: transport_models.s.Joints) -> None:
-            callback(models.Joints.from_transport_model(joints))
+        def internal_callback(_, joints: transport_models.a.Joints) -> None:
+            callback(models.Joints.from_a_transport_model(joints))
 
-        self._mqtt_client.subscribe(topics_gen.Robot.JOINTS, internal_callback, transport_models.s.Joints)
+        self._mqtt_client.subscribe(topics_gen.Robot.JOINTS, internal_callback, transport_models.a.Joints)
 
     def get_all_frames(self) -> List[str]:
         """
@@ -135,13 +135,13 @@ class Robot(BaseAPIComponent):
         :param callback: The callback to call. The callback must take the topic and the pose as parameters.
         """
 
-        def internal_callback(_, pose: transport_models.s.Pose) -> None:
+        def internal_callback(_, pose: transport_models.a.Pose) -> None:
             callback(models.Pose.from_transport_model(pose))
 
         self._mqtt_client.subscribe(
             topics_gen.Robot.FRAME_POSE.format(frame_id=frame_id),
             internal_callback,
-            transport_models.s.Pose,
+            transport_models.a.Pose,
         )
 
     @staticmethod
