@@ -168,7 +168,6 @@ class Robot(BaseAPIComponent):
         :return: A MoveCommand object to track the progress of the movement.
         """
         command_id = uuid4()
-        logger.error(f'Command ID: {command_id}')
         move_command = MoveCommand(self._mqtt_client, str(command_id))
 
         target = self._normalize_move_target(target)
