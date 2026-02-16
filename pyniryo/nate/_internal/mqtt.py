@@ -29,7 +29,7 @@ class Qos(Enum):
 
 class MqttClient:
 
-    def __init__(self, hostname: str, port: int, token: str, prefix: str = ''):
+    def __init__(self, hostname: str, port: int, prefix: str = ''):
         """
         Initialize the MQTT client.
         :param hostname: The hostname of the MQTT broker.
@@ -44,10 +44,31 @@ class MqttClient:
         self.__subscribers: Dict[str, Tuple[Type[BaseModel], List[Callback]]] = {}
 
         self.__mqtt_client = Client(client_id=self.__client_id, userdata=None, protocol=MQTTv5)
-        self.__mqtt_client.username_pw_set(username='token', password=token)
+
+    def __init_client(self, token: str):
+        if self.__mqtt_client.is_connected():
+            self.disconnect()
+
+        self.__mqtt_client = Client(client_id=self.__client_id, userdata=None, protocol=MQTTv5)
         self.__mqtt_client.on_message = self.__on_message
+        self.__mqtt_client.username_pw_set(username='token', password=token)
         self.__mqtt_client.connect(self.__hostname, self.__port)
         self.__mqtt_client.loop_start()
+
+        with self.__subscribers_lock:
+            old_subscribers = self.__subscribers.copy()
+            self.__subscribers = {}
+
+        for topic, (payload_model, callbacks) in old_subscribers.items():
+            for callback in callbacks:
+                self.subscribe(topic, callback, payload_model, add_prefix=False)
+
+    def set_token(self, token: str) -> None:
+        """
+        Set the authentication token for the MQTT client.
+        :param token: The token to set.
+        """
+        self.__init_client(token)
 
     def disconnect(self):
         """
@@ -78,7 +99,7 @@ class MqttClient:
 
         self.__mqtt_client.publish(topic, encoded_data, qos=qos.value)
 
-    def subscribe(self, topic: str, callback: Callback, payload_model: Type[T]) -> None:
+    def subscribe(self, topic: str, callback: Callback, payload_model: Type[T], add_prefix: bool = True) -> None:
         """
         Subscribe to a topic.
         :param topic: The topic to subscribe to.
@@ -88,7 +109,7 @@ class MqttClient:
         if not issubclass(payload_model, BaseModel):
             raise TypeError(f'Invalid type {payload_model.__name__} for response model.')
 
-        if self.__prefix != '':
+        if add_prefix and self.__prefix != '':
             topic = f'{self.__prefix}/{topic}'
 
         with self.__subscribers_lock:
