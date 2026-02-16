@@ -24,14 +24,17 @@ class TestMqttClient(unittest.TestCase):
     @patch(CLIENT_PATH_PATH)
     def test_connect(self, mock_client):
         mock_client.return_value = get_paho_mock()
-        client = MqttClient("localhost", 1883, '<token>')
+        client = MqttClient("localhost", 1883)
+        client.set_token('token')
         mock_client.return_value.connect.assert_called_once_with("localhost", 1883)
         mock_client.return_value.loop_start.assert_called_once()
 
     @patch(CLIENT_PATH_PATH)
     def test_disconnect(self, mock_client):
         mock_client.return_value = get_paho_mock()
-        client = MqttClient("localhost", 1883, '<token>')
+        client = MqttClient("localhost", 1883)
+        mock_client.return_value.is_connected = lambda: False
+        client.set_token('token')
         client.disconnect()
         mock_client.return_value.loop_stop.assert_called_once()
         mock_client.return_value.disconnect.assert_called_once()
@@ -42,14 +45,14 @@ class TestMqttClient(unittest.TestCase):
     @patch(CLIENT_PATH_PATH)
     def test_subscribe(self, mock_client):
         mock_client.return_value = get_paho_mock()
-        client = MqttClient("localhost", 1883, '<token>')
+        client = MqttClient("localhost", 1883)
         client.subscribe("test/topic", self.__callback, PayloadModel)
         mock_client.return_value.subscribe.assert_called_once_with("test/topic", 2)
 
     @patch(CLIENT_PATH_PATH)
     def test_multi_subscribe(self, mock_client):
         mock_client.return_value = get_paho_mock()
-        client = MqttClient("localhost", 1883, '<token>')
+        client = MqttClient("localhost", 1883)
         client.subscribe("test/topic", self.__callback, PayloadModel)
         mock_client.return_value.subscribe.assert_called_once_with("test/topic", 2)
 
@@ -60,7 +63,7 @@ class TestMqttClient(unittest.TestCase):
     @patch(CLIENT_PATH_PATH)
     def test_unsubscribe(self, mock_client):
         mock_client.return_value = get_paho_mock()
-        client = MqttClient("localhost", 1883, '<token>')
+        client = MqttClient("localhost", 1883)
         client.subscribe("test/topic", self.__callback, PayloadModel)
 
         client.unsubscribe(self.__callback)

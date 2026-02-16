@@ -41,11 +41,11 @@ class TestRobot(BaseTestComponent):
         self.mqtt_client.subscribe.assert_called_once()
         topic, internal_callback, model = self.mqtt_client.subscribe.call_args[0]
         self.assertEqual(topic, topics_gen.Robot.JOINTS)
-        self.assertEqual(model, transport_models.s.Joints)
+        self.assertEqual(model, transport_models.a.Joints)
 
         # Simulate receiving joints
         joint_values = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6]
-        internal_callback(topic, transport_models.s.Joints(root=joint_values))
+        internal_callback(topic, transport_models.a.Joints(positions=joint_values, velocities=[0.0] * 6, timestamp=0))
 
         callback.assert_called_once()
         called_joints = callback.call_args[0][0]
@@ -86,7 +86,7 @@ class TestRobot(BaseTestComponent):
         self.mqtt_client.subscribe.assert_called_once()
         topic, internal_callback, model = self.mqtt_client.subscribe.call_args[0]
         self.assertEqual(topic, topics_gen.Robot.FRAME_POSE.format(frame_id=frame_id))
-        self.assertEqual(model, transport_models.s.Pose)
+        self.assertEqual(model, transport_models.a.Pose)
 
         # Simulate receiving pose
         mock_pose = transport_models.s.Pose(position=transport_models.s.Point(x=0.1, y=0.2, z=0.3),
