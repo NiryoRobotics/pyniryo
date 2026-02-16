@@ -1,7 +1,5 @@
 import logging
-import os
 import time
-from io import TextIOWrapper
 from typing import IO, Callable
 from uuid import uuid4, UUID
 
@@ -9,7 +7,6 @@ from .base_api_component import BaseAPIComponent
 from .._internal import paths_gen, transport_models, topics_gen
 from .. import models
 from .._internal.mqtt import MqttClient
-from .._internal.transport_models import EmptyPayload
 from ..exceptions import PyNiryoError
 from ..models import ProgramType, ExecutionStatusStatus
 
@@ -25,7 +22,8 @@ class ExecutionCommand:
                  mqtt_client: MqttClient,
                  program_id: str,
                  execution_id: str,
-                 stdout: str | TextIOWrapper,
+                 on_output: Callable[[str, bool], None] | None,
+                 on_status: Callable[[ExecutionStatusStatus], None] | None,
                  get_execution: Callable[[], models.ProgramExecution]):
         self.__mqtt_client: MqttClient = mqtt_client
         self.program_id: str = program_id
@@ -33,38 +31,47 @@ class ExecutionCommand:
         self.execution: models.ProgramExecution | None = None
         self.__get_execution: Callable[[], models.ProgramExecution] = get_execution
 
-        self.__stdout = stdout
-        self.__should_close_stdout = False
+        self.__on_output = on_output
+        self.__on_status = on_status
 
-        if isinstance(stdout, str):
-            self.__stdout = open(stdout, 'w', buffering=1)
-            self.__should_close_stdout = True
-
-        self.__mqtt_client.subscribe(self.output_topic, self.__output_callback, transport_models.ProgramExecutionOutput)
+        if self.__on_output is not None:
+            self.__mqtt_client.subscribe(
+                topics_gen.Programs.PROGRAM_EXECUTION_OUTPUT.format(program_id=self.program_id,
+                                                                    execution_id=self.execution_id),
+                self.__output_callback,
+                transport_models.a.ProgramExecutionOutput)
 
         self.__status: list[models.ExecutionStatus] = [models.ExecutionStatus(status=ExecutionStatusStatus.RUNNING)]
-        self.__mqtt_client.subscribe(self.status_topic, self.__status_callback, transport_models.ProgramsExecutorStatus)
+        self.__mqtt_client.subscribe(
+            topics_gen.Programs.PROGRAM_EXECUTION_STATUS.format(program_id=self.program_id,
+                                                                execution_id=self.execution_id),
+            self.__status_callback,
+            transport_models.s.ProgramsExecutorStatus)
 
-    def __output_callback(self, _topic: str, payload: transport_models.ProgramExecutionOutput):
+    def __output_callback(self, _topic: str, payload: transport_models.a.ProgramExecutionOutput):
         """
         Internal callback to handle output messages.
         """
-        if payload.eof:
-            self.__mqtt_client.unsubscribe(self.__output_callback)
-            if self.__should_close_stdout:
-                self.__stdout.close()
-            return
+        try:
+            self.__on_output(payload.output, payload.eof)
+        except Exception as e:
+            logger.error(f'Error in on_output callback: {e}')
+        if payload.eof: self.__mqtt_client.unsubscribe(self.__output_callback)
 
-        self.__stdout.write(payload.output + '\n')
-        self.__stdout.flush()
-
-    def __status_callback(self, _topic: str, payload: transport_models.ProgramsExecutorStatus) -> None:
+    def __status_callback(self, _topic: str, payload: transport_models.s.ProgramsExecutorStatus) -> None:
         """
         Internal callback to handle execution state messages.
         """
+        status = models.ExecutionStatus.from_transport_model(payload)
+        try:
+            self.__on_status(status.status)
+        except Exception as e:
+            logger.error(f'Error in on_status callback: {e}')
+
         self.__status.append(models.ExecutionStatus.from_transport_model(payload))
         if self.status.is_final():
             self.__mqtt_client.unsubscribe(self.__status_callback)
+
         try:
             self.execution = self.__get_execution()
         except Exception as e:
@@ -80,26 +87,6 @@ class ExecutionCommand:
         """
         return self.__status[-1].status
 
-    @property
-    def output_topic(self) -> str:
-        """
-        Get the output topic of the execution.
-
-        :return: The output topic of the execution.
-        """
-        return topics_gen.Programs.PROGRAM_EXECUTION_OUTPUT.format(program_id=self.program_id,
-                                                                   execution_id=self.execution_id)
-
-    @property
-    def status_topic(self) -> str:
-        """
-        Get the status topic of the execution.
-
-        :return: The status topic of the execution.
-        """
-        return topics_gen.Programs.PROGRAM_EXECUTION_STATUS.format(program_id=self.program_id,
-                                                                   execution_id=self.execution_id)
-
     def wait(self, timeout: float = -1) -> None:
         """
         Wait for the move command to complete.
@@ -107,7 +94,7 @@ class ExecutionCommand:
         """
         start = time.monotonic()
         while not self.status.is_final():
-            if start + timeout > time.monotonic():
+            if timeout > 0 and start + timeout < time.monotonic():
                 raise TimeoutError(f'Execution {self.execution_id} timed out after {timeout} seconds.')
             time.sleep(0.1)
         # TODO: more detailed errors
@@ -143,8 +130,8 @@ class Programs(BaseAPIComponent):
         """
         program = self._http_client.post(
             paths_gen.Programs.CREATE_PROGRAM,
-            transport_models.Program,
-            transport_models.Program(name=name, type=program_type.to_transport_model()),
+            transport_models.s.Program,
+            transport_models.s.Program(name=name, type=program_type.to_transport_model()),
             files={'file': program},
         )
         return models.Program.from_transport_model(program)
@@ -159,7 +146,7 @@ class Programs(BaseAPIComponent):
         """
         tr_program = self._http_client.get(
             paths_gen.Programs.GET_PROGRAM.format(program_id=program_id),
-            transport_models.Program,
+            transport_models.s.Program,
         )
         program = models.Program.from_transport_model(tr_program)
         if dst is not None:
@@ -188,13 +175,13 @@ class Programs(BaseAPIComponent):
         """
         program = self._http_client.patch(
             paths_gen.Programs.UPDATE_PROGRAM.format(program_id=program.id),
-            transport_models.Program,
+            transport_models.s.Program,
             program.to_transport_model(),
         )
         if src is not None:
             self._http_client.patch(paths_gen.Programs.UPLOAD_PROGRAM_FILE.format(program_id=program.id),
-                                    EmptyPayload,
-                                    EmptyPayload(),
+                                    transport_models.EmptyPayload,
+                                    transport_models.EmptyPayload(),
                                     files={'file': src})
         return models.Program.from_transport_model(program)
 
@@ -221,7 +208,7 @@ class Programs(BaseAPIComponent):
         """
         execution = self._http_client.get(
             paths_gen.Programs.GET_PROGRAM_EXECUTION.format(program_id=program_id, execution_id=execution_id),
-            transport_models.ProgramExecution,
+            transport_models.s.ProgramExecution,
         )
         return models.ProgramExecution.from_transport_model(execution)
 
@@ -229,30 +216,53 @@ class Programs(BaseAPIComponent):
                 program_id: str,
                 environment: dict[str, str] = None,
                 arguments: list[str] = None,
-                stdout: str | TextIOWrapper = os.devnull) -> ExecutionCommand:
+                on_output: Callable[[str, bool], None] = None,
+                on_status: Callable[[ExecutionStatusStatus], None] = None) -> ExecutionCommand:
         """
         Execute a program.
 
         :param program_id: The ID of the program.
         :param environment: Optional dictionary of environment variables to pass to the program.
         :param arguments: Optional list of command line arguments to pass to the program.
-        :param stdout: Destination for the program output. It can be a file-like object or a file path.
-                       If a file path, the output is written to the file.  If a file-like object, the output is written
-                       to the object. Default is os.devnull: the output is discarded
+        :param on_output: Optional callback to listen to the program outputs. The callback must take the output string
+        and a boolean indicating if it's the end of the output as parameters.
+        :param on_status: Optional callback to listen the program execution status changes.
+        The callback must take the new status as a parameter.
         :return: The created program execution.
         """
         execution_id = str(uuid4())
         execution_command = ExecutionCommand(self._mqtt_client,
                                              program_id,
                                              execution_id,
-                                             stdout,
+                                             on_output,
+                                             on_status,
                                              lambda: self.get_execution(program_id, execution_id))
 
         self._http_client.post(
             paths_gen.Programs.EXECUTE_PROGRAM.format(program_id=program_id),
-            transport_models.FeedbackResponse,
-            transport_models.ExecuteProgram(execution_id=UUID(execution_id),
-                                            context=transport_models.ProgramExecutionContext(environment=environment,
-                                                                                             arguments=arguments)),
+            transport_models.s.FeedbackResponse,
+            transport_models.s.ExecuteProgram(execution_id=UUID(execution_id),
+                                              context=transport_models.s.ProgramExecutionContext(
+                                                  environment=environment, arguments=arguments)),
         )
         return execution_command
+
+    def executor_status(self) -> models.ExecutorStatus:
+        """ Get the current status of the program executor. :return: The current status of the program executor. """
+        status = self._http_client.get(paths_gen.Programs.GET_PROGRAMS_EXECUTOR_STATUS,
+                                       transport_models.s.ProgramsExecutorStatus)
+        return models.ExecutorStatus.from_transport_model(status.status)
+
+    def _update_executor_status(self, status: transport_models.s.ExecutorStatus, **kwargs) -> None:
+        self._http_client.patch(paths_gen.Programs.UPDATE_PROGRAMS_EXECUTOR_STATUS,
+                                transport_models.EmptyPayload,
+                                transport_models.s.ProgramsExecutorStatus(status=status, **kwargs))
+
+    def pause(self) -> None:
+        self._update_executor_status(transport_models.s.ExecutorStatus.PAUSED)
+
+    def stop(self, sigkill: bool = False) -> None:
+        self._update_executor_status(transport_models.s.ExecutorStatus.STOPPED, sigkill=sigkill)
+
+    def resume(self) -> None:
+        self._update_executor_status(transport_models.s.ExecutorStatus.RUNNING)

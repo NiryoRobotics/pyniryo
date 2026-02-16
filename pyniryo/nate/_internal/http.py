@@ -15,7 +15,7 @@ class HttpClient:
     A simple HTTP client wrapped around the requests library to suit the API behaviours.
     """
 
-    def __init__(self, hostname: str, port: int, token: str, insecure: bool = False, use_http: bool = False) -> None:
+    def __init__(self, hostname: str, port: int, insecure: bool = False, use_http: bool = False) -> None:
         """
         Initialize the HTTP client.
         :param hostname: The hostname of the API.
@@ -29,8 +29,6 @@ class HttpClient:
         self.__hostname = hostname
         self.__port = port
         self.__headers = {}
-        if token is not None:
-            self.set_token(token)
         self.__insecure = insecure
         self.__scheme = 'http' if use_http else 'https'
 

@@ -1,5 +1,9 @@
 import logging
 import os
+import re
+import threading
+from datetime import datetime, timedelta, timezone
+from typing import Callable, Type, TypeVar
 
 from .components import Auth, Users, Robot, Device, Programs
 from ._internal import paths_gen, transport_models
@@ -9,6 +13,26 @@ from ._internal.const import DEFAULT_HTTP_PORT, DEFAULT_MQTT_PORT, MQTT_PREFIX
 from .components.motion_planner import MotionPlanner
 
 logger = logging.getLogger(__name__)
+
+T = TypeVar("T", bound=str | int | float | bool)
+
+
+def _fetch_from_env(key: str, _type: Type[T], default: T) -> T:
+    value = os.getenv(key)
+
+    if value is None:
+        return default
+
+    try:
+        if _type is bool:
+            return _type(value.lower() in ['true', '1', 'yes'])
+        elif _type in [int, float, str]:
+            return _type(value)
+        else:
+            raise TypeError(f'Unsupported type {_type}')
+
+    except Exception as e:
+        raise ValueError(f'Error converting environment variable {key} to type {_type}: {e}') from e
 
 
 class Nate:
@@ -24,55 +48,74 @@ class Nate:
     programs: Programs
     motion_planner: MotionPlanner
 
-    def __init__(self, hostname: str | None = None, token: str = None, login: tuple[str, str] = None):
+    def __init__(self, hostname: str | None = None, login: tuple[str, str] = None):
         """
         Initialize a client to communicate with the Nate API.
         
         :param hostname: The hostname of the Nate API. It can be an IP address or a domain name.
             If None, retrieve it from the environment variable NATE_HOSTNAME. If the environment variable is not set, use localhost.
         :type hostname: str
-        :param token: The token to use for authentication. If None, retrieve it from the environment variable NATE_TOKEN.
-        :type token: str
         :param login: A tuple containing the username and password to use for authentication. Omitted if using an auth token.
             If None, retrieve them from the environment variables NATE_USERNAME and NATE_PASSWORD.
         """
         hostname = hostname or os.getenv('NATE_HOSTNAME') or 'localhost'
-        token = token or os.getenv('NATE_TOKEN')
         login = login or (os.getenv('NATE_USERNAME'), os.getenv('NATE_PASSWORD'))
 
         # Advanced options, not exposed in the constructor.
-        http_port = os.getenv('NATE_HTTP_PORT') or DEFAULT_HTTP_PORT
-        mqtt_port = os.getenv('NATE_MQTT_PORT') or DEFAULT_MQTT_PORT
-        insecure = os.getenv('NATE_INSECURE') is not None
-        use_http = os.getenv('NATE_USE_HTTP') is not None
-        execution_token = os.getenv('NATE_EXECUTION_TOKEN')
+        http_port = _fetch_from_env('NATE_HTTP_PORT', int, DEFAULT_HTTP_PORT)
+        mqtt_port = _fetch_from_env('NATE_MQTT_PORT', int, DEFAULT_MQTT_PORT)
+        insecure = _fetch_from_env('NATE_INSECURE', bool, False)
+        use_http = _fetch_from_env('NATE_USE_HTTP', bool, False)
+        execution_token = _fetch_from_env('NATE_EXECUTION_TOKEN', str, '')
+        token_validity_str = _fetch_from_env('NATE_TOKEN_VALIDITY', str, "1d")
+
+        if token_validity_str.endswith('d'):
+            token_validity = timedelta(days=float(token_validity_str[:-1]))
+        elif token_validity_str.endswith('h'):
+            token_validity = timedelta(hours=float(token_validity_str[:-1]))
+        elif token_validity_str.endswith('s'):
+            token_validity = timedelta(seconds=float(token_validity_str[:-1]))
+        else:
+            raise ValueError(f'Unsupported token validity type {token_validity_str}.')
 
         ##########################################################################################
         ## Bootstrap: fetch all needed data to properly initiate the client and its components. ##
         ##########################################################################################
 
-        http_client = HttpClient(hostname, http_port, token, insecure=insecure, use_http=use_http)
+        http_client = HttpClient(hostname, http_port, insecure=insecure, use_http=use_http)
         if execution_token is not None:
             http_client.set_header('Execution-Token', execution_token)
 
         # Token
-        if token is None:
-            if len(login) != 2 or None in login:
-                raise ValueError("authentication with username and password requires both username and password")
-            username, password = login
-            response = http_client.post(
+        if len(login) != 2 or None in login:
+            raise ValueError("authentication with username and password requires both username and password")
+        username, password = login
+
+        def token_provider(validity: timedelta) -> transport_models.s.Token:
+            return http_client.post(
                 paths_gen.Authentication.LOGIN,
-                transport_models.Token,
-                transport_models.Login(login=username, password=password),
-            )
-            token = response.token
-        http_client.set_token(token)
+                transport_models.s.Token,
+                transport_models.s.Login(login=username,
+                                         password=password,
+                                         expires_at=datetime.now(timezone.utc) + validity))
+
+        token = token_provider(token_validity)
+
+        http_client.set_token(token.token)
 
         # Device ID
-        resp = http_client.get(paths_gen.Device.GET_DEVICE_ID, transport_models.DeviceID)
+        resp = http_client.get(paths_gen.Device.GET_DEVICE_ID, transport_models.s.DeviceID)
         device_id = resp.device_id
 
-        mqtt_client: MqttClient = MqttClient(hostname, mqtt_port, token, prefix=MQTT_PREFIX(device_id))
+        mqtt_client: MqttClient = MqttClient(hostname, mqtt_port, prefix=MQTT_PREFIX(device_id))
+        mqtt_client.set_token(token.token)
+
+        self._token_renewer = TokenRenewer(
+            token_provider,
+            [http_client.set_token, mqtt_client.set_token],
+            token_validity,
+        )
+        self._token_renewer.start()
 
         self.auth = Auth(http_client, mqtt_client)
         self.users = Users(http_client, mqtt_client)
@@ -80,3 +123,36 @@ class Nate:
         self.device = Device(http_client, mqtt_client)
         self.programs = Programs(http_client, mqtt_client)
         self.motion_planner = MotionPlanner(http_client, mqtt_client)
+
+
+class TokenRenewer:
+
+    def __init__(self,
+                 provider: Callable[[timedelta], transport_models.s.Token],
+                 setters: list[Callable[[str], None]],
+                 renewal_interval: timedelta):
+        self._provider = provider
+        self._setters = setters
+        self._renewal_interval = renewal_interval
+        self._timer = None
+
+    def start(self):
+        self._setup_timer()
+
+    def _setup_timer(self) -> None:
+        if self._timer is not None:
+            self._timer.cancel()
+        interval = self._renewal_interval.total_seconds() * 0.9
+        self._timer = threading.Timer(interval, self._run)
+        self._timer.daemon = True
+        logger.info(f'Next token renewal scheduled in {timedelta(seconds=interval)}.')
+        self._timer.start()
+
+    def _run(self):
+        token = self._provider(self._renewal_interval)
+        for setter in self._setters:
+            try:
+                setter(token.token)
+            except Exception as e:
+                print(f'Error renewing token for setter {setter}: {e}')
+        self._setup_timer()

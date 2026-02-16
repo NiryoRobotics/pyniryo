@@ -1,5 +1,4 @@
 from datetime import datetime
-from uuid import UUID
 
 from .base_api_component import BaseAPIComponent
 
@@ -33,8 +32,8 @@ class Users(BaseAPIComponent):
         """
         user = self._http_client.post(
             paths_gen.Authentication.CREATE_USER,
-            transport_models.User,
-            transport_models.NewUser(email=email, name=name, role_id=role_id, password=password),
+            transport_models.s.User,
+            transport_models.s.NewUser(email=email, name=name, role_id=role_id, password=password),
         )
         return models.User.from_transport_model(user)
 
@@ -47,7 +46,7 @@ class Users(BaseAPIComponent):
         """
         user = self._http_client.get(
             paths_gen.Authentication.GET_USER.format(user_id=user_id),
-            transport_models.User,
+            transport_models.s.User,
         )
         return models.User.from_transport_model(user)
 
@@ -72,7 +71,7 @@ class Users(BaseAPIComponent):
         """
         user = self._http_client.patch(
             paths_gen.Authentication.UPDATE_USER.format(user_id=user.id),
-            transport_models.User,
+            transport_models.s.User,
             user.to_transport_model(),
         )
         return models.User.from_transport_model(user)
@@ -100,8 +99,8 @@ class Users(BaseAPIComponent):
         """
         token = self._http_client.post(
             paths_gen.Authentication.CREATE_USER_TOKEN.format(user_id=user_id),
-            transport_models.Token,
-            transport_models.TokenCreation(expires_at=expires_at),
+            transport_models.s.Token,
+            transport_models.s.TokenCreation(expires_at=expires_at),
         )
         return models.Token.from_transport_model(token)
 
@@ -117,5 +116,5 @@ class Users(BaseAPIComponent):
         self._http_client.patch(
             paths_gen.Authentication.UPDATE_USER_PASSWORD.format(user_id=user_id),
             EmptyPayload,
-            transport_models.UpdatePassword(old_password=old_password, new_password=new_password),
+            transport_models.s.UpdatePassword(old_password=old_password, new_password=new_password),
         )
