@@ -1,10 +1,11 @@
 import logging
 import os
 import threading
+import uuid
 from datetime import datetime, timedelta, timezone
 from typing import Callable, Type, TypeVar
 
-from .components import Auth, Users, Robot, Device, Programs, MotionPlanner, Metrics
+from .components import Auth, Users, Robot, Device, Programs, MotionPlanner, Metrics, BaseAPIComponent
 from ._internal import paths_gen, transport_models
 from ._internal.http import HttpClient
 from ._internal.mqtt import MqttClient
@@ -12,10 +13,11 @@ from ._internal.const import DEFAULT_HTTP_PORT, DEFAULT_MQTT_PORT, MQTT_PREFIX
 
 logger = logging.getLogger(__name__)
 
-T = TypeVar("T", bound=str | int | float | bool)
+_T = TypeVar("_T", bound=str | int | float | bool)
+_C = TypeVar("_C", bound=BaseAPIComponent)
 
 
-def _fetch_from_env(key: str, _type: Type[T], default: T) -> T:
+def _fetch_from_env(key: str, _type: Type[_T], default: _T) -> _T:
     value = os.getenv(key)
 
     if value is None:
@@ -77,6 +79,8 @@ class Nate:
         else:
             raise ValueError(f'Unsupported token validity type {token_validity_str}.')
 
+        self._correlation_id = _fetch_from_env('NATE_CORRELATION_ID', str, uuid.uuid4().hex)
+
         ##########################################################################################
         ## Bootstrap: fetch all needed data to properly initiate the client and its components. ##
         ##########################################################################################
@@ -116,13 +120,13 @@ class Nate:
         )
         self._token_renewer.start()
 
-        self.auth = Auth(self._http_client, self._mqtt_client)
-        self.users = Users(self._http_client, self._mqtt_client)
-        self.robot = Robot(self._http_client, self._mqtt_client)
-        self.device = Device(self._http_client, self._mqtt_client)
-        self.programs = Programs(self._http_client, self._mqtt_client)
-        self.motion_planner = MotionPlanner(self._http_client, self._mqtt_client)
-        self.metrics = Metrics(self._http_client, self._mqtt_client)
+        self.auth = Auth(self._http_client, self._mqtt_client, self._correlation_id)
+        self.users = Users(self._http_client, self._mqtt_client, self._correlation_id)
+        self.robot = Robot(self._http_client, self._mqtt_client, self._correlation_id)
+        self.device = Device(self._http_client, self._mqtt_client, self._correlation_id)
+        self.programs = Programs(self._http_client, self._mqtt_client, self._correlation_id)
+        self.motion_planner = MotionPlanner(self._http_client, self._mqtt_client, self._correlation_id)
+        self.metrics = Metrics(self._http_client, self._mqtt_client, self._correlation_id)
 
     def close(self):
         """

@@ -67,9 +67,9 @@ class Metrics(BaseAPIComponent):
 
     _metrics_queue: Queue[Metric | None]
 
-    def __init__(self, http_client: HttpClient, mqtt_client: MqttClient) -> None:
-        super().__init__(http_client, mqtt_client)
-        self._topic = NULL_TOPIC
+    def __init__(self, http_client: HttpClient, mqtt_client: MqttClient, correlation_id: str) -> None:
+        super().__init__(http_client, mqtt_client, correlation_id)
+        self._topic = topics_gen.CustomMetrics.CUSTOM_METRIC.format(metrics_id=self._correlation_id)
         self._metrics_queue = Queue()
         threading.Thread(target=self._process_metrics_queue, daemon=True).start()
 
@@ -91,9 +91,6 @@ class Metrics(BaseAPIComponent):
                 self._metrics_queue.task_done()
 
     def register_metrics(self, inst: object) -> None:
-        if self._topic != NULL_TOPIC:
-            raise RuntimeError('Metrics have already been registered.')
-
         metrics = []
         for m in vars(type(inst)).values():
             if not isinstance(m, Metric):
@@ -102,12 +99,12 @@ class Metrics(BaseAPIComponent):
             if m_type is None:
                 raise TypeError(f'Unsupported type {m.type} for metric {m.name}')
 
-            metrics.append(transport_models.s.DeclareCustomMetric(name=m.name, value=m.tr_value, m_type=m_type))
+            metrics.append(transport_models.s.Metric(name=m.name, value=m.tr_value, m_type=m_type))
 
-        logger.info(f'metrics: {metrics}')
-        resp = self._http_client.post(paths_gen.Metrics.DECLARE_CUSTOM_METRICS,
-                                      transport_models.s.FeedbackResponse,
-                                      transport_models.s.DeclareCustomMetrics(root=metrics))
+        resp = self._http_client.post(
+            paths_gen.Metrics.DECLARE_CUSTOM_METRICS,
+            transport_models.s.FeedbackResponse,
+            transport_models.s.DeclareCustomMetrics(metrics=metrics, metrics_id=self._correlation_id))
 
         self._topic = topics_gen.CustomMetrics.CUSTOM_METRIC.format(correlation_id=resp.feedback_id)
         setattr(inst, '_metrics_queue', self._metrics_queue)
