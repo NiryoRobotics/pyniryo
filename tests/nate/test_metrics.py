@@ -1,7 +1,6 @@
 import unittest
-import time
 from datetime import datetime, timedelta
-from unittest.mock import MagicMock, patch, call
+from unittest.mock import MagicMock, patch
 from queue import Queue
 
 from pyniryo.nate._internal import transport_models, paths_gen, topics_gen
@@ -185,7 +184,7 @@ class TestMetrics(BaseTestComponent):
         self.assertEqual(call_args[1], transport_models.EmptyPayload)
 
         request = call_args[2]
-        self.assertIsInstance(request, transport_models.s.DeclareCustomMetrics)
+        self.assertIsInstance(request, transport_models.s.CustomMetrics)
         self.assertEqual(request.metrics_id, self.correlation_id)
         self.assertEqual(len(request.metrics), 1)
         self.assertEqual(request.metrics[0].name, "temperature")
@@ -278,7 +277,7 @@ class TestMetrics(BaseTestComponent):
 
         with self.assertRaises(TypeError) as context:
             self.metrics.register_metrics(holder)
-        self.assertIn("Unsupported type", str(context.exception))
+        self.assertIn("Unsupported metric type", str(context.exception))
 
     def test_metric_update_queues_for_publishing(self):
         """Test that updating a metric queues it for publishing."""
@@ -355,6 +354,121 @@ class TestMetrics(BaseTestComponent):
 
         # Verify that items were queued (5 updates + 1 None sentinel)
         self.assertEqual(self.metrics._metrics_queue.qsize(), 6)
+
+    def test_get_metrics_single_metric(self):
+        """Test getting a single metric."""
+        metrics_id = "test-metrics-id"
+
+        # Mock the HTTP response
+        mock_metric = transport_models.s.CustomMetric(name="temperature",
+                                                      value="25.5",
+                                                      m_type=transport_models.s.MType.FLOAT)
+        self.http_client.get.return_value = transport_models.s.CustomMetrics(metrics=[mock_metric],
+                                                                             metrics_id=metrics_id)
+
+        # Call get_metrics
+        result = self.metrics.get_metrics(metrics_id)
+
+        # Verify HTTP GET was called with correct parameters
+        self.http_client.get.assert_called_once_with(paths_gen.Metrics.GET_CUSTOM_METRICS.format(metrics_id=metrics_id),
+                                                     transport_models.s.CustomMetrics)
+
+        # Verify the result
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0].name, "temperature")
+        self.assertEqual(result[0].value, "25.5")
+
+    def test_get_metrics_multiple_metrics(self):
+        """Test getting multiple metrics."""
+        metrics_id = "multi-metrics-id"
+
+        # Mock the HTTP response with multiple metrics
+        mock_metrics = [
+            transport_models.s.CustomMetric(name="temperature", value="25.5", m_type=transport_models.s.MType.FLOAT),
+            transport_models.s.CustomMetric(name="humidity", value="60", m_type=transport_models.s.MType.INT),
+            transport_models.s.CustomMetric(name="status", value="online", m_type=transport_models.s.MType.STRING),
+            transport_models.s.CustomMetric(name="is_active", value="True", m_type=transport_models.s.MType.BOOL),
+        ]
+        self.http_client.get.return_value = transport_models.s.CustomMetrics(metrics=mock_metrics,
+                                                                             metrics_id=metrics_id)
+
+        # Call get_metrics
+        result = self.metrics.get_metrics(metrics_id)
+
+        # Verify the result
+        self.assertEqual(len(result), 4)
+
+        # Check each metric
+        metric_dict = {m.name: m for m in result}
+        self.assertEqual(metric_dict["temperature"].value, "25.5")
+        self.assertEqual(metric_dict["humidity"].value, "60")
+        self.assertEqual(metric_dict["status"].value, "online")
+        self.assertEqual(metric_dict["is_active"].value, "True")
+
+    def test_get_metrics_all_metric_types(self):
+        """Test getting metrics with all supported types."""
+        metrics_id = "all-types-metrics"
+
+        dt = datetime(2024, 1, 15, 10, 30, 45)
+        td = timedelta(hours=2, minutes=30)
+
+        # Mock the HTTP response with all metric types
+        mock_metrics = [
+            transport_models.s.CustomMetric(name="text", value="hello", m_type=transport_models.s.MType.STRING),
+            transport_models.s.CustomMetric(name="count", value="42", m_type=transport_models.s.MType.INT),
+            transport_models.s.CustomMetric(name="ratio", value="3.14", m_type=transport_models.s.MType.FLOAT),
+            transport_models.s.CustomMetric(name="flag", value="True", m_type=transport_models.s.MType.BOOL),
+            transport_models.s.CustomMetric(name="timestamp",
+                                            value=dt.isoformat(),
+                                            m_type=transport_models.s.MType.DATETIME),
+            transport_models.s.CustomMetric(name="duration",
+                                            value=str(td.total_seconds()),
+                                            m_type=transport_models.s.MType.DURATION),
+        ]
+        self.http_client.get.return_value = transport_models.s.CustomMetrics(metrics=mock_metrics,
+                                                                             metrics_id=metrics_id)
+
+        # Call get_metrics
+        result = self.metrics.get_metrics(metrics_id)
+
+        # Verify all types are present
+        self.assertEqual(len(result), 6)
+        metric_dict = {m.name: m for m in result}
+
+        self.assertIn("text", metric_dict)
+        self.assertIn("count", metric_dict)
+        self.assertIn("ratio", metric_dict)
+        self.assertIn("flag", metric_dict)
+        self.assertIn("timestamp", metric_dict)
+        self.assertIn("duration", metric_dict)
+
+    def test_get_metrics_empty_list(self):
+        """Test getting metrics when no metrics exist."""
+        metrics_id = "empty-metrics-id"
+
+        # Mock the HTTP response with empty list
+        self.http_client.get.return_value = transport_models.s.CustomMetrics(metrics=[], metrics_id=metrics_id)
+
+        # Call get_metrics
+        result = self.metrics.get_metrics(metrics_id)
+
+        # Verify empty list is returned
+        self.assertEqual(len(result), 0)
+        self.assertEqual(result, [])
+
+    def test_get_metrics_correct_path_formatting(self):
+        """Test that the metrics_id is correctly formatted into the path."""
+        metrics_id = "special-id-123"
+
+        # Mock the HTTP response
+        self.http_client.get.return_value = transport_models.s.CustomMetrics(metrics=[], metrics_id=metrics_id)
+
+        # Call get_metrics
+        self.metrics.get_metrics(metrics_id)
+
+        # Verify the path is formatted correctly
+        expected_path = paths_gen.Metrics.GET_CUSTOM_METRICS.format(metrics_id=metrics_id)
+        self.http_client.get.assert_called_once_with(expected_path, transport_models.s.CustomMetrics)
 
 
 class TestMetricIntegration(BaseTestComponent):

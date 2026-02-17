@@ -43,6 +43,7 @@ class Ios(StrEnum):
 class Metrics(StrEnum):
 
   DECLARE_CUSTOM_METRICS = '/api/custom-metrics'
+  GET_CUSTOM_METRICS = '/api/custom-metrics/{metrics_id}'
 
 
 class Network(StrEnum):
@@ -65,6 +66,7 @@ class Programs(StrEnum):
   GET_PROGRAM_EXECUTIONS = '/api/programs/{program_id}/executions'
   EXECUTE_PROGRAM = '/api/programs/{program_id}/executions'
   GET_PROGRAM_EXECUTION = '/api/programs/{program_id}/executions/{execution_id}'
+  GET_PROGRAM_EXECUTION_OUTPUT = '/api/programs/{program_id}/executions/{execution_id}/output'
   GET_PROGRAM_FILE = '/api/programs/{program_id}/file'
   UPLOAD_PROGRAM_FILE = '/api/programs/{program_id}/file'
 

@@ -4,24 +4,15 @@ from queue import Queue
 from typing import TypeVar, Type
 from datetime import datetime, timedelta
 
+from .. import models
 from .._internal import topics_gen, transport_models, paths_gen
 from pyniryo.nate.components import BaseAPIComponent
-from .._internal.const import NULL_TOPIC
 from .._internal.http import HttpClient
 from .._internal.mqtt import MqttClient
 
 logger = logging.getLogger(__name__)
 
 T = TypeVar('T', bound=str | int | float | bool | datetime | timedelta)
-
-_type_bindings = {
-    str: transport_models.s.MType.STRING,
-    int: transport_models.s.MType.INT,
-    float: transport_models.s.MType.FLOAT,
-    bool: transport_models.s.MType.BOOL,
-    datetime: transport_models.s.MType.DATETIME,
-    timedelta: transport_models.s.MType.DURATION
-}
 
 
 class Metric:
@@ -96,15 +87,19 @@ class Metrics(BaseAPIComponent):
         for m in vars(type(inst)).values():
             if not isinstance(m, Metric):
                 continue
-            m_type = _type_bindings.get(m.type)
+            m_type = models.get_mtype(m.type)
             if m_type is None:
                 raise TypeError(f'Unsupported type {m.type} for metric {m.name}')
 
-            metrics.append(transport_models.s.Metric(name=m.name, value=m.tr_value, m_type=m_type))
+            metrics.append(transport_models.s.CustomMetric(name=m.name, value=m.tr_value, m_type=m_type))
 
-        self._http_client.post(
-            paths_gen.Metrics.DECLARE_CUSTOM_METRICS,
-            transport_models.EmptyPayload,
-            transport_models.s.DeclareCustomMetrics(metrics=metrics, metrics_id=self._correlation_id))
+        self._http_client.post(paths_gen.Metrics.DECLARE_CUSTOM_METRICS,
+                               transport_models.EmptyPayload,
+                               transport_models.s.CustomMetrics(metrics=metrics, metrics_id=self._correlation_id))
 
         setattr(inst, '_metrics_queue', self._metrics_queue)
+
+    def get_metrics(self, metrics_id: str) -> list[models.Metric]:
+        resp = self._http_client.get(paths_gen.Metrics.GET_CUSTOM_METRICS.format(metrics_id=metrics_id),
+                                     transport_models.s.CustomMetrics)
+        return [models.Metric.from_transport_model(m) for m in resp.metrics]

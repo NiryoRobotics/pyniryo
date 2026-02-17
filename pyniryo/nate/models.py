@@ -2,7 +2,7 @@ import math
 import re
 from collections import UserList
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
 from typing import Type, Optional
 
@@ -422,9 +422,9 @@ class ProgramExecution:
     id: str
     program_id: str
     context: ProgramExecutionContext
-    startedAt: datetime
-    finishedAt: datetime
-    exitCode: int
+    started_at: datetime
+    finished_at: datetime
+    exit_code: int
 
     @classmethod
     def from_transport_model(cls, model: transport_models.s.ProgramExecution) -> 'ProgramExecution':
@@ -432,18 +432,18 @@ class ProgramExecution:
             id=str(model.id),
             program_id=str(model.programId),
             context=ProgramExecutionContext.from_transport_model(model.context),
-            startedAt=model.startedAt,
-            finishedAt=model.finishedAt,
-            exitCode=model.exitCode,
+            started_at=model.startedAt,
+            finished_at=model.finishedAt,
+            exit_code=model.exitCode,
         )
 
     def to_transport_model(self) -> transport_models.s.ProgramExecution:
         return transport_models.s.ProgramExecution(id=UUID(self.id),
                                                    programId=UUID(self.program_id),
                                                    context=self.context.to_transport_model(),
-                                                   startedAt=self.startedAt,
-                                                   finishedAt=self.finishedAt,
-                                                   exitCode=self.exitCode)
+                                                   startedAt=self.started_at,
+                                                   finishedAt=self.finished_at,
+                                                   exitCode=self.exit_code)
 
 
 @dataclass
@@ -612,3 +612,40 @@ class ExecutorStatus(StrEnum):
 
     def to_transport_model(self) -> transport_models.s.ExecutorStatus:
         return transport_models.s.ExecutorStatus(self.value)
+
+
+_type_bindings: dict[type, transport_models.s.MType] = {
+    str: transport_models.s.MType.STRING,
+    int: transport_models.s.MType.INT,
+    float: transport_models.s.MType.FLOAT,
+    bool: transport_models.s.MType.BOOL,
+    datetime: transport_models.s.MType.DATETIME,
+    timedelta: transport_models.s.MType.DURATION
+}
+_type_bindings_reverse: dict[transport_models.s.MType, type] = {v: k for k, v in _type_bindings.items()}
+
+
+def get_mtype(_type: type) -> transport_models.s.MType:
+    if _type not in _type_bindings:
+        raise TypeError(f"Unsupported metric type: {_type}")
+    return _type_bindings[_type]
+
+
+def parse_mtype(mtype: transport_models.s.MType) -> type:
+    if mtype not in _type_bindings_reverse:
+        raise TypeError(f"Unsupported MType: {mtype}")
+    return _type_bindings_reverse[mtype]
+
+
+@dataclass
+class Metric:
+    name: str
+    value: str
+    type: type
+
+    @classmethod
+    def from_transport_model(cls, model: transport_models.a.CustomMetric) -> 'Metric':
+        return cls(name=model.name, value=model.value, type=model.m_type)
+
+    def to_transport_model(self) -> transport_models.a.CustomMetric:
+        return transport_models.a.CustomMetric(name=self.name, value=self.value, m_type=get_mtype(self.type))
