@@ -31,7 +31,7 @@ class TestPrograms(BaseTestComponent):
 
     def setUp(self):
         super().setUp()
-        self.programs = Programs(http_client=self.http_client, mqtt_client=self.mqtt_client)
+        self.programs = Programs(http_client=self.http_client, mqtt_client=self.mqtt_client, correlation_id=self.correlation_id)
 
     def tearDown(self):
         del self.programs

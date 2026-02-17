@@ -11,7 +11,7 @@ class TestDevice(BaseTestComponent):
 
     def setUp(self):
         super().setUp()
-        self.device = Device(http_client=self.http_client, mqtt_client=self.mqtt_client)
+        self.device = Device(http_client=self.http_client, mqtt_client=self.mqtt_client, correlation_id=self.correlation_id)
 
     def tearDown(self):
         del self.device

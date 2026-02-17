@@ -3,9 +3,9 @@ from unittest.mock import patch, MagicMock
 from datetime import datetime, timedelta
 from uuid import uuid4
 
-from pyniryo.nate.client import Nate
+from pyniryo.nate.client import Nate, TokenRenewer
 from pyniryo.nate._internal import transport_models, paths_gen, const
-from pyniryo.nate.components import Auth, Users, Robot, Device, Programs
+from pyniryo.nate.components import Auth, Users, Robot, Device, Programs, Metrics
 from pyniryo.nate.components.motion_planner import MotionPlanner
 
 
@@ -316,6 +316,294 @@ class TestNateClient(unittest.TestCase):
         # (This is implicit since they're BaseAPIComponent subclasses)
         self.assertIsNotNone(client.auth)
         self.assertIsNotNone(client.robot)
+
+    @patch('pyniryo.nate.client.TokenRenewer')
+    @patch('pyniryo.nate.client.MqttClient')
+    @patch('pyniryo.nate.client.HttpClient')
+    def test_metrics_component_initialized(self,
+                                           mock_http_client_class,
+                                           mock_mqtt_client_class,
+                                           mock_token_renewer_class):
+        """Test that Metrics component is initialized."""
+        # Setup mocks
+        mock_http = MagicMock()
+        mock_http_client_class.return_value = mock_http
+
+        token_response = transport_models.s.Token(id=uuid4(),
+                                                  token='generated-token',
+                                                  expires_at=datetime.now() + timedelta(days=1),
+                                                  created_at=datetime.now())
+        mock_http.post.return_value = token_response
+        mock_http.get.return_value = transport_models.s.DeviceID(device_id='test-device-123')
+
+        mock_mqtt = MagicMock()
+        mock_mqtt_client_class.return_value = mock_mqtt
+
+        mock_token_renewer = MagicMock()
+        mock_token_renewer_class.return_value = mock_token_renewer
+
+        # Create client
+        client = Nate(hostname='192.168.1.100', login=('user@example.com', 'password123'))
+
+        # Verify metrics component exists
+        self.assertIsInstance(client.metrics, Metrics)
+
+    @patch('pyniryo.nate.client.TokenRenewer')
+    @patch('pyniryo.nate.client.MqttClient')
+    @patch('pyniryo.nate.client.HttpClient')
+    def test_close_method_calls_component_close(self,
+                                                mock_http_client_class,
+                                                mock_mqtt_client_class,
+                                                mock_token_renewer_class):
+        """Test that close() method calls close() on all components."""
+        # Setup mocks
+        mock_http = MagicMock()
+        mock_http_client_class.return_value = mock_http
+
+        token_response = transport_models.s.Token(id=uuid4(),
+                                                  token='generated-token',
+                                                  expires_at=datetime.now() + timedelta(days=1),
+                                                  created_at=datetime.now())
+        mock_http.post.return_value = token_response
+        mock_http.get.return_value = transport_models.s.DeviceID(device_id='test-device-123')
+
+        mock_mqtt = MagicMock()
+        mock_mqtt_client_class.return_value = mock_mqtt
+
+        mock_token_renewer = MagicMock()
+        mock_token_renewer_class.return_value = mock_token_renewer
+
+        # Create client
+        client = Nate(hostname='192.168.1.100', login=('user@example.com', 'password123'))
+
+        # Mock close methods on components
+        client.auth.close = MagicMock()
+        client.users.close = MagicMock()
+        client.robot.close = MagicMock()
+        client.device.close = MagicMock()
+        client.programs.close = MagicMock()
+        client.metrics.close = MagicMock()
+
+        # Call close
+        client.close()
+
+        # Verify all component close methods were called
+        client.auth.close.assert_called_once()
+        client.users.close.assert_called_once()
+        client.robot.close.assert_called_once()
+        client.device.close.assert_called_once()
+        client.programs.close.assert_called_once()
+        client.metrics.close.assert_called_once()
+
+    @patch('pyniryo.nate.client.TokenRenewer')
+    @patch('pyniryo.nate.client.MqttClient')
+    @patch('pyniryo.nate.client.HttpClient')
+    def test_close_method_stops_token_renewer(self,
+                                              mock_http_client_class,
+                                              mock_mqtt_client_class,
+                                              mock_token_renewer_class):
+        """Test that close() method stops the token renewer."""
+        # Setup mocks
+        mock_http = MagicMock()
+        mock_http_client_class.return_value = mock_http
+
+        token_response = transport_models.s.Token(id=uuid4(),
+                                                  token='generated-token',
+                                                  expires_at=datetime.now() + timedelta(days=1),
+                                                  created_at=datetime.now())
+        mock_http.post.return_value = token_response
+        mock_http.get.return_value = transport_models.s.DeviceID(device_id='test-device-123')
+
+        mock_mqtt = MagicMock()
+        mock_mqtt_client_class.return_value = mock_mqtt
+
+        mock_token_renewer = MagicMock()
+        mock_token_renewer_class.return_value = mock_token_renewer
+
+        # Create client
+        client = Nate(hostname='192.168.1.100', login=('user@example.com', 'password123'))
+
+        # Call close
+        client.close()
+
+        # Verify token renewer stop was called
+        mock_token_renewer.stop.assert_called_once()
+
+    @patch('pyniryo.nate.client.TokenRenewer')
+    @patch('pyniryo.nate.client.MqttClient')
+    @patch('pyniryo.nate.client.HttpClient')
+    def test_close_method_disconnects_clients(self,
+                                              mock_http_client_class,
+                                              mock_mqtt_client_class,
+                                              mock_token_renewer_class):
+        """Test that close() method disconnects HTTP and MQTT clients."""
+        # Setup mocks
+        mock_http = MagicMock()
+        mock_http_client_class.return_value = mock_http
+
+        token_response = transport_models.s.Token(id=uuid4(),
+                                                  token='generated-token',
+                                                  expires_at=datetime.now() + timedelta(days=1),
+                                                  created_at=datetime.now())
+        mock_http.post.return_value = token_response
+        mock_http.get.return_value = transport_models.s.DeviceID(device_id='test-device-123')
+
+        mock_mqtt = MagicMock()
+        mock_mqtt_client_class.return_value = mock_mqtt
+
+        mock_token_renewer = MagicMock()
+        mock_token_renewer_class.return_value = mock_token_renewer
+
+        # Create client
+        client = Nate(hostname='192.168.1.100', login=('user@example.com', 'password123'))
+
+        # Call close
+        client.close()
+
+        # Verify disconnect methods were called
+        mock_mqtt.disconnect.assert_called_once()
+        mock_http.disconnect.assert_called_once()
+
+    @patch('pyniryo.nate.client.uuid')
+    @patch('pyniryo.nate.client.TokenRenewer')
+    @patch('pyniryo.nate.client.MqttClient')
+    @patch('pyniryo.nate.client.HttpClient')
+    def test_correlation_id_auto_generated(self,
+                                           mock_http_client_class,
+                                           mock_mqtt_client_class,
+                                           mock_token_renewer_class,
+                                           mock_uuid):
+        """Test that correlation_id is auto-generated when not provided via env var."""
+        # Setup mocks
+        mock_http = MagicMock()
+        mock_http_client_class.return_value = mock_http
+
+        token_response = transport_models.s.Token(id=uuid4(),
+                                                  token='generated-token',
+                                                  expires_at=datetime.now() + timedelta(days=1),
+                                                  created_at=datetime.now())
+        mock_http.post.return_value = token_response
+        mock_http.get.return_value = transport_models.s.DeviceID(device_id='test-device-123')
+
+        mock_mqtt = MagicMock()
+        mock_mqtt_client_class.return_value = mock_mqtt
+
+        mock_token_renewer = MagicMock()
+        mock_token_renewer_class.return_value = mock_token_renewer
+
+        # Mock UUID generation
+        mock_uuid4_instance = MagicMock()
+        mock_uuid4_instance.hex = 'auto-generated-uuid-hex'
+        mock_uuid.uuid4.return_value = mock_uuid4_instance
+
+        # Create client
+        client = Nate(hostname='192.168.1.100', login=('user@example.com', 'password123'))
+
+        # Verify correlation_id was set
+        self.assertEqual(client._correlation_id, 'auto-generated-uuid-hex')
+
+    @patch('pyniryo.nate.client.TokenRenewer')
+    @patch('pyniryo.nate.client.MqttClient')
+    @patch('pyniryo.nate.client.HttpClient')
+    @patch.dict('os.environ', {'NATE_CORRELATION_ID': 'custom-correlation-id-123'})
+    def test_correlation_id_from_environment(self,
+                                             mock_http_client_class,
+                                             mock_mqtt_client_class,
+                                             mock_token_renewer_class):
+        """Test that correlation_id is read from environment variable when provided."""
+        # Setup mocks
+        mock_http = MagicMock()
+        mock_http_client_class.return_value = mock_http
+
+        token_response = transport_models.s.Token(id=uuid4(),
+                                                  token='generated-token',
+                                                  expires_at=datetime.now() + timedelta(days=1),
+                                                  created_at=datetime.now())
+        mock_http.post.return_value = token_response
+        mock_http.get.return_value = transport_models.s.DeviceID(device_id='test-device-123')
+
+        mock_mqtt = MagicMock()
+        mock_mqtt_client_class.return_value = mock_mqtt
+
+        mock_token_renewer = MagicMock()
+        mock_token_renewer_class.return_value = mock_token_renewer
+
+        # Create client
+        client = Nate(hostname='192.168.1.100', login=('user@example.com', 'password123'))
+
+        # Verify correlation_id was read from env
+        self.assertEqual(client._correlation_id, 'custom-correlation-id-123')
+
+
+class TestTokenRenewer(unittest.TestCase):
+    """Test the TokenRenewer class."""
+
+    @patch('threading.Timer')
+    def test_stop_cancels_timer(self, mock_timer_class):
+        """Test that stop() method cancels the active timer."""
+        # Setup mock timer
+        mock_timer = MagicMock()
+        mock_timer_class.return_value = mock_timer
+
+        # Create token provider and callbacks
+        token_provider = MagicMock(return_value=MagicMock(token='test-token'))
+        callbacks = [MagicMock()]
+        validity = timedelta(hours=1)
+
+        # Create renewer and start it
+        renewer = TokenRenewer(token_provider, callbacks, validity)
+        renewer.start()
+
+        # Verify timer was created
+        mock_timer_class.assert_called()
+
+        # Call stop
+        renewer.stop()
+
+        # Verify timer was cancelled
+        mock_timer.cancel.assert_called_once()
+
+    @patch('threading.Timer')
+    def test_stop_when_no_timer_active(self, mock_timer_class):
+        """Test that stop() handles case when no timer is active."""
+        # Create token provider and callbacks
+        token_provider = MagicMock(return_value=MagicMock(token='test-token'))
+        callbacks = [MagicMock()]
+        validity = timedelta(hours=1)
+
+        # Create renewer without starting
+        renewer = TokenRenewer(token_provider, callbacks, validity)
+
+        # Call stop (should not raise)
+        renewer.stop()
+
+        # No timer to cancel, so cancel should not be called
+        mock_timer_class.return_value.cancel.assert_not_called()
+
+    @patch('threading.Timer')
+    def test_stop_sets_timer_to_none(self, mock_timer_class):
+        """Test that stop() sets timer to None."""
+        # Setup mock timer
+        mock_timer = MagicMock()
+        mock_timer_class.return_value = mock_timer
+
+        # Create token provider and callbacks
+        token_provider = MagicMock(return_value=MagicMock(token='test-token'))
+        callbacks = [MagicMock()]
+        validity = timedelta(hours=1)
+
+        # Create renewer and start it
+        renewer = TokenRenewer(token_provider, callbacks, validity)
+        renewer.start()
+
+        # Verify timer is set
+        self.assertIsNotNone(renewer._timer)
+
+        # Call stop
+        renewer.stop()
+
+        # Verify timer is None
+        self.assertIsNone(renewer._timer)
 
 
 if __name__ == "__main__":
