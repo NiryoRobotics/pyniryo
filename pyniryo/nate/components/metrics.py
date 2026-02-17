@@ -45,13 +45,14 @@ class Metric:
         return getattr(instance, self.private_name)
 
     def __set__(self, instance, value):
+        self.value = value
         queue: Queue = getattr(instance, '_metrics_queue', None)
         if queue is None:
             raise RuntimeError(
                 "Unable to publish the metric update. Make sure to register the metrics before using it.")
         queue.put(self)
 
-        setattr(instance, self.private_name, value)
+        setattr(instance, self.private_name, self.value)
 
     @property
     def tr_value(self) -> str:
@@ -101,10 +102,9 @@ class Metrics(BaseAPIComponent):
 
             metrics.append(transport_models.s.Metric(name=m.name, value=m.tr_value, m_type=m_type))
 
-        resp = self._http_client.post(
+        self._http_client.post(
             paths_gen.Metrics.DECLARE_CUSTOM_METRICS,
-            transport_models.s.FeedbackResponse,
+            transport_models.EmptyPayload,
             transport_models.s.DeclareCustomMetrics(metrics=metrics, metrics_id=self._correlation_id))
 
-        self._topic = topics_gen.CustomMetrics.CUSTOM_METRIC.format(correlation_id=resp.feedback_id)
         setattr(inst, '_metrics_queue', self._metrics_queue)
