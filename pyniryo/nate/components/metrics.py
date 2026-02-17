@@ -9,39 +9,30 @@ from pyniryo.nate.components import BaseAPIComponent
 from .._internal.const import NULL_TOPIC
 from .._internal.http import HttpClient
 from .._internal.mqtt import MqttClient
-from .._internal.transport_models.models_gen import DeclareCustomMetric
 
 logger = logging.getLogger(__name__)
 
 T = TypeVar('T', bound=str | int | float | bool | datetime | timedelta)
 
-
-def _type_to_mtype(t: type) -> transport_models.s.MType:
-    if t is str:
-        return transport_models.s.MType.STRING
-    elif t is int:
-        return transport_models.s.MType.INT
-    elif t is float:
-        return transport_models.s.MType.FLOAT
-    elif t is bool:
-        return transport_models.s.MType.BOOL
-    elif t is datetime:
-        return transport_models.s.MType.DATETIME
-    elif t is timedelta:
-        return transport_models.s.MType.DURATION
-    else:
-        raise TypeError(f'Unsupported type {t}')
+_type_bindings = {
+    str: transport_models.s.MType.STRING,
+    int: transport_models.s.MType.INT,
+    float: transport_models.s.MType.FLOAT,
+    bool: transport_models.s.MType.BOOL,
+    datetime: transport_models.s.MType.DATETIME,
+    timedelta: transport_models.s.MType.DURATION
+}
 
 
 class Metric:
 
     def __init__(self, name: str, init_value: T, _type: Type[T]) -> None:
-        self._name = name
-        self._value = init_value
-        self._type = _type
+        self.name = name
+        self.value = init_value
+        self.type = _type
 
         if _type not in [str, int, float, bool, datetime, timedelta]:
-            raise TypeError(f'Unsupported type {self._type}')
+            raise TypeError(f'Unsupported type {self.type}')
 
         self.private_name = None
 
@@ -58,14 +49,23 @@ class Metric:
         if queue is None:
             raise RuntimeError(
                 "Unable to publish the metric update. Make sure to register the metrics before using it.")
-        queue.put(transport_models.a.CustomMetric(name=self._name, value=str(value)))
+        queue.put(self)
 
         setattr(instance, self.private_name, value)
+
+    @property
+    def tr_value(self) -> str:
+        if self.type is datetime:
+            return self.value.isoformat()
+        elif self.type is timedelta:
+            return str(self.value.total_seconds())
+        else:
+            return str(self.value)
 
 
 class Metrics(BaseAPIComponent):
 
-    _metrics_queue: Queue[transport_models.a.CustomMetric | None]
+    _metrics_queue: Queue[Metric | None]
 
     def __init__(self, http_client: HttpClient, mqtt_client: MqttClient) -> None:
         super().__init__(http_client, mqtt_client)
@@ -83,7 +83,8 @@ class Metrics(BaseAPIComponent):
             try:
                 if metric is None:
                     break
-                self._mqtt_client.publish(self._topic, metric)
+                self._mqtt_client.publish(self._topic,
+                                          transport_models.a.CustomMetric(name=metric.name, value=metric.tr_value))
             except Exception as e:
                 logger.error(f'Failed to publish metric update: {e}')
             finally:
@@ -97,10 +98,11 @@ class Metrics(BaseAPIComponent):
         for m in vars(type(inst)).values():
             if not isinstance(m, Metric):
                 continue
-            metrics.append(
-                transport_models.s.DeclareCustomMetric(name=m._name,
-                                                       value=str(m._value),
-                                                       m_type=_type_to_mtype(m._type)))
+            m_type = _type_bindings.get(m.type)
+            if m_type is None:
+                raise TypeError(f'Unsupported type {m.type} for metric {m.name}')
+
+            metrics.append(transport_models.s.DeclareCustomMetric(name=m.name, value=m.tr_value, m_type=m_type))
 
         logger.info(f'metrics: {metrics}')
         resp = self._http_client.post(paths_gen.Metrics.DECLARE_CUSTOM_METRICS,
