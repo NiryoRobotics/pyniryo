@@ -21,9 +21,9 @@ base_execution = models.ProgramExecution(
     id=str(uuid4()),
     program_id=base_program.id,
     context=models.ProgramExecutionContext(environment={}, arguments=[]),
-    startedAt=datetime.now(),
-    finishedAt=datetime.now(),
-    exitCode=0,
+    started_at=datetime.now(),
+    finished_at=datetime.now(),
+    exit_code=0,
 )
 
 
@@ -31,7 +31,9 @@ class TestPrograms(BaseTestComponent):
 
     def setUp(self):
         super().setUp()
-        self.programs = Programs(http_client=self.http_client, mqtt_client=self.mqtt_client, correlation_id=self.correlation_id)
+        self.programs = Programs(http_client=self.http_client,
+                                 mqtt_client=self.mqtt_client,
+                                 correlation_id=self.correlation_id)
 
     def tearDown(self):
         del self.programs
