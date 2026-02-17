@@ -4,6 +4,8 @@ from .device import Device
 from .robot import Robot, MoveCommand
 from .users import Users
 from .programs import Programs, ExecutionCommand
+from .motion_planner import MotionPlanner
+from .metrics import Metrics
 
 __all__ = [
     'Auth',
@@ -14,4 +16,6 @@ __all__ = [
     'Users',
     'Programs',
     'ExecutionCommand',
+    'MotionPlanner',
+    'Metrics',
 ]

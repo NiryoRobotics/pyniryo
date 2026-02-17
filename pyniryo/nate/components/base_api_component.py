@@ -9,14 +9,13 @@ class BaseAPIComponent(ABC):
     Base class for all API components.
     """
 
-    def __init__(self, http_client: HttpClient, mqtt_client: MqttClient):
+    def __init__(self, http_client: HttpClient, mqtt_client: MqttClient, correlation_id: str) -> None:
         self._http_client: HttpClient = http_client
         self._mqtt_client = mqtt_client
-        self._post_init()
+        self._correlation_id = correlation_id
 
-    def _post_init(self) -> None:
+    def close(self) -> None:
         """
-        Post-initialization method to be called after the component is initialized.
-        This can be overridden by subclasses to perform additional setup.
+        Close the component and release any resources if needed.
         """
         pass

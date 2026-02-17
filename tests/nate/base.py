@@ -11,6 +11,7 @@ class BaseTestComponent(unittest.TestCase):
     def setUpClass(cls):
         cls.http_client = create_autospec(HttpClient, spec_set=True, instance=True)
         cls.mqtt_client = create_autospec(MqttClient, spec_set=True, instance=True)
+        cls.correlation_id = "test-correlation-id"
 
     def setUp(self):
         self.http_client.reset_mock(return_value=True, side_effect=True)

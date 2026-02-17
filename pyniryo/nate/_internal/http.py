@@ -35,6 +35,12 @@ class HttpClient:
         if self.__insecure:
             warnings.filterwarnings('ignore', category=InsecureRequestWarning)
 
+    def disconnect(self) -> None:
+        """
+        Disconnect the HTTP client and release any resources if needed.
+        """
+        pass
+
     def set_header(self, key: str, value: str) -> None:
         """
         Set a custom header.

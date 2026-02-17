@@ -40,5 +40,8 @@ class System(StrEnum):
 class Api(StrEnum):
     METRICS = 'api/metrics'
 
+class CustomMetrics(StrEnum):
+    CUSTOM_METRIC = 'custom-metrics/{metrics_id}'
+
 class FirmwareState(StrEnum):
     FIRMWARE_STATE = 'firmware-state'

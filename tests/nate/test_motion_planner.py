@@ -11,7 +11,7 @@ class TestMotionPlanner(BaseTestComponent):
 
     def setUp(self):
         super().setUp()
-        self.motion_planner = MotionPlanner(http_client=self.http_client, mqtt_client=self.mqtt_client)
+        self.motion_planner = MotionPlanner(http_client=self.http_client, mqtt_client=self.mqtt_client, correlation_id=self.correlation_id)
 
     def tearDown(self):
         del self.motion_planner

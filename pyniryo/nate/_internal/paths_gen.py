@@ -40,6 +40,11 @@ class Ios(StrEnum):
   UPDATE_IO_STATES = '/api/io'
 
 
+class Metrics(StrEnum):
+
+  DECLARE_CUSTOM_METRICS = '/api/custom-metrics'
+
+
 class Network(StrEnum):
 
   GET_NETWORK_INTERFACES = '/api/network/interfaces'
