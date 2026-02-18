@@ -48,7 +48,7 @@ class ExecutionCommand:
             self.__status_callback,
             transport_models.s.ProgramsExecutorStatus)
 
-    def __output_callback(self, _topic: str, payload: transport_models.a.ProgramExecutionOutput):
+    def __output_callback(self, _topic: str, payload: transport_models.a.ProgramExecutionOutput) -> None:
         """
         Internal callback to handle output messages.
         """
@@ -89,8 +89,11 @@ class ExecutionCommand:
 
     def wait(self, timeout: float = -1) -> None:
         """
-        Wait for the move command to complete.
+        Wait for the program execution to complete.
+        
         :param timeout: The maximum time to wait in seconds. If negative, wait indefinitely.
+        :raises TimeoutError: If the timeout is exceeded.
+        :raises PyNiryoError: If the execution fails.
         """
         start = time.monotonic()
         while not self.status.is_final():
@@ -104,7 +107,28 @@ class ExecutionCommand:
 
 class Programs(BaseAPIComponent):
     """
-    Programs component for the API.
+    Programs component for managing and executing robot programs.
+    
+    This component provides methods for:
+    - Creating, uploading, and managing programs
+    - Executing programs with custom environment variables and arguments
+    - Monitoring program execution status and output
+    - Controlling program execution (pause, resume, stop)
+    
+    Example:
+        >>> from pyniryo.nate import Nate
+        >>> from pyniryo.nate.models import ProgramType
+        >>> 
+        >>> nate = Nate()
+        >>> 
+        >>> # Create and upload a program
+        >>> with open("my_script.py", "rb") as f:
+        ...     program = nate.programs.create("my_program", f, ProgramType.python())
+        >>> 
+        >>> # Execute the program
+        >>> execution = nate.programs.execute(program.id)
+        >>> execution.wait()
+        >>> print(f"Exit code: {execution.execution.exit_code}")
     """
 
     def get_all(self) -> list[models.Program]:
@@ -127,6 +151,12 @@ class Programs(BaseAPIComponent):
         :param program: A file-like object containing the program content.
         :param program_type: The type of the program.
         :return: The created program.
+        
+        Example:
+            >>> from pyniryo.nate.models import ProgramType
+            >>> with open("robot_script.py", "rb") as f:
+            ...     program = programs.create("MyRobotScript", f, ProgramType.python())
+            >>> print(f"Created program: {program.id}")
         """
         program = self._http_client.post(
             paths_gen.Programs.CREATE_PROGRAM,
@@ -228,7 +258,26 @@ class Programs(BaseAPIComponent):
         and a boolean indicating if it's the end of the output as parameters.
         :param on_status: Optional callback to listen the program execution status changes.
         The callback must take the new status as a parameter.
-        :return: The created program execution.
+        :return: The created program execution command.
+        
+        Example:
+            >>> # Execute with output monitoring
+            >>> def output_handler(output, eof):
+            ...     print(f"Output: {output}")
+            ...     if eof:
+            ...         print("Program finished")
+            >>> 
+            >>> def status_handler(status):
+            ...     print(f"Status changed to: {status}")
+            >>> 
+            >>> execution = programs.execute(
+            ...     program.id,
+            ...     environment={"MY_VAR": "value"},
+            ...     arguments=["arg1", "arg2"],
+            ...     on_output=output_handler,
+            ...     on_status=status_handler
+            ... )
+            >>> execution.wait()
         """
         execution_id = str(uuid4())
         execution_command = ExecutionCommand(self._mqtt_client,
@@ -248,7 +297,11 @@ class Programs(BaseAPIComponent):
         return execution_command
 
     def executor_status(self) -> models.ExecutorStatus:
-        """ Get the current status of the program executor. :return: The current status of the program executor. """
+        """
+        Get the current status of the program executor.
+        
+        :return: The current status of the program executor.
+        """
         status = self._http_client.get(paths_gen.Programs.GET_PROGRAMS_EXECUTOR_STATUS,
                                        transport_models.s.ProgramsExecutorStatus)
         return models.ExecutorStatus.from_transport_model(status.status)
@@ -259,10 +312,28 @@ class Programs(BaseAPIComponent):
                                 transport_models.s.ProgramsExecutorStatus(status=status, **kwargs))
 
     def pause(self) -> None:
+        """
+        Pause the current program execution.
+        
+        Example:
+            >>> execution = programs.execute(program.id)
+            >>> # Pause the execution
+            >>> programs.pause()
+            >>> # Resume later
+            >>> programs.resume()
+        """
         self._update_executor_status(transport_models.s.ExecutorStatus.PAUSED)
 
     def stop(self, sigkill: bool = False) -> None:
+        """
+        Stop the current program execution.
+        
+        :param sigkill: If True, force kill the program. If False, send a graceful stop signal.
+        """
         self._update_executor_status(transport_models.s.ExecutorStatus.STOPPED, sigkill=sigkill)
 
     def resume(self) -> None:
+        """
+        Resume a paused program execution.
+        """
         self._update_executor_status(transport_models.s.ExecutorStatus.RUNNING)
