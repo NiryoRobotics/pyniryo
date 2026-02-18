@@ -38,13 +38,15 @@ class Metric:
     """
 
     def __init__(self, name: str, init_value: T, _type: Type[T]) -> None:
+        if _type not in [str, int, float, bool, datetime, timedelta]:
+            raise TypeError(f'Unsupported type {_type.__name__} for metric "{name}"')
+
+        if not isinstance(init_value, _type):
+            raise TypeError(f'Initial value {init_value} does not match type {_type.__name__} for metric "{name}"')
+
         self.name = name
         self.value = init_value
         self.type = _type
-
-        if _type not in [str, int, float, bool, datetime, timedelta]:
-            raise TypeError(f'Unsupported type {self.type}')
-
         self.private_name = None
 
     def __set_name__(self, owner, name):
@@ -53,7 +55,7 @@ class Metric:
     def __get__(self, instance, owner):
         if instance is None:
             return self
-        return getattr(instance, self.private_name)
+        return getattr(instance, self.private_name, self.value)
 
     def __set__(self, instance, value):
         self.value = value
@@ -120,8 +122,11 @@ class Metrics(BaseAPIComponent):
             try:
                 if metric is None:
                     break
-                self._mqtt_client.publish(self._topic,
-                                          transport_models.a.CustomMetric(name=metric.name, value=metric.tr_value))
+                self._mqtt_client.publish(
+                    self._topic,
+                    transport_models.a.CustomMetric(name=metric.name,
+                                                    value=metric.tr_value,
+                                                    m_type=models.get_mtype(metric.type, a=True)))
             except Exception as e:
                 logger.error(f'Failed to publish metric update: {e}')
             finally:
@@ -152,11 +157,8 @@ class Metrics(BaseAPIComponent):
         for m in vars(type(inst)).values():
             if not isinstance(m, Metric):
                 continue
-            m_type = models.get_mtype(m.type)
-            if m_type is None:
-                raise TypeError(f'Unsupported type {m.type} for metric {m.name}')
-
-            metrics.append(transport_models.s.CustomMetric(name=m.name, value=m.tr_value, m_type=m_type))
+            metrics.append(
+                transport_models.s.CustomMetric(name=m.name, value=m.tr_value, m_type=models.get_mtype(m.type)))
 
         self._http_client.post(paths_gen.Metrics.DECLARE_CUSTOM_METRICS,
                                transport_models.EmptyPayload,
