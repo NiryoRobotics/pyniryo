@@ -447,7 +447,7 @@ class MoveState(StrEnum):
     """
     Enumeration of possible states during a robot move operation.
     
-    States prefixed with ERR_ indicate error conditions.
+    States prefixed with `ERR_` indicate error conditions.
     """
     UNKNOWN = "unknown"
     IDLE = "idle"
@@ -877,31 +877,33 @@ class ExecutorStatus(StrEnum):
         return transport_models.s.ExecutorStatus(self.value)
 
 
-_type_bindings: dict[type, transport_models.s.MType] = {
-    str: transport_models.s.MType.STRING,
-    int: transport_models.s.MType.INT,
-    float: transport_models.s.MType.FLOAT,
-    bool: transport_models.s.MType.BOOL,
-    datetime: transport_models.s.MType.DATETIME,
-    timedelta: transport_models.s.MType.DURATION
-}
-_type_bindings_reverse: dict[transport_models.s.MType, type] = {v: k for k, v in _type_bindings.items()}
-
-
-def get_mtype(_type: type) -> transport_models.s.MType:
+def get_mtype(_type: type, a: bool = False) -> transport_models.s.MType:
     """
     Get the MType corresponding to a Python type for metrics.
     
     :param _type: The Python type.
+    :param a: Whether to return the asynchronous MType variant.
     :return: The corresponding MType enum value.
     :raises TypeError: If the type is not supported for metrics.
     """
-    if _type not in _type_bindings:
+    tr_model = transport_models.a if a else transport_models.s
+    if _type is str:
+        return tr_model.MType.STRING
+    elif _type is int:
+        return tr_model.MType.INT
+    elif _type is float:
+        return tr_model.MType.FLOAT
+    elif _type is bool:
+        return tr_model.MType.BOOL
+    elif _type is datetime:
+        return tr_model.MType.DATETIME
+    elif _type is timedelta:
+        return tr_model.MType.DURATION
+    else:
         raise TypeError(f"Unsupported metric type: {_type}")
-    return _type_bindings[_type]
 
 
-def parse_mtype(mtype: transport_models.s.MType) -> type:
+def parse_mtype(mtype: transport_models.s.MType | transport_models.a.MType) -> type:
     """
     Parse an MType to get the corresponding Python type.
     
@@ -909,9 +911,21 @@ def parse_mtype(mtype: transport_models.s.MType) -> type:
     :return: The corresponding Python type.
     :raises TypeError: If the MType is not recognized.
     """
-    if mtype not in _type_bindings_reverse:
-        raise TypeError(f"Unsupported MType: {mtype}")
-    return _type_bindings_reverse[mtype]
+    tr_model = transport_models.a if isinstance(mtype, transport_models.a.MType) else transport_models.s
+    if mtype is tr_model.MType.STRING:
+        return str
+    elif mtype is tr_model.MType.INT:
+        return int
+    elif mtype is tr_model.MType.FLOAT:
+        return float
+    elif mtype is tr_model.MType.BOOL:
+        return bool
+    elif mtype is tr_model.MType.DATETIME:
+        return datetime
+    elif mtype is tr_model.MType.DURATION:
+        return timedelta
+    else:
+        raise TypeError(f"Unsupported metric type: {mtype}")
 
 
 @dataclass
@@ -929,7 +943,7 @@ class Metric:
 
     @classmethod
     def from_transport_model(cls, model: transport_models.a.CustomMetric) -> 'Metric':
-        return cls(name=model.name, value=model.value, type=model.m_type)
+        return cls(name=model.name, value=model.value, type=parse_mtype(model.m_type))
 
     def to_transport_model(self) -> transport_models.a.CustomMetric:
-        return transport_models.a.CustomMetric(name=self.name, value=self.value, m_type=get_mtype(self.type))
+        return transport_models.a.CustomMetric(name=self.name, value=self.value, m_type=get_mtype(self.type, a=True))
