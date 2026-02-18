@@ -128,6 +128,12 @@ class Nate:
         self.motion_planner = MotionPlanner(self._http_client, self._mqtt_client, self._correlation_id)
         self.metrics = Metrics(self._http_client, self._mqtt_client, self._correlation_id)
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.close()
+
     def close(self):
         """
         Clean up resources used by the client, and ensure that any background tasks are properly terminated.
