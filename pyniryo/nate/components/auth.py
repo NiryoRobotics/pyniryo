@@ -11,7 +11,28 @@ UserLoggedOutCallback = Callable[[str, models.UserEvent], None]
 
 class Auth(BaseAPIComponent):
     """
-    Authentication component for the API.
+    Authentication component for managing user sessions and monitoring login/logout events.
+    
+    This component provides methods for:
+    - Logging in to obtain authentication tokens
+    - Monitoring user login and logout events via callbacks
+    
+    Example:
+        >>> from pyniryo.nate import Nate
+        >>> from datetime import datetime, timedelta
+        >>> 
+        >>> nate = Nate()
+        >>> 
+        >>> # Login to get a token
+        >>> expires = datetime.now() + timedelta(hours=24)
+        >>> token = nate.auth.login("user@example.com", "password", expires)
+        >>> print(f"Token: {token.token}")
+        >>> 
+        >>> # Monitor login events
+        >>> def on_login(user_id, event):
+        ...     print(f"User {user_id} logged in")
+        >>> 
+        >>> nate.auth.on_user_logged_in(on_login)
     """
 
     def login(self, email: str, password: str, expires_at: datetime | None = None) -> models.Token:
@@ -36,6 +57,16 @@ class Auth(BaseAPIComponent):
 
         :param callback: The callback to call. The callback must take the user ID and the payload as parameters.
         :param user_id: The user ID to listen to. If not specified, listen to all users.
+        
+        Example:
+            >>> def login_handler(user_id, event):
+            ...     print(f"User {user_id} has logged in")
+            >>> 
+            >>> # Monitor all user logins
+            >>> auth.on_user_logged_in(login_handler)
+            >>> 
+            >>> # Monitor specific user login
+            >>> auth.on_user_logged_in(login_handler, user_id="specific-user-id")
         """
         topic = topics_gen.Users.USER_LOGGED_IN.format(user_id=user_id or mqtt.SINGLE_LEVEL_WILDCARD)
 
@@ -51,6 +82,16 @@ class Auth(BaseAPIComponent):
 
         :param callback: The callback to call. The callback must take the user ID and the payload as parameters.
         :param user_id: The user ID to listen to. If not specified, listen to all users.
+        
+        Example:
+            >>> def logout_handler(user_id, event):
+            ...     print(f"User {user_id} has logged out")
+            >>> 
+            >>> # Monitor all user logouts
+            >>> auth.on_user_logged_out(logout_handler)
+            >>> 
+            >>> # Monitor specific user logout
+            >>> auth.on_user_logged_out(logout_handler, user_id="specific-user-id")
         """
         topic = f'users/{user_id or mqtt.SINGLE_LEVEL_WILDCARD}/logged-out'
 

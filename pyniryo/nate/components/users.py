@@ -8,6 +8,32 @@ from .._internal.transport_models import EmptyPayload
 
 
 class Users(BaseAPIComponent):
+    """
+    Users component for managing user accounts.
+    
+    This component provides methods for:
+    - Creating, retrieving, updating, and deleting users
+    - Managing user tokens
+    - Updating user passwords
+    
+    Example:
+        >>> from pyniryo.nate import Nate
+        >>> 
+        >>> nate = Nate()
+        >>> 
+        >>> # Get all users
+        >>> users = nate.users.get_all()
+        >>> for user in users:
+        ...     print(f"{user.name} ({user.login}): {user.role.name}")
+        >>> 
+        >>> # Create a new user
+        >>> new_user = nate.users.create(
+        ...     email="newuser@example.com",
+        ...     name="New User",
+        ...     role_id=2,
+        ...     password="securepassword"
+        ... )
+    """
 
     def get_all(self) -> list[models.User]:
         """
@@ -29,6 +55,16 @@ class Users(BaseAPIComponent):
         :param name: The name of the user.
         :param role_id: The role ID of the user.
         :param password: The password of the user.
+        :return: The created user.
+        
+        Example:
+            >>> user = users.create(
+            ...     email="operator@example.com",
+            ...     name="Robot Operator",
+            ...     role_id=2,
+            ...     password="secure123"
+            ... )
+            >>> print(f"Created user: {user.id}")
         """
         user = self._http_client.post(
             paths_gen.Authentication.CREATE_USER,
@@ -96,6 +132,12 @@ class Users(BaseAPIComponent):
         :param user_id: The ID of the user.
         :param expires_at: The expiration date of the token.
         :return: The created token.
+        
+        Example:
+            >>> from datetime import datetime, timedelta
+            >>> expires = datetime.now() + timedelta(days=30)
+            >>> token = users.create_token(user.id, expires)
+            >>> print(f"Token: {token.token}")
         """
         token = self._http_client.post(
             paths_gen.Authentication.CREATE_USER_TOKEN.format(user_id=user_id),

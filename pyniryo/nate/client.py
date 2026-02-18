@@ -18,6 +18,16 @@ _C = TypeVar("_C", bound=BaseAPIComponent)
 
 
 def _fetch_from_env(key: str, _type: Type[_T], default: _T) -> _T:
+    """
+    Fetch a value from environment variables and convert it to the specified type.
+    
+    :param key: The environment variable key.
+    :param _type: The target type to convert to.
+    :param default: The default value if the environment variable is not set.
+    :return: The converted value or the default.
+    :raises ValueError: If the conversion fails.
+    :raises TypeError: If the type is not supported.
+    """
     value = os.getenv(key)
 
     if value is None:
@@ -153,6 +163,12 @@ class Nate:
 
 
 class TokenRenewer:
+    """
+    Manages automatic token renewal in the background.
+    
+    This class runs a background timer that periodically renews authentication tokens
+    to ensure continuous access to the API.
+    """
 
     def __init__(self,
                  provider: Callable[[timedelta], transport_models.s.Token],
@@ -164,9 +180,15 @@ class TokenRenewer:
         self._timer = None
 
     def start(self):
+        """
+        Start the token renewal timer.
+        """
         self._setup_timer()
 
     def stop(self):
+        """
+        Stop the token renewal timer and cancel any pending renewals.
+        """
         if self._timer is not None:
             self._timer.cancel()
             self._timer = None

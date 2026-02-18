@@ -15,6 +15,12 @@ from .exceptions import PyNiryoError, GenerateTrajectoryError, LoadTrajectoryErr
 
 @dataclass
 class Role:
+    """
+    Represents a user role in the system.
+    
+    :param id: The unique identifier of the role.
+    :param name: The name of the role.
+    """
     id: int
     name: str
 
@@ -31,6 +37,14 @@ class Role:
 
 @dataclass
 class User:
+    """
+    Represents a user in the system.
+    
+    :param id: The unique identifier of the user.
+    :param login: The login/email of the user.
+    :param name: The display name of the user.
+    :param role: The role assigned to the user.
+    """
     id: str
     login: str
     name: str
@@ -54,6 +68,14 @@ class User:
 
 @dataclass
 class Token:
+    """
+    Represents an authentication token.
+    
+    :param id: The unique identifier of the token.
+    :param expires_at: The expiration date and time of the token.
+    :param created_at: The creation date and time of the token.
+    :param token: The token string used for authentication.
+    """
     id: UUID
     expires_at: datetime
     created_at: datetime
@@ -77,6 +99,19 @@ class Token:
 
 @dataclass
 class UserEvent:
+    """
+    Represents an event related to user actions (login, logout, etc.).
+    
+    This class is used to capture user authentication events that occur in the system.
+    Events are typically received through MQTT callbacks when monitoring user login
+    and logout activities.
+    
+    Example:
+        >>> def on_login(user_id, event):
+        ...     print(f"User {user_id} logged in")
+        >>> 
+        >>> nate.auth.on_user_logged_in(on_login)
+    """
 
     @classmethod
     def from_transport_model(cls, model: transport_models.a.UserEvent) -> 'UserEvent':
@@ -87,6 +122,19 @@ class UserEvent:
 
 
 class Joints(UserList[float]):
+    """
+    Represents joint positions for a robot.
+    
+    A list of float values representing the position of each joint in radians.
+    Can optionally include timestamp and velocity information.
+    
+    :param joints: Variable number of joint positions (in radians).
+    
+    Example:
+        >>> joints = Joints(0.0, -1.57, 1.57, 0.0, 0.0, 0.0)
+        >>> print(joints[0])  # Access first joint
+        0.0
+    """
     timestamp: int | None = None
     velocities: list[float] | None = None
 
@@ -115,6 +163,13 @@ class Joints(UserList[float]):
 
 @dataclass
 class Point:
+    """
+    Represents a 3D point in Cartesian space.
+    
+    :param x: The x-coordinate in meters.
+    :param y: The y-coordinate in meters.
+    :param z: The z-coordinate in meters.
+    """
     x: float
     y: float
     z: float
@@ -129,6 +184,14 @@ class Point:
 
 @dataclass
 class Quaternion:
+    """
+    Represents orientation using quaternion representation.
+    
+    :param x: The x component of the quaternion.
+    :param y: The y component of the quaternion.
+    :param z: The z component of the quaternion.
+    :param w: The w (scalar) component of the quaternion.
+    """
     x: float
     y: float
     z: float
@@ -144,11 +207,23 @@ class Quaternion:
 
 @dataclass
 class EulerAngles:
+    """
+    Represents orientation using Euler angles (roll, pitch, yaw).
+    
+    :param roll: Rotation around the x-axis in radians.
+    :param pitch: Rotation around the y-axis in radians.
+    :param yaw: Rotation around the z-axis in radians.
+    """
     roll: float
     pitch: float
     yaw: float
 
     def to_quaternion(self) -> Quaternion:
+        """
+        Convert Euler angles to quaternion representation.
+        
+        :return: The equivalent Quaternion representation.
+        """
         cy = math.cos(self.yaw * 0.5)
         sy = math.sin(self.yaw * 0.5)
         cp = math.cos(self.pitch * 0.5)
@@ -194,6 +269,16 @@ class Pose:
 
 
 class Planner(StrEnum):
+    """
+    Enumeration of available motion planners.
+    
+    - RRT_CONNECT: RRT-Connect planner for complex paths.
+    - RRT_STAR: RRT* planner with path optimization.
+    - PRM: Probabilistic Roadmap planner.
+    - PTP: Point-to-point planner for simple movements.
+    - LIN: Linear interpolation planner for straight-line movements.
+    - CIRC: Circular interpolation planner for arc movements.
+    """
     RRT_CONNECT = "RRTConnect"
     RRT_STAR = "RRT*"
     PRM = "PRM*"
@@ -211,6 +296,21 @@ class Planner(StrEnum):
 
 @dataclass
 class Waypoint:
+    """
+    Represents a waypoint in a robot trajectory.
+    
+    A waypoint can be defined either in joint space or Cartesian space (or both).
+    If both are provided, joint values take priority.
+    
+    :param joints: Target joint positions (optional).
+    :param pose: Target pose in Cartesian space (optional).
+    :param frame_id: The reference frame for the pose (optional).
+    :param reference_frame: Alternative reference frame specification (optional).
+    :param planner: The motion planner to use for reaching this waypoint (optional).
+    :param blending_radius: Radius for path blending at this waypoint in meters (optional).
+    :param velocity_factor: Scaling factor for velocity (0.0 to 1.0, optional).
+    :param acceleration_factor: Scaling factor for acceleration (0.0 to 1.0, optional).
+    """
     joints: Optional[Joints] = None
     pose: Optional[Pose] = None
     frame_id: Optional[str] = None
@@ -247,6 +347,23 @@ class Waypoint:
 
 
 class Waypoints(UserList[Waypoint]):
+    """
+    A list of Waypoint objects representing a sequence of target positions.
+    
+    This class extends UserList to provide a convenient container for managing
+    multiple waypoints in a robot trajectory. It can be used with the robot.move()
+    method to execute complex multi-point movements.
+    
+    Example:
+        >>> from pyniryo.nate.models import Waypoint, Waypoints, Joints, Planner
+        >>> waypoints = Waypoints([
+        ...     Waypoint(joints=Joints(0, 0, 0, 0, 0, 0)),
+        ...     Waypoint(joints=Joints(1, -1, 1, 0, 0, 0), planner=Planner.LIN),
+        ...     Waypoint(joints=Joints(-1, -1, 1, 0, 0, 0))
+        ... ])
+        >>> cmd = robot.move(waypoints)
+        >>> cmd.wait()
+    """
 
     @classmethod
     def from_transport_model(cls, model: list[transport_models.s.Waypoint]) -> 'Waypoints':
@@ -258,6 +375,14 @@ class Waypoints(UserList[Waypoint]):
 
 @dataclass
 class JointsStamped:
+    """
+    Represents joint positions with associated timing and dynamic information.
+    
+    :param joints: The joint positions.
+    :param timestamp: Time in seconds since the start of the trajectory.
+    :param velocities: Joint velocities at this timestamp (optional).
+    :param accelerations: Joint accelerations at this timestamp (optional).
+    """
     joints: Joints
     timestamp: float
     velocities: list[float] | None
@@ -283,7 +408,28 @@ class JointsStamped:
 
 class Trajectory(UserList[JointsStamped]):
     """
-    A sequence of JointsStamped objects.
+    A sequence of JointsStamped objects representing a time-parameterized robot trajectory.
+    
+    This class represents a complete trajectory with joint positions, velocities, and
+    accelerations at each timestep. Trajectories are typically generated by the motion
+    planner and can be executed directly on the robot for smooth, optimized motion.
+    
+    Each element in the trajectory contains:
+    - Joint positions at a specific timestamp
+    - Optional velocities and accelerations
+    - Timing information relative to trajectory start
+    
+    Example:
+        >>> # Generate a trajectory from waypoints
+        >>> waypoints = Waypoints([
+        ...     Waypoint(joints=Joints(0, 0, 0, 0, 0, 0)),
+        ...     Waypoint(joints=Joints(1, -1, 1, 0, 0, 0))
+        ... ])
+        >>> trajectory = motion_planner.generate_trajectory(waypoints)
+        >>> 
+        >>> # Execute the trajectory
+        >>> cmd = robot.execute_trajectory(trajectory)
+        >>> cmd.wait()
     """
 
     @classmethod
@@ -298,6 +444,11 @@ MoveTarget = Pose | Joints | Waypoint | Waypoints
 
 
 class MoveState(StrEnum):
+    """
+    Enumeration of possible states during a robot move operation.
+    
+    States prefixed with ERR_ indicate error conditions.
+    """
     UNKNOWN = "unknown"
     IDLE = "idle"
     PREPARING = "preparing"
@@ -312,12 +463,28 @@ class MoveState(StrEnum):
     PAUSED = "paused"
 
     def is_error(self) -> bool:
+        """
+        Check if this state represents an error condition.
+        
+        :return: True if the state is an error state, False otherwise.
+        """
         return self.name.startswith("ERR_")
 
     def is_final(self) -> bool:
+        """
+        Check if this state represents a final state (done or error).
+        
+        :return: True if the state is final, False otherwise.
+        """
         return self == MoveState.DONE or self.is_error()
 
     def get_exception(self) -> Type[PyNiryoError]:
+        """
+        Get the exception class associated with this error state.
+        
+        :return: The exception class to raise for this error state.
+        :raises ValueError: If this state is not an error state.
+        """
         if not self.is_error():
             raise ValueError(f"MoveState {self} does not represent an error state.")
         match self:
@@ -333,6 +500,12 @@ class MoveState(StrEnum):
 
 @dataclass
 class MoveFeedback:
+    """
+    Represents feedback information during a move operation.
+    
+    :param state: The current state of the move operation.
+    :param message: A descriptive message about the current state.
+    """
     state: MoveState
     message: str
 
@@ -348,6 +521,9 @@ class MoveFeedback:
 
 
 class ProgramType(StrEnum):
+    """
+    Enumeration of supported program types and Python versions.
+    """
     PYTHON39 = 'python3.9'
     PYTHON310 = 'python3.10'
     PYTHON311 = 'python3.11'
@@ -378,6 +554,13 @@ class ProgramType(StrEnum):
 
 @dataclass
 class Program:
+    """
+    Represents a program stored on the robot.
+    
+    :param id: The unique identifier of the program.
+    :param name: The name of the program.
+    :param type: The type/version of the program.
+    """
     id: str
     name: str
     type: ProgramType
@@ -400,6 +583,12 @@ class Program:
 
 @dataclass
 class ProgramExecutionContext:
+    """
+    Represents the execution context for a program.
+    
+    :param environment: Environment variables to set for the program execution.
+    :param arguments: Command-line arguments to pass to the program.
+    """
     environment: dict[str, str]
     arguments: list[str]
 
@@ -419,6 +608,16 @@ class ProgramExecutionContext:
 
 @dataclass
 class ProgramExecution:
+    """
+    Represents a program execution instance.
+    
+    :param id: The unique identifier of the execution.
+    :param program_id: The ID of the program being executed.
+    :param context: The execution context (environment variables and arguments).
+    :param started_at: When the execution started.
+    :param finished_at: When the execution finished.
+    :param exit_code: The exit code of the program execution.
+    """
     id: str
     program_id: str
     context: ProgramExecutionContext
@@ -448,6 +647,12 @@ class ProgramExecution:
 
 @dataclass
 class ExecutionOutput:
+    """
+    Represents output from a program execution.
+    
+    :param output: The output text from the program.
+    :param eof: Whether this is the end of the output stream.
+    """
     output: str
     eof: bool
 
@@ -460,6 +665,9 @@ class ExecutionOutput:
 
 
 class ExecutionStatusStatus(StrEnum):
+    """
+    Enumeration of program execution statuses.
+    """
     RUNNING = 'running'
     COMPLETED = 'completed'
     FAILED = 'failed'
@@ -467,9 +675,19 @@ class ExecutionStatusStatus(StrEnum):
     STOPPED = 'stopped'
 
     def is_error(self) -> bool:
+        """
+        Check if this status represents an error condition.
+        
+        :return: True if the status indicates failure, False otherwise.
+        """
         return self == ExecutionStatusStatus.FAILED
 
     def is_final(self) -> bool:
+        """
+        Check if this status represents a final state.
+        
+        :return: True if the status is final (completed or failed), False otherwise.
+        """
         return self == ExecutionStatusStatus.COMPLETED or self.is_error()
 
     @classmethod
@@ -482,6 +700,11 @@ class ExecutionStatusStatus(StrEnum):
 
 @dataclass
 class ExecutionStatus:
+    """
+    Represents the current status of a program execution.
+    
+    :param status: The current execution status.
+    """
     status: ExecutionStatusStatus
 
     @classmethod
@@ -494,6 +717,16 @@ class ExecutionStatus:
 
 @dataclass
 class PID:
+    """
+    Represents PID controller gains.
+    
+    :param p: Proportional gain.
+    :param i: Integral gain.
+    :param d: Derivative gain.
+    :param ff: Feed-forward gain.
+    :param max_i: Maximum integral term value.
+    :param max_out: Maximum output value.
+    """
     p: float
     i: float
     d: float
@@ -516,6 +749,19 @@ class PID:
 
 @dataclass
 class JointConfiguration:
+    """
+    Represents the configuration of a single robot joint.
+    
+    :param name: The name of the joint.
+    :param type: The type of joint (e.g., revolute, prismatic).
+    :param position_limit_min: Minimum position limit.
+    :param position_limit_max: Maximum position limit.
+    :param velocity_limit: Maximum velocity.
+    :param acceleration_limit: Maximum acceleration.
+    :param effort_limit: Maximum effort/torque.
+    :param pid_position: PID gains for position control (optional).
+    :param pid_velocity: PID gains for velocity control (optional).
+    """
     name: str
     type: str
     position_limit_min: float
@@ -556,6 +802,13 @@ class JointConfiguration:
 
 @dataclass
 class RobotConfiguration:
+    """
+    Represents the complete configuration of a robot.
+    
+    :param name: The name of the robot.
+    :param n_joint: The number of joints.
+    :param joints: List of configurations for each joint.
+    """
     name: str
     n_joint: int
     joints: list[JointConfiguration]
@@ -577,6 +830,13 @@ class RobotConfiguration:
 
 
 class ControlMode(Enum):
+    """
+    Enumeration of robot control modes.
+    
+    - TRAJECTORY: Follow pre-planned trajectories.
+    - JOG: Manual jogging control.
+    - SPEED: Direct speed control.
+    """
     TRAJECTORY = 1
     JOG = 2
     SPEED = 3
@@ -599,6 +859,9 @@ class ControlMode(Enum):
 
 
 class ExecutorStatus(StrEnum):
+    """
+    Enumeration of executor statuses for trajectories and programs.
+    """
     PENDING = 'pending'
     RUNNING = 'running'
     COMPLETED = 'completed'
@@ -626,12 +889,26 @@ _type_bindings_reverse: dict[transport_models.s.MType, type] = {v: k for k, v in
 
 
 def get_mtype(_type: type) -> transport_models.s.MType:
+    """
+    Get the MType corresponding to a Python type for metrics.
+    
+    :param _type: The Python type.
+    :return: The corresponding MType enum value.
+    :raises TypeError: If the type is not supported for metrics.
+    """
     if _type not in _type_bindings:
         raise TypeError(f"Unsupported metric type: {_type}")
     return _type_bindings[_type]
 
 
 def parse_mtype(mtype: transport_models.s.MType) -> type:
+    """
+    Parse an MType to get the corresponding Python type.
+    
+    :param mtype: The MType enum value.
+    :return: The corresponding Python type.
+    :raises TypeError: If the MType is not recognized.
+    """
     if mtype not in _type_bindings_reverse:
         raise TypeError(f"Unsupported MType: {mtype}")
     return _type_bindings_reverse[mtype]
@@ -639,6 +916,13 @@ def parse_mtype(mtype: transport_models.s.MType) -> type:
 
 @dataclass
 class Metric:
+    """
+    Represents a custom metric.
+    
+    :param name: The name of the metric.
+    :param value: The value of the metric as a string.
+    :param type: The Python type of the metric value.
+    """
     name: str
     value: str
     type: type
