@@ -193,6 +193,7 @@ class TestMetrics(BaseTestComponent):
 
         # Verify metrics_queue was set on instance
         self.assertIsNotNone(getattr(holder, '_metrics_queue', None))
+        self.assertEqual(self.metrics._metrics_queue.qsize(), 1)  # The initial value of the metric should be queued
 
     def test_register_metrics_multiple_metrics(self):
         """Test registering an object with multiple metrics."""
@@ -214,6 +215,7 @@ class TestMetrics(BaseTestComponent):
 
         metric_names = {m.name for m in request.metrics}
         self.assertEqual(metric_names, {"temperature", "humidity", "status", "is_active"})
+        self.assertEqual(self.metrics._metrics_queue.qsize(), 4)  # The initial valued of the metricd should be queued
 
     def test_register_metrics_with_datetime_and_timedelta(self):
         """Test registering metrics with datetime and timedelta types."""
@@ -314,7 +316,7 @@ class TestMetrics(BaseTestComponent):
         holder.counter = 2
 
         # Verify multiple metrics were queued
-        self.assertEqual(self.metrics._metrics_queue.qsize(), 3)
+        self.assertEqual(self.metrics._metrics_queue.qsize(), 5)
 
     def test_process_metrics_queue_handles_exceptions(self):
         """Test that _process_metrics_queue handles exceptions gracefully."""
@@ -353,7 +355,7 @@ class TestMetrics(BaseTestComponent):
             self.metrics.close()
 
         # Verify that items were queued (5 updates + 1 None sentinel)
-        self.assertEqual(self.metrics._metrics_queue.qsize(), 6)
+        self.assertEqual(self.metrics._metrics_queue.qsize(), 1 + 5 + 1)  # initial value + 5 updates + None sentinel
 
     def test_get_metrics_single_metric(self):
         """Test getting a single metric."""
@@ -510,7 +512,7 @@ class TestMetricIntegration(BaseTestComponent):
         robot_metrics.is_moving = True
 
         # Verify updates were queued
-        self.assertEqual(self.metrics._metrics_queue.qsize(), 3)
+        self.assertEqual(self.metrics._metrics_queue.qsize(), 6)  # 3 updates + 3 initial values
 
     def test_metric_descriptor_lifecycle(self):
         """Test metric descriptor through full lifecycle."""
@@ -535,8 +537,7 @@ class TestMetricIntegration(BaseTestComponent):
         for i in range(1, 6):
             counter.value = i * 10
 
-        # Verify all updates were queued (1 initial + 1 update to 10 + 5 loop updates = 7)
-        self.assertEqual(self.metrics._metrics_queue.qsize(), 7)
+        self.assertEqual(self.metrics._metrics_queue.qsize(), 8)
 
 
 if __name__ == "__main__":
