@@ -153,16 +153,17 @@ class Metrics(BaseAPIComponent):
             >>> # Now updates are published automatically
             >>> my_metrics.count = 10
         """
-        metrics = []
-        for m in vars(type(inst)).values():
-            if not isinstance(m, Metric):
-                continue
-            metrics.append(
-                transport_models.s.CustomMetric(name=m.name, value=m.tr_value, m_type=models.get_mtype(m.type)))
-
+        metrics = [m for m in vars(type(inst)).values() if isinstance(m, Metric)]
+        tr_metrics = [
+            transport_models.s.CustomMetric(name=m.name, value=m.tr_value, m_type=models.get_mtype(m.type))
+            for m in metrics
+        ]
         self._http_client.post(paths_gen.Metrics.DECLARE_CUSTOM_METRICS,
                                transport_models.EmptyPayload,
-                               transport_models.s.CustomMetrics(metrics=metrics, metrics_id=self._correlation_id))
+                               transport_models.s.CustomMetrics(metrics=tr_metrics, metrics_id=self._correlation_id))
+
+        for m in metrics:
+            self._metrics_queue.put(m)
 
         setattr(inst, '_metrics_queue', self._metrics_queue)
 
