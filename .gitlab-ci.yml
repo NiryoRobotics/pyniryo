@@ -97,6 +97,8 @@ docker-build:
     - docker buildx build
         --provenance=false
         --platform linux/amd64,linux/arm64
+        --cache-from $CI_REGISTRY_IMAGE:cache
+        --cache-to type=registry,ref=$CI_REGISTRY_IMAGE:cache,mode=max
         --build-arg PYTHON_VERSION=${PYTHON_VERSION}
         --build-arg OPENCV_HEADLESS_VERSION=4.12.0.88
         -f .docker/Dockerfile
