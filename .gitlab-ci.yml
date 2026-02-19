@@ -79,7 +79,6 @@ docker-build:
     default: false
   tags:
     - aws
-    - arm
   before_script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - >
