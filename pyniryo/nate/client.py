@@ -76,6 +76,8 @@ class Nate:
         username, password = login
         username = _fetch_from_env('NATE_USERNAME', str, username)
         password = _fetch_from_env('NATE_PASSWORD', str, password)
+        if username is None or password is None:
+            raise ValueError("both username and password must be provided for authentication")
 
         # Advanced options, not exposed in the constructor.
         http_port = _fetch_from_env('NATE_HTTP_PORT', int, DEFAULT_HTTP_PORT)
