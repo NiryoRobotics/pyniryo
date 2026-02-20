@@ -59,7 +59,7 @@ class Nate:
     motion_planner: MotionPlanner
     metrics: Metrics
 
-    def __init__(self, hostname: str | None = None, login: tuple[str, str] = None):
+    def __init__(self, hostname: str | None = None, login: tuple[str, str] = (None, None)):
         """
         Initialize a client to communicate with the Nate API.
         
@@ -69,8 +69,13 @@ class Nate:
         :param login: A tuple containing the username and password to use for authentication. Omitted if using an auth token.
             If None, retrieve them from the environment variables NATE_USERNAME and NATE_PASSWORD.
         """
-        hostname = hostname or os.getenv('NATE_HOSTNAME') or 'localhost'
-        login = login or (os.getenv('NATE_USERNAME'), os.getenv('NATE_PASSWORD'))
+        hostname = _fetch_from_env('NATE_HOSTNAME', str, hostname) or 'localhost'
+
+        if len(login) != 2:
+            raise ValueError("authentication with username and password requires both username and password")
+        username, password = login
+        username = _fetch_from_env('NATE_USERNAME', str, username)
+        password = _fetch_from_env('NATE_PASSWORD', str, password)
 
         # Advanced options, not exposed in the constructor.
         http_port = _fetch_from_env('NATE_HTTP_PORT', int, DEFAULT_HTTP_PORT)
@@ -100,10 +105,6 @@ class Nate:
             self._http_client.set_header('Execution-Token', execution_token)
 
         # Token
-        if len(login) != 2 or None in login:
-            raise ValueError("authentication with username and password requires both username and password")
-        username, password = login
-
         def token_provider(validity: timedelta) -> transport_models.s.Token:
             return self._http_client.post(
                 paths_gen.Authentication.LOGIN,
