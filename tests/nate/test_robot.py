@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 from unittest.mock import MagicMock, patch
 from uuid import uuid4
 
-from pyniryo.nate import models
+from pyniryo.nate.models import robot, geometry, motion
 from pyniryo.nate._internal import transport_models, paths_gen, topics_gen
 from pyniryo.nate.components.robot import Robot, MoveCommand
 from pyniryo.nate.exceptions import GenerateTrajectoryError
@@ -16,7 +16,9 @@ class TestRobot(BaseTestComponent):
 
     def setUp(self):
         super().setUp()
-        self.robot = Robot(http_client=self.http_client, mqtt_client=self.mqtt_client, correlation_id=self.correlation_id)
+        self.robot = Robot(http_client=self.http_client,
+                           mqtt_client=self.mqtt_client,
+                           correlation_id=self.correlation_id)
 
     def tearDown(self):
         del self.robot
@@ -29,7 +31,7 @@ class TestRobot(BaseTestComponent):
         joints = self.robot.get_joints()
 
         self.http_client.get.assert_called_once_with(paths_gen.Robot.GET_ROBOT_JOINTS, transport_models.s.Joints)
-        self.assertIsInstance(joints, models.Joints)
+        self.assertIsInstance(joints, geometry.Joints)
         self.assertEqual(joints.data, joint_values)
 
     def test_on_joints(self):
@@ -49,7 +51,7 @@ class TestRobot(BaseTestComponent):
 
         callback.assert_called_once()
         called_joints = callback.call_args[0][0]
-        self.assertIsInstance(called_joints, models.Joints)
+        self.assertIsInstance(called_joints, geometry.Joints)
         self.assertEqual(called_joints.data, joint_values)
 
     def test_get_all_frames(self):
@@ -73,7 +75,7 @@ class TestRobot(BaseTestComponent):
 
         self.http_client.get.assert_called_once_with(paths_gen.Robot.GET_FRAME_POSE.format(frame_id=frame_id),
                                                      transport_models.s.Pose)
-        self.assertIsInstance(pose, models.Pose)
+        self.assertIsInstance(pose, geometry.Pose)
         self.assertEqual(pose.position.x, 0.1)
 
     def test_on_frame_pose(self):
@@ -95,12 +97,12 @@ class TestRobot(BaseTestComponent):
 
         callback.assert_called_once()
         called_pose = callback.call_args[0][0]
-        self.assertIsInstance(called_pose, models.Pose)
+        self.assertIsInstance(called_pose, geometry.Pose)
 
     def test_move_with_joints(self):
         """Test moving with joint target."""
         command_id = str(uuid4())
-        joints = models.Joints(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+        joints = geometry.Joints(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
         self.http_client.post.return_value = transport_models.s.FeedbackResponse(feedback_id=command_id)
 
         move_cmd = self.robot.move(joints)
@@ -119,8 +121,8 @@ class TestRobot(BaseTestComponent):
     def test_move_with_pose(self):
         """Test moving with pose target."""
         command_id = str(uuid4())
-        pose = models.Pose(position=models.Point(x=0.1, y=0.2, z=0.3),
-                           orientation=models.Quaternion(x=0.0, y=0.0, z=0.0, w=1.0))
+        pose = geometry.Pose(position=geometry.Point(x=0.1, y=0.2, z=0.3),
+                             orientation=geometry.Quaternion(x=0.0, y=0.0, z=0.0, w=1.0))
         self.http_client.post.return_value = transport_models.s.FeedbackResponse(feedback_id=command_id)
 
         move_cmd = self.robot.move(pose)
@@ -132,7 +134,7 @@ class TestRobot(BaseTestComponent):
     def test_move_with_waypoint(self):
         """Test moving with single waypoint target."""
         command_id = str(uuid4())
-        waypoint = models.Waypoint(joints=models.Joints(0.1, 0.2, 0.3, 0.4, 0.5, 0.6), velocity_factor=0.5)
+        waypoint = motion.Waypoint(joints=geometry.Joints(0.1, 0.2, 0.3, 0.4, 0.5, 0.6), velocity_factor=0.5)
         self.http_client.post.return_value = transport_models.s.FeedbackResponse(feedback_id=command_id)
 
         move_cmd = self.robot.move(waypoint)
@@ -144,13 +146,13 @@ class TestRobot(BaseTestComponent):
     def test_move_with_waypoints(self):
         """Test moving with multiple waypoints."""
         command_id = str(uuid4())
-        waypoints = models.Waypoints([
-            models.Waypoint(joints=models.Joints(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)),
-            models.Waypoint(joints=models.Joints(0.5, 0.5, 0.5, 0.5, 0.5, 0.5)),
+        waypoints = motion.Waypoints([
+            motion.Waypoint(joints=geometry.Joints(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)),
+            motion.Waypoint(joints=geometry.Joints(0.5, 0.5, 0.5, 0.5, 0.5, 0.5)),
         ])
         self.http_client.post.return_value = transport_models.s.FeedbackResponse(feedback_id=command_id)
 
-        move_cmd = self.robot.move(waypoints)
+        _ = self.robot.move(waypoints)
 
         request = self.http_client.post.call_args[0][2]
         self.assertEqual(len(request.waypoints), 2)
@@ -158,10 +160,10 @@ class TestRobot(BaseTestComponent):
     def test_move_with_add_start(self):
         """Test moving with add_start=True."""
         command_id = str(uuid4())
-        joints = models.Joints(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+        joints = geometry.Joints(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
         self.http_client.post.return_value = transport_models.s.FeedbackResponse(feedback_id=command_id)
 
-        move_cmd = self.robot.move(joints, add_start=True)
+        _ = self.robot.move(joints, add_start=True)
 
         request = self.http_client.post.call_args[0][2]
         self.assertTrue(request.add_start)
@@ -174,11 +176,11 @@ class TestRobot(BaseTestComponent):
     def test_execute_trajectory(self):
         """Test executing a trajectory."""
         command_id = str(uuid4())
-        joints_stamped = models.JointsStamped(joints=models.Joints(0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+        joints_stamped = motion.JointsStamped(joints=geometry.Joints(0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
                                               timestamp=0.0,
                                               velocities=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
                                               accelerations=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
-        trajectory = models.Trajectory([joints_stamped])
+        trajectory = motion.Trajectory([joints_stamped])
         self.http_client.post.return_value = transport_models.s.FeedbackResponse(feedback_id=command_id)
 
         move_cmd = self.robot.execute_trajectory(trajectory)
@@ -215,7 +217,7 @@ class TestRobot(BaseTestComponent):
         config = self.robot.get_configuration()
 
         self.http_client.get.assert_called_once_with(paths_gen.Robot.GET_ROBOT_CONFIG, transport_models.s.RobotConfig)
-        self.assertIsInstance(config, models.RobotConfiguration)
+        self.assertIsInstance(config, robot.RobotConfiguration)
         self.assertEqual(config.name, 'test_robot')
         self.assertEqual(config.n_joint, 6)
 
@@ -229,11 +231,11 @@ class TestRobot(BaseTestComponent):
 
         self.http_client.get.assert_called_once_with(paths_gen.Robot.GET_ROBOT_CONTROL_MODE,
                                                      transport_models.s.ControlMode)
-        self.assertEqual(mode, models.ControlMode.TRAJECTORY)
+        self.assertEqual(mode, robot.ControlMode.TRAJECTORY)
 
     def test_set_control_mode(self):
         """Test setting control mode."""
-        target_mode = models.ControlMode.JOG
+        target_mode = robot.ControlMode.JOG
         mock_response = transport_models.s.ControlMode(mode_name=transport_models.s.ModeName.JOG,
                                                        mode=transport_models.s.Mode(2))
         self.http_client.put.return_value = mock_response
@@ -246,7 +248,7 @@ class TestRobot(BaseTestComponent):
 
     def test_set_control_mode_failure(self):
         """Test setting control mode when it fails to set."""
-        target_mode = models.ControlMode.JOG
+        target_mode = robot.ControlMode.JOG
         # Return different mode than requested
         mock_response = transport_models.s.ControlMode(mode_name=transport_models.s.ModeName.TRAJECTORY,
                                                        mode=transport_models.s.Mode(1))
@@ -258,8 +260,8 @@ class TestRobot(BaseTestComponent):
     def test_jog_mode_context_manager(self):
         """Test jog mode context manager."""
         # Mock getting current mode
-        initial_mode = models.ControlMode.TRAJECTORY.to_transport_model()
-        jog_mode = models.ControlMode.JOG.to_transport_model()
+        initial_mode = robot.ControlMode.TRAJECTORY.to_transport_model()
+        jog_mode = robot.ControlMode.JOG.to_transport_model()
 
         self.http_client.get.return_value = initial_mode
         self.http_client.put.return_value = jog_mode
@@ -277,8 +279,8 @@ class TestRobot(BaseTestComponent):
 
     def test_jog_mode_context_manager_with_exception(self):
         """Test jog mode context manager when exception occurs."""
-        initial_mode = models.ControlMode.TRAJECTORY.to_transport_model()
-        jog_mode = models.ControlMode.JOG.to_transport_model()
+        initial_mode = robot.ControlMode.TRAJECTORY.to_transport_model()
+        jog_mode = robot.ControlMode.JOG.to_transport_model()
 
         self.http_client.get.return_value = initial_mode
         self.http_client.put.return_value = jog_mode
@@ -304,7 +306,7 @@ class TestRobot(BaseTestComponent):
 
     def test_jog_joints(self):
         """Test jogging with joint velocities."""
-        target_joints = models.Joints(0.1, 0.2, 0.3, 0.4, 0.5, 0.6)
+        target_joints = geometry.Joints(0.1, 0.2, 0.3, 0.4, 0.5, 0.6)
 
         self.robot.jog_joints(target_joints)
 
@@ -349,7 +351,7 @@ class TestRobot(BaseTestComponent):
 
         self.http_client.get.assert_called_once_with(paths_gen.Robot.GET_TRAJECTORY_EXECUTOR_STATUS,
                                                      transport_models.s.TrajectoryExecutorStatus)
-        self.assertEqual(status, models.ExecutorStatus.RUNNING)
+        self.assertEqual(status, robot.ExecutorStatus.RUNNING)
 
     def test_pause(self):
         """Test pausing trajectory execution."""
@@ -391,7 +393,7 @@ class TestMoveCommand(BaseTestComponent):
         cmd = MoveCommand(self.mqtt_client, command_id)
 
         self.assertEqual(cmd.command_id, command_id)
-        self.assertEqual(cmd.state, models.MoveState.UNKNOWN)
+        self.assertEqual(cmd.state, motion.MoveState.UNKNOWN)
 
         # Should subscribe to feedback topic
         self.mqtt_client.subscribe.assert_called_once()
@@ -418,7 +420,7 @@ class TestMoveCommand(BaseTestComponent):
         feedback = transport_models.a.MoveFeedback(state=transport_models.a.State.PREPARING, message='Preparing move')
         internal_callback(cmd.topic, feedback)
 
-        self.assertEqual(cmd.state, models.MoveState.PREPARING)
+        self.assertEqual(cmd.state, motion.MoveState.PREPARING)
 
     def test_feedback_callback_unsubscribes_on_final_state(self):
         """Test that feedback callback unsubscribes when reaching final state."""

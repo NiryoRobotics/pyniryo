@@ -21,10 +21,15 @@ class Robot(StrEnum):
     FRAME_POSE = 'robot/frames/{frame_id}/pose'
     JOINTS = 'robot/joints'
     ROBOT_MOVE_FEEDBACK = 'robot/{cmd_id}/move-feedback'
+    SPEED_FACTOR = 'robot/speed-factor'
+    SPEED_FACTOR_TARGET = 'robot/speed-factor-target'
     CONTROL_MODE = 'robot/control-mode'
 
-class IoStates(StrEnum):
-    IO_STATES = 'io-states'
+class AnalogIo(StrEnum):
+    ANALOG_IO_STATE = 'analog-io/{io_id}/state'
+
+class DigitalIo(StrEnum):
+    DIGITAL_IO_STATE = 'digital-io/{io_id}/state'
 
 class Users(StrEnum):
     USER_LOGGED_IN = 'users/{user_id}/logged-in'

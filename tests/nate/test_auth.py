@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, call, patch
 from uuid import uuid4
 
 from pyniryo.nate._internal import paths_gen, transport_models
-from pyniryo.nate import models
+from pyniryo.nate.models import auth
 from pyniryo.nate.components.auth import Auth
 
 from .base import BaseTestComponent
@@ -54,7 +54,7 @@ class TestAuth(BaseTestComponent):
 
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
         internal_callback(topic, transport_models.a.UserEvent())
-        user_callback.assert_called_once_with(user_id, models.UserEvent())
+        user_callback.assert_called_once_with(user_id, auth.UserEvent())
 
     @patch('pyniryo.nate._internal.mqtt.get_level_from_wildcard')
     def test_on_user_logged_in_any_user(self, mock_get_level):
@@ -74,7 +74,7 @@ class TestAuth(BaseTestComponent):
 
             internal_callback = self.mqtt_client.subscribe.call_args[0][1]
             internal_callback(f'users/{user_id}/logged-in', transport_models.a.UserEvent())
-            expected_calls.append(call(user_id, models.UserEvent()))
+            expected_calls.append(call(user_id, auth.UserEvent()))
 
         user_callback.assert_has_calls(expected_calls)
 
@@ -93,7 +93,7 @@ class TestAuth(BaseTestComponent):
 
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
         internal_callback(topic, transport_models.a.UserEvent())
-        user_callback.assert_called_once_with(user_id, models.UserEvent())
+        user_callback.assert_called_once_with(user_id, auth.UserEvent())
 
     @patch('pyniryo.nate._internal.mqtt.get_level_from_wildcard')
     def test_on_user_logged_out_any_user(self, mock_get_level):
@@ -113,6 +113,6 @@ class TestAuth(BaseTestComponent):
 
             internal_callback = self.mqtt_client.subscribe.call_args[0][1]
             internal_callback(f'users/{user_id}/logged-out', transport_models.a.UserEvent())
-            expected_calls.append(call(user_id, models.UserEvent()))
+            expected_calls.append(call(user_id, auth.UserEvent()))
 
         user_callback.assert_has_calls(expected_calls)

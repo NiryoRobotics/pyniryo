@@ -3,7 +3,7 @@ from io import StringIO
 from pathlib import Path
 
 from pyniryo.nate.client import Nate
-from pyniryo.nate.models import ProgramType
+from pyniryo.nate.models.programs import ProgramType
 
 logging.basicConfig(
     level=logging.INFO,  # or DEBUG

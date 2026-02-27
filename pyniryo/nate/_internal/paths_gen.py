@@ -81,10 +81,13 @@ class Robot(StrEnum):
   MOVE_FRAME_TO_POSE = '/api/robot/frames/{frame_id}/pose'
   GET_ROBOT_JOINTS = '/api/robot/joints'
   MOVE_TO_JOINTS = '/api/robot/joints'
+  GET_TARGET_SPEED_FACTOR = '/api/robot/speed-factor-target'
+  UPDATE_TARGET_SPEED_FACTOR = '/api/robot/speed-factor-target'
   EXECUTE_TRAJECTORY = '/api/robot/trajectory/executions'
   GENERATE_TRAJECTORY = '/api/robot/trajectory/generations'
   GET_ROBOT_URDF = '/api/robot/urdf'
   MOVE_ALONG_WAYPOINTS = '/api/robot/waypoints'
+  GET_NEXT_TRAJECTORY_WAYPOINT = '/api/trajectory-executor/next-waypoint'
   GET_TRAJECTORY_EXECUTOR_STATUS = '/api/trajectory-executor/status'
   UPDATE_TRAJECTORY_EXECUTOR_STATUS = '/api/trajectory-executor/status'
 

@@ -4,23 +4,23 @@ from io import BytesIO
 from unittest.mock import MagicMock, patch
 from uuid import uuid4
 
-from pyniryo.nate import models
+from pyniryo.nate.models import programs, robot
 from pyniryo.nate._internal import transport_models, paths_gen, topics_gen
 from pyniryo.nate.components.programs import Programs, ExecutionCommand
 from pyniryo.nate.exceptions import PyNiryoError
 
 from .base import BaseTestComponent
 
-base_program = models.Program(
+base_program = programs.Program(
     id=str(uuid4()),
     name='test_program',
-    type=models.ProgramType.PYTHON312,
+    type=programs.ProgramType.PYTHON312,
 )
 
-base_execution = models.ProgramExecution(
+base_execution = programs.ProgramExecution(
     id=str(uuid4()),
     program_id=base_program.id,
-    context=models.ProgramExecutionContext(environment={}, arguments=[]),
+    context=programs.ProgramExecutionContext(environment={}, arguments=[]),
     started_at=datetime.now(),
     finished_at=datetime.now(),
     exit_code=0,
@@ -43,12 +43,12 @@ class TestPrograms(BaseTestComponent):
         t_models = transport_models.ProgramList([base_program.to_transport_model()])
         self.http_client.get.return_value = t_models
 
-        programs = self.programs.get_all()
+        all_programs = self.programs.get_all()
 
         self.http_client.get.assert_called_once_with(paths_gen.Programs.GET_ALL_PROGRAMS, transport_models.ProgramList)
-        self.assertEqual(len(programs), 1)
-        self.assertEqual(programs[0].id, base_program.id)
-        self.assertEqual(programs[0].name, base_program.name)
+        self.assertEqual(len(all_programs), 1)
+        self.assertEqual(all_programs[0].id, base_program.id)
+        self.assertEqual(all_programs[0].name, base_program.name)
 
     def test_create(self):
         """Test creating a program with file upload."""
@@ -57,7 +57,7 @@ class TestPrograms(BaseTestComponent):
         file_content = b"print('Hello, World!')"
         file = BytesIO(file_content)
 
-        program = self.programs.create('test_program', file, models.ProgramType.PYTHON312)
+        program = self.programs.create('test_program', file, programs.ProgramType.PYTHON312)
 
         self.http_client.post.assert_called_once()
         call_args = self.http_client.post.call_args
@@ -100,10 +100,10 @@ class TestPrograms(BaseTestComponent):
 
     def test_update_without_file(self):
         """Test updating program metadata without file upload."""
-        updated_program = models.Program(
+        updated_program = programs.Program(
             id=base_program.id,
             name='updated_program',
-            type=models.ProgramType.PYTHON312,
+            type=programs.ProgramType.PYTHON312,
         )
         self.http_client.patch.return_value = updated_program.to_transport_model()
 
@@ -122,7 +122,7 @@ class TestPrograms(BaseTestComponent):
         file_content = b"print('Updated code')"
         src = BytesIO(file_content)
 
-        program = self.programs.update(base_program, src)
+        _ = self.programs.update(base_program, src)
 
         # Should call patch twice: once for metadata, once for file
         self.assertEqual(self.http_client.patch.call_count, 2)
@@ -183,7 +183,7 @@ class TestPrograms(BaseTestComponent):
         env = {'KEY': 'value'}
         args = ['arg1', 'arg2']
 
-        cmd = self.programs.execute(base_program.id, environment=env, arguments=args)
+        _ = self.programs.execute(base_program.id, environment=env, arguments=args)
 
         request = self.http_client.post.call_args[0][2]
         self.assertEqual(request.context.environment, env)
@@ -221,7 +221,7 @@ class TestPrograms(BaseTestComponent):
 
         self.http_client.get.assert_called_once_with(paths_gen.Programs.GET_PROGRAMS_EXECUTOR_STATUS,
                                                      transport_models.s.ProgramsExecutorStatus)
-        self.assertEqual(status, models.ExecutorStatus.RUNNING)
+        self.assertEqual(status, robot.ExecutorStatus.RUNNING)
 
     def test_pause(self):
         """Test pausing program execution."""
@@ -274,19 +274,19 @@ class TestExecutionCommand(BaseTestComponent):
         cmd = ExecutionCommand(self.mqtt_client, base_program.id, execution_id, None, None, lambda: base_execution)
 
         # Initial status should be RUNNING
-        self.assertEqual(cmd.status, models.ExecutionStatusStatus.RUNNING)
+        self.assertEqual(cmd.status, programs.ExecutionStatusStatus.RUNNING)
 
     def test_output_callback_invocation(self):
         """Test that output callback is invoked when output is received."""
         execution_id = str(uuid4())
         output_callback = MagicMock()
 
-        cmd = ExecutionCommand(self.mqtt_client,
-                               base_program.id,
-                               execution_id,
-                               output_callback,
-                               None,
-                               lambda: base_execution)
+        _ = ExecutionCommand(self.mqtt_client,
+                             base_program.id,
+                             execution_id,
+                             output_callback,
+                             None,
+                             lambda: base_execution)
 
         # Get the internal callback that was registered
         output_topic = topics_gen.Programs.PROGRAM_EXECUTION_OUTPUT.format(program_id=base_program.id,
@@ -336,7 +336,7 @@ class TestExecutionCommand(BaseTestComponent):
         internal_callback(status_topic,
                           transport_models.s.ProgramsExecutorStatus(status=transport_models.s.ExecutorStatus.COMPLETED))
 
-        status_callback.assert_called_once_with(models.ExecutionStatusStatus.COMPLETED)
+        status_callback.assert_called_once_with(programs.ExecutionStatusStatus.COMPLETED)
 
     @patch('time.sleep')
     @patch('time.monotonic')

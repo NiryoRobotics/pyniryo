@@ -2,7 +2,8 @@ import logging
 import math
 
 from pyniryo.nate.client import Nate
-from pyniryo.nate.models import Pose, Planner
+from pyniryo.nate.models.geometry import Pose
+from pyniryo.nate.models.motion import Planner
 
 logging.basicConfig(
     level=logging.INFO,  # or DEBUG
