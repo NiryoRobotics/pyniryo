@@ -6,6 +6,7 @@ from .users import Users
 from .programs import Programs, ExecutionCommand
 from .motion_planner import MotionPlanner
 from .metrics import Metrics
+from .io import IO
 
 __all__ = [
     'Auth',
@@ -18,4 +19,5 @@ __all__ = [
     'ExecutionCommand',
     'MotionPlanner',
     'Metrics',
+    'IO',
 ]

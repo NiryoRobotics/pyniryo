@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime, timedelta, timezone
 from typing import Callable, Type, TypeVar
 
-from .components import Auth, Users, Robot, Device, Programs, MotionPlanner, Metrics, BaseAPIComponent
+from .components import Auth, Users, Robot, Device, Programs, MotionPlanner, Metrics, BaseAPIComponent, IO
 from ._internal import paths_gen, transport_models
 from ._internal.http import HttpClient
 from ._internal.mqtt import MqttClient
@@ -58,6 +58,7 @@ class Nate:
     programs: Programs
     motion_planner: MotionPlanner
     metrics: Metrics
+    io: IO
 
     def __init__(self, hostname: str | None = None, login: tuple[str, str] = (None, None)):
         """
@@ -140,6 +141,7 @@ class Nate:
         self.programs = Programs(self._http_client, self._mqtt_client, self._correlation_id)
         self.motion_planner = MotionPlanner(self._http_client, self._mqtt_client, self._correlation_id)
         self.metrics = Metrics(self._http_client, self._mqtt_client, self._correlation_id)
+        self.io = IO(self._http_client, self._mqtt_client, self._correlation_id)
 
     def __enter__(self):
         return self
