@@ -3,7 +3,7 @@ import logging
 
 from pyniryo.nate.client import Nate
 from pyniryo.nate.exceptions import PyNiryoError
-from pyniryo.nate.models import Joints
+from pyniryo.nate.models.geometry import Joints
 
 logging.basicConfig(
     level=logging.INFO,  # or DEBUG

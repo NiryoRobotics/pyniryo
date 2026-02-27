@@ -5,10 +5,10 @@ from uuid import uuid4, UUID
 
 from .base_api_component import BaseAPIComponent
 from .._internal import paths_gen, transport_models, topics_gen
-from .. import models
 from .._internal.mqtt import MqttClient
 from ..exceptions import PyNiryoError
-from ..models import ProgramType, ExecutionStatusStatus
+from ..models.programs import Program, ProgramType, ProgramExecution, ExecutionStatus, ExecutionStatusStatus
+from ..models.robot import ExecutorStatus
 
 logger = logging.getLogger(__name__)
 
@@ -24,12 +24,12 @@ class ExecutionCommand:
                  execution_id: str,
                  on_output: Callable[[str, bool], None] | None,
                  on_status: Callable[[ExecutionStatusStatus], None] | None,
-                 get_execution: Callable[[], models.ProgramExecution]):
+                 get_execution: Callable[[], ProgramExecution]):
         self.__mqtt_client: MqttClient = mqtt_client
         self.program_id: str = program_id
         self.execution_id: str = execution_id
-        self.execution: models.ProgramExecution | None = None
-        self.__get_execution: Callable[[], models.ProgramExecution] = get_execution
+        self.execution: ProgramExecution | None = None
+        self.__get_execution: Callable[[], ProgramExecution] = get_execution
 
         self.__on_output = on_output
         self.__on_status = on_status
@@ -41,7 +41,7 @@ class ExecutionCommand:
                 self.__output_callback,
                 transport_models.a.ProgramExecutionOutput)
 
-        self.__status: list[models.ExecutionStatus] = [models.ExecutionStatus(status=ExecutionStatusStatus.RUNNING)]
+        self.__status: list[ExecutionStatus] = [ExecutionStatus(status=ExecutionStatusStatus.RUNNING)]
         self.__mqtt_client.subscribe(
             topics_gen.Programs.PROGRAM_EXECUTION_STATUS.format(program_id=self.program_id,
                                                                 execution_id=self.execution_id),
@@ -62,13 +62,13 @@ class ExecutionCommand:
         """
         Internal callback to handle execution state messages.
         """
-        status = models.ExecutionStatus.from_transport_model(payload)
+        status = ExecutionStatus.from_transport_model(payload)
         try:
             self.__on_status(status.status)
         except Exception as e:
             logger.error(f'Error in on_status callback: {e}')
 
-        self.__status.append(models.ExecutionStatus.from_transport_model(payload))
+        self.__status.append(ExecutionStatus.from_transport_model(payload))
         if self.status.is_final():
             self.__mqtt_client.unsubscribe(self.__status_callback)
 
@@ -79,7 +79,7 @@ class ExecutionCommand:
             raise PyNiryoError(f'Error while fetching execution {self.execution_id}') from e
 
     @property
-    def status(self) -> models.ExecutionStatusStatus:
+    def status(self) -> ExecutionStatusStatus:
         """
         Get the current state of the move command.
 
@@ -114,24 +114,9 @@ class Programs(BaseAPIComponent):
     - Executing programs with custom environment variables and arguments
     - Monitoring program execution status and output
     - Controlling program execution (pause, resume, stop)
-    
-    Example:
-        >>> from pyniryo.nate import Nate
-        >>> from pyniryo.nate.models import ProgramType
-        >>> 
-        >>> nate = Nate()
-        >>> 
-        >>> # Create and upload a program
-        >>> with open("my_script.py", "rb") as f:
-        ...     program = nate.programs.create("my_program", f, ProgramType.python())
-        >>> 
-        >>> # Execute the program
-        >>> execution = nate.programs.execute(program.id)
-        >>> execution.wait()
-        >>> print(f"Exit code: {execution.execution.exit_code}")
     """
 
-    def get_all(self) -> list[models.Program]:
+    def get_all(self) -> list[Program]:
         """
         Get all the registered programs.
 
@@ -141,9 +126,9 @@ class Programs(BaseAPIComponent):
             paths_gen.Programs.GET_ALL_PROGRAMS,
             transport_models.ProgramList,
         )
-        return [models.Program.from_transport_model(program) for program in programs.root]
+        return [Program.from_transport_model(program) for program in programs.root]
 
-    def create(self, name: str, program: IO[bytes], program_type: ProgramType) -> models.Program:
+    def create(self, name: str, program: IO[bytes], program_type: ProgramType) -> Program:
         """
         Upload a new program.
 
@@ -151,12 +136,6 @@ class Programs(BaseAPIComponent):
         :param program: A file-like object containing the program content.
         :param program_type: The type of the program.
         :return: The created program.
-        
-        Example:
-            >>> from pyniryo.nate.models import ProgramType
-            >>> with open("robot_script.py", "rb") as f:
-            ...     program = programs.create("MyRobotScript", f, ProgramType.python())
-            >>> print(f"Created program: {program.id}")
         """
         program = self._http_client.post(
             paths_gen.Programs.CREATE_PROGRAM,
@@ -164,9 +143,9 @@ class Programs(BaseAPIComponent):
             transport_models.s.Program(name=name, type=program_type.to_transport_model()),
             files={'file': program},
         )
-        return models.Program.from_transport_model(program)
+        return Program.from_transport_model(program)
 
-    def get(self, program_id: str, dst: IO[bytes] = None) -> models.Program:
+    def get(self, program_id: str, dst: IO[bytes] = None) -> Program:
         """
         Get a program by its ID.
 
@@ -178,7 +157,7 @@ class Programs(BaseAPIComponent):
             paths_gen.Programs.GET_PROGRAM.format(program_id=program_id),
             transport_models.s.Program,
         )
-        program = models.Program.from_transport_model(tr_program)
+        program = Program.from_transport_model(tr_program)
         if dst is not None:
             self._http_client.download(paths_gen.Programs.GET_PROGRAM_FILE.format(program_id=program_id), dst)
         return program
@@ -195,7 +174,7 @@ class Programs(BaseAPIComponent):
             transport_models.EmptyPayload,
         )
 
-    def update(self, program: models.Program, src: IO[bytes] = None) -> models.Program:
+    def update(self, program: Program, src: IO[bytes] = None) -> Program:
         """
         Update a program.
 
@@ -213,9 +192,9 @@ class Programs(BaseAPIComponent):
                                     transport_models.EmptyPayload,
                                     transport_models.EmptyPayload(),
                                     files={'file': src})
-        return models.Program.from_transport_model(program)
+        return Program.from_transport_model(program)
 
-    def get_executions(self, program_id: str) -> list[models.ProgramExecution]:
+    def get_executions(self, program_id: str) -> list[ProgramExecution]:
         """
         Get all the executions of a program.
 
@@ -226,9 +205,9 @@ class Programs(BaseAPIComponent):
             paths_gen.Programs.GET_PROGRAM_EXECUTIONS.format(program_id=program_id),
             transport_models.ProgramExecutionList,
         )
-        return [models.ProgramExecution.from_transport_model(execution) for execution in executions.root]
+        return [ProgramExecution.from_transport_model(execution) for execution in executions.root]
 
-    def get_execution(self, program_id: str, execution_id: str) -> models.ProgramExecution:
+    def get_execution(self, program_id: str, execution_id: str) -> ProgramExecution:
         """
         Get a program execution by its ID.
 
@@ -240,7 +219,7 @@ class Programs(BaseAPIComponent):
             paths_gen.Programs.GET_PROGRAM_EXECUTION.format(program_id=program_id, execution_id=execution_id),
             transport_models.s.ProgramExecution,
         )
-        return models.ProgramExecution.from_transport_model(execution)
+        return ProgramExecution.from_transport_model(execution)
 
     def execute(self,
                 program_id: str,
@@ -259,25 +238,6 @@ class Programs(BaseAPIComponent):
         :param on_status: Optional callback to listen the program execution status changes.
         The callback must take the new status as a parameter.
         :return: The created program execution command.
-        
-        Example:
-            >>> # Execute with output monitoring
-            >>> def output_handler(output, eof):
-            ...     print(f"Output: {output}")
-            ...     if eof:
-            ...         print("Program finished")
-            >>> 
-            >>> def status_handler(status):
-            ...     print(f"Status changed to: {status}")
-            >>> 
-            >>> execution = programs.execute(
-            ...     program.id,
-            ...     environment={"MY_VAR": "value"},
-            ...     arguments=["arg1", "arg2"],
-            ...     on_output=output_handler,
-            ...     on_status=status_handler
-            ... )
-            >>> execution.wait()
         """
         execution_id = str(uuid4())
         execution_command = ExecutionCommand(self._mqtt_client,
@@ -296,7 +256,7 @@ class Programs(BaseAPIComponent):
         )
         return execution_command
 
-    def executor_status(self) -> models.ExecutorStatus:
+    def executor_status(self) -> ExecutorStatus:
         """
         Get the current status of the program executor.
         
@@ -304,7 +264,7 @@ class Programs(BaseAPIComponent):
         """
         status = self._http_client.get(paths_gen.Programs.GET_PROGRAMS_EXECUTOR_STATUS,
                                        transport_models.s.ProgramsExecutorStatus)
-        return models.ExecutorStatus.from_transport_model(status.status)
+        return ExecutorStatus.from_transport_model(status.status)
 
     def _update_executor_status(self, status: transport_models.s.ExecutorStatus, **kwargs) -> None:
         self._http_client.patch(paths_gen.Programs.UPDATE_PROGRAMS_EXECUTOR_STATUS,
@@ -314,13 +274,6 @@ class Programs(BaseAPIComponent):
     def pause(self) -> None:
         """
         Pause the current program execution.
-        
-        Example:
-            >>> execution = programs.execute(program.id)
-            >>> # Pause the execution
-            >>> programs.pause()
-            >>> # Resume later
-            >>> programs.resume()
         """
         self._update_executor_status(transport_models.s.ExecutorStatus.PAUSED)
 

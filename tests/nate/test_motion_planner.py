@@ -1,6 +1,6 @@
 import unittest
 
-from pyniryo.nate import models
+from pyniryo.nate.models import motion
 from pyniryo.nate._internal import transport_models, paths_gen
 from pyniryo.nate.components.motion_planner import MotionPlanner
 
@@ -11,7 +11,9 @@ class TestMotionPlanner(BaseTestComponent):
 
     def setUp(self):
         super().setUp()
-        self.motion_planner = MotionPlanner(http_client=self.http_client, mqtt_client=self.mqtt_client, correlation_id=self.correlation_id)
+        self.motion_planner = MotionPlanner(http_client=self.http_client,
+                                            mqtt_client=self.mqtt_client,
+                                            correlation_id=self.correlation_id)
 
     def tearDown(self):
         del self.motion_planner
@@ -19,23 +21,21 @@ class TestMotionPlanner(BaseTestComponent):
     def test_generate_trajectory(self):
         """Test generating trajectory from waypoints."""
         # Create test waypoints
-        waypoint1 = models.Waypoint(joints=models.Joints(0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
-        waypoint2 = models.Waypoint(joints=models.Joints(0.5, 0.5, 0.5, 0.5, 0.5, 0.5))
-        waypoints = models.Waypoints([waypoint1, waypoint2])
+        waypoint1 = motion.Waypoint(joints=motion.Joints(0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
+        waypoint2 = motion.Waypoint(joints=motion.Joints(0.5, 0.5, 0.5, 0.5, 0.5, 0.5))
+        waypoints = motion.Waypoints([waypoint1, waypoint2])
 
         # Create mock response trajectory
         joints_stamped1 = transport_models.s.JointsStamped(
             joints=transport_models.s.Joints(root=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]),
             timestamp=0.0,
             velocities=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            accelerations=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        )
+            accelerations=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
         joints_stamped2 = transport_models.s.JointsStamped(
             joints=transport_models.s.Joints(root=[0.5, 0.5, 0.5, 0.5, 0.5, 0.5]),
             timestamp=1.0,
             velocities=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            accelerations=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        )
+            accelerations=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
         mock_trajectory = transport_models.s.Trajectory(root=[joints_stamped1, joints_stamped2])
         self.http_client.post.return_value = transport_models.s.GeneratedTrajectory(waypoints=mock_trajectory)
 
@@ -47,7 +47,7 @@ class TestMotionPlanner(BaseTestComponent):
         call_args = self.http_client.post.call_args[0]
         self.assertEqual(call_args[0], paths_gen.Robot.GENERATE_TRAJECTORY)
         self.assertEqual(call_args[1], transport_models.s.GeneratedTrajectory)
-        
+
         # Verify request payload
         request = call_args[2]
         self.assertIsInstance(request, transport_models.s.TrajectoryGeneration)
@@ -56,22 +56,21 @@ class TestMotionPlanner(BaseTestComponent):
         self.assertFalse(request.add_start)
 
         # Verify result
-        self.assertIsInstance(trajectory, models.Trajectory)
+        self.assertIsInstance(trajectory, motion.Trajectory)
         self.assertEqual(len(trajectory), 2)
         self.assertEqual(trajectory[0].joints.data, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
         self.assertEqual(trajectory[1].joints.data, [0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
 
     def test_generate_trajectory_with_add_start(self):
         """Test generating trajectory with add_start=True."""
-        waypoint = models.Waypoint(joints=models.Joints(1.0, 1.0, 1.0, 1.0, 1.0, 1.0))
-        waypoints = models.Waypoints([waypoint])
+        waypoint = motion.Waypoint(joints=motion.Joints(1.0, 1.0, 1.0, 1.0, 1.0, 1.0))
+        waypoints = motion.Waypoints([waypoint])
 
         joints_stamped = transport_models.s.JointsStamped(
             joints=transport_models.s.Joints(root=[1.0, 1.0, 1.0, 1.0, 1.0, 1.0]),
             timestamp=0.0,
             velocities=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-            accelerations=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        )
+            accelerations=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
         mock_trajectory = transport_models.s.Trajectory(root=[joints_stamped])
         self.http_client.post.return_value = transport_models.s.GeneratedTrajectory(waypoints=mock_trajectory)
 
@@ -80,7 +79,7 @@ class TestMotionPlanner(BaseTestComponent):
         # Verify add_start parameter was passed
         request = self.http_client.post.call_args[0][2]
         self.assertTrue(request.add_start)
-        self.assertIsInstance(trajectory, models.Trajectory)
+        self.assertIsInstance(trajectory, motion.Trajectory)
 
 
 if __name__ == "__main__":
