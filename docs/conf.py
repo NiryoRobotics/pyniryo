@@ -57,6 +57,7 @@ html_theme_options = {
 # -- AutoSummary configuration -------------------------------------------------
 
 autosummary_generate = True
+autosummary_ignore_module_all = False
 
 # -- AutoDoc configuration ---------------------------------------------------
 
