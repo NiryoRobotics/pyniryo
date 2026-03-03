@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from unittest.mock import MagicMock, call, patch
 from uuid import uuid4
 
-from pyniryo.nate._internal import paths_gen, transport_models
+from pyniryo.nate._internal import paths_gen, transport_models, topics_gen
 from pyniryo.nate.models import auth
 from pyniryo.nate.components.auth import Auth
 
@@ -49,7 +49,7 @@ class TestAuth(BaseTestComponent):
         self.auth.on_user_logged_in(user_callback, user_id)
 
         self.mqtt_client.subscribe.assert_called_once()
-        topic = f'users/{user_id}/logged-in'
+        topic = self.mqtt_client.format(topics_gen.Users.USER_LOGGED_IN, user_id=user_id)
         self.assertEqual(self.mqtt_client.subscribe.call_args[0][0], topic)
 
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
@@ -64,7 +64,8 @@ class TestAuth(BaseTestComponent):
         self.auth.on_user_logged_in(user_callback)
 
         self.mqtt_client.subscribe.assert_called_once()
-        self.assertEqual(self.mqtt_client.subscribe.call_args[0][0], 'users/+/logged-in')
+        self.assertEqual(self.mqtt_client.subscribe.call_args[0][0],
+                         self.mqtt_client.format(topics_gen.Users.USER_LOGGED_IN, user_id='+'))
 
         expected_calls = []
         for _ in range(3):

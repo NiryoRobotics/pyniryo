@@ -3,7 +3,7 @@ from typing import Callable
 
 from .base_api_component import BaseAPIComponent
 from .._internal import paths_gen, transport_models, mqtt, topics_gen
-from ..models.auth import Token, UserEvent
+from ..models import Token, UserEvent
 
 UserLoggedInCallback = Callable[[str, UserEvent], None]
 UserLoggedOutCallback = Callable[[str, UserEvent], None]
@@ -41,7 +41,7 @@ class Auth(BaseAPIComponent):
         :param callback: The callback to call. The callback must take the user ID and the payload as parameters.
         :param user_id: The user ID to listen to. If not specified, listen to all users.
         """
-        topic = topics_gen.Users.USER_LOGGED_IN.format(user_id=user_id or mqtt.SINGLE_LEVEL_WILDCARD)
+        topic = self._mqtt_client.format(topics_gen.Users.USER_LOGGED_IN, user_id=user_id or mqtt.Wildcard.SINGLE_LEVEL)
 
         def callback_wrapper(received_topic: str, user_logged_in: transport_models.a.UserEvent):
             user_id = mqtt.get_level_from_wildcard(topic, received_topic)[0]
@@ -56,7 +56,7 @@ class Auth(BaseAPIComponent):
         :param callback: The callback to call. The callback must take the user ID and the payload as parameters.
         :param user_id: The user ID to listen to. If not specified, listen to all users.
         """
-        topic = f'users/{user_id or mqtt.SINGLE_LEVEL_WILDCARD}/logged-out'
+        topic = f'users/{user_id or mqtt.Wildcard.SINGLE_LEVEL}/logged-out'
 
         def callback_wrapper(received_topic: str, user_logged_out: transport_models.a.UserEvent):
             user_id = mqtt.get_level_from_wildcard(topic, received_topic)[0]

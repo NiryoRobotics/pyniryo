@@ -26,11 +26,11 @@ kwargs = {
     'author':
     'Niryo',
     'author_email':
-    'r.lux@niryo.com',
+    'j.mottier@niryo.com',
     'maintainer':
     'Niryo',
     'maintainer_email':
-    'admin.it@niryo.com',
+    'j.mottier@niryo.com',
     'include_package_data':
     True,
     'url':

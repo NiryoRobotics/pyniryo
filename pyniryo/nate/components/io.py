@@ -2,8 +2,8 @@ from typing import Callable
 
 from pyniryo.nate.components import BaseAPIComponent
 
-from .._internal import paths_gen, transport_models, topics_gen
-from ..models.io import IOStates, DigitalIO, AnalogIO, IoId, AnyIO
+from .._internal import paths_gen, transport_models, topics_gen, mqtt
+from ..models import IOStates, DigitalIO, AnalogIO, IO, AnyIO
 
 AnalogIOCallback = Callable[[AnalogIO], None]
 DigitalIOCallback = Callable[[DigitalIO], None]
@@ -19,7 +19,7 @@ class IO(BaseAPIComponent):
         t_ios = self._http_client.get(paths_gen.Ios.GET_IO_STATES, transport_models.s.IOStates)
         return IOStates.from_transport_model(t_ios)
 
-    def set_digital_output(self, io_id: IoId | str, value: bool):
+    def set_digital_output(self, io_id: IO | str, value: bool):
         """
         Set the state of a digital output.
         :param io_id: The ID of the digital output to set (e.g., IoId.TDO1, 'tdo2').
@@ -27,7 +27,7 @@ class IO(BaseAPIComponent):
         """
         self.update_states([DigitalIO(id=io_id, value=value)])
 
-    def set_analog_output(self, io_id: IoId | str, value: float):
+    def set_analog_output(self, io_id: IO | str, value: float):
         """
         Set the value of an analog output.
         :param io_id: The ID of the analog output to set (e.g., IoId.TAO1, 'tao2').
@@ -46,7 +46,7 @@ class IO(BaseAPIComponent):
         )
         self._http_client.put(paths_gen.Ios.UPDATE_IO_STATES, transport_models.EmptyPayload, req)
 
-    def on_analog_io(self, io_id: IoId | str, callback: AnalogIOCallback):
+    def on_analog_io(self, io_id: IO | str, callback: AnalogIOCallback):
         """
         Set a callback to be called when the state of the specified analog IOs changes.
         :param io_id: An IO ID to monitor (e.g., IoId.TAI1).
@@ -57,11 +57,12 @@ class IO(BaseAPIComponent):
         def internal_callback(_, aio: transport_models.a.AnalogIOState) -> None:
             callback(AnalogIO(id=io_id, value=aio.value))
 
-        self._mqtt_client.subscribe(topics_gen.AnalogIo.ANALOG_IO_STATE.format(io_id=io_id),
+        topic = topics_gen.Io.ANALOG_INPUT_STATE.replace('input', mqtt.Wildcard.SINGLE_LEVEL)
+        self._mqtt_client.subscribe(self._mqtt_client.format(topic, io_id=io_id),
                                     internal_callback,
                                     transport_models.a.AnalogIOState)
 
-    def on_digital_io(self, io_id: IoId | str, callback: DigitalIOCallback):
+    def on_digital_io(self, io_id: IO | str, callback: DigitalIOCallback):
         """
         Set a callback to be called when the state of the specified digital IOs changes.
         :param io_id: An IO ID to monitor (e.g., IoId.TDI1).
@@ -72,6 +73,7 @@ class IO(BaseAPIComponent):
         def internal_callback(_, aio: transport_models.a.DigitalIOState) -> None:
             callback(DigitalIO(id=io_id, value=aio.value))
 
-        self._mqtt_client.subscribe(topics_gen.DigitalIo.DIGITAL_IO_STATE.format(io_id=io_id),
+        topic = topics_gen.Io.DIGITAL_INPUT_STATE.replace('input', mqtt.Wildcard.SINGLE_LEVEL)
+        self._mqtt_client.subscribe(self._mqtt_client.format(topic, io_id=io_id),
                                     internal_callback,
                                     transport_models.a.DigitalIOState)

@@ -4,7 +4,7 @@ from strenum import StrEnum
 from .._internal import transport_models
 
 
-class IoId(StrEnum):
+class IO(StrEnum):
     TDI1 = 'tdi1'
     TDI2 = 'tdi2'
     TDO1 = 'tdo1'
@@ -15,26 +15,25 @@ class IoId(StrEnum):
 
 @dataclass
 class DigitalIO:
-    id: IoId
+    id: IO
     value: bool
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.s.DigitalIO | transport_models.a.DigitalIO) -> 'DigitalIO':
-        return cls(id=IoId(model.id), value=model.value == transport_models.s.Value.HIGH)
+    def from_transport_model(cls, model: transport_models.s.DigitalIO) -> 'DigitalIO':
+        return cls(id=IO(model.id), value=model.value)
 
     def to_transport_model(self) -> transport_models.s.DigitalIO:
-        return transport_models.s.DigitalIO(
-            id=self.id, value=transport_models.s.Value.HIGH if self.value else transport_models.s.Value.LOW)
+        return transport_models.s.DigitalIO(id=self.id, value=self.value)
 
 
 @dataclass
 class AnalogIO:
-    id: IoId
+    id: IO
     value: float
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.s.AnalogIO | transport_models.a.AnalogIO) -> 'AnalogIO':
-        return cls(id=IoId(model.id), value=model.value == transport_models.s.Value.HIGH)
+    def from_transport_model(cls, model: transport_models.s.AnalogIO) -> 'AnalogIO':
+        return cls(id=IO(model.id), value=model.value)
 
     def to_transport_model(self) -> transport_models.s.AnalogIO:
         return transport_models.s.AnalogIO(id=self.id, value=self.value)
@@ -42,21 +41,21 @@ class AnalogIO:
 
 @dataclass
 class IOStates:
-    digital_inputs: dict[IoId, DigitalIO]
-    digital_outputs: dict[IoId, DigitalIO]
-    analog_inputs: dict[IoId, AnalogIO]
-    analog_outputs: dict[IoId, AnalogIO]
+    digital_inputs: dict[IO, DigitalIO]
+    digital_outputs: dict[IO, DigitalIO]
+    analog_inputs: dict[IO, AnalogIO]
+    analog_outputs: dict[IO, AnalogIO]
 
     @classmethod
     def from_transport_model(cls, model: transport_models.s.IOStates) -> 'IOStates':
         return cls(
-            digital_inputs={IoId(io.id): DigitalIO.from_transport_model(io)
+            digital_inputs={IO(io.id): DigitalIO.from_transport_model(io)
                             for io in model.digital_inputs},
-            digital_outputs={IoId(io.id): DigitalIO.from_transport_model(io)
+            digital_outputs={IO(io.id): DigitalIO.from_transport_model(io)
                              for io in model.digital_outputs},
-            analog_inputs={IoId(io.id): AnalogIO.from_transport_model(io)
+            analog_inputs={IO(io.id): AnalogIO.from_transport_model(io)
                            for io in model.analog_inputs},
-            analog_outputs={IoId(io.id): AnalogIO.from_transport_model(io)
+            analog_outputs={IO(io.id): AnalogIO.from_transport_model(io)
                             for io in model.analog_outputs},
         )
 

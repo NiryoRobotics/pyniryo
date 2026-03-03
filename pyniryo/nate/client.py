@@ -9,7 +9,7 @@ from .components import Auth, Users, Robot, Device, Programs, MotionPlanner, Met
 from ._internal import paths_gen, transport_models
 from ._internal.http import HttpClient
 from ._internal.mqtt import MqttClient
-from ._internal.const import DEFAULT_HTTP_PORT, DEFAULT_MQTT_PORT, MQTT_PREFIX
+from ._internal.const import DEFAULT_HTTP_PORT, DEFAULT_MQTT_PORT
 
 logger = logging.getLogger(__name__)
 
@@ -108,7 +108,7 @@ class Nate:
             self._http_client.set_header('Execution-Token', execution_token)
 
         # Token
-        def token_provider(validity: timedelta) -> transport_models.s.Token:
+        def provide_token(validity: timedelta) -> transport_models.s.Token:
             return self._http_client.post(
                 paths_gen.Authentication.LOGIN,
                 transport_models.s.Token,
@@ -116,7 +116,7 @@ class Nate:
                                          password=password,
                                          expires_at=datetime.now(timezone.utc) + validity))
 
-        token = token_provider(token_validity)
+        token = provide_token(token_validity)
 
         self._http_client.set_token(token.token)
 
@@ -124,11 +124,11 @@ class Nate:
         resp = self._http_client.get(paths_gen.Device.GET_DEVICE_ID, transport_models.s.DeviceID)
         device_id = resp.device_id
 
-        self._mqtt_client: MqttClient = MqttClient(hostname, mqtt_port, prefix=MQTT_PREFIX(device_id))
+        self._mqtt_client: MqttClient = MqttClient(hostname, mqtt_port, device_id, self._correlation_id)
         self._mqtt_client.set_token(token.token)
 
         self._token_renewer = TokenRenewer(
-            token_provider,
+            provide_token,
             [self._http_client.set_token, self._mqtt_client.set_token],
             token_validity,
         )

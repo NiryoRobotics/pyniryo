@@ -6,12 +6,19 @@ from typing import Callable, List, Any, Generator
 from uuid import uuid4
 import time
 
+from ..models import (Pose,
+                      Waypoint,
+                      Joints,
+                      MoveFeedback,
+                      MoveState,
+                      Waypoints,
+                      MoveTarget,
+                      Trajectory,
+                      RobotConfiguration,
+                      ControlMode,
+                      ExecutorStatus)
 from .._internal import transport_models, paths_gen, topics_gen
 from .._internal.mqtt import MqttClient
-from ..models.geometry import Pose
-from ..models.motion import Waypoint, Joints, MoveFeedback, MoveState, Waypoints, MoveTarget, Trajectory
-from ..models.robot import RobotConfiguration, ControlMode, ExecutorStatus
-
 from . import BaseAPIComponent
 
 logger = logging.getLogger(__name__)
@@ -31,8 +38,12 @@ class MoveCommand:
     def __init__(self, mqtt_client: MqttClient, command_id: str):
         self.__mqtt_client: MqttClient = mqtt_client
         self.__command_id: str = command_id
+        self.__topic = self.__mqtt_client.format(topics_gen.Robot.ROBOT_MOVE_FEEDBACK, cmd_id=self.__command_id)
 
-        self.__mqtt_client.subscribe(self.topic, self.__move_feedback_callback, transport_models.a.MoveFeedback)
+        self.__unsubscribe = self.__mqtt_client.subscribe(self.__topic,
+                                                          self.__move_feedback_callback,
+                                                          transport_models.a.MoveFeedback)
+        logger.info(f"MoveCommand received topic: {self.__topic}")
         self.__feedbacks: List[MoveFeedback] = [MoveFeedback(state=MoveState.UNKNOWN, message="")]
 
     def __move_feedback_callback(self, _topic: str, payload: transport_models.a.MoveFeedback) -> None:
@@ -42,7 +53,7 @@ class MoveCommand:
         self.__feedbacks.append(MoveFeedback.from_transport_model(payload))
 
         if self.state.is_final():
-            self.__mqtt_client.unsubscribe(self.__move_feedback_callback)
+            self.__unsubscribe()
 
     @property
     def state(self) -> MoveState:
@@ -61,15 +72,6 @@ class MoveCommand:
         :return: The command ID.
         """
         return str(self.__command_id)
-
-    @property
-    def topic(self) -> str:
-        """
-        Get the topic of the move command.
-
-        :return: The topic of the move command.
-        """
-        return topics_gen.Robot.ROBOT_MOVE_FEEDBACK.format(cmd_id=self.__command_id)
 
     def wait(self, timeout: float = -1) -> None:
         """
@@ -156,7 +158,7 @@ class Robot(BaseAPIComponent):
             callback(Pose.from_transport_model(pose))
 
         self._mqtt_client.subscribe(
-            topics_gen.Robot.FRAME_POSE.format(frame_id=frame_id),
+            self._mqtt_client.format(topics_gen.Robot.FRAME_POSE, frame_id=frame_id),
             internal_callback,
             transport_models.a.Pose,
         )

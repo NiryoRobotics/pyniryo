@@ -5,12 +5,19 @@ from pyniryo.nate._internal.http import HttpClient
 from pyniryo.nate._internal.mqtt import MqttClient
 
 
+def mock_format(topic: str, **kwargs) -> str:
+    for key, value in kwargs.items():
+        topic = topic.replace('{' + key + '}', value)
+    return topic
+
+
 class BaseTestComponent(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
         cls.http_client = create_autospec(HttpClient, spec_set=True, instance=True)
         cls.mqtt_client = create_autospec(MqttClient, spec_set=True, instance=True)
+        cls.mqtt_client.format.side_effect = mock_format
         cls.correlation_id = "test-correlation-id"
 
     def setUp(self):

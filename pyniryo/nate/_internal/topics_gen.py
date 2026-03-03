@@ -6,47 +6,56 @@ from strenum import StrEnum
 
 
 class Cmd(StrEnum):
-    ROBOT_JOINTS = 'cmd/robot/joints'
-    ROBOT_JOG_JOINT = 'cmd/robot/jog/joint'
-    ROBOT_JOG_CARTESIAN = 'cmd/robot/jog/cartesian'
-    ROBOT_JOG_STOP = 'cmd/robot/jog/stop'
-    ROBOT_CONTROL_MODE = 'cmd/robot/control-mode'
-    ROBOT_TRAJ_GEN = 'cmd/robot/traj-gen'
-    ROBOT_TRAJ_EXEC = 'cmd/robot/traj-exec'
+    ROBOT_JOINTS = 'device/{device_id}/cmd/robot/joints'
+    ROBOT_JOG_JOINT = 'device/{device_id}/cmd/robot/jog/joint'
+    ROBOT_JOG_CARTESIAN = 'device/{device_id}/cmd/robot/jog/cartesian'
+    ROBOT_JOG_STOP = 'device/{device_id}/cmd/robot/jog/stop'
+    ROBOT_CONTROL_MODE = 'device/{device_id}/cmd/robot/control-mode'
+    ROBOT_TRAJ_GEN = 'device/{device_id}/cmd/robot/traj-gen'
+    ROBOT_TRAJ_EXEC = 'device/{device_id}/cmd/robot/traj-exec'
+
 
 class Ack(StrEnum):
-    ROBOT_TRAJ_EXEC = 'ack/robot/traj-exec'
+    ROBOT_TRAJ_EXEC = 'device/{device_id}/ack/robot/traj-exec'
+
 
 class Robot(StrEnum):
-    FRAME_POSE = 'robot/frames/{frame_id}/pose'
-    JOINTS = 'robot/joints'
-    ROBOT_MOVE_FEEDBACK = 'robot/{cmd_id}/move-feedback'
-    SPEED_FACTOR = 'robot/speed-factor'
-    SPEED_FACTOR_TARGET = 'robot/speed-factor-target'
-    CONTROL_MODE = 'robot/control-mode'
+    FRAME_POSE = 'device/{device_id}/robot/frames/{frame_id}/pose'
+    JOINTS = 'device/{device_id}/robot/joints'
+    ROBOT_MOVE_FEEDBACK = 'device/{device_id}/robot/{cmd_id}/move-feedback'
+    SPEED_FACTOR = 'device/{device_id}/robot/speed-factor'
+    SPEED_FACTOR_TARGET = 'device/{device_id}/robot/speed-factor-target'
+    CONTROL_MODE = 'device/{device_id}/robot/control-mode'
 
-class AnalogIo(StrEnum):
-    ANALOG_IO_STATE = 'analog-io/{io_id}/state'
 
-class DigitalIo(StrEnum):
-    DIGITAL_IO_STATE = 'digital-io/{io_id}/state'
+class Io(StrEnum):
+    ANALOG_INPUT_STATE = 'device/{device_id}/io/analog/input/{io_id}/state'
+    ANALOG_OUTPUT_STATE = 'device/{device_id}/io/analog/output/{io_id}/state'
+    DIGITAL_INPUT_STATE = 'device/{device_id}/io/digital/input/{io_id}/state'
+    DIGITAL_OUTPUT_STATE = 'device/{device_id}/io/digital/output/{io_id}/state'
+
 
 class Users(StrEnum):
-    USER_LOGGED_IN = 'users/{user_id}/logged-in'
-    USER_LOGGED_OUT = 'users/{user_id}/logged-out'
+    USER_LOGGED_IN = 'device/{device_id}/users/{user_id}/logged-in'
+    USER_LOGGED_OUT = 'device/{device_id}/users/{user_id}/logged-out'
+
 
 class Programs(StrEnum):
-    PROGRAM_EXECUTION_OUTPUT = 'programs/{program_id}/executions/{execution_id}/output'
-    PROGRAM_EXECUTION_STATUS = 'programs/{program_id}/executions/{execution_id}/status'
+    PROGRAM_EXECUTION_OUTPUT = 'device/{device_id}/programs/{program_id}/executions/{execution_id}/output'
+    PROGRAM_EXECUTION_STATUS = 'device/{device_id}/programs/{program_id}/executions/{execution_id}/status'
+
 
 class System(StrEnum):
-    METRICS = 'system/metrics'
+    METRICS = 'device/{device_id}/system/metrics'
+
 
 class Api(StrEnum):
-    METRICS = 'api/metrics'
+    METRICS = 'device/{device_id}/api/metrics'
+
 
 class CustomMetrics(StrEnum):
-    CUSTOM_METRIC = 'custom-metrics/{metrics_id}'
+    CUSTOM_METRIC = 'device/{device_id}/custom-metrics/{metrics_id}'
+
 
 class FirmwareState(StrEnum):
-    FIRMWARE_STATE = 'firmware-state'
+    FIRMWARE_STATE = 'device/{device_id}/firmware-state'

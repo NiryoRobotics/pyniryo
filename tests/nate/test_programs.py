@@ -203,10 +203,12 @@ class TestPrograms(BaseTestComponent):
         self.assertEqual(self.mqtt_client.subscribe.call_count, 2)
 
         # Check output subscription
-        output_topic = topics_gen.Programs.PROGRAM_EXECUTION_OUTPUT.format(program_id=base_program.id,
-                                                                           execution_id=cmd.execution_id)
-        status_topic = topics_gen.Programs.PROGRAM_EXECUTION_STATUS.format(program_id=base_program.id,
-                                                                           execution_id=cmd.execution_id)
+        output_topic = self.mqtt_client.format(topics_gen.Programs.PROGRAM_EXECUTION_OUTPUT,
+                                               program_id=base_program.id,
+                                               execution_id=cmd.execution_id)
+        status_topic = self.mqtt_client.format(topics_gen.Programs.PROGRAM_EXECUTION_STATUS,
+                                               program_id=base_program.id,
+                                               execution_id=cmd.execution_id)
 
         subscribed_topics = [call[0][0] for call in self.mqtt_client.subscribe.call_args_list]
         self.assertIn(output_topic, subscribed_topics)
@@ -289,8 +291,9 @@ class TestExecutionCommand(BaseTestComponent):
                              lambda: base_execution)
 
         # Get the internal callback that was registered
-        output_topic = topics_gen.Programs.PROGRAM_EXECUTION_OUTPUT.format(program_id=base_program.id,
-                                                                           execution_id=execution_id)
+        output_topic = self.mqtt_client.format(topics_gen.Programs.PROGRAM_EXECUTION_OUTPUT,
+                                               program_id=base_program.id,
+                                               execution_id=execution_id)
 
         # Find the output callback in subscribe calls
         internal_callback = None
@@ -321,8 +324,9 @@ class TestExecutionCommand(BaseTestComponent):
                                lambda: base_execution)
 
         # Get the internal status callback
-        status_topic = topics_gen.Programs.PROGRAM_EXECUTION_STATUS.format(program_id=base_program.id,
-                                                                           execution_id=execution_id)
+        status_topic = self.mqtt_client.format(topics_gen.Programs.PROGRAM_EXECUTION_STATUS,
+                                               program_id=base_program.id,
+                                               execution_id=execution_id)
 
         internal_callback = None
         for call_args in self.mqtt_client.subscribe.call_args_list:
@@ -350,8 +354,9 @@ class TestExecutionCommand(BaseTestComponent):
         cmd = ExecutionCommand(self.mqtt_client, base_program.id, execution_id, None, None, lambda: base_execution)
 
         # Simulate status change to completed
-        status_topic = topics_gen.Programs.PROGRAM_EXECUTION_STATUS.format(program_id=base_program.id,
-                                                                           execution_id=execution_id)
+        status_topic = self.mqtt_client.format(topics_gen.Programs.PROGRAM_EXECUTION_STATUS,
+                                               program_id=base_program.id,
+                                               execution_id=execution_id)
 
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
         internal_callback(status_topic,
@@ -385,8 +390,9 @@ class TestExecutionCommand(BaseTestComponent):
         cmd = ExecutionCommand(self.mqtt_client, base_program.id, execution_id, None, None, lambda: base_execution)
 
         # Simulate status change to failed
-        status_topic = topics_gen.Programs.PROGRAM_EXECUTION_STATUS.format(program_id=base_program.id,
-                                                                           execution_id=execution_id)
+        status_topic = self.mqtt_client.format(topics_gen.Programs.PROGRAM_EXECUTION_STATUS,
+                                               program_id=base_program.id,
+                                               execution_id=execution_id)
 
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
         internal_callback(status_topic,

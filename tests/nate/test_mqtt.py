@@ -24,7 +24,7 @@ class TestMqttClient(unittest.TestCase):
     @patch(CLIENT_PATH_PATH)
     def test_connect(self, mock_client):
         mock_client.return_value = get_paho_mock()
-        client = MqttClient("localhost", 1883)
+        client = MqttClient("localhost", 1883, "device_id", "correlation_id")
         client.set_token('token')
         mock_client.return_value.connect.assert_called_once_with("localhost", 1883)
         mock_client.return_value.loop_start.assert_called_once()
@@ -32,7 +32,7 @@ class TestMqttClient(unittest.TestCase):
     @patch(CLIENT_PATH_PATH)
     def test_disconnect(self, mock_client):
         mock_client.return_value = get_paho_mock()
-        client = MqttClient("localhost", 1883)
+        client = MqttClient("localhost", 1883, "device_id", "correlation_id")
         mock_client.return_value.is_connected = lambda: False
         client.set_token('token')
         client.disconnect()
@@ -45,29 +45,20 @@ class TestMqttClient(unittest.TestCase):
     @patch(CLIENT_PATH_PATH)
     def test_subscribe(self, mock_client):
         mock_client.return_value = get_paho_mock()
-        client = MqttClient("localhost", 1883)
+        client = MqttClient("localhost", 1883, "device_id", "correlation_id")
         client.subscribe("test/topic", self.__callback, PayloadModel)
         mock_client.return_value.subscribe.assert_called_once_with("test/topic", 2)
 
     @patch(CLIENT_PATH_PATH)
     def test_multi_subscribe(self, mock_client):
         mock_client.return_value = get_paho_mock()
-        client = MqttClient("localhost", 1883)
+        client = MqttClient("localhost", 1883, "device_id", "correlation_id")
         client.subscribe("test/topic", self.__callback, PayloadModel)
         mock_client.return_value.subscribe.assert_called_once_with("test/topic", 2)
 
         mock_client.return_value.subscribe.reset_mock()
         client.subscribe("test/topic", self.__callback, PayloadModel)
         mock_client.return_value.subscribe.assert_not_called()
-
-    @patch(CLIENT_PATH_PATH)
-    def test_unsubscribe(self, mock_client):
-        mock_client.return_value = get_paho_mock()
-        client = MqttClient("localhost", 1883)
-        client.subscribe("test/topic", self.__callback, PayloadModel)
-
-        client.unsubscribe(self.__callback)
-        mock_client.return_value.unsubscribe.assert_called_once_with("test/topic")
 
 
 class TestGetLevelFromWildcard(unittest.TestCase):

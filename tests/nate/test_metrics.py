@@ -150,8 +150,9 @@ class TestMetrics(BaseTestComponent):
     def test_initialization(self):
         """Test Metrics component initialization."""
         self.assertIsNotNone(self.metrics._metrics_queue)
-        self.assertEqual(self.metrics._topic,
-                         topics_gen.CustomMetrics.CUSTOM_METRIC.format(metrics_id=self.correlation_id))
+        self.assertEqual(
+            self.metrics._topic,
+            self.mqtt_client.format(topics_gen.CustomMetrics.CUSTOM_METRIC, metrics_id=self.correlation_id))
 
     def test_close_stops_queue_processing(self):
         """Test close() method stops the queue processing thread."""
