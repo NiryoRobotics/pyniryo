@@ -4,7 +4,7 @@ from queue import Queue
 from typing import TypeVar, Type
 from datetime import datetime, timedelta
 
-from ..models.metrics import Metric as MetricModel, get_mtype
+from ..models import Metric as MetricModel, get_mtype
 from .._internal import topics_gen, transport_models, paths_gen
 from .._internal.http import HttpClient
 from .._internal.mqtt import MqttClient
@@ -80,7 +80,7 @@ class Metrics(BaseAPIComponent):
 
     def __init__(self, http_client: HttpClient, mqtt_client: MqttClient, correlation_id: str) -> None:
         super().__init__(http_client, mqtt_client, correlation_id)
-        self._topic = topics_gen.CustomMetrics.CUSTOM_METRIC.format(metrics_id=self._correlation_id)
+        self._topic = self._mqtt_client.format(topics_gen.CustomMetrics.CUSTOM_METRIC, metrics_id=self._correlation_id)
         self._metrics_queue = Queue()
         threading.Thread(target=self._process_metrics_queue, daemon=True).start()
 

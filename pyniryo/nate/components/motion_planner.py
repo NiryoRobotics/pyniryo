@@ -1,5 +1,4 @@
-from ..models.motion import Waypoints, Trajectory
-
+from ..models import Waypoints, Trajectory
 from .._internal import paths_gen, transport_models
 
 from . import BaseAPIComponent

@@ -21,6 +21,6 @@ gen_openapi:
 
 gen_asyncapi:
 	source venv/bin/activate && scripts/generate_asyncapi_models.py $(SPECS_DIR)/asyncapi.yaml -o pyniryo/nate/_internal/transport_models/async_models_gen.py
-	source venv/bin/activate && scripts/generate_topics.py $(SPECS_DIR)/asyncapi.yaml --output pyniryo/nate/_internal/topics_gen.py
+	source venv/bin/activate && scripts/generate_topics.py --keep-device-prefix $(SPECS_DIR)/asyncapi.yaml --output pyniryo/nate/_internal/topics_gen.py
 
 gen: gen_openapi gen_asyncapi

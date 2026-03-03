@@ -4,11 +4,10 @@ from typing import IO, Callable
 from uuid import uuid4, UUID
 
 from .base_api_component import BaseAPIComponent
+from ..exceptions import PyNiryoError
+from ..models import Program, ProgramType, ProgramExecution, ExecutionStatus, ExecutionStatusStatus, ExecutorStatus
 from .._internal import paths_gen, transport_models, topics_gen
 from .._internal.mqtt import MqttClient
-from ..exceptions import PyNiryoError
-from ..models.programs import Program, ProgramType, ProgramExecution, ExecutionStatus, ExecutionStatusStatus
-from ..models.robot import ExecutorStatus
 
 logger = logging.getLogger(__name__)
 
@@ -34,19 +33,24 @@ class ExecutionCommand:
         self.__on_output = on_output
         self.__on_status = on_status
 
+        self.__unsubscribe_output = None
+        self.__unsubscribe_status = None
+
         if self.__on_output is not None:
-            self.__mqtt_client.subscribe(
-                topics_gen.Programs.PROGRAM_EXECUTION_OUTPUT.format(program_id=self.program_id,
-                                                                    execution_id=self.execution_id),
-                self.__output_callback,
-                transport_models.a.ProgramExecutionOutput)
+            output_topic = self.__mqtt_client.format(topics_gen.Programs.PROGRAM_EXECUTION_OUTPUT,
+                                                     program_id=program_id,
+                                                     execution_id=execution_id)
+            self.__unsubscribe_output = self.__mqtt_client.subscribe(output_topic,
+                                                                     self.__output_callback,
+                                                                     transport_models.a.ProgramExecutionOutput)
 
         self.__status: list[ExecutionStatus] = [ExecutionStatus(status=ExecutionStatusStatus.RUNNING)]
-        self.__mqtt_client.subscribe(
-            topics_gen.Programs.PROGRAM_EXECUTION_STATUS.format(program_id=self.program_id,
-                                                                execution_id=self.execution_id),
-            self.__status_callback,
-            transport_models.s.ProgramsExecutorStatus)
+        status_topic = self.__mqtt_client.format(topics_gen.Programs.PROGRAM_EXECUTION_STATUS,
+                                                 program_id=program_id,
+                                                 execution_id=execution_id)
+        self.__unsubscribe_status = self.__mqtt_client.subscribe(status_topic,
+                                                                 self.__status_callback,
+                                                                 transport_models.s.ProgramsExecutorStatus)
 
     def __output_callback(self, _topic: str, payload: transport_models.a.ProgramExecutionOutput) -> None:
         """
@@ -56,7 +60,8 @@ class ExecutionCommand:
             self.__on_output(payload.output, payload.eof)
         except Exception as e:
             logger.error(f'Error in on_output callback: {e}')
-        if payload.eof: self.__mqtt_client.unsubscribe(self.__output_callback)
+        if payload.eof:
+            self.__unsubscribe_output()
 
     def __status_callback(self, _topic: str, payload: transport_models.s.ProgramsExecutorStatus) -> None:
         """
@@ -70,7 +75,7 @@ class ExecutionCommand:
 
         self.__status.append(ExecutionStatus.from_transport_model(payload))
         if self.status.is_final():
-            self.__mqtt_client.unsubscribe(self.__status_callback)
+            self.__unsubscribe_status()
 
         try:
             self.execution = self.__get_execution()

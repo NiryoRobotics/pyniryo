@@ -4,7 +4,7 @@ from .base_api_component import BaseAPIComponent
 
 from .._internal import paths_gen, transport_models
 from .._internal.transport_models import EmptyPayload
-from ..models.auth import User, Token
+from ..models import User, Token
 
 
 class Users(BaseAPIComponent):

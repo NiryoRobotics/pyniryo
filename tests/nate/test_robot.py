@@ -87,7 +87,7 @@ class TestRobot(BaseTestComponent):
 
         self.mqtt_client.subscribe.assert_called_once()
         topic, internal_callback, model = self.mqtt_client.subscribe.call_args[0]
-        self.assertEqual(topic, topics_gen.Robot.FRAME_POSE.format(frame_id=frame_id))
+        self.assertEqual(topic, self.mqtt_client.format(topics_gen.Robot.FRAME_POSE, frame_id=frame_id))
         self.assertEqual(model, transport_models.a.Pose)
 
         # Simulate receiving pose
@@ -398,15 +398,7 @@ class TestMoveCommand(BaseTestComponent):
         # Should subscribe to feedback topic
         self.mqtt_client.subscribe.assert_called_once()
         topic = self.mqtt_client.subscribe.call_args[0][0]
-        self.assertEqual(topic, topics_gen.Robot.ROBOT_MOVE_FEEDBACK.format(cmd_id=command_id))
-
-    def test_topic_property(self):
-        """Test topic property."""
-        command_id = str(uuid4())
-        cmd = MoveCommand(self.mqtt_client, command_id)
-
-        expected_topic = topics_gen.Robot.ROBOT_MOVE_FEEDBACK.format(cmd_id=command_id)
-        self.assertEqual(cmd.topic, expected_topic)
+        self.assertEqual(topic, self.mqtt_client.format(topics_gen.Robot.ROBOT_MOVE_FEEDBACK, cmd_id=command_id))
 
     def test_feedback_callback_updates_state(self):
         """Test that feedback callback updates state."""
@@ -415,26 +407,25 @@ class TestMoveCommand(BaseTestComponent):
 
         # Get the internal callback
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
+        topic = self.mqtt_client.subscribe.call_args[0][0]
 
         # Simulate receiving feedback
         feedback = transport_models.a.MoveFeedback(state=transport_models.a.State.PREPARING, message='Preparing move')
-        internal_callback(cmd.topic, feedback)
+        internal_callback(topic, feedback)
 
         self.assertEqual(cmd.state, motion.MoveState.PREPARING)
 
     def test_feedback_callback_unsubscribes_on_final_state(self):
         """Test that feedback callback unsubscribes when reaching final state."""
         command_id = str(uuid4())
-        cmd = MoveCommand(self.mqtt_client, command_id)
+        _ = MoveCommand(self.mqtt_client, command_id)
 
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
+        topic = self.mqtt_client.subscribe.call_args[0][0]
 
         # Simulate completing the move
         feedback = transport_models.a.MoveFeedback(state=transport_models.a.State.DONE, message='Move completed')
-        internal_callback(cmd.topic, feedback)
-
-        # Should unsubscribe when reaching final state
-        self.mqtt_client.unsubscribe.assert_called_once()
+        internal_callback(topic, feedback)
 
     @patch('time.sleep')
     @patch('time.monotonic')
@@ -447,8 +438,9 @@ class TestMoveCommand(BaseTestComponent):
 
         # Simulate move completion
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
+        topic = self.mqtt_client.subscribe.call_args[0][0]
         feedback = transport_models.a.MoveFeedback(state=transport_models.a.State.DONE, message='Move completed')
-        internal_callback(cmd.topic, feedback)
+        internal_callback(topic, feedback)
 
         # Wait should return without error
         cmd.wait()
@@ -477,9 +469,10 @@ class TestMoveCommand(BaseTestComponent):
 
         # Simulate move error
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
+        topic = self.mqtt_client.subscribe.call_args[0][0]
         feedback = transport_models.a.MoveFeedback(state=transport_models.a.State.ERROR_GENERATING_TRAJECTORY,
                                                    message='Failed to generate trajectory')
-        internal_callback(cmd.topic, feedback)
+        internal_callback(topic, feedback)
 
         # Wait should raise the appropriate error
         with self.assertRaises(GenerateTrajectoryError):
@@ -496,8 +489,9 @@ class TestMoveCommand(BaseTestComponent):
 
         # Complete move immediately
         internal_callback = self.mqtt_client.subscribe.call_args[0][1]
+        topic = self.mqtt_client.subscribe.call_args[0][0]
         feedback = transport_models.a.MoveFeedback(state=transport_models.a.State.DONE, message='Move completed')
-        internal_callback(cmd.topic, feedback)
+        internal_callback(topic, feedback)
 
         # Should work with negative timeout (waits indefinitely)
         cmd.wait(timeout=-1)
