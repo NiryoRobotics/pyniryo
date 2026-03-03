@@ -1,6 +1,6 @@
 # ned requirements
 enum34
-opencv-python
+opencv-python-headless
 numpy
 typing-extensions
 
