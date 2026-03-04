@@ -1,3 +1,7 @@
+.. warning::
+    By default, PyNiryo is shipped with OpenCV headless version which does not include GUI functions. If you want to use the functions to display images, you need to install OpenCV with GUI support. You can do it by running
+``pip install opencv-python``.
+
 Overview
 ----------------------------------
 
