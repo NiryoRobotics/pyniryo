@@ -43,7 +43,6 @@ class MoveCommand:
         self.__unsubscribe = self.__mqtt_client.subscribe(self.__topic,
                                                           self.__move_feedback_callback,
                                                           transport_models.a.MoveFeedback)
-        logger.info(f"MoveCommand received topic: {self.__topic}")
         self.__feedbacks: List[MoveFeedback] = [MoveFeedback(state=MoveState.UNKNOWN, message="")]
 
     def __move_feedback_callback(self, _topic: str, payload: transport_models.a.MoveFeedback) -> None:
