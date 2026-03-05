@@ -1,10 +1,21 @@
 from dataclasses import dataclass
 from datetime import datetime, timedelta
+from typing import overload, Literal
 
 from .._internal import transport_models
 
 
-def get_mtype(_type: type, a: bool = False) -> transport_models.s.MType:
+@overload
+def get_mtype(_type: type, a: Literal[False] = False) -> transport_models.s.MType:
+    ...
+
+
+@overload
+def get_mtype(_type: type, a: Literal[True] = True) -> transport_models.a.MType:
+    ...
+
+
+def get_mtype(_type: type, a: bool = False) -> transport_models.s.MType | transport_models.a.MType:
     """
     Get the MType corresponding to a Python type for metrics.
     
@@ -13,19 +24,19 @@ def get_mtype(_type: type, a: bool = False) -> transport_models.s.MType:
     :return: The corresponding MType enum value.
     :raises TypeError: If the type is not supported for metrics.
     """
-    tr_model = transport_models.a if a else transport_models.s
+    tr_enum = transport_models.a.MType if a else transport_models.s.MType
     if _type is str:
-        return tr_model.MType.STRING
+        return tr_enum.STRING
     elif _type is int:
-        return tr_model.MType.INT
+        return tr_enum.INT
     elif _type is float:
-        return tr_model.MType.FLOAT
+        return tr_enum.FLOAT
     elif _type is bool:
-        return tr_model.MType.BOOL
+        return tr_enum.BOOL
     elif _type is datetime:
-        return tr_model.MType.DATETIME
+        return tr_enum.DATETIME
     elif _type is timedelta:
-        return tr_model.MType.DURATION
+        return tr_enum.DURATION
     else:
         raise TypeError(f"Unsupported metric type: {_type}")
 
@@ -33,23 +44,23 @@ def get_mtype(_type: type, a: bool = False) -> transport_models.s.MType:
 def parse_mtype(mtype: transport_models.s.MType | transport_models.a.MType) -> type:
     """
     Parse an MType to get the corresponding Python type.
-    
+
     :param mtype: The MType enum value.
     :return: The corresponding Python type.
     :raises TypeError: If the MType is not recognized.
     """
-    tr_model = transport_models.a if isinstance(mtype, transport_models.a.MType) else transport_models.s
-    if mtype is tr_model.MType.STRING:
+    tr_enum = transport_models.a.MType if isinstance(mtype, transport_models.a.MType) else transport_models.s.MType
+    if mtype is tr_enum.STRING:
         return str
-    elif mtype is tr_model.MType.INT:
+    elif mtype is tr_enum.INT:
         return int
-    elif mtype is tr_model.MType.FLOAT:
+    elif mtype is tr_enum.FLOAT:
         return float
-    elif mtype is tr_model.MType.BOOL:
+    elif mtype is tr_enum.BOOL:
         return bool
-    elif mtype is tr_model.MType.DATETIME:
+    elif mtype is tr_enum.DATETIME:
         return datetime
-    elif mtype is tr_model.MType.DURATION:
+    elif mtype is tr_enum.DURATION:
         return timedelta
     else:
         raise TypeError(f"Unsupported metric type: {mtype}")
@@ -67,10 +78,6 @@ class Metric:
     name: str
     value: str
     type: type
-
-    @classmethod
-    def from_transport_model(cls, model: transport_models.a.CustomMetric) -> 'Metric':
-        return cls(name=model.name, value=model.value, type=parse_mtype(model.m_type))
 
     def to_transport_model(self) -> transport_models.a.CustomMetric:
         return transport_models.a.CustomMetric(name=self.name, value=self.value, m_type=get_mtype(self.type, a=True))

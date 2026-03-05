@@ -50,13 +50,13 @@ class IOStates:
     def from_transport_model(cls, model: transport_models.s.IOStates) -> 'IOStates':
         return cls(
             digital_inputs={IO(io.id): DigitalIO.from_transport_model(io)
-                            for io in model.digital_inputs},
+                            for io in model.digital_inputs} if model.digital_inputs is not None else {},
             digital_outputs={IO(io.id): DigitalIO.from_transport_model(io)
-                             for io in model.digital_outputs},
+                             for io in model.digital_outputs} if model.digital_outputs is not None else {},
             analog_inputs={IO(io.id): AnalogIO.from_transport_model(io)
-                           for io in model.analog_inputs},
+                           for io in model.analog_inputs} if model.analog_inputs is not None else {},
             analog_outputs={IO(io.id): AnalogIO.from_transport_model(io)
-                            for io in model.analog_outputs},
+                            for io in model.analog_outputs} if model.analog_outputs is not None else {},
         )
 
     def to_transport_model(self) -> transport_models.s.IOStates:

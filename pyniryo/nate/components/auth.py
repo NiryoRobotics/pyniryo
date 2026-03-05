@@ -1,9 +1,12 @@
+import logging
 from datetime import datetime
 from typing import Callable
 
 from .base_api_component import BaseAPIComponent
 from .._internal import paths_gen, transport_models, mqtt, topics_gen
-from ..models import Token, UserEvent
+from ..models import Token, UserEvent, Unsubscribe
+
+logger = logging.getLogger(__name__)
 
 UserLoggedInCallback = Callable[[str, UserEvent], None]
 UserLoggedOutCallback = Callable[[str, UserEvent], None]
@@ -34,7 +37,7 @@ class Auth(BaseAPIComponent):
         )
         return Token.from_transport_model(token)
 
-    def on_user_logged_in(self, callback: UserLoggedInCallback, user_id: str = None) -> None:
+    def on_user_logged_in(self, callback: UserLoggedInCallback, user_id: str | None = None) -> Unsubscribe:
         """
         Set the callback to call when a user logs in.
 
@@ -45,11 +48,14 @@ class Auth(BaseAPIComponent):
 
         def callback_wrapper(received_topic: str, user_logged_in: transport_models.a.UserEvent):
             user_id = mqtt.get_level_from_wildcard(topic, received_topic)[0]
-            callback(user_id, UserEvent.from_transport_model(user_logged_in))
+            try:
+                callback(user_id, UserEvent.from_transport_model(user_logged_in))
+            except Exception:
+                logger.exception(f'Error on_user_logged_in callback {callback.__qualname__} ')
 
-        self._mqtt_client.subscribe(topic, callback_wrapper, transport_models.a.UserEvent)
+        return self._mqtt_client.subscribe(topic, callback_wrapper, transport_models.a.UserEvent)
 
-    def on_user_logged_out(self, callback: UserLoggedOutCallback, user_id: str = None) -> None:
+    def on_user_logged_out(self, callback: UserLoggedOutCallback, user_id: str | None = None) -> Unsubscribe:
         """
         Set the callback to call when a user logs out.
 
@@ -60,6 +66,9 @@ class Auth(BaseAPIComponent):
 
         def callback_wrapper(received_topic: str, user_logged_out: transport_models.a.UserEvent):
             user_id = mqtt.get_level_from_wildcard(topic, received_topic)[0]
-            callback(user_id, UserEvent.from_transport_model(user_logged_out))
+            try:
+                callback(user_id, UserEvent.from_transport_model(user_logged_out))
+            except Exception:
+                logger.exception(f'Error user_logged_out callback {callback.__qualname__} ')
 
-        self._mqtt_client.subscribe(topic, callback_wrapper, transport_models.a.UserEvent)
+        return self._mqtt_client.subscribe(topic, callback_wrapper, transport_models.a.UserEvent)

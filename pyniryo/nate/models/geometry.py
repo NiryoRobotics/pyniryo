@@ -132,16 +132,19 @@ class Pose:
     orientation: Quaternion | EulerAngles
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.s.Pose) -> 'Pose':
+    def from_transport_model(cls, model: transport_models.s.Pose | transport_models.a.Pose) -> 'Pose':
         return cls(
             position=Point.from_transport_model(model.position),
             orientation=Quaternion.from_transport_model(model.orientation),
         )
 
     def to_transport_model(self) -> transport_models.s.Pose:
-        quaternion = self.orientation
-        if isinstance(self.orientation, EulerAngles):
+        if isinstance(self.orientation, Quaternion):
+            quaternion = self.orientation
+        elif isinstance(self.orientation, EulerAngles):
             quaternion = self.orientation.to_quaternion()
+        else:
+            raise TypeError("Orientation must be either a Quaternion or EulerAngles")
 
         return transport_models.s.Pose(position=self.position.to_transport_model(),
                                        orientation=quaternion.to_transport_model())

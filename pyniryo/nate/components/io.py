@@ -1,9 +1,12 @@
+import logging
 from typing import Callable
 
 from pyniryo.nate.components import BaseAPIComponent
 
 from .._internal import paths_gen, transport_models, topics_gen, mqtt
-from ..models import IOStates, DigitalIO, AnalogIO, IO, AnyIO
+from ..models import IOStates, DigitalIO, AnalogIO, IO, AnyIO, Unsubscribe
+
+logger = logging.getLogger(__name__)
 
 AnalogIOCallback = Callable[[AnalogIO], None]
 DigitalIOCallback = Callable[[DigitalIO], None]
@@ -46,7 +49,7 @@ class IO(BaseAPIComponent):
         )
         self._http_client.put(paths_gen.Ios.UPDATE_IO_STATES, transport_models.EmptyPayload, req)
 
-    def on_analog_io(self, io_id: IO | str, callback: AnalogIOCallback):
+    def on_analog_io(self, io_id: IO | str, callback: AnalogIOCallback) -> Unsubscribe:
         """
         Set a callback to be called when the state of the specified analog IOs changes.
         :param io_id: An IO ID to monitor (e.g., IoId.TAI1).
@@ -55,14 +58,17 @@ class IO(BaseAPIComponent):
         """
 
         def internal_callback(_, aio: transport_models.a.AnalogIOState) -> None:
-            callback(AnalogIO(id=io_id, value=aio.value))
+            try:
+                callback(AnalogIO(id=io_id, value=aio.value))
+            except Exception:
+                logger.exception(f'Error on_analog_io callback {callback.__qualname__}')
 
         topic = topics_gen.Io.ANALOG_INPUT_STATE.replace('input', mqtt.Wildcard.SINGLE_LEVEL)
-        self._mqtt_client.subscribe(self._mqtt_client.format(topic, io_id=io_id),
-                                    internal_callback,
-                                    transport_models.a.AnalogIOState)
+        return self._mqtt_client.subscribe(self._mqtt_client.format(topic, io_id=io_id),
+                                           internal_callback,
+                                           transport_models.a.AnalogIOState)
 
-    def on_digital_io(self, io_id: IO | str, callback: DigitalIOCallback):
+    def on_digital_io(self, io_id: IO | str, callback: DigitalIOCallback) -> Unsubscribe:
         """
         Set a callback to be called when the state of the specified digital IOs changes.
         :param io_id: An IO ID to monitor (e.g., IoId.TDI1).
@@ -71,9 +77,12 @@ class IO(BaseAPIComponent):
         """
 
         def internal_callback(_, aio: transport_models.a.DigitalIOState) -> None:
-            callback(DigitalIO(id=io_id, value=aio.value))
+            try:
+                callback(DigitalIO(id=io_id, value=aio.value))
+            except Exception:
+                logger.exception(f'Error on_digital_io callback {callback.__qualname__}')
 
         topic = topics_gen.Io.DIGITAL_INPUT_STATE.replace('input', mqtt.Wildcard.SINGLE_LEVEL)
-        self._mqtt_client.subscribe(self._mqtt_client.format(topic, io_id=io_id),
-                                    internal_callback,
-                                    transport_models.a.DigitalIOState)
+        return self._mqtt_client.subscribe(self._mqtt_client.format(topic, io_id=io_id),
+                                           internal_callback,
+                                           transport_models.a.DigitalIOState)

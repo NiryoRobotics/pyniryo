@@ -1,6 +1,7 @@
 from typing import Any
 
 import requests
+from pydantic_core import ErrorDetails
 
 
 class PyNiryoError(Exception):
@@ -29,7 +30,7 @@ class ApiError(PyNiryoError):
         super().__init__(message)
 
     @classmethod
-    def from_response(cls, response: requests.Response, *args) -> "ApiError":
+    def from_response(cls, response: requests.Response, *args: Any) -> "ApiError":
         """
         Create an ApiError from a requests Response object.
         
@@ -99,7 +100,7 @@ class ExecuteTrajectoryError(PyNiryoError):
     pass
 
 
-def get_msg_from_errors(errors: list[dict]) -> str:
+def get_msg_from_errors(errors: list[ErrorDetails]) -> str:
     """
     Get the error message from pydantic errors list.
     :param errors: The pydantic errors list.

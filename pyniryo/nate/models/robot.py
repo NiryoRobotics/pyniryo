@@ -58,7 +58,7 @@ class JointConfiguration:
     position_limit_min: float
     position_limit_max: float
     velocity_limit: float
-    acceleration_limit: float
+    acceleration_limit: float | None
     effort_limit: float
     pid_position: PID | None
     pid_velocity: PID | None
@@ -101,6 +101,9 @@ class RobotConfiguration:
     :param joints: List of configurations for each joint.
     """
     name: str
+    model: str
+    tool_model: str
+    hardware_mode: str
     n_joint: int
     joints: list[JointConfiguration]
 
@@ -108,14 +111,20 @@ class RobotConfiguration:
     def from_transport_model(cls, model: transport_models.s.RobotConfig) -> 'RobotConfiguration':
         return cls(
             name=model.name,
-            n_joint=model.number_joints,
+            model=model.model,
+            tool_model=model.tool_model,
+            hardware_mode=model.hardware_mode,
+            n_joint=model.num_joints,
             joints=[JointConfiguration.from_transport_model(jc) for jc in model.joints],
         )
 
     def to_transport_model(self) -> transport_models.s.RobotConfig:
         return transport_models.s.RobotConfig(
             name=self.name,
-            number_joints=self.n_joint,
+            model=self.model,
+            tool_model=self.tool_model,
+            hardware_mode=self.hardware_mode,
+            num_joints=self.n_joint,
             joints=[jc.to_transport_model() for jc in self.joints],
         )
 

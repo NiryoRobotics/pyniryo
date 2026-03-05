@@ -33,7 +33,7 @@ class HttpClient:
 
         self.__hostname = hostname
         self.__port = port
-        self.__headers = {}
+        self.__headers: dict[str, str] = {}
         self.__insecure = insecure
         self.__scheme = 'http' if use_http else 'https'
         self.__http_timeout = http_timeout
@@ -86,7 +86,7 @@ class HttpClient:
                   path: str,
                   response_model: Type[T],
                   json: BaseModel | None = None,
-                  files: dict[str, IO[bytes]] = None) -> T:
+                  files: dict[str, IO[bytes]] | None = None) -> T:
         """
         Make a request to the API.
         :param method: The method of the request.
@@ -129,7 +129,7 @@ class HttpClient:
         """
         return self.__request('GET', path, response_model)
 
-    def post(self, path: str, response_model: Type[T] | None, data: BaseModel, files: dict[str, IO[bytes]] = None) -> T:
+    def post(self, path: str, response_model: Type[T], data: BaseModel, files: dict[str, IO[bytes]] | None = None) -> T:
         """
         Make a POST request to the API.
         :param path: The path of the request.
@@ -141,7 +141,7 @@ class HttpClient:
         """
         return self.__request('POST', path, response_model, data, files)
 
-    def delete(self, path: str, response_model: Type[T] | None) -> T:
+    def delete(self, path: str, response_model: Type[T]) -> T:
         """
         Make a DELETE request to the API.
         :param path: The path of the request.
@@ -151,7 +151,11 @@ class HttpClient:
         """
         return self.__request('DELETE', path, response_model)
 
-    def patch(self, path: str, response_model: Type[T], data: BaseModel, files: dict[str, IO[bytes]] = None) -> T:
+    def patch(self,
+              path: str,
+              response_model: Type[T],
+              data: BaseModel,
+              files: dict[str, IO[bytes]] | None = None) -> T:
         """
         Make a PATCH request to the API.
         :param path: The path of the request.
@@ -163,7 +167,7 @@ class HttpClient:
         """
         return self.__request('PATCH', path, response_model, data, files)
 
-    def put(self, path: str, response_model: Type[T], data: BaseModel, files: dict[str, IO[bytes]] = None) -> T:
+    def put(self, path: str, response_model: Type[T], data: BaseModel, files: dict[str, IO[bytes]] | None = None) -> T:
         """
         Make a PUT request to the API.
         :param path: The path of the request.

@@ -14,10 +14,8 @@ class Cmd(StrEnum):
     ROBOT_TRAJ_GEN = 'device/{device_id}/cmd/robot/traj-gen'
     ROBOT_TRAJ_EXEC = 'device/{device_id}/cmd/robot/traj-exec'
 
-
 class Ack(StrEnum):
     ROBOT_TRAJ_EXEC = 'device/{device_id}/ack/robot/traj-exec'
-
 
 class Robot(StrEnum):
     FRAME_POSE = 'device/{device_id}/robot/frames/{frame_id}/pose'
@@ -27,35 +25,28 @@ class Robot(StrEnum):
     SPEED_FACTOR_TARGET = 'device/{device_id}/robot/speed-factor-target'
     CONTROL_MODE = 'device/{device_id}/robot/control-mode'
 
-
 class Io(StrEnum):
     ANALOG_INPUT_STATE = 'device/{device_id}/io/analog/input/{io_id}/state'
     ANALOG_OUTPUT_STATE = 'device/{device_id}/io/analog/output/{io_id}/state'
     DIGITAL_INPUT_STATE = 'device/{device_id}/io/digital/input/{io_id}/state'
     DIGITAL_OUTPUT_STATE = 'device/{device_id}/io/digital/output/{io_id}/state'
 
-
 class Users(StrEnum):
     USER_LOGGED_IN = 'device/{device_id}/users/{user_id}/logged-in'
     USER_LOGGED_OUT = 'device/{device_id}/users/{user_id}/logged-out'
-
 
 class Programs(StrEnum):
     PROGRAM_EXECUTION_OUTPUT = 'device/{device_id}/programs/{program_id}/executions/{execution_id}/output'
     PROGRAM_EXECUTION_STATUS = 'device/{device_id}/programs/{program_id}/executions/{execution_id}/status'
 
-
 class System(StrEnum):
     METRICS = 'device/{device_id}/system/metrics'
-
 
 class Api(StrEnum):
     METRICS = 'device/{device_id}/api/metrics'
 
-
 class CustomMetrics(StrEnum):
     CUSTOM_METRIC = 'device/{device_id}/custom-metrics/{metrics_id}'
-
 
 class FirmwareState(StrEnum):
     FIRMWARE_STATE = 'device/{device_id}/firmware-state'

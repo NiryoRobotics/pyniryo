@@ -20,18 +20,22 @@ class Authentication(StrEnum):
 
 class Device(StrEnum):
 
+  CLEAR_SYSTEM = '/api/device/clear-system'
   HEALTH_CHECK = '/api/device/health'
   GET_DEVICE_ID = '/api/device/id'
   READINESS_CHECK = '/api/device/ready'
   REBOOT = '/api/device/reboot'
   SHUTDOWN = '/api/device/shutdown'
-  GET_FIRMWARE_STATE = '/api/firmware'
 
 
 class Firmware(StrEnum):
 
+  GET_FIRMWARE_STATE = '/api/firmware'
   GET_ERROR_REPORT = '/api/firmware/errors'
   CLEAR_FIRMWARE_ERRORS = '/api/firmware/errors'
+  FIRMWARE_RESTART = '/api/firmware/restart'
+  FIRMWARE_START = '/api/firmware/start'
+  FIRMWARE_STOP = '/api/firmware/stop'
 
 
 class Ios(StrEnum):
