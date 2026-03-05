@@ -78,7 +78,8 @@ class _Subscription:
     def rm(self, cb_ix: int) -> None:
         with self._callbacks_lock:
             if cb_ix not in self._callbacks:
-                raise ValueError(f'No callback at index {cb_ix} for topic {self._topic}.')
+                logger.warning(f'No callback at index {cb_ix} for topic {self._topic}.')
+                return
             del self._callbacks[cb_ix]
 
     @property
@@ -192,8 +193,9 @@ class MqttClient:
 
     def __unsubscribe(self, topic: str, cb_ix: int) -> None:
         with self.__subscribers_lock:
-            if topic not in self.__subscribers or cb_ix not in self.__subscribers[topic]:
-                raise ValueError(f'No subscribers for topic {topic} at index {cb_ix}.')
+            if topic not in self.__subscribers:
+                logger.warning(f'No subscribers for topic {topic}.')
+                return
 
             self.__subscribers[topic].rm(cb_ix)
 
