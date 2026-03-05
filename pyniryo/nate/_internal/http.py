@@ -15,7 +15,12 @@ class HttpClient:
     A simple HTTP client wrapped around the requests library to suit the API behaviours.
     """
 
-    def __init__(self, hostname: str, port: int, insecure: bool = False, use_http: bool = False) -> None:
+    def __init__(self,
+                 hostname: str,
+                 port: int,
+                 insecure: bool = False,
+                 use_http: bool = False,
+                 http_timeout: float = 0) -> None:
         """
         Initialize the HTTP client.
         :param hostname: The hostname of the API.
@@ -31,6 +36,7 @@ class HttpClient:
         self.__headers = {}
         self.__insecure = insecure
         self.__scheme = 'http' if use_http else 'https'
+        self.__http_timeout = http_timeout
 
         if self.__insecure:
             warnings.filterwarnings('ignore', category=InsecureRequestWarning)
@@ -101,7 +107,8 @@ class HttpClient:
                                     allow_redirects=True,
                                     files=files,
                                     headers=self.__headers,
-                                    verify=not self.__insecure)
+                                    verify=not self.__insecure,
+                                    timeout=self.__http_timeout)
         self.__resolve_status_code(response)
 
         try:

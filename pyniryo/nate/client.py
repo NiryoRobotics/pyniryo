@@ -9,7 +9,6 @@ from .components import Auth, Users, Robot, Device, Programs, MotionPlanner, Met
 from ._internal import paths_gen, transport_models
 from ._internal.http import HttpClient
 from ._internal.mqtt import MqttClient
-from ._internal.const import DEFAULT_HTTP_PORT, DEFAULT_MQTT_PORT
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +42,17 @@ def _fetch_from_env(key: str, _type: Type[_T], default: _T) -> _T:
 
     except Exception as e:
         raise ValueError(f'Error converting environment variable {key} to type {_type}: {e}') from e
+
+
+class Config:
+    HTTP_PORT = 8080
+    HTTP_INSECURE = False
+    HTTP_USE_HTTP = False
+    HTTP_TIMEOUT = 5.0
+
+    MQTT_PORT = 1883
+
+    TOKEN_VALIDITY = "1d"
 
 
 class Nate:
@@ -81,12 +91,15 @@ class Nate:
             raise ValueError("both username and password must be provided for authentication")
 
         # Advanced options, not exposed in the constructor.
-        http_port = _fetch_from_env('NATE_HTTP_PORT', int, DEFAULT_HTTP_PORT)
-        mqtt_port = _fetch_from_env('NATE_MQTT_PORT', int, DEFAULT_MQTT_PORT)
-        insecure = _fetch_from_env('NATE_INSECURE', bool, False)
-        use_http = _fetch_from_env('NATE_USE_HTTP', bool, False)
+        http_port = _fetch_from_env('NATE_HTTP_PORT', int, Config.HTTP_PORT)
+        insecure = _fetch_from_env('NATE_INSECURE', bool, Config.HTTP_INSECURE)
+        use_http = _fetch_from_env('NATE_USE_HTTP', bool, Config.HTTP_USE_HTTP)
+        http_timeout = _fetch_from_env('NATE_HTTP_TIMEOUT', float, Config.HTTP_TIMEOUT)
+
+        mqtt_port = _fetch_from_env('NATE_MQTT_PORT', int, Config.MQTT_PORT)
+
+        token_validity_str = _fetch_from_env('NATE_TOKEN_VALIDITY', str, Config.TOKEN_VALIDITY)
         execution_token = _fetch_from_env('NATE_EXECUTION_TOKEN', str, '')
-        token_validity_str = _fetch_from_env('NATE_TOKEN_VALIDITY', str, "1d")
 
         if token_validity_str.endswith('d'):
             token_validity = timedelta(days=float(token_validity_str[:-1]))
@@ -103,7 +116,11 @@ class Nate:
         ## Bootstrap: fetch all needed data to properly initiate the client and its components. ##
         ##########################################################################################
 
-        self._http_client = HttpClient(hostname, http_port, insecure=insecure, use_http=use_http)
+        self._http_client = HttpClient(hostname,
+                                       http_port,
+                                       insecure=insecure,
+                                       use_http=use_http,
+                                       http_timeout=http_timeout)
         if execution_token is not None:
             self._http_client.set_header('Execution-Token', execution_token)
 
