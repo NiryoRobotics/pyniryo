@@ -3,8 +3,8 @@ from unittest.mock import patch, MagicMock
 from datetime import datetime, timedelta
 from uuid import uuid4
 
-from pyniryo.nate.client import Nate, TokenRenewer
-from pyniryo.nate._internal import transport_models, paths_gen, const
+from pyniryo.nate.client import Nate, TokenRenewer, Config
+from pyniryo.nate._internal import transport_models, paths_gen
 from pyniryo.nate.components import Auth, Users, Robot, Device, Programs, Metrics
 from pyniryo.nate.components.motion_planner import MotionPlanner
 
@@ -39,9 +39,10 @@ class TestNateClient(unittest.TestCase):
 
         # Verify HTTP client was created correctly (without token)
         mock_http_client_class.assert_called_once_with('192.168.1.100',
-                                                       const.DEFAULT_HTTP_PORT,
+                                                       Config.HTTP_PORT,
                                                        insecure=False,
-                                                       use_http=False)
+                                                       use_http=False,
+                                                       http_timeout=Config.HTTP_TIMEOUT)
 
         # Verify login was called
         mock_http.post.assert_called_once()
@@ -135,9 +136,10 @@ class TestNateClient(unittest.TestCase):
 
         # Verify localhost was used
         mock_http_client_class.assert_called_once_with('localhost',
-                                                       const.DEFAULT_HTTP_PORT,
+                                                       Config.HTTP_PORT,
                                                        insecure=False,
-                                                       use_http=False)
+                                                       use_http=False,
+                                                       http_timeout=Config.HTTP_TIMEOUT)
 
     @patch('pyniryo.nate.client.MqttClient')
     @patch('pyniryo.nate.client.HttpClient')
@@ -180,7 +182,11 @@ class TestNateClient(unittest.TestCase):
         client = Nate(hostname='192.168.1.100', login=('user@example.com', 'password123'))
 
         # Verify custom ports were used
-        mock_http_client_class.assert_called_once_with('192.168.1.100', 9000, insecure=False, use_http=False)
+        mock_http_client_class.assert_called_once_with('192.168.1.100',
+                                                       9000,
+                                                       insecure=False,
+                                                       use_http=False,
+                                                       http_timeout=Config.HTTP_TIMEOUT)
 
         # Check MQTT client was called with custom port
         mqtt_call_args = mock_mqtt_client_class.call_args
@@ -214,9 +220,10 @@ class TestNateClient(unittest.TestCase):
 
         # Verify insecure flag was set
         mock_http_client_class.assert_called_once_with('192.168.1.100',
-                                                       const.DEFAULT_HTTP_PORT,
+                                                       Config.HTTP_PORT,
                                                        insecure=True,
-                                                       use_http=False)
+                                                       use_http=False,
+                                                       http_timeout=Config.HTTP_TIMEOUT)
 
     @patch('pyniryo.nate.client.TokenRenewer')
     @patch('pyniryo.nate.client.MqttClient')
@@ -246,9 +253,10 @@ class TestNateClient(unittest.TestCase):
 
         # Verify use_http flag was set
         mock_http_client_class.assert_called_once_with('192.168.1.100',
-                                                       const.DEFAULT_HTTP_PORT,
+                                                       Config.HTTP_PORT,
                                                        insecure=False,
-                                                       use_http=True)
+                                                       use_http=True,
+                                                       http_timeout=Config.HTTP_TIMEOUT)
 
     @patch('pyniryo.nate.client.TokenRenewer')
     @patch('pyniryo.nate.client.MqttClient')
