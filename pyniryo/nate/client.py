@@ -171,13 +171,14 @@ class Nate:
         Clean up resources used by the client, and ensure that any background tasks are properly terminated.
         After calling this method, the client should not be used anymore.
         """
-
         self.auth.close()
         self.users.close()
         self.robot.close()
         self.device.close()
         self.programs.close()
+        self.motion_planner.close()
         self.metrics.close()
+        self.io.close()
 
         self._token_renewer.stop()
         self._mqtt_client.disconnect()

@@ -63,11 +63,12 @@ class _Subscription:
 
         model = self._payload_model.model_validate_json(payload)
         with self._callbacks_lock:
-            for callback in self._callbacks.values():
-                try:
-                    callback(received_topic, model)
-                except Exception:
-                    logger.exception(f'Error in callback {callback.__qualname__} for topic {self._topic}')
+            callbacks = list(self._callbacks.values())
+        for callback in callbacks:
+            try:
+                callback(received_topic, model)
+            except Exception:
+                logger.exception(f'Error in callback {callback.__qualname__} for topic {self._topic}')
 
     def add(self, callback: Callback) -> int:
         with self._callbacks_lock:
@@ -202,7 +203,7 @@ class MqttClient:
             if self.__subscribers[topic].is_stale:
                 self.__mqtt_client.unsubscribe(topic)
                 del self.__subscribers[topic]
-                logger.info(f'subscription to "{topic}" was stale and has been unsubscribed.')
+                logger.debug(f'subscription to "{topic}" was stale and has been unsubscribed.')
 
     def format(self, topic: str, **kwargs) -> str:
         """

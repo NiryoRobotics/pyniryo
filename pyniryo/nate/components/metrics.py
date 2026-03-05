@@ -84,7 +84,7 @@ class Metrics(BaseAPIComponent):
         self._metrics_queue = Queue()
         threading.Thread(target=self._process_metrics_queue, daemon=True).start()
 
-    def close(self) -> None:
+    def _close(self) -> None:
         self._metrics_queue.put(None)
         self._metrics_queue.join()
 
