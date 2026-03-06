@@ -211,15 +211,42 @@ class TestRobot(BaseTestComponent):
 
     def test_get_configuration(self):
         """Test getting robot configuration."""
-        mock_config = transport_models.s.RobotConfig(name='test_robot', number_joints=6, joints=[])
+        mock_config = transport_models.s.RobotConfig(name='test_robot',
+                                                     model='test_model',
+                                                     tool_model='test_tool',
+                                                     hardware_mode='mock',
+                                                     num_joints=6,
+                                                     joints=[
+                                                         transport_models.s.JointConfig(name=f'joint_{i+1}',
+                                                                                        type='revolute',
+                                                                                        position_limit_min=-3.14,
+                                                                                        position_limit_max=3.14,
+                                                                                        velocity_limit=1.0,
+                                                                                        acceleration_limit=1.0,
+                                                                                        effort_limit=1.0)
+                                                         for i in range(6)
+                                                     ])
         self.http_client.get.return_value = mock_config
 
         config = self.robot.get_configuration()
 
         self.http_client.get.assert_called_once_with(paths_gen.Robot.GET_ROBOT_CONFIG, transport_models.s.RobotConfig)
         self.assertIsInstance(config, robot.RobotConfiguration)
-        self.assertEqual(config.name, 'test_robot')
-        self.assertEqual(config.n_joint, 6)
+        self.assertEqual(config.name, mock_config.name)
+        self.assertEqual(config.model, mock_config.model)
+        self.assertEqual(config.tool_model, mock_config.tool_model)
+        self.assertEqual(config.hardware_mode, mock_config.hardware_mode)
+        self.assertEqual(config.n_joint, mock_config.num_joints)
+        self.assertEqual(len(config.joints), mock_config.num_joints)
+
+        for joint_config, mock_joint in zip(config.joints, mock_config.joints):
+            self.assertEqual(joint_config.name, mock_joint.name)
+            self.assertEqual(joint_config.type, mock_joint.type)
+            self.assertEqual(joint_config.position_limit_min, mock_joint.position_limit_min)
+            self.assertEqual(joint_config.position_limit_max, mock_joint.position_limit_max)
+            self.assertEqual(joint_config.velocity_limit, mock_joint.velocity_limit)
+            self.assertEqual(joint_config.acceleration_limit, mock_joint.acceleration_limit)
+            self.assertEqual(joint_config.effort_limit, mock_joint.effort_limit)
 
     def test_get_control_mode(self):
         """Test getting control mode."""

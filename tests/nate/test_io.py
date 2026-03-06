@@ -1,8 +1,8 @@
 import unittest
-from unittest.mock import MagicMock, call
+from unittest.mock import MagicMock
 
 from pyniryo.nate._internal import transport_models, paths_gen, topics_gen
-from pyniryo.nate.components.io import IOLabel as IOComponent, DigitalIO, AnalogIO
+from pyniryo.nate.components.io import IO, DigitalIO, AnalogIO
 from pyniryo.nate.models.io import IOStates, IOLabel
 
 from .base import BaseTestComponent
@@ -152,9 +152,13 @@ class TestIOStates(unittest.TestCase):
 
         t_model = io_states.to_transport_model()
 
+        self.assertIsNotNone(t_model.digital_inputs)
         self.assertEqual(len(t_model.digital_inputs), 1)
+        self.assertIsNotNone(t_model.digital_outputs)
         self.assertEqual(len(t_model.digital_outputs), 1)
+        self.assertIsNotNone(t_model.analog_inputs)
         self.assertEqual(len(t_model.analog_inputs), 1)
+        self.assertIsNotNone(t_model.analog_outputs)
         self.assertEqual(len(t_model.analog_outputs), 1)
 
         self.assertEqual(t_model.digital_inputs[0].id, IOLabel.TDI1)
@@ -193,7 +197,7 @@ class TestIO(BaseTestComponent):
 
     def setUp(self):
         super().setUp()
-        self.io = IOComponent(self.http_client, self.mqtt_client, self.correlation_id)
+        self.io = IO(self.http_client, self.mqtt_client, self.correlation_id)
 
     def test_get_all(self):
         """Test getting all IO states."""
@@ -527,7 +531,7 @@ class TestIOIntegration(BaseTestComponent):
 
     def setUp(self):
         super().setUp()
-        self.io = IOComponent(self.http_client, self.mqtt_client, self.correlation_id)
+        self.io = IO(self.http_client, self.mqtt_client, self.correlation_id)
 
     def test_full_workflow_get_and_update(self):
         """Test complete workflow: get states, modify, and update."""

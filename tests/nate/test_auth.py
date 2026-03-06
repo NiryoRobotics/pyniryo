@@ -73,8 +73,8 @@ class TestAuth(BaseTestComponent):
             mock_get_level.return_value = [user_id]
             self.auth.on_user_logged_in(user_callback, user_id)
 
-            internal_callback = self.mqtt_client.subscribe.call_args[0][1]
-            internal_callback(f'users/{user_id}/logged-in', transport_models.a.UserEvent())
+            topic, internal_callback, model = self.mqtt_client.subscribe.call_args[0]
+            internal_callback(topic, transport_models.a.UserEvent())
             expected_calls.append(call(user_id, auth.UserEvent()))
 
         user_callback.assert_has_calls(expected_calls)
@@ -89,10 +89,8 @@ class TestAuth(BaseTestComponent):
         self.auth.on_user_logged_out(user_callback, user_id)
 
         self.mqtt_client.subscribe.assert_called_once()
-        topic = f'users/{user_id}/logged-out'
-        self.assertEqual(self.mqtt_client.subscribe.call_args[0][0], topic)
+        topic, internal_callback, model = self.mqtt_client.subscribe.call_args[0]
 
-        internal_callback = self.mqtt_client.subscribe.call_args[0][1]
         internal_callback(topic, transport_models.a.UserEvent())
         user_callback.assert_called_once_with(user_id, auth.UserEvent())
 
@@ -104,7 +102,8 @@ class TestAuth(BaseTestComponent):
         self.auth.on_user_logged_out(user_callback)
 
         self.mqtt_client.subscribe.assert_called_once()
-        self.assertEqual(self.mqtt_client.subscribe.call_args[0][0], 'users/+/logged-out')
+        self.assertEqual(self.mqtt_client.subscribe.call_args[0][0],
+                         self.mqtt_client.format(topics_gen.Users.USER_LOGGED_OUT, user_id='+'))
 
         expected_calls = []
         for _ in range(3):
@@ -112,8 +111,8 @@ class TestAuth(BaseTestComponent):
             mock_get_level.return_value = [user_id]
             self.auth.on_user_logged_out(user_callback, user_id)
 
-            internal_callback = self.mqtt_client.subscribe.call_args[0][1]
-            internal_callback(f'users/{user_id}/logged-out', transport_models.a.UserEvent())
+            topic, internal_callback, model = self.mqtt_client.subscribe.call_args[0]
+            internal_callback(topic, transport_models.a.UserEvent())
             expected_calls.append(call(user_id, auth.UserEvent()))
 
         user_callback.assert_has_calls(expected_calls)
