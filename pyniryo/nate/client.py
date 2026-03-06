@@ -3,7 +3,7 @@ import os
 import threading
 import uuid
 from datetime import datetime, timedelta, timezone
-from typing import Callable, Type, TypeVar
+from typing import Callable, TypeVar, Any, cast
 
 from .components import Auth, Users, Robot, Device, Programs, MotionPlanner, Metrics, BaseAPIComponent, IO
 from ._internal import paths_gen, transport_models
@@ -16,13 +16,12 @@ _T = TypeVar("_T", bound=str | int | float | bool)
 _C = TypeVar("_C", bound=BaseAPIComponent)
 
 
-def _fetch_from_env(key: str, _type: Type[_T], default: _T) -> _T:
+def _fetch_from_env(key: str, _type: type[_T]) -> _T | None:
     """
     Fetch a value from environment variables and convert it to the specified type.
     
     :param key: The environment variable key.
     :param _type: The target type to convert to.
-    :param default: The default value if the environment variable is not set.
     :return: The converted value or the default.
     :raises ValueError: If the conversion fails.
     :raises TypeError: If the type is not supported.
@@ -30,13 +29,13 @@ def _fetch_from_env(key: str, _type: Type[_T], default: _T) -> _T:
     value = os.getenv(key)
 
     if value is None:
-        return default
+        return None
 
     try:
         if _type is bool:
-            return _type(value.lower() in ['true', '1', 'yes'])
+            return cast(_T, value.lower() in ['true', '1', 'yes'])
         elif _type in [int, float, str]:
-            return _type(value)
+            return cast(_T, _type(value))
         else:
             raise TypeError(f'Unsupported type {_type}')
 
@@ -45,6 +44,8 @@ def _fetch_from_env(key: str, _type: Type[_T], default: _T) -> _T:
 
 
 class Config:
+    HOSTNAME = 'localhost'
+
     HTTP_PORT = 8080
     HTTP_INSECURE = False
     HTTP_USE_HTTP = False
@@ -70,36 +71,35 @@ class Nate:
     metrics: Metrics
     io: IO
 
-    def __init__(self, hostname: str | None = None, login: tuple[str, str] = (None, None)):
+    def __init__(self, hostname: str = '', login: tuple[str, str] = ('', '')):
         """
         Initialize a client to communicate with the Nate API.
         
         :param hostname: The hostname of the Nate API. It can be an IP address or a domain name.
-            If None, retrieve it from the environment variable NATE_HOSTNAME. If the environment variable is not set, use localhost.
-        :type hostname: str
+            If None, retrieve it from the environment variable NATE_HOSTNAME. If the environment variable is not set, use `Config.HOSTNAME`.
         :param login: A tuple containing the username and password to use for authentication. Omitted if using an auth token.
             If None, retrieve them from the environment variables NATE_USERNAME and NATE_PASSWORD.
         """
-        hostname = _fetch_from_env('NATE_HOSTNAME', str, hostname) or 'localhost'
+        hostname = _fetch_from_env('NATE_HOSTNAME', str) or hostname or Config.HOSTNAME
 
         if len(login) != 2:
             raise ValueError("authentication with username and password requires both username and password")
         username, password = login
-        username = _fetch_from_env('NATE_USERNAME', str, username)
-        password = _fetch_from_env('NATE_PASSWORD', str, password)
+        username = _fetch_from_env('NATE_USERNAME', str) or username
+        password = _fetch_from_env('NATE_PASSWORD', str) or password
         if username is None or password is None:
             raise ValueError("both username and password must be provided for authentication")
 
         # Advanced options, not exposed in the constructor.
-        http_port = _fetch_from_env('NATE_HTTP_PORT', int, Config.HTTP_PORT)
-        insecure = _fetch_from_env('NATE_INSECURE', bool, Config.HTTP_INSECURE)
-        use_http = _fetch_from_env('NATE_USE_HTTP', bool, Config.HTTP_USE_HTTP)
-        http_timeout = _fetch_from_env('NATE_HTTP_TIMEOUT', float, Config.HTTP_TIMEOUT)
+        http_port = _fetch_from_env('NATE_HTTP_PORT', int) or Config.HTTP_PORT
+        insecure = _fetch_from_env('NATE_INSECURE', bool) or Config.HTTP_INSECURE
+        use_http = _fetch_from_env('NATE_USE_HTTP', bool) or Config.HTTP_USE_HTTP
+        http_timeout = _fetch_from_env('NATE_HTTP_TIMEOUT', float) or Config.HTTP_TIMEOUT
 
-        mqtt_port = _fetch_from_env('NATE_MQTT_PORT', int, Config.MQTT_PORT)
+        mqtt_port = _fetch_from_env('NATE_MQTT_PORT', int) or Config.MQTT_PORT
 
-        token_validity_str = _fetch_from_env('NATE_TOKEN_VALIDITY', str, Config.TOKEN_VALIDITY)
-        execution_token = _fetch_from_env('NATE_EXECUTION_TOKEN', str, '')
+        token_validity_str = _fetch_from_env('NATE_TOKEN_VALIDITY', str) or Config.TOKEN_VALIDITY
+        execution_token = _fetch_from_env('NATE_EXECUTION_TOKEN', str) or ''
 
         if token_validity_str.endswith('d'):
             token_validity = timedelta(days=float(token_validity_str[:-1]))
@@ -110,7 +110,7 @@ class Nate:
         else:
             raise ValueError(f'Unsupported token validity type {token_validity_str}.')
 
-        self._correlation_id = _fetch_from_env('NATE_CORRELATION_ID', str, uuid.uuid4().hex)
+        self._correlation_id = _fetch_from_env('NATE_CORRELATION_ID', str) or uuid.uuid4().hex
 
         ##########################################################################################
         ## Bootstrap: fetch all needed data to properly initiate the client and its components. ##
@@ -160,13 +160,13 @@ class Nate:
         self.metrics = Metrics(self._http_client, self._mqtt_client, self._correlation_id)
         self.io = IO(self._http_client, self._mqtt_client, self._correlation_id)
 
-    def __enter__(self):
+    def __enter__(self) -> 'Nate':
         return self
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, type: Any, value: Any, traceback: Any) -> None:
         self.close()
 
-    def close(self):
+    def close(self) -> None:
         """
         Clean up resources used by the client, and ensure that any background tasks are properly terminated.
         After calling this method, the client should not be used anymore.
@@ -200,32 +200,29 @@ class TokenRenewer:
         self._provider = provider
         self._setters = setters
         self._renewal_interval = renewal_interval
-        self._timer = None
+        self._timer = threading.Timer(0, lambda: None)
 
-    def start(self):
+    def start(self) -> None:
         """
         Start the token renewal timer.
         """
         self._setup_timer()
 
-    def stop(self):
+    def stop(self) -> None:
         """
         Stop the token renewal timer and cancel any pending renewals.
         """
-        if self._timer is not None:
-            self._timer.cancel()
-            self._timer = None
+        self._timer.cancel()
 
     def _setup_timer(self) -> None:
-        if self._timer is not None:
-            self._timer.cancel()
+        self._timer.cancel()
         interval = self._renewal_interval.total_seconds() * 0.9
         self._timer = threading.Timer(interval, self._run)
         self._timer.daemon = True
         logger.info(f'Next token renewal scheduled in {timedelta(seconds=interval)}.')
         self._timer.start()
 
-    def _run(self):
+    def _run(self) -> None:
         token = self._provider(self._renewal_interval)
         for setter in self._setters:
             try:

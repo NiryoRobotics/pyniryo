@@ -82,9 +82,8 @@ class ExecutionCommand:
 
         try:
             self.execution = self.__get_execution()
-        except Exception as e:
-            logger.error(e)
-            raise PyNiryoError(f'Error while fetching execution {self.execution_id}') from e
+        except Exception:
+            logger.exception(f'Error while fetching execution "{self.execution_id}"')
 
     @property
     def status(self) -> ExecutionStatusStatus:

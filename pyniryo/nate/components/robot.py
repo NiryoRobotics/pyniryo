@@ -155,10 +155,7 @@ class Robot(BaseAPIComponent):
         """
 
         def internal_callback(_: str, pose: transport_models.a.Pose) -> None:
-            try:
-                callback(Pose.from_transport_model(pose))
-            except Exception:
-                logger.exception(f'Error on_frame_pose callback {callback.__qualname__}')
+            callback(Pose.from_transport_model(pose))
 
         return self._mqtt_client.subscribe(
             self._mqtt_client.format(topics_gen.Robot.FRAME_POSE, frame_id=frame_id),

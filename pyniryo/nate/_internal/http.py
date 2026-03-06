@@ -1,7 +1,7 @@
 import warnings
 
 import requests
-from typing import Type, TypeVar, IO
+from typing import TypeVar, IO
 from pydantic import BaseModel, ValidationError
 from urllib3.exceptions import InsecureRequestWarning
 
@@ -84,7 +84,7 @@ class HttpClient:
     def __request(self,
                   method: str,
                   path: str,
-                  response_model: Type[T],
+                  response_model: type[T],
                   json: BaseModel | None = None,
                   files: dict[str, IO[bytes]] | None = None) -> T:
         """
@@ -119,7 +119,7 @@ class HttpClient:
         except ValidationError as e:
             raise InternalError(get_msg_from_errors(e.errors())) from e
 
-    def get(self, path: str, response_model: Type[T]) -> T:
+    def get(self, path: str, response_model: type[T]) -> T:
         """
         Make a GET request to the API.
         :param path: The path of the request.
@@ -129,7 +129,7 @@ class HttpClient:
         """
         return self.__request('GET', path, response_model)
 
-    def post(self, path: str, response_model: Type[T], data: BaseModel, files: dict[str, IO[bytes]] | None = None) -> T:
+    def post(self, path: str, response_model: type[T], data: BaseModel, files: dict[str, IO[bytes]] | None = None) -> T:
         """
         Make a POST request to the API.
         :param path: The path of the request.
@@ -141,7 +141,7 @@ class HttpClient:
         """
         return self.__request('POST', path, response_model, data, files)
 
-    def delete(self, path: str, response_model: Type[T]) -> T:
+    def delete(self, path: str, response_model: type[T]) -> T:
         """
         Make a DELETE request to the API.
         :param path: The path of the request.
@@ -153,7 +153,7 @@ class HttpClient:
 
     def patch(self,
               path: str,
-              response_model: Type[T],
+              response_model: type[T],
               data: BaseModel,
               files: dict[str, IO[bytes]] | None = None) -> T:
         """
@@ -167,7 +167,7 @@ class HttpClient:
         """
         return self.__request('PATCH', path, response_model, data, files)
 
-    def put(self, path: str, response_model: Type[T], data: BaseModel, files: dict[str, IO[bytes]] | None = None) -> T:
+    def put(self, path: str, response_model: type[T], data: BaseModel, files: dict[str, IO[bytes]] | None = None) -> T:
         """
         Make a PUT request to the API.
         :param path: The path of the request.

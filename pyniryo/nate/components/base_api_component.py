@@ -1,7 +1,10 @@
+import logging
 from abc import ABC
 
 from .._internal.http import HttpClient
 from .._internal.mqtt import MqttClient
+
+logger = logging.getLogger(__name__)
 
 
 class BaseAPIComponent(ABC):

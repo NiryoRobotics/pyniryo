@@ -3,10 +3,10 @@ import string
 import threading
 from base64 import b64encode
 from enum import Enum
-from typing import Dict, Callable, TypeVar, Type, Sequence, Any, Mapping
+from typing import Dict, Callable, TypeVar, Sequence, Any, Mapping, Generic
 import logging
 
-from paho.mqtt.client import Client, MQTTv5, CallbackAPIVersion, MQTTMessage
+from paho.mqtt.client import Client, MQTTv5, CallbackAPIVersion, MQTTMessage  # type: ignore[attr-defined]
 from pydantic import BaseModel
 from strenum import StrEnum
 
@@ -51,13 +51,13 @@ class TopicFormatter(string.Formatter):
             raise ValueError(f'Missing value for placeholder "{key}".') from e
 
 
-class _Subscription:
+class _Subscription(Generic[T]):
 
-    def __init__(self, topic: str, payload_model: Type[BaseModel]):
+    def __init__(self, topic: str, payload_model: type[T]):
         self._topic = topic
         self._payload_model = payload_model
         self._callbacks_lock = threading.Lock()
-        self._callbacks: Dict[int, Callback] = {}
+        self._callbacks: Dict[int, Callback[T]] = {}
 
     def internal_callback(self, _client: Client, _userdata: Any, message: MQTTMessage) -> None:
         received_topic = message.topic
@@ -72,7 +72,7 @@ class _Subscription:
             except Exception:
                 logger.exception(f'Error in callback {callback.__qualname__} for topic {self._topic}')
 
-    def add(self, callback: Callback) -> int:
+    def add(self, callback: Callback[T]) -> int:
         with self._callbacks_lock:
             cb_ix = len(self._callbacks)
             self._callbacks[cb_ix] = callback
@@ -106,7 +106,7 @@ class MqttClient:
         self.__client_id = f'pyniryo-{b64encode(correlation_id.encode()).decode()}'
 
         self.__subscribers_lock = threading.Lock()
-        self.__subscribers: Dict[str, _Subscription] = {}
+        self.__subscribers: Dict[str, _Subscription[Any]] = {}
 
         self.__mqtt_client = Client()
 
@@ -164,7 +164,7 @@ class MqttClient:
 
         self.__mqtt_client.publish(topic, encoded_data, qos=qos.value)
 
-    def subscribe(self, topic: str, callback: Callback, payload_model: Type[T]) -> Unsubscribe:
+    def subscribe(self, topic: str, callback: Callback[T], payload_model: type[T]) -> Unsubscribe:
         """
         Subscribe to a topic.
         :param topic: The topic to subscribe to.

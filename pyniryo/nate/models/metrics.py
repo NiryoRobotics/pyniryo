@@ -6,12 +6,17 @@ from .._internal import transport_models
 
 
 @overload
-def get_mtype(_type: type, a: Literal[False] = False) -> transport_models.s.MType:
+def get_mtype(_type: type, a: Literal[False]) -> transport_models.s.MType:
     ...
 
 
 @overload
-def get_mtype(_type: type, a: Literal[True] = True) -> transport_models.a.MType:
+def get_mtype(_type: type, a: Literal[True]) -> transport_models.a.MType:
+    ...
+
+
+@overload
+def get_mtype(_type: type, a: bool = False) -> transport_models.s.MType | transport_models.a.MType:
     ...
 
 
@@ -79,5 +84,11 @@ class Metric:
     value: str
     type: type
 
-    def to_transport_model(self) -> transport_models.a.CustomMetric:
-        return transport_models.a.CustomMetric(name=self.name, value=self.value, m_type=get_mtype(self.type, a=True))
+    @classmethod
+    def from_transport_model(cls,
+                             tr_metric: transport_models.s.CustomMetric | transport_models.a.CustomMetric) -> 'Metric':
+        return cls(name=tr_metric.name, value=tr_metric.value, type=parse_mtype(tr_metric.m_type))
+
+    def to_transport_model(self, a: bool = False) -> transport_models.s.CustomMetric | transport_models.a.CustomMetric:
+        metric_class = transport_models.a.CustomMetric if a else transport_models.s.CustomMetric
+        return metric_class(name=self.name, value=self.value, m_type=get_mtype(self.type, a=a))

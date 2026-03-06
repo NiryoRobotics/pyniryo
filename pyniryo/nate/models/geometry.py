@@ -1,6 +1,7 @@
 import math
 from collections import UserList
 from dataclasses import dataclass
+from typing import Type
 
 from .._internal import transport_models
 
@@ -54,7 +55,9 @@ class Point:
     z: float
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.s.Point) -> 'Point':
+    def from_transport_model(cls, model: transport_models.s.Point | dict[str, float]) -> 'Point':
+        if isinstance(model, dict):
+            return cls(x=model['x'], y=model['y'], z=model['z'])
         return cls(x=model.x, y=model.y, z=model.z)
 
     def to_transport_model(self) -> transport_models.s.Point:
@@ -77,7 +80,9 @@ class Quaternion:
     w: float
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.s.Quaternion) -> 'Quaternion':
+    def from_transport_model(cls, model: transport_models.s.Quaternion | dict[str, float]) -> 'Quaternion':
+        if isinstance(model, dict):
+            return cls(x=model['x'], y=model['y'], z=model['z'], w=model['w'])
         return cls(x=model.x, y=model.y, z=model.z, w=model.w)
 
     def to_transport_model(self) -> transport_models.s.Quaternion:

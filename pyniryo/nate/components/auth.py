@@ -37,6 +37,18 @@ class Auth(BaseAPIComponent):
         )
         return Token.from_transport_model(token)
 
+    def _on_user_event(self,
+                       topic: str,
+                       callback: Callable[[str, UserEvent], None],
+                       user_id: str | None = None) -> Unsubscribe:
+        topic = self._mqtt_client.format(topic, user_id=user_id or mqtt.Wildcard.SINGLE_LEVEL)
+
+        def callback_wrapper(received_topic: str, user_event: transport_models.a.UserEvent) -> None:
+            u_id = mqtt.get_level_from_wildcard(topic, received_topic)[0]
+            callback(u_id, UserEvent.from_transport_model(user_event))
+
+        return self._mqtt_client.subscribe(topic, callback_wrapper, transport_models.a.UserEvent)
+
     def on_user_logged_in(self, callback: UserLoggedInCallback, user_id: str | None = None) -> Unsubscribe:
         """
         Set the callback to call when a user logs in.
@@ -44,16 +56,7 @@ class Auth(BaseAPIComponent):
         :param callback: The callback to call. The callback must take the user ID and the payload as parameters.
         :param user_id: The user ID to listen to. If not specified, listen to all users.
         """
-        topic = self._mqtt_client.format(topics_gen.Users.USER_LOGGED_IN, user_id=user_id or mqtt.Wildcard.SINGLE_LEVEL)
-
-        def callback_wrapper(received_topic: str, user_logged_in: transport_models.a.UserEvent):
-            user_id = mqtt.get_level_from_wildcard(topic, received_topic)[0]
-            try:
-                callback(user_id, UserEvent.from_transport_model(user_logged_in))
-            except Exception:
-                logger.exception(f'Error on_user_logged_in callback {callback.__qualname__} ')
-
-        return self._mqtt_client.subscribe(topic, callback_wrapper, transport_models.a.UserEvent)
+        return self._on_user_event(topics_gen.Users.USER_LOGGED_IN, callback, user_id)
 
     def on_user_logged_out(self, callback: UserLoggedOutCallback, user_id: str | None = None) -> Unsubscribe:
         """
@@ -62,13 +65,4 @@ class Auth(BaseAPIComponent):
         :param callback: The callback to call. The callback must take the user ID and the payload as parameters.
         :param user_id: The user ID to listen to. If not specified, listen to all users.
         """
-        topic = f'users/{user_id or mqtt.Wildcard.SINGLE_LEVEL}/logged-out'
-
-        def callback_wrapper(received_topic: str, user_logged_out: transport_models.a.UserEvent):
-            user_id = mqtt.get_level_from_wildcard(topic, received_topic)[0]
-            try:
-                callback(user_id, UserEvent.from_transport_model(user_logged_out))
-            except Exception:
-                logger.exception(f'Error user_logged_out callback {callback.__qualname__} ')
-
-        return self._mqtt_client.subscribe(topic, callback_wrapper, transport_models.a.UserEvent)
+        return self._on_user_event(topics_gen.Users.USER_LOGGED_OUT, callback, user_id)
