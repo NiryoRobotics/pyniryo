@@ -85,6 +85,7 @@ build_package:
       - dist
 
 .upload_package:
+  stage: deploy
   extends: .build_job
   needs:
     - build_package
@@ -110,7 +111,7 @@ upload_prod:
 
 docker-build:
   image: $DIND_BUILDER_IMAGE
-  stage: deploy
+  stage: build
   inherit:
     default: false
   tags:
