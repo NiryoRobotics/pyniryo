@@ -172,9 +172,7 @@ promote_prod:
       DOCKER_HOST: "unix:///var/run/docker.sock"
       DOCKER_BUILDKIT: 1
       DOCKER_TLS_CERTDIR: ""
-  parallel:
-    matrix:
-      - PYTHON_VERSION: [ "3.10", "3.11", "3.12" ]
+  parallel: *parallel
   before_script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - >
