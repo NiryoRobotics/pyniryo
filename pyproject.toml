@@ -1,17 +1,96 @@
-[metadata]
-name = 'pyniryo'
-version = '1.2.2'
-description = ''
-author = 'Niryo'
-author_email = 'j.mottier@niryo.com'
-license = 'MIT/Apache-2.0'
-url = 'https://github.com/NiryoRobotics/pyniryo'
-
-[requires]
-python_version = ['3.10', '3.11', '3.12', '3.13']
-
 [build-system]
-requires = ['setuptools', 'wheel']
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
-[tool.hatch.commands]
-prerelease = 'hatch build'
+[project]
+name = "pyniryo"
+dynamic = ["version"]
+description = "Package to control Niryo Ned and Nate Robots"
+readme = "README.rst"
+license-files = ["LICENSE"]
+authors = [
+    {name = "Niryo", email = "j.mottier@niryo.com"}
+]
+maintainers = [
+    {name = "Niryo", email = "j.mottier@niryo.com"}
+]
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+    "Topic :: Scientific/Engineering :: Human Machine Interfaces",
+]
+dependencies = [
+    "enum34",
+    "opencv-python-headless",
+    "numpy",
+    "typing-extensions",
+    "paho-mqtt",
+    "requests",
+    "types-requests",
+    "pydantic",
+    "pydantic[email]",
+    "strenum",
+]
+
+[project.optional-dependencies]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme",
+    "sphinx-autobuild",
+    "sphinx-copybutton",
+    "sphinxemoji",
+    "sphinx-versioned-docs",
+    "sphinx-tabs",
+    "sphinx-togglebutton",
+]
+tests = [
+    "pytest",
+    "coverage",
+    "tox",
+    "mypy",
+]
+scripts = [
+    "openapi3-parser",
+    "pyyaml",
+    "datamodel-code-generator[ruff]",
+]
+dev = [
+    "sphinx",
+    "sphinx-rtd-theme",
+    "sphinx-autobuild",
+    "sphinx-copybutton",
+    "sphinxemoji",
+    "sphinx-versioned-docs",
+    "sphinx-tabs",
+    "sphinx-togglebutton",
+    "pytest",
+    "coverage",
+    "tox",
+    "mypy",
+    "openapi3-parser",
+    "pyyaml",
+    "datamodel-code-generator[ruff]",
+]
+
+[project.urls]
+Homepage = "https://github.com/NiryoRobotics/pyniryo"
+
+[tool.setuptools.dynamic]
+version = {attr = "pyniryo.version.__version__"}
+
+[tool.setuptools.packages.find]
+exclude = ["tests", "tests.*"]
+
+[tool.setuptools.package-data]
+pyniryo = ["py.typed"]
