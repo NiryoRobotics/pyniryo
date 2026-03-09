@@ -78,8 +78,6 @@ build_package:
   extends: .build_job
   script:
     - python3 -m build
-  rules:
-    - if: $CI_COMMIT_TAG
   artifacts:
     paths:
       - dist
