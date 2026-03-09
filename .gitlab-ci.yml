@@ -12,10 +12,6 @@ default:
     paths:
       - .cache/pip
 
-workflow:
-  auto_cancel:
-    on_job_failure: all
-
 variables:
   PYTHON_VERSION: 3.12
 
