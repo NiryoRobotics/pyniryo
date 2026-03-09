@@ -71,6 +71,7 @@ unit-tests:
 
 pages:
   stage: docs
+  needs: []
   extends: .doc_job
   script:
     - apt update && apt install -y git
