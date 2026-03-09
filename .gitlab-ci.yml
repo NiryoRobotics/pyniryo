@@ -100,7 +100,7 @@ build_package:
   rules:
     - if: $CI_COMMIT_TAG
   script:
-    - twine upload --repository-url $REGISTRY_URL dist/*
+    - twine upload --verbose --repository-url $REGISTRY_URL dist/*
 
 upload_staging:
   extends: .upload_package
