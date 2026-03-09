@@ -209,7 +209,7 @@ mirror_github:
     - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
     - git clone --bare $CI_REPOSITORY_URL
     - cd $CI_PROJECT_NAME.git
-    - git push $GITHUB_REPOSITORY $CI_COMMIT_SHA:refs/heads/master --tags -f
+    - git push $GITHUB_REPOSITORY $CI_COMMIT_SHA:refs/heads/master refs/tags/$CI_COMMIT_TAG -f
   rules:
     - if: $CI_COMMIT_TAG
       when: manual
