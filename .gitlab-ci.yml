@@ -188,9 +188,9 @@ promote_prod:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
   script:
     - docker buildx imagetools create -t ${ACCOUNT_ID}.dkr.ecr.eu-west-3.amazonaws.com/$CI_PROJECT_PATH:$PYTHON_VERSION-slim-$CI_COMMIT_TAG  $CI_REGISTRY_IMAGE:$PYTHON_VERSION-slim-$CI_COMMIT_TAG
-  when: manual
   rules:
     - if: $CI_COMMIT_TAG
+      when: manual
 
 
 mirror_github:
@@ -211,4 +211,5 @@ mirror_github:
     - cd $CI_PROJECT_NAME.git
     - git push $GITHUB_REPOSITORY $CI_COMMIT_SHA:refs/heads/master --tags -f
   rules:
-    - if: $CI_COMMIT_TAG && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG
+      when: manual
