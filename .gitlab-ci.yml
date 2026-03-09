@@ -112,6 +112,8 @@ upload_prod:
 docker-build:
   image: $DIND_BUILDER_IMAGE
   stage: build
+  needs:
+    - build_package
   inherit:
     default: false
   tags:
