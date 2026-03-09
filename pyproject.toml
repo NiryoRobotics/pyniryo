@@ -94,3 +94,31 @@ exclude = ["tests", "tests.*"]
 
 [tool.setuptools.package-data]
 pyniryo = ["py.typed"]
+
+[tool.tox]
+env_list = ["py310", "py311", "py312", "py313"]
+
+[tool.tox.env_run_base]
+pass_env = ["*"]
+extras = ["tests"]
+
+commands = [
+    ["coverage", "run", "--parallel-mode", "-m", "pytest"],
+    ["coverage", "combine", "--append"],
+    ["coverage", "report", "-m"],
+]
+
+[tool.tox.env_run_base.set_env]
+# Note: {toxinidir} and {envname} are updated to modern tox 4 equivalents
+COVERAGE_FILE = "{tox_root}/.coverage.{env_name}"
+
+[tool.pycodestyle]
+statistics = true
+
+[tool.yapf]
+based_on_style = "pep8"
+
+column_limit = 120
+split_arguments_when_comma_terminated = 1
+split_all_top_level_comma_separated_values = 1
+split_before_dot = 1
