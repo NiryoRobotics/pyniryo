@@ -5,7 +5,7 @@ from uuid import uuid4, UUID
 
 from .base_api_component import BaseAPIComponent
 from ..exceptions import PyNiryoError
-from ..models import Program, ProgramType, ProgramExecution, ExecutionStatus, ExecutionStatusStatus, ExecutorStatus
+from ..models import Program, ProgramType, ProgramExecution, ExecutionStatus, ExecutionStatusStatus, ExecutorStatus, Unsubscribe
 from .._internal import paths_gen, transport_models, topics_gen
 from .._internal.mqtt import MqttClient
 
@@ -30,19 +30,12 @@ class ExecutionCommand:
         self.execution: ProgramExecution | None = None
         self.__get_execution: Callable[[], ProgramExecution] = get_execution
 
-        self.__on_output = on_output
-        self.__on_status = on_status
+        self.__on_status = on_status or (lambda status: None)
 
-        self.__unsubscribe_output = None
-        self.__unsubscribe_status = None
+        self.__unsubscribe_status: Unsubscribe = lambda: None
 
-        if self.__on_output is not None:
-            output_topic = self.__mqtt_client.format(topics_gen.Programs.PROGRAM_EXECUTION_OUTPUT,
-                                                     program_id=program_id,
-                                                     execution_id=execution_id)
-            self.__unsubscribe_output = self.__mqtt_client.subscribe(output_topic,
-                                                                     self.__output_callback,
-                                                                     transport_models.a.ProgramExecutionOutput)
+        if on_output is not None:
+            self._process_output(on_output)
 
         self.__status: list[ExecutionStatus] = [ExecutionStatus(status=ExecutionStatusStatus.RUNNING)]
         status_topic = self.__mqtt_client.format(topics_gen.Programs.PROGRAM_EXECUTION_STATUS,
@@ -52,16 +45,26 @@ class ExecutionCommand:
                                                                  self.__status_callback,
                                                                  transport_models.s.ProgramsExecutorStatus)
 
-    def __output_callback(self, _topic: str, payload: transport_models.a.ProgramExecutionOutput) -> None:
-        """
-        Internal callback to handle output messages.
-        """
-        try:
-            self.__on_output(payload.output, payload.eof)
-        except Exception as e:
-            logger.error(f'Error in on_output callback: {e}')
-        if payload.eof:
-            self.__unsubscribe_output()
+    def _process_output(self, on_output: Callable[[str, bool], None]) -> None:
+        output_topic = self.__mqtt_client.format(topics_gen.Programs.PROGRAM_EXECUTION_OUTPUT,
+                                                 program_id=self.program_id,
+                                                 execution_id=self.execution_id)
+        unsubscribe: Unsubscribe = lambda: None
+
+        def inner_callback(_topic: str, payload: transport_models.a.ProgramExecutionOutput) -> None:
+            """
+            Internal callback to handle output messages.
+            """
+            try:
+                on_output(payload.output, payload.eof)
+            except Exception as e:
+                logger.error(f'Error in on_output callback: {e}')
+            if payload.eof:
+                unsubscribe()
+
+        unsubscribe = self.__mqtt_client.subscribe(output_topic,
+                                                   inner_callback,
+                                                   transport_models.a.ProgramExecutionOutput)
 
     def __status_callback(self, _topic: str, payload: transport_models.s.ProgramsExecutorStatus) -> None:
         """
@@ -79,9 +82,8 @@ class ExecutionCommand:
 
         try:
             self.execution = self.__get_execution()
-        except Exception as e:
-            logger.error(e)
-            raise PyNiryoError(f'Error while fetching execution {self.execution_id}') from e
+        except Exception:
+            logger.exception(f'Error while fetching execution "{self.execution_id}"')
 
     @property
     def status(self) -> ExecutionStatusStatus:
@@ -142,15 +144,15 @@ class Programs(BaseAPIComponent):
         :param program_type: The type of the program.
         :return: The created program.
         """
-        program = self._http_client.post(
+        response = self._http_client.post(
             paths_gen.Programs.CREATE_PROGRAM,
             transport_models.s.Program,
-            transport_models.s.Program(name=name, type=program_type.to_transport_model()),
+            transport_models.s.UploadProgram(name=name, type=program_type.to_transport_model(), file=bytes()),
             files={'file': program},
         )
-        return Program.from_transport_model(program)
+        return Program.from_transport_model(response)
 
-    def get(self, program_id: str, dst: IO[bytes] = None) -> Program:
+    def get(self, program_id: str, dst: IO[bytes] | None = None) -> Program:
         """
         Get a program by its ID.
 
@@ -179,7 +181,7 @@ class Programs(BaseAPIComponent):
             transport_models.EmptyPayload,
         )
 
-    def update(self, program: Program, src: IO[bytes] = None) -> Program:
+    def update(self, program: Program, src: IO[bytes] | None = None) -> Program:
         """
         Update a program.
 
@@ -187,7 +189,7 @@ class Programs(BaseAPIComponent):
         :param src: Optional file-like object containing the new program content. If None, the content is not updated.
         :return: The updated program.
         """
-        program = self._http_client.patch(
+        response = self._http_client.patch(
             paths_gen.Programs.UPDATE_PROGRAM.format(program_id=program.id),
             transport_models.s.Program,
             program.to_transport_model(),
@@ -197,7 +199,7 @@ class Programs(BaseAPIComponent):
                                     transport_models.EmptyPayload,
                                     transport_models.EmptyPayload(),
                                     files={'file': src})
-        return Program.from_transport_model(program)
+        return Program.from_transport_model(response)
 
     def get_executions(self, program_id: str) -> list[ProgramExecution]:
         """
@@ -228,10 +230,10 @@ class Programs(BaseAPIComponent):
 
     def execute(self,
                 program_id: str,
-                environment: dict[str, str] = None,
-                arguments: list[str] = None,
-                on_output: Callable[[str, bool], None] = None,
-                on_status: Callable[[ExecutionStatusStatus], None] = None) -> ExecutionCommand:
+                environment: dict[str, str] | None = None,
+                arguments: list[str] | None = None,
+                on_output: Callable[[str, bool], None] | None = None,
+                on_status: Callable[[ExecutionStatusStatus], None] | None = None) -> ExecutionCommand:
         """
         Execute a program.
 
@@ -271,10 +273,10 @@ class Programs(BaseAPIComponent):
                                        transport_models.s.ProgramsExecutorStatus)
         return ExecutorStatus.from_transport_model(status.status)
 
-    def _update_executor_status(self, status: transport_models.s.ExecutorStatus, **kwargs) -> None:
+    def _update_executor_status(self, status: transport_models.s.ExecutorStatus, sigkill: bool = False) -> None:
         self._http_client.patch(paths_gen.Programs.UPDATE_PROGRAMS_EXECUTOR_STATUS,
                                 transport_models.EmptyPayload,
-                                transport_models.s.ProgramsExecutorStatus(status=status, **kwargs))
+                                transport_models.s.ProgramsExecutorStatus(status=status, sigkill=sigkill))
 
     def pause(self) -> None:
         """

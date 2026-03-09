@@ -4,7 +4,7 @@ from strenum import StrEnum
 from .._internal import transport_models
 
 
-class IO(StrEnum):
+class IOLabel(StrEnum):
     TDI1 = 'tdi1'
     TDI2 = 'tdi2'
     TDO1 = 'tdo1'
@@ -15,12 +15,12 @@ class IO(StrEnum):
 
 @dataclass
 class DigitalIO:
-    id: IO
+    id: IOLabel
     value: bool
 
     @classmethod
     def from_transport_model(cls, model: transport_models.s.DigitalIO) -> 'DigitalIO':
-        return cls(id=IO(model.id), value=model.value)
+        return cls(id=IOLabel(model.id), value=model.value)
 
     def to_transport_model(self) -> transport_models.s.DigitalIO:
         return transport_models.s.DigitalIO(id=self.id, value=self.value)
@@ -28,12 +28,12 @@ class DigitalIO:
 
 @dataclass
 class AnalogIO:
-    id: IO
+    id: IOLabel
     value: float
 
     @classmethod
     def from_transport_model(cls, model: transport_models.s.AnalogIO) -> 'AnalogIO':
-        return cls(id=IO(model.id), value=model.value)
+        return cls(id=IOLabel(model.id), value=model.value)
 
     def to_transport_model(self) -> transport_models.s.AnalogIO:
         return transport_models.s.AnalogIO(id=self.id, value=self.value)
@@ -41,22 +41,22 @@ class AnalogIO:
 
 @dataclass
 class IOStates:
-    digital_inputs: dict[IO, DigitalIO]
-    digital_outputs: dict[IO, DigitalIO]
-    analog_inputs: dict[IO, AnalogIO]
-    analog_outputs: dict[IO, AnalogIO]
+    digital_inputs: dict[IOLabel, DigitalIO]
+    digital_outputs: dict[IOLabel, DigitalIO]
+    analog_inputs: dict[IOLabel, AnalogIO]
+    analog_outputs: dict[IOLabel, AnalogIO]
 
     @classmethod
     def from_transport_model(cls, model: transport_models.s.IOStates) -> 'IOStates':
         return cls(
-            digital_inputs={IO(io.id): DigitalIO.from_transport_model(io)
-                            for io in model.digital_inputs},
-            digital_outputs={IO(io.id): DigitalIO.from_transport_model(io)
-                             for io in model.digital_outputs},
-            analog_inputs={IO(io.id): AnalogIO.from_transport_model(io)
-                           for io in model.analog_inputs},
-            analog_outputs={IO(io.id): AnalogIO.from_transport_model(io)
-                            for io in model.analog_outputs},
+            digital_inputs={IOLabel(io.id): DigitalIO.from_transport_model(io)
+                            for io in model.digital_inputs} if model.digital_inputs is not None else {},
+            digital_outputs={IOLabel(io.id): DigitalIO.from_transport_model(io)
+                             for io in model.digital_outputs} if model.digital_outputs is not None else {},
+            analog_inputs={IOLabel(io.id): AnalogIO.from_transport_model(io)
+                           for io in model.analog_inputs} if model.analog_inputs is not None else {},
+            analog_outputs={IOLabel(io.id): AnalogIO.from_transport_model(io)
+                            for io in model.analog_outputs} if model.analog_outputs is not None else {},
         )
 
     def to_transport_model(self) -> transport_models.s.IOStates:

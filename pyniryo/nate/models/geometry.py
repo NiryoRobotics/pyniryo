@@ -1,6 +1,7 @@
 import math
 from collections import UserList
 from dataclasses import dataclass
+from typing import Type
 
 from .._internal import transport_models
 
@@ -54,7 +55,9 @@ class Point:
     z: float
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.s.Point) -> 'Point':
+    def from_transport_model(cls, model: transport_models.s.Point | dict[str, float]) -> 'Point':
+        if isinstance(model, dict):
+            return cls(x=model['x'], y=model['y'], z=model['z'])
         return cls(x=model.x, y=model.y, z=model.z)
 
     def to_transport_model(self) -> transport_models.s.Point:
@@ -77,7 +80,9 @@ class Quaternion:
     w: float
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.s.Quaternion) -> 'Quaternion':
+    def from_transport_model(cls, model: transport_models.s.Quaternion | dict[str, float]) -> 'Quaternion':
+        if isinstance(model, dict):
+            return cls(x=model['x'], y=model['y'], z=model['z'], w=model['w'])
         return cls(x=model.x, y=model.y, z=model.z, w=model.w)
 
     def to_transport_model(self) -> transport_models.s.Quaternion:
@@ -132,16 +137,19 @@ class Pose:
     orientation: Quaternion | EulerAngles
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.s.Pose) -> 'Pose':
+    def from_transport_model(cls, model: transport_models.s.Pose | transport_models.a.Pose) -> 'Pose':
         return cls(
             position=Point.from_transport_model(model.position),
             orientation=Quaternion.from_transport_model(model.orientation),
         )
 
     def to_transport_model(self) -> transport_models.s.Pose:
-        quaternion = self.orientation
-        if isinstance(self.orientation, EulerAngles):
+        if isinstance(self.orientation, Quaternion):
+            quaternion = self.orientation
+        elif isinstance(self.orientation, EulerAngles):
             quaternion = self.orientation.to_quaternion()
+        else:
+            raise TypeError("Orientation must be either a Quaternion or EulerAngles")
 
         return transport_models.s.Pose(position=self.position.to_transport_model(),
                                        orientation=quaternion.to_transport_model())

@@ -1,7 +1,7 @@
 import logging
 import threading
 from queue import Queue
-from typing import TypeVar, Type
+from typing import TypeVar, Type, cast
 from datetime import datetime, timedelta
 
 from ..models import Metric as MetricModel, get_mtype
@@ -37,19 +37,19 @@ class Metric:
         self.name = name
         self.value = init_value
         self.type = _type
-        self.private_name = None
+        self.private_name = ''
 
-    def __set_name__(self, owner, name):
+    def __set_name__(self, owner, name):  # type: ignore
         self.private_name = '_' + name
 
-    def __get__(self, instance, owner):
+    def __get__(self, instance, owner):  # type: ignore
         if instance is None:
             return self
         return getattr(instance, self.private_name, self.value)
 
-    def __set__(self, instance, value):
+    def __set__(self, instance, value) -> None:  # type: ignore
         self.value = value
-        queue: Queue = getattr(instance, '_metrics_queue', None)
+        queue: Queue[Metric] = cast(Queue[Metric], getattr(instance, '_metrics_queue', None))
         if queue is None:
             raise RuntimeError(
                 "Unable to publish the metric update. Make sure to register the metrics before using it.")
@@ -59,9 +59,9 @@ class Metric:
 
     @property
     def tr_value(self) -> str:
-        if self.type is datetime:
+        if isinstance(self.value, datetime):
             return self.value.isoformat()
-        elif self.type is timedelta:
+        elif isinstance(self.value, timedelta):
             return str(self.value.total_seconds())
         else:
             return str(self.value)
@@ -127,7 +127,7 @@ class Metrics(BaseAPIComponent):
 
         setattr(inst, '_metrics_queue', self._metrics_queue)
 
-    def get_metrics(self, metrics_id: str) -> list[Metric]:
+    def get_metrics(self, metrics_id: str) -> list[MetricModel]:
         """
         Retrieve custom metrics by their metrics ID.
 

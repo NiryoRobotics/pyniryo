@@ -78,12 +78,12 @@ class Users(BaseAPIComponent):
         :param user: The user with its new properties.
         :return: The updated user.
         """
-        user = self._http_client.patch(
+        response = self._http_client.patch(
             paths_gen.Authentication.UPDATE_USER.format(user_id=user.id),
             transport_models.s.User,
             user.to_transport_model(),
         )
-        return User.from_transport_model(user)
+        return User.from_transport_model(response)
 
     def get_tokens(self, user_id: str) -> list[Token]:
         """

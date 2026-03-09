@@ -52,22 +52,22 @@ class Waypoint:
     :param velocity_factor: Scaling factor for velocity (0.0 to 1.0, optional).
     :param acceleration_factor: Scaling factor for acceleration (0.0 to 1.0, optional).
     """
-    joints: Optional[Joints] = None
-    pose: Optional[Pose] = None
-    frame_id: Optional[str] = None
-    reference_frame: Optional[str] = None
-    planner: Optional[Planner] = None
-    blending_radius: Optional[float] = None
-    velocity_factor: Optional[float] = None
-    acceleration_factor: Optional[float] = None
+    joints: Joints | None = None
+    pose: Pose | None = None
+    frame_id: str | None = None
+    reference_frame: str | None = None
+    planner: Planner | None = None
+    blending_radius: float | None = None
+    velocity_factor: float | None = None
+    acceleration_factor: float | None = None
 
     @classmethod
     def from_transport_model(cls, model: transport_models.s.Waypoint) -> 'Waypoint':
-        return cls(joints=Joints.from_transport_model(model.joints),
-                   pose=Pose.from_transport_model(model.pose),
+        return cls(joints=Joints.from_transport_model(model.joints) if model.joints is not None else None,
+                   pose=Pose.from_transport_model(model.pose) if model.pose is not None else None,
                    frame_id=model.frame_id,
                    reference_frame=model.reference_frame,
-                   planner=Planner.from_transport_model(model.planner),
+                   planner=Planner.from_transport_model(model.planner) if model.planner is not None else None,
                    blending_radius=model.blending_radius,
                    velocity_factor=model.velocity_factor,
                    acceleration_factor=model.acceleration_factor)
@@ -98,7 +98,7 @@ class Waypoints(UserList[Waypoint]):
 
     @classmethod
     def from_transport_model(cls, model: list[transport_models.s.Waypoint]) -> 'Waypoints':
-        return cls(*[Waypoint.from_transport_model(wp) for wp in model])
+        return cls([Waypoint.from_transport_model(wp) for wp in model])
 
     def to_transport_model(self) -> list[transport_models.s.Waypoint]:
         return [wp.to_transport_model() for wp in self]

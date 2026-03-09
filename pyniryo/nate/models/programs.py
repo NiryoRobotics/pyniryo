@@ -17,7 +17,7 @@ class ProgramType(StrEnum):
     PYTHON311 = 'python3.11'
     PYTHON312 = 'python3.12'
 
-    def __key(self):
+    def __key(self) -> tuple[str, tuple[int, ...]]:
         pattern = r'^([a-z]+)([\d\.?]+)$'
         match = re.match(pattern, self)
         if not match:
@@ -33,11 +33,11 @@ class ProgramType(StrEnum):
         return max((e for e in cls if e.__key()[0] == 'python'), key=lambda e: e.__key())
 
     @classmethod
-    def from_transport_model(cls, model: transport_models.s.Type) -> 'ProgramType':
+    def from_transport_model(cls, model: transport_models.s.ProgramType) -> 'ProgramType':
         return cls(model.value)
 
-    def to_transport_model(self) -> transport_models.s.Type:
-        return transport_models.s.Type(str(self))
+    def to_transport_model(self) -> transport_models.s.ProgramType:
+        return transport_models.s.ProgramType(str(self))
 
 
 @dataclass
@@ -65,7 +65,7 @@ class Program:
         return transport_models.s.Program(
             id=UUID(self.id),
             name=self.name,
-            type=transport_models.s.Type(self.type.value),
+            type=transport_models.s.ProgramType(self.type.value),
         )
 
 
@@ -88,10 +88,7 @@ class ProgramExecutionContext:
         )
 
     def to_transport_model(self) -> transport_models.s.ProgramExecutionContext:
-        return transport_models.s.ProgramExecutionContext(
-            environment=self.environment,
-            arguments=self.arguments,
-        )
+        return transport_models.s.ProgramExecutionContext(environment=self.environment, arguments=self.arguments)
 
 
 @dataclass
@@ -109,9 +106,9 @@ class ProgramExecution:
     id: str
     program_id: str
     context: ProgramExecutionContext
-    started_at: datetime
-    finished_at: datetime
-    exit_code: int
+    started_at: datetime | None
+    finished_at: datetime | None
+    exit_code: int | None
 
     @classmethod
     def from_transport_model(cls, model: transport_models.s.ProgramExecution) -> 'ProgramExecution':

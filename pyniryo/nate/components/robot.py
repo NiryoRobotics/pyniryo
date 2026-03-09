@@ -16,7 +16,8 @@ from ..models import (Pose,
                       Trajectory,
                       RobotConfiguration,
                       ControlMode,
-                      ExecutorStatus)
+                      ExecutorStatus,
+                      Unsubscribe)
 from .._internal import transport_models, paths_gen, topics_gen
 from .._internal.mqtt import MqttClient
 from . import BaseAPIComponent
@@ -108,17 +109,17 @@ class Robot(BaseAPIComponent):
         joints = self._http_client.get(paths_gen.Robot.GET_ROBOT_JOINTS, transport_models.s.Joints)
         return Joints.from_transport_model(joints)
 
-    def on_joints(self, callback: JointsCallback) -> None:
+    def on_joints(self, callback: JointsCallback) -> Unsubscribe:
         """
         Set the callback to call when the robot's joint positions are received.
 
         :param callback: The callback function that takes a Joints parameter.
         """
 
-        def internal_callback(_, joints: transport_models.a.Joints) -> None:
+        def internal_callback(_: str, joints: transport_models.a.Joints) -> None:
             callback(Joints.from_a_transport_model(joints))
 
-        self._mqtt_client.subscribe(topics_gen.Robot.JOINTS, internal_callback, transport_models.a.Joints)
+        return self._mqtt_client.subscribe(topics_gen.Robot.JOINTS, internal_callback, transport_models.a.Joints)
 
     def get_all_frames(self) -> List[str]:
         """
@@ -145,7 +146,7 @@ class Robot(BaseAPIComponent):
         )
         return Pose.from_transport_model(pose)
 
-    def on_frame_pose(self, frame_id: str, callback: PoseCallback) -> None:
+    def on_frame_pose(self, frame_id: str, callback: PoseCallback) -> Unsubscribe:
         """
         Set a callback to be called when the pose of a specific frame is received.
 
@@ -153,10 +154,10 @@ class Robot(BaseAPIComponent):
         :param callback: The callback function that takes a Pose parameter.
         """
 
-        def internal_callback(_, pose: transport_models.a.Pose) -> None:
+        def internal_callback(_: str, pose: transport_models.a.Pose) -> None:
             callback(Pose.from_transport_model(pose))
 
-        self._mqtt_client.subscribe(
+        return self._mqtt_client.subscribe(
             self._mqtt_client.format(topics_gen.Robot.FRAME_POSE, frame_id=frame_id),
             internal_callback,
             transport_models.a.Pose,
@@ -218,7 +219,7 @@ class Robot(BaseAPIComponent):
     def get_urdf(self) -> ET.Element:
         """
         Get the robot's URDF (Unified Robot Description Format) description.
-        
+
         :return: The root XML element of the URDF document.
         """
         buffer = BytesIO()
@@ -230,7 +231,7 @@ class Robot(BaseAPIComponent):
     def get_configuration(self) -> RobotConfiguration:
         """
         Get the robot's configuration including joint limits and PID parameters.
-        
+
         :return: The robot configuration.
         """
         resp = self._http_client.get(paths_gen.Robot.GET_ROBOT_CONFIG, transport_models.s.RobotConfig)
@@ -239,7 +240,7 @@ class Robot(BaseAPIComponent):
     def get_control_mode(self) -> ControlMode:
         """
         Get the current control mode of the robot.
-        
+
         :return: The current control mode (TRAJECTORY, JOG, or SPEED).
         """
         resp = self._http_client.get(paths_gen.Robot.GET_ROBOT_CONTROL_MODE, transport_models.s.ControlMode)
@@ -248,7 +249,7 @@ class Robot(BaseAPIComponent):
     def set_control_mode(self, mode: ControlMode) -> None:
         """
         Set the control mode of the robot.
-        
+
         :param mode: The control mode to set (TRAJECTORY, JOG, or SPEED).
         :raises RuntimeError: If the mode could not be set.
         """
@@ -294,7 +295,10 @@ class Robot(BaseAPIComponent):
         """
         self._mqtt_client.publish(topics_gen.Cmd.ROBOT_JOG_JOINT, transport_models.a.JogJoint(velocities=target.data))
 
-    def jog_cartesian(self, linear_velocity: list[float], angular_velocity: list[float], frame_id: str = None) -> None:
+    def jog_cartesian(self,
+                      linear_velocity: list[float],
+                      angular_velocity: list[float],
+                      frame_id: str | None = None) -> None:
         """
         Send a jog command to the robot with the specified Cartesian velocities. The robot must be in jog mode for this to
         work.

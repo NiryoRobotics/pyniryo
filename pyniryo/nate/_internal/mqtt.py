@@ -3,10 +3,10 @@ import string
 import threading
 from base64 import b64encode
 from enum import Enum
-from typing import Dict, Callable, TypeVar, Type
+from typing import Dict, Callable, TypeVar, Sequence, Any, Mapping, Generic
 import logging
 
-from paho.mqtt.client import Client, MQTTv5, CallbackAPIVersion
+from paho.mqtt.client import Client, MQTTv5, CallbackAPIVersion, MQTTMessage  # type: ignore[attr-defined]
 from pydantic import BaseModel
 from strenum import StrEnum
 
@@ -39,8 +39,10 @@ class TopicFormatter(string.Formatter):
     def has_placeholders_left(topic: str) -> bool:
         return '{' in topic or '}' in topic
 
-    def get_value(self, key, args, kwargs):
+    def get_value(self, key: int | str, args: Sequence[Any], kwargs: Mapping[str, Any]) -> Any:
         if key in self.base_values:
+            if isinstance(key, int):
+                raise TypeError('Integer placeholders are not supported in topic formatting.')
             return self.base_values[key]
 
         try:
@@ -49,15 +51,15 @@ class TopicFormatter(string.Formatter):
             raise ValueError(f'Missing value for placeholder "{key}".') from e
 
 
-class _Subscription:
+class _Subscription(Generic[T]):
 
-    def __init__(self, topic: str, payload_model: Type[BaseModel]):
+    def __init__(self, topic: str, payload_model: type[T]):
         self._topic = topic
         self._payload_model = payload_model
         self._callbacks_lock = threading.Lock()
-        self._callbacks: Dict[int, Callback] = {}
+        self._callbacks: Dict[int, Callback[T]] = {}
 
-    def internal_callback(self, _client, _userdata, message):
+    def internal_callback(self, _client: Client, _userdata: Any, message: MQTTMessage) -> None:
         received_topic = message.topic
         payload = message.payload
 
@@ -70,7 +72,7 @@ class _Subscription:
             except Exception:
                 logger.exception(f'Error in callback {callback.__qualname__} for topic {self._topic}')
 
-    def add(self, callback: Callback) -> int:
+    def add(self, callback: Callback[T]) -> int:
         with self._callbacks_lock:
             cb_ix = len(self._callbacks)
             self._callbacks[cb_ix] = callback
@@ -104,11 +106,11 @@ class MqttClient:
         self.__client_id = f'pyniryo-{b64encode(correlation_id.encode()).decode()}'
 
         self.__subscribers_lock = threading.Lock()
-        self.__subscribers: Dict[str, _Subscription] = {}
+        self.__subscribers: Dict[str, _Subscription[Any]] = {}
 
         self.__mqtt_client = Client()
 
-    def __init_client(self, token: str):
+    def __init_client(self, token: str) -> None:
         if self.__mqtt_client.is_connected():
             self.disconnect()
 
@@ -116,18 +118,15 @@ class MqttClient:
                                     client_id=self.__client_id,
                                     protocol=MQTTv5)
         self.__mqtt_client.on_message = lambda _, __, m: logger.error(f'Received message on topic {m.topic} with no '
-                                                                      f'subscribers. Message ignored: {m.payload}')
+                                                                      f'subscribers. Message ignored: {m.payload.decode()}')
         self.__mqtt_client.username_pw_set(username='token', password=token)
         self.__mqtt_client.connect(self.__hostname, self.__port)
         self.__mqtt_client.loop_start()
 
         with self.__subscribers_lock:
-            old_subscribers = self.__subscribers.copy()
-            self.__subscribers = {}
-
-        for topic, (payload_model, callbacks) in old_subscribers.items():
-            for callback in callbacks:
-                self.subscribe(topic, callback, payload_model)
+            for topic, subscription in self.__subscribers.items():
+                self.__mqtt_client.message_callback_add(topic, subscription.internal_callback)
+                self.__mqtt_client.subscribe(topic)
 
     def set_token(self, token: str) -> None:
         """
@@ -136,14 +135,14 @@ class MqttClient:
         """
         self.__init_client(token)
 
-    def disconnect(self):
+    def disconnect(self) -> None:
         """
         Disconnect the MQTT client.
         """
         self.__mqtt_client.loop_stop()
         self.__mqtt_client.disconnect()
 
-    def __del__(self):
+    def __del__(self) -> None:
         try:
             self.__mqtt_client
         except AttributeError:
@@ -165,7 +164,7 @@ class MqttClient:
 
         self.__mqtt_client.publish(topic, encoded_data, qos=qos.value)
 
-    def subscribe(self, topic: str, callback: Callback, payload_model: Type[T]) -> Unsubscribe:
+    def subscribe(self, topic: str, callback: Callback[T], payload_model: type[T]) -> Unsubscribe:
         """
         Subscribe to a topic.
         :param topic: The topic to subscribe to.
@@ -174,6 +173,8 @@ class MqttClient:
         """
         if not issubclass(payload_model, BaseModel):
             raise TypeError(f'Invalid type {payload_model.__name__} for response model.')
+
+        topic = self.format(topic)
 
         if self.__formatter.has_placeholders_left(topic):
             raise ValueError(f'Topic "{topic}" still have unformatted placeholders.')
@@ -205,7 +206,7 @@ class MqttClient:
                 del self.__subscribers[topic]
                 logger.debug(f'subscription to "{topic}" was stale and has been unsubscribed.')
 
-    def format(self, topic: str, **kwargs) -> str:
+    def format(self, topic: str, **kwargs: str | StrEnum) -> str:
         """
         Format a topic with the given keyword arguments.
         :param topic: The topic to format.
