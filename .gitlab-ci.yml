@@ -68,24 +68,17 @@ unit-tests:
 
 pages:
   stage: docs
-  needs: []
+  needs: [build_package]
   extends: .doc_job
   script:
-    - apt update && apt install -y git
-    - git fetch --tags --depth=1
-    - git checkout $CI_COMMIT_REF_NAME
-    - scripts/build_docs_versioned.py public $CI_COMMIT_TAG $(git tag)
+    - sphinx-build -b html docs/ public
   artifacts:
     paths:
       - public
   rules:
     - if: $CI_COMMIT_TAG
-  variables:
-    PYTHONUNBUFFERED: 1
-    GIT_STRATEGY: "fetch"
-    GIT_DEPTH: 0
   cache:
-    key: "docs-versions"
+    key: "docs"
     paths:
       - public/
 

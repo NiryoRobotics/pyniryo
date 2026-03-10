@@ -17,8 +17,9 @@ project = 'PyNiryo'
 copyright = f'{date.today().year}, Niryo'
 author = 'Niryo'
 
-file_content = module_directory.joinpath('pyniryo/version.py').read_text()
-release = re.match(r'__version__ = ["\']((\d+\.?){3})', file_content)[1]
+from pyniryo.version import __version__
+
+release = __version__
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
