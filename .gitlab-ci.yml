@@ -72,7 +72,7 @@ pages:
   extends: .doc_job
   script:
     - apt update && apt install -y git
-    - git fetch --tags --force
+    - git fetch --tags --depth=1
     - git checkout $CI_COMMIT_REF_NAME
     - scripts/build_docs_versioned.py public $CI_COMMIT_TAG $(git tag)
   artifacts:
@@ -81,7 +81,13 @@ pages:
   rules:
     - if: $CI_COMMIT_TAG
   variables:
-    GIT_STRATEGY: "clone"
+    PYTHONUNBUFFERED: 1
+    GIT_STRATEGY: "fetch"
+    GIT_DEPTH: 0
+  cache:
+    key: "docs-versions"
+    paths:
+      - public/
 
 build_package:
   extends: .dependencies_job
