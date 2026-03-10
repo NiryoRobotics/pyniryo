@@ -27,3 +27,4 @@ generated_pdfs/
 public/
 
 .tox/
+pyniryo/_version.py

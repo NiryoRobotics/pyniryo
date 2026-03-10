@@ -1,6 +1,11 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=80.0", "wheel", "setuptools-scm>=8.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "no-local-version"
+write_to = "pyniryo/_version.py"
 
 [project]
 name = "pyniryo"
@@ -57,7 +62,6 @@ docs = [
 tests = [
     "pytest",
     "coverage",
-    "tox",
     "mypy",
 ]
 scripts = [
@@ -76,7 +80,6 @@ dev = [
     "sphinx-togglebutton",
     "pytest",
     "coverage",
-    "tox",
     "mypy",
     "openapi3-parser",
     "pyyaml",
@@ -86,31 +89,11 @@ dev = [
 [project.urls]
 Homepage = "https://github.com/NiryoRobotics/pyniryo"
 
-[tool.setuptools.dynamic]
-version = {attr = "pyniryo.version.__version__"}
-
 [tool.setuptools.packages.find]
 exclude = ["tests", "tests.*"]
 
 [tool.setuptools.package-data]
 pyniryo = ["py.typed"]
-
-[tool.tox]
-env_list = ["py310", "py311", "py312", "py313"]
-
-[tool.tox.env_run_base]
-pass_env = ["*"]
-extras = ["tests"]
-
-commands = [
-    ["coverage", "run", "--parallel-mode", "-m", "pytest"],
-    ["coverage", "combine", "--append"],
-    ["coverage", "report", "-m"],
-]
-
-[tool.tox.env_run_base.set_env]
-# Note: {toxinidir} and {envname} are updated to modern tox 4 equivalents
-COVERAGE_FILE = "{tox_root}/.coverage.{env_name}"
 
 [tool.pycodestyle]
 statistics = true

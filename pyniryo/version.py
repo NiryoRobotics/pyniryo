@@ -1,1 +1,4 @@
-__version__ = '1.2.3'
+try:
+    from ._version import __version__
+except ImportError:
+    __version__ = "unknown"
