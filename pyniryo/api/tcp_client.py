@@ -763,7 +763,41 @@ class NiryoRobot(object):
 
         :rtype: None
         """
-        self.move(JointsPosition(0.0, 0.3, -1.3, 0.0, 0.0, 0.0))
+        self.__send_n_receive(Command.MOVE_TO_HOME_POSE)
+
+    def get_home_pose(self):
+        """
+        Get the home pose
+
+        :rtype: JointsPosition
+        """
+        home_pose = self.__send_n_receive(Command.GET_HOME_POSE)
+        return JointsPosition(*home_pose)
+
+    def set_home_pose(self, *args):
+        """
+        Set the home pose
+        :param args: either 6 args (1 for each joints) or a list of 6 joints or a JointsPosition instance
+        :type args: Union[list[float], tuple[float], JointsPosition]
+        :rtype: None
+        """
+        if len(args) == 1 and isinstance(args[0], (JointsPosition, PoseObject)):
+            joints_position = args[0]
+        else:
+            joints = self.__args_joints_to_list(*args)
+            joints_position = JointsPosition(*joints)
+
+        joints_position_dict = joints_position.to_dict()
+        joints_position_dict['obj_type'] = self.__differentiate_robot_position(joints_position)
+        self.__send_n_receive(Command.SET_HOME_POSE, joints_position_dict)
+
+    def reset_home_pose(self):
+        """
+        Reset the home pose
+
+        :rtype: None
+        """
+        self.__send_n_receive(Command.RESET_HOME_POSE)
 
     def go_to_sleep(self):
         """
