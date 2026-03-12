@@ -730,7 +730,7 @@ python3 -m build
 pip install -e .
 
 # Run examples
-python examples/nate/move_joints.py
+python examples/nate/basic_move.py
 ```
 
 ---

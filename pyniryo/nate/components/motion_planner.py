@@ -1,4 +1,4 @@
-from ..models import Waypoints, Trajectory
+from ..models import Waypoint, JointsStamped
 from .._internal import paths_gen, transport_models
 
 from . import BaseAPIComponent
@@ -12,7 +12,7 @@ class MotionPlanner(BaseAPIComponent):
     which can then be executed on the robot for smooth motion.
     """
 
-    def generate_trajectory(self, waypoints: Waypoints, add_start: bool = False) -> Trajectory:
+    def generate_trajectory(self, waypoints: list[Waypoint], add_start: bool = False) -> list[JointsStamped]:
         """
         Generate a trajectory from a sequence of waypoints.
         
@@ -27,4 +27,4 @@ class MotionPlanner(BaseAPIComponent):
                                                       motion_type=transport_models.s.MotionType.WAYPOINTS,
                                                       add_start=add_start)
         resp = self._http_client.post(paths_gen.Robot.GENERATE_TRAJECTORY, transport_models.s.GeneratedTrajectory, req)
-        return Trajectory.from_transport_model(resp.waypoints)
+        return [JointsStamped.from_transport_model(j) for j in resp.waypoints.root]

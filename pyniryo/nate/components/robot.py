@@ -11,13 +11,12 @@ from ..models import (Pose,
                       Joints,
                       MoveFeedback,
                       MoveState,
-                      Waypoints,
                       MoveTarget,
-                      Trajectory,
                       RobotConfiguration,
                       ControlMode,
                       ExecutorStatus,
-                      Unsubscribe)
+                      Unsubscribe,
+                      JointsStamped)
 from .._internal import transport_models, paths_gen, topics_gen
 from .._internal.mqtt import MqttClient
 from . import BaseAPIComponent
@@ -164,19 +163,21 @@ class Robot(BaseAPIComponent):
             transport_models.a.Pose,
         )
 
-    @staticmethod
-    def _normalize_move_target(target: MoveTarget) -> Waypoints:
-        if isinstance(target, Joints):
-            return Waypoints([Waypoint(joints=target)])
-        if isinstance(target, Pose):
-            return Waypoints([Waypoint(pose=target)])
-        if isinstance(target, Waypoint):
-            return Waypoints([target])
-        if isinstance(target, Waypoints):
-            return target
-        else:
-            valid_types = ', '.join(f'{m.__module__}.{m.__qualname__}' for m in MoveTarget.__args__)
-            raise TypeError(f'Invalid type {target.__class__.__name__} for target. Expected one of {valid_types}')
+    def _normalize_move_target(self, target: MoveTarget) -> list[Waypoint]:
+        if not isinstance(target, list):
+            target = [target]
+        waypoints = []
+        for t in target:
+            if isinstance(t, Joints):
+                waypoints.append(Waypoint(joints=t))
+            elif isinstance(t, Pose):
+                waypoints.append(Waypoint(pose=t))
+            elif isinstance(t, Waypoint):
+                waypoints.append(t)
+            else:
+                valid_types = ', '.join(f'{m.__module__}.{m.__qualname__}' for m in MoveTarget.__args__)
+                raise TypeError(f'Invalid type {t.__class__.__name__} for target. Expected one of {valid_types}')
+        return waypoints
 
     def move(self, target: MoveTarget, add_start: bool = False) -> MoveCommand:
         """
@@ -190,17 +191,16 @@ class Robot(BaseAPIComponent):
         command_id = uuid4()
         move_command = MoveCommand(self._mqtt_client, str(command_id))
 
-        target = self._normalize_move_target(target)
+        normalized_target = self._normalize_move_target(target)
         self._http_client.post(
             paths_gen.Robot.MOVE_ALONG_WAYPOINTS,
             transport_models.s.FeedbackResponse,
             transport_models.s.MoveWaypoints(command_id=command_id,
                                              add_start=add_start,
-                                             waypoints=[w.to_transport_model() for w in target]),
-        )
+                                             waypoints=[w.to_transport_model() for w in normalized_target]))
         return move_command
 
-    def execute_trajectory(self, trajectory: Trajectory) -> MoveCommand:
+    def execute_trajectory(self, trajectory: list[JointsStamped]) -> MoveCommand:
         """
         Execute a pre-computed trajectory on the robot.
 
@@ -213,7 +213,9 @@ class Robot(BaseAPIComponent):
         self._http_client.post(
             paths_gen.Robot.EXECUTE_TRAJECTORY,
             transport_models.s.FeedbackResponse,
-            transport_models.s.TrajectoryExecution(command_id=command_id, trajectory=trajectory.to_transport_model()),
+            transport_models.s.TrajectoryExecution(command_id=command_id,
+                                                   trajectory=transport_models.s.Trajectory(
+                                                       [j.to_transport_model() for j in trajectory])),
         )
         return move_command
 

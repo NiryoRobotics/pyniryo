@@ -121,6 +121,30 @@ class EulerAngles:
 
         return Quaternion(rx, ry, rz, rw)
 
+    @classmethod
+    def from_quaternion(cls, quaternion: Quaternion) -> 'EulerAngles':
+        """
+        Create an Euler angles from a given quaternion representation.
+
+        :param quaternion: The quaternion to convert.
+        :return:
+        """
+        sinr_cosp = 2 * (quaternion.w * quaternion.x + quaternion.y * quaternion.z)
+        cosr_cosp = 1 - 2 * (quaternion.x * quaternion.x + quaternion.y * quaternion.y)
+        roll = math.atan2(sinr_cosp, cosr_cosp)
+
+        sinp = 2 * (quaternion.w * quaternion.y - quaternion.z * quaternion.x)
+        if abs(sinp) >= 1:
+            pitch = math.copysign(math.pi / 2, sinp)  # use 90 degrees if out of range
+        else:
+            pitch = math.asin(sinp)
+
+        siny_cosp = 2 * (quaternion.w * quaternion.z + quaternion.x * quaternion.y)
+        cosy_cosp = 1 - 2 * (quaternion.y * quaternion.y + quaternion.z * quaternion.z)
+        yaw = math.atan2(siny_cosp, cosy_cosp)
+
+        return cls(roll=roll, pitch=pitch, yaw=yaw)
+
 
 @dataclass
 class Pose:
@@ -135,6 +159,22 @@ class Pose:
     """
     position: Point
     orientation: Quaternion | EulerAngles
+
+    @classmethod
+    def from_sequence(cls,
+                      x: float,
+                      y: float,
+                      z: float,
+                      rx: float,
+                      ry: float,
+                      rz: float,
+                      rw: float | None = None) -> 'Pose':
+        point = Point(x, y, z)
+        if rw is None:
+            orientation = EulerAngles(rx, ry, rz)
+        else:
+            orientation = Quaternion(rx, ry, rz, rw)
+        return cls(position=point, orientation=orientation)
 
     @classmethod
     def from_transport_model(cls, model: transport_models.s.Pose | transport_models.a.Pose) -> 'Pose':
