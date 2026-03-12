@@ -26,6 +26,7 @@ logger = logging.getLogger(__name__)
 
 JointsCallback = Callable[[Joints], None]
 PoseCallback = Callable[[Pose], None]
+SpeedFactorCallback = Callable[[float], None]
 
 
 class MoveCommand:
@@ -343,3 +344,32 @@ class Robot(BaseAPIComponent):
         Resume a paused trajectory execution.
         """
         self._update_executor_status(transport_models.s.ExecutorStatus.RUNNING)
+
+    def get_target_speed(self) -> float:
+        """
+        Get the current target speed factor of the robot.
+        The speed factor is a multiplier applied to the robot's maximum speed, allowing you to slow down or speed up movements without changing the underlying trajectories.
+        :return: The target speed factor.
+        :return:
+        """
+        resp = self._http_client.get(paths_gen.Robot.GET_TARGET_SPEED_FACTOR, transport_models.s.SpeedFactor)
+        return resp.speed_factor
+
+    def set_target_speed(self, factor: float) -> None:
+        """
+        Set the target speed factor of the robot.
+        :param factor: A factor comprised between 0 and 1. A factor of 1 means the robot will move at its maximum speed,
+        while a factor of 0.5 means the robot will move at half of its maximum speed. Setting the speed factor does not
+        change the underlying trajectories, it only scales the speed at which they are executed.
+        :return:
+        """
+        self._http_client.patch(paths_gen.Robot.UPDATE_TARGET_SPEED_FACTOR,
+                                transport_models.EmptyPayload,
+                                transport_models.s.SpeedFactor(speed_factor=factor))
+
+    def on_speed_factor(self, callback: SpeedFactorCallback) -> None:
+
+        def internal_callback(_: str, sf: transport_models.a.SpeedFactor) -> None:
+            callback(sf.speed_factor)
+
+        self._mqtt_client.subscribe(topics_gen.Robot.SPEED_FACTOR, internal_callback, transport_models.a.SpeedFactor)
