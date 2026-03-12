@@ -1,6 +1,6 @@
 import unittest
 
-from pyniryo.nate.models import motion
+from pyniryo.nate.models import motion, JointsStamped
 from pyniryo.nate._internal import transport_models, paths_gen
 from pyniryo.nate.components.motion_planner import MotionPlanner
 
@@ -23,7 +23,7 @@ class TestMotionPlanner(BaseTestComponent):
         # Create test waypoints
         waypoint1 = motion.Waypoint(joints=motion.Joints(0.0, 0.0, 0.0, 0.0, 0.0, 0.0))
         waypoint2 = motion.Waypoint(joints=motion.Joints(0.5, 0.5, 0.5, 0.5, 0.5, 0.5))
-        waypoints = motion.Waypoints([waypoint1, waypoint2])
+        waypoints = [waypoint1, waypoint2]
 
         # Create mock response trajectory
         joints_stamped1 = transport_models.s.JointsStamped(
@@ -56,15 +56,16 @@ class TestMotionPlanner(BaseTestComponent):
         self.assertFalse(request.add_start)
 
         # Verify result
-        self.assertIsInstance(trajectory, motion.Trajectory)
+        self.assertIsInstance(trajectory, list)
         self.assertEqual(len(trajectory), 2)
+        self.assertIsInstance(trajectory[0], JointsStamped)
         self.assertEqual(trajectory[0].joints.data, [0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
         self.assertEqual(trajectory[1].joints.data, [0.5, 0.5, 0.5, 0.5, 0.5, 0.5])
 
     def test_generate_trajectory_with_add_start(self):
         """Test generating trajectory with add_start=True."""
         waypoint = motion.Waypoint(joints=motion.Joints(1.0, 1.0, 1.0, 1.0, 1.0, 1.0))
-        waypoints = motion.Waypoints([waypoint])
+        waypoints = [waypoint]
 
         joints_stamped = transport_models.s.JointsStamped(
             joints=transport_models.s.Joints(root=[1.0, 1.0, 1.0, 1.0, 1.0, 1.0]),
@@ -79,7 +80,8 @@ class TestMotionPlanner(BaseTestComponent):
         # Verify add_start parameter was passed
         request = self.http_client.post.call_args[0][2]
         self.assertTrue(request.add_start)
-        self.assertIsInstance(trajectory, motion.Trajectory)
+        self.assertIsInstance(trajectory, list)
+        self.assertIsInstance(trajectory[0], JointsStamped)
 
 
 if __name__ == "__main__":

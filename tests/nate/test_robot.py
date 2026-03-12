@@ -146,10 +146,10 @@ class TestRobot(BaseTestComponent):
     def test_move_with_waypoints(self):
         """Test moving with multiple waypoints."""
         command_id = str(uuid4())
-        waypoints = motion.Waypoints([
+        waypoints = [
             motion.Waypoint(joints=geometry.Joints(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)),
             motion.Waypoint(joints=geometry.Joints(0.5, 0.5, 0.5, 0.5, 0.5, 0.5)),
-        ])
+        ]
         self.http_client.post.return_value = transport_models.s.FeedbackResponse(feedback_id=command_id)
 
         _ = self.robot.move(waypoints)
@@ -180,7 +180,7 @@ class TestRobot(BaseTestComponent):
                                               timestamp=0.0,
                                               velocities=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
                                               accelerations=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
-        trajectory = motion.Trajectory([joints_stamped])
+        trajectory = [joints_stamped]
         self.http_client.post.return_value = transport_models.s.FeedbackResponse(feedback_id=command_id)
 
         move_cmd = self.robot.execute_trajectory(trajectory)
