@@ -171,10 +171,9 @@ class Pose:
                       rw: float | None = None) -> 'Pose':
         point = Point(x, y, z)
         if rw is None:
-            orientation = EulerAngles(rx, ry, rz)
+            return cls(position=point, orientation=EulerAngles(rx, ry, rz))
         else:
-            orientation = Quaternion(rx, ry, rz, rw)
-        return cls(position=point, orientation=orientation)
+            return cls(position=point, orientation=Quaternion(rx, ry, rz, rw))
 
     @classmethod
     def from_transport_model(cls, model: transport_models.s.Pose | transport_models.a.Pose) -> 'Pose':
