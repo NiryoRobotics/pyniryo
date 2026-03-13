@@ -75,7 +75,7 @@ def data_to_dict(data):
     """
     if data is None:
         return None
-    return ast.literal_eval(data)
+    return json.loads(data)
 
 
 def dict_to_packet(dict_obj, packet_size_infos=DEFAULT_PACKET_SIZE_INFOS):

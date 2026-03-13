@@ -1161,7 +1161,7 @@ class NiryoRobot(object):
         Save trajectory in robot memory
 
         :param trajectory: list of Joints [j1, j2, j3, j4, j5, j6] as waypoints to create the trajectory
-        :type trajectory: list[list[float] | JointsPosition | PoseObject]
+        :type trajectory: list[list[float] | JointsPosition]
         :param trajectory_name: Name you want to give to the trajectory
         :type trajectory_name: str
         :param trajectory_description: Description you want to give to the trajectory
