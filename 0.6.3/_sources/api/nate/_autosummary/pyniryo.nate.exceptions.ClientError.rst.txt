@@ -1,0 +1,6 @@
+pyniryo.nate.exceptions.ClientError
+===================================
+
+.. currentmodule:: pyniryo.nate.exceptions
+
+.. autoexception:: ClientError

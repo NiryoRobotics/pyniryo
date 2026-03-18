@@ -1,0 +1,10 @@
+New in version 1.2.3
+================================
+
+|:tools:| Improvements
+-----------------------------------------------------------
+* Replace eval usage by NiryoRobot.__str_to_bool (https://github.com/NiryoRobotics/pyniryo/pull/17)
+
+|:beetle:| Bugfixes
+-----------------------------------------------------------
+* Added missing import of logging module, causing the client to crash when initialized with ``verbose=False``

@@ -1,0 +1,40 @@
+﻿nate
+====
+
+.. automodule:: pyniryo.nate
+
+   
+   
+   
+   .. rubric:: Modules
+
+   .. autosummary::
+      :toctree:
+      :recursive:
+
+   
+      client
+   
+      components
+   
+      exceptions
+   
+      models
+   
+   
+   
+
+   
+   
+   
+   
+
+   
+   
+   
+   
+
+   
+   
+   
+   

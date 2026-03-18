@@ -1,0 +1,6 @@
+pyniryo.nate.exceptions.PyNiryoError
+====================================
+
+.. currentmodule:: pyniryo.nate.exceptions
+
+.. autoexception:: PyNiryoError

@@ -1,0 +1,6 @@
+pyniryo.nate.exceptions.ServerError
+===================================
+
+.. currentmodule:: pyniryo.nate.exceptions
+
+.. autoexception:: ServerError

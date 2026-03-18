@@ -1,0 +1,6 @@
+pyniryo.nate.exceptions.DataValidationError
+===========================================
+
+.. currentmodule:: pyniryo.nate.exceptions
+
+.. autoexception:: DataValidationError

@@ -1,0 +1,6 @@
+pyniryo.nate.exceptions.LoadTrajectoryError
+===========================================
+
+.. currentmodule:: pyniryo.nate.exceptions
+
+.. autoexception:: LoadTrajectoryError

@@ -1,0 +1,6 @@
+pyniryo.nate.exceptions.GenerateTrajectoryError
+===============================================
+
+.. currentmodule:: pyniryo.nate.exceptions
+
+.. autoexception:: GenerateTrajectoryError

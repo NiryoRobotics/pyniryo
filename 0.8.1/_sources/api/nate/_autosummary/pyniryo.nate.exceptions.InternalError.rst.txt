@@ -1,0 +1,6 @@
+pyniryo.nate.exceptions.InternalError
+=====================================
+
+.. currentmodule:: pyniryo.nate.exceptions
+
+.. autoexception:: InternalError

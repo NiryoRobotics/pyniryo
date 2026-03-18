@@ -1,0 +1,6 @@
+pyniryo.nate.exceptions.get\_msg\_from\_errors
+==============================================
+
+.. currentmodule:: pyniryo.nate.exceptions
+
+.. autofunction:: get_msg_from_errors
