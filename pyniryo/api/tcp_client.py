@@ -763,7 +763,13 @@ class NiryoRobot(object):
 
         :rtype: None
         """
-        self.__send_n_receive(Command.MOVE_TO_HOME_POSE)
+        try:
+            self.__send_n_receive(Command.MOVE_TO_HOME_POSE)
+        except NiryoRobotException as e:
+            if "Unknown" in str(e):
+                self.move(JointsPosition(0.0, 0.3, -1.3, 0.0, 0.0, 0.0))
+            else:
+                raise
 
     def get_home_pose(self):
         """
