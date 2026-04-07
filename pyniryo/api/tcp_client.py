@@ -258,14 +258,6 @@ class NiryoRobot(object):
         except ValueError:
             self.__raise_exception_expected_type(type_.__name__, value)
 
-    def __str_to_bool(self, data):
-        if data == "True":
-            return True
-        elif data == "False":
-            return False
-        else:
-            self.__raise_exception("Expected data to be either 'True' or 'False'")
-
     def __list_to_tuple(self, list_):
         """
         Recursively convert lists to tuples.
@@ -403,7 +395,7 @@ class NiryoRobot(object):
         :return: ``True`` if learning mode is on
         :rtype: bool
         """
-        return self.__str_to_bool(self.__send_n_receive(Command.GET_LEARNING_MODE))
+        return self.__send_n_receive(Command.GET_LEARNING_MODE)
 
     @learning_mode.setter
     def learning_mode(self, value):
@@ -476,7 +468,7 @@ class NiryoRobot(object):
 
         :type: bool
         """
-        return self.__str_to_bool(self.__send_n_receive(Command.GET_COLLISION_DETECTED))
+        return self.__send_n_receive(Command.GET_COLLISION_DETECTED)
 
     def clear_collision_detected(self):
         """
@@ -1620,10 +1612,10 @@ class NiryoRobot(object):
 
         rpi_temperature = float(data[0])
         hardware_version = data[1]
-        connection_up = self.__str_to_bool(data[2])
+        connection_up = data[2]
         error_message = data[3]
-        calibration_needed = self.__str_to_bool(data[4])
-        calibration_in_progress = self.__str_to_bool(data[5])
+        calibration_needed = data[4]
+        calibration_in_progress = data[5]
 
         motor_names = data[6]
         motor_types = data[7]
@@ -1749,7 +1741,7 @@ class NiryoRobot(object):
         for i in range(len(conveyors_feedback)):
             conveyors_feedback[i]['conveyor_id'] = ConveyorID[conveyors_feedback[i]['conveyor_id']]
             conveyors_feedback[i]['direction'] = ConveyorDirection(conveyors_feedback[i]['direction'])
-            conveyors_feedback[i]['connection_state'] = self.__str_to_bool(conveyors_feedback[i]['connection_state'])
+            conveyors_feedback[i]['connection_state'] = self.conveyors_feedback[i]['connection_state']
 
         return conveyors_feedback
 
@@ -1887,7 +1879,7 @@ class NiryoRobot(object):
                                            height_offset,
                                            shape,
                                            color)
-        obj_found = self.__str_to_bool(data_array[0])
+        obj_found = data_array[0]
         if obj_found:
             pose_object = PoseObject(*data_array[1])
             shape_ret = data_array[2]
@@ -1900,13 +1892,13 @@ class NiryoRobot(object):
 
     def __move_with_vision(self, command, workspace_name, height_offset, shape, color, **kwargs):
         self.__check_type(workspace_name, str)
-        height_offset = self.__transform_to_type(height_offset, float)
+        _height_offset = self.__transform_to_type(height_offset, float)
         self.__check_enum_belonging(shape, ObjectShape)
         self.__check_enum_belonging(color, ObjectColor)
 
-        data_array = self.__send_n_receive(command, workspace_name, height_offset, shape, color, **kwargs)
+        data_array = self.__send_n_receive(command, workspace_name, _height_offset, shape, color, **kwargs)
 
-        obj_found = self.__str_to_bool(data_array[0])
+        obj_found = data_array[0]
         if obj_found is True:
             shape_ret = data_array[1]
             color_ret = data_array[2]
@@ -1995,7 +1987,7 @@ class NiryoRobot(object):
         self.__check_enum_belonging(color, ObjectColor)
 
         data_array = self.__send_n_receive(Command.DETECT_OBJECT, workspace_name, shape, color)
-        obj_found = self.__str_to_bool(data_array[0])
+        obj_found = data_array[0]
         if not obj_found:
             rel_pose_array = 3 * [0.0]
             shape = "ANY"
