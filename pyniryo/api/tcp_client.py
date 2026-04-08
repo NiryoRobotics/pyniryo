@@ -744,10 +744,10 @@ class NiryoRobot(object):
         pose_offset = self.__args_joints_to_list(*args)
         self.__send_n_receive(Command.JOG_POSE, *pose_offset)
 
-    def jog(self, robot_position):
+    def jog(self, robot_position, reference_frame= "world"):
         robot_position_dict = robot_position.to_dict()
         robot_position_dict['obj_type'] = self.__differentiate_robot_position(robot_position)
-        self.__send_n_receive(Command.JOG, robot_position_dict)
+        self.__send_n_receive(Command.JOG, robot_position_dict, reference_frame)
 
     def move_to_home_pose(self):
         """
