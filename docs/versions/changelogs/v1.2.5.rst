@@ -12,4 +12,5 @@ New in version 1.2.5
 * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.move_to_home_pose` Replaced hard-coded logic with a service call and now operational on Ned3Pro.
 * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.move` Now provides feedback for out-of-range poses and notifies the client about the problematic joint.
 * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.get_custom_button_state` now returns a boolean not a string.
+* :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.jog` now gives the option to add a reference frame.
 
