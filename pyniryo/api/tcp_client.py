@@ -506,15 +506,6 @@ class NiryoRobot(object):
         """
         return self.get_pose()
 
-    @property
-    def pose_v2(self):
-        """
-        Get end effector link pose.
-        x, y & z are expressed in meters / roll, pitch & yaw are expressed in radians
-
-        :type: PoseObject
-        """
-        return self.get_pose_v2()
 
     def get_pose(self):
         """
@@ -538,17 +529,6 @@ class NiryoRobot(object):
         data = self.__send_n_receive(Command.GET_POSE_QUAT)
         pose_array = self.__map_list(data, float)
         return pose_array
-
-    def get_pose_v2(self):
-        """
-        Get end effector link pose.
-        x, y & z are expressed in meters / roll, pitch & yaw are expressed in radians
-
-        :rtype: PoseObject
-        """
-        data = self.__send_n_receive(Command.GET_POSE_V2)
-        pose_object = PoseObject.from_dict(data)
-        return pose_object
 
     @joints.setter
     def joints(self, *args):
@@ -583,9 +563,7 @@ class NiryoRobot(object):
         self.__send_n_receive(Command.MOVE_JOINTS, *joints)
 
     @pose.setter
-    @deprecated(f'{get_deprecation_msg("pose", "pose_v2")}')
     def pose(self, *args):
-        warnings.warn(f'{get_deprecation_msg("pose", "pose_v2")}', DeprecationWarning, stacklevel=2)
         if len(args) == 1 and isinstance(args[0], PoseObject):
             pose = args[0]
         elif len(args) == 1:
@@ -594,9 +572,6 @@ class NiryoRobot(object):
             pose = PoseObject(*args, metadata=PoseMetadata.v1())
         self.move(pose)
 
-    @pose_v2.setter
-    def pose_v2(self, pose):
-        self.move(pose)
 
     @deprecated(f'{get_deprecation_msg("move_pose", "move")}')
     def move_pose(self, *args):
@@ -845,33 +820,6 @@ class NiryoRobot(object):
             pose = PoseObject(*args, metadata=PoseMetadata.v1())
 
         data = self.__send_n_receive(Command.INVERSE_KINEMATICS, pose.to_dict())
-        joints_position = JointsPosition.from_dict(data)
-        return joints_position
-
-    def forward_kinematics_v2(self, joints_position):
-        """
-        Compute forward kinematics of a given joints configuration and give the
-        associated spatial pose
-
-        :param joints_position: Joints configuration
-        :type joints_position: JointsPosition
-        :rtype: PoseObject
-        """
-        data = self.__send_n_receive(Command.FORWARD_KINEMATICS_V2, joints_position.to_dict())
-        pose = PoseObject.from_dict(data)
-        return pose
-
-    def inverse_kinematics_v2(self, pose):
-        """
-        Compute inverse kinematics
-
-        :param pose: Robot pose
-        :type pose: PoseObject
-
-        :return: the joint position
-        :rtype: JointsPosition
-        """
-        data = self.__send_n_receive(Command.INVERSE_KINEMATICS_V2, pose.to_dict())
         joints_position = JointsPosition.from_dict(data)
         return joints_position
 
