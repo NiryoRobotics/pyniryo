@@ -14,3 +14,8 @@ New in version 1.2.5
 * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.get_custom_button_state` now returns a boolean not a string.
 * :py:meth:`~pyniryo.api.tcp_client.NiryoRobot.jog` now gives the option to add a reference frame.
 
+
+|:beetle:| Bugfixes
+-----------------------------------------------------------
+* removed all the TCPv2 related functions from the library
+
