@@ -38,6 +38,9 @@ class PoseMetadata:
         """
         return {'version': self.version, 'frame': self.frame, 'length_unit': self.length_unit.name}
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}.v{self.version}(frame={self.frame!r}, length_unit={self.length_unit!r})"
+
     @classmethod
     def from_dict(cls, d):
         """
@@ -109,9 +112,10 @@ class PoseObject:
         self.metadata = metadata
 
     def __str__(self):
-        position = "x = {:.4f}, y = {:.4f}, z = {:.4f}".format(self.x, self.y, self.z)
-        orientation = "roll = {:.3f}, pitch = {:.3f}, yaw = {:.3f}".format(self.roll, self.pitch, self.yaw)
-        return position + "\n" + orientation
+        return (f"{self.__class__.__name__}("
+                f"x={self.x!r}, y={self.y!r}, z={self.z!r}, "
+                f"roll={self.roll!r}, pitch={self.pitch!r}, yaw={self.yaw!r}, "
+                f"metadata={self.metadata!r})")
 
     def __repr__(self):
         return self.__str__()
@@ -159,7 +163,9 @@ class PoseObject:
         return 6
 
     def __eq__(self, other):
-        return self.to_list() == other.to_list() and self.metadata == other.metadata
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return (self.to_list() == other.to_list()) and (self.metadata == other.metadata)
 
     def to_list(self):
         """
@@ -256,6 +262,9 @@ class JointsPositionMetadata:
     def v1(cls):
         return cls(version=1)
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}.v{self.version}()"
+
 
 class JointsPosition:
     """
@@ -282,6 +291,8 @@ class JointsPosition:
         return len(self.__joints)
 
     def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
         return self.__joints == other.__joints
 
     def to_list(self):
