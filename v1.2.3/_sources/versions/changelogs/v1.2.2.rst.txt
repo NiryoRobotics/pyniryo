@@ -1,0 +1,10 @@
+New in version 1.2.2
+================================
+
+|:tools:| Improvements
+-----------------------------------------------------------
+* Improve logging integration to NiryoRobot (https://github.com/NiryoRobotics/pyniryo/pull/15)
+
+|:beetle:| Bugfixes
+-----------------------------------------------------------
+* PoseObect.copy_with_offsets() also copies orginal pose' metadata
